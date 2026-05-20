@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Heart, Sparkles, BookOpen, Users, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import nexusLogo from '@/assets/nexusmindlogo.png';
@@ -13,7 +13,6 @@ import avatar1 from '@/assets/avatar1.png';
 import avatar2 from '@/assets/avatar2.png';
 import avatar3 from '@/assets/avatar3.png';
 import pillarsImage from '@/assets/pillars_image.png';
-import therapist1 from '@/assets/therapist1.png';
 import vrConsultation from '@/assets/vr_consultation.png';
 import { JournalPage } from './JournalPage';
 import { PsychologistPage } from './PsychologistPage';

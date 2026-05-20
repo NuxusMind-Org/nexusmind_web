@@ -1,4 +1,3 @@
-import React from 'react';
 import { Footer } from '../components/Footer';
 import vrConsultation from '@/assets/vr_consultation.png';
 import { Star, GraduationCap, Award, Video, Clock, Lock, CheckCircle2 } from 'lucide-react';

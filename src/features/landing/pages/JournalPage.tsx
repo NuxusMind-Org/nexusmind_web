@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Lock } from 'lucide-react';
 import vrConsultation from '@/assets/vr_consultation.png';
 import { Footer } from '../components/Footer';

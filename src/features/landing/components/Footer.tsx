@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 import nexusLogo from '@/assets/nexusmindlogo.png';
 import nexie from '@/assets/nexie.png';
