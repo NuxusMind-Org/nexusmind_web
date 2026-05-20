@@ -1,0 +1,129 @@
+[
+  {
+    "id": 1,
+    "layout": "circles",
+    "question": "Sizə necə xitab etməyimizi istərdiniz?",
+    "options": [
+      {
+        "id": "female",
+        "label": "Xanım",
+        "image": "female_avatar.png"
+      },
+      {
+        "id": "male",
+        "label": "Bəy",
+        "image": "male_avatar.png"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "layout": "grid",
+    "question": "Terapiyaya necə qoşulmaq istəyirsiz ?",
+    "options": [
+      {
+        "id": "single",
+        "label": "Tək",
+        "image": "single_person.png"
+      },
+      {
+        "id": "couple",
+        "label": "Cütlük",
+        "image": "couple.png"
+      },
+      {
+        "id": "family",
+        "label": "Ailə",
+        "image": "family.png"
+      },
+      {
+        "id": "friends",
+        "label": "Dostlar",
+        "image": "friends.png"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "layout": "cards",
+    "question": "Hansı məkanda özünüzü rahat hiss edirsiz ?",
+    "maxSelections": 3,
+    "options": [
+      {
+        "id": "sessiz",
+        "label": "Səssiz",
+        "image": "ob0301.png"
+      },
+      {
+        "id": "yaradici",
+        "label": "Yaradıcı",
+        "image": "ob0302.png"
+      },
+      {
+        "id": "tebiet",
+        "label": "Təbiət",
+        "image": "ob0303.png"
+      },
+      {
+        "id": "kitabxana",
+        "label": "Kitabxana",
+        "image": "ob0304.png"
+      },
+      {
+        "id": "minimalist",
+        "label": "Minimalist",
+        "image": "ob0305.png"
+      },
+      {
+        "id": "semimi",
+        "label": "Səmimi",
+        "image": "ob0306.png"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "layout": "cards",
+    "question": "Sizi ən çox nə narahat edir ?",
+    "maxSelections": 3,
+    "options": [
+      {
+        "id": "aile",
+        "label": "Ailə problemləri",
+        "image": "ob0401.png"
+      },
+      {
+        "id": "sevgi",
+        "label": "Sevgi problemləri",
+        "image": "ob0402.png"
+      },
+      {
+        "id": "teklik",
+        "label": "Təklik",
+        "image": "ob0403.png"
+      },
+      {
+        "id": "gelecek",
+        "label": "Gələcək qayğısı",
+        "image": "ob0404.png"
+      },
+      {
+        "id": "depressiya",
+        "label": "Ağır depressiya",
+        "image": "ob0405.png"
+      },
+      {
+        "id": "yorgunluq",
+        "label": "Xroniki yorğunluq",
+        "image": "ob0406.png"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "layout": "analyzing",
+    "question": "Qeydlər analiz olunur",
+    "image": "analyzing.png",
+    "options": []
+  }
+]
