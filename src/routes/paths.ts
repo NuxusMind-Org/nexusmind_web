@@ -8,4 +8,7 @@ export const PATHS = {
   REGISTRATION_SUCCESS: '/registration-success',
   ONBOARDING: '/onboarding',
   DASHBOARD: '/dashboard',
+  JOURNAL: '/journal',
+  PSYCHOLOGIST: '/psychologist/:id',
 } as const;
+

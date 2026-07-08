@@ -8,11 +8,21 @@ import { NewPasswordPage } from '@/features/auth/pages/NewPasswordPage';
 import { RegistrationSuccessPage } from '@/features/auth/pages/RegistrationSuccessPage';
 import { OnboardingPage } from '@/features/onboarding/pages/OnboardingPage';
 import { LandingPage } from '@/features/landing/pages/LandingPage';
+import { JournalPage } from '@/features/landing/pages/JournalPage';
+import { PsychologistPage } from '@/features/landing/pages/PsychologistPage';
 
 const router = createBrowserRouter([
   {
     path: PATHS.HOME,
     element: <LandingPage />,
+  },
+  {
+    path: PATHS.JOURNAL,
+    element: <JournalPage />,
+  },
+  {
+    path: PATHS.PSYCHOLOGIST,
+    element: <PsychologistPage />,
   },
   {
     path: PATHS.REGISTER,
@@ -47,3 +57,4 @@ const router = createBrowserRouter([
 export const AppRouter = () => {
   return <RouterProvider router={router} />;
 };
+

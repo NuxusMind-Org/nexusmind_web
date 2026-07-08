@@ -13,7 +13,18 @@ export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
     useEffect(() => {
       const observer = new IntersectionObserver(
         ([entry]) => {
-          setIsVisible(entry.isIntersecting);
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            return;
+          }
+
+          // If not intersecting, check if it's above the top of the screen
+          const isAboveViewport = entry.boundingClientRect.top < (entry.rootBounds?.top ?? 0);
+          if (isAboveViewport) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
         },
         {
           threshold: 0.1, // Trigger as soon as 10% of the element is visible

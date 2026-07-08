@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Sparkles, BookOpen, Users, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
-import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
 import nexie from '@/assets/svg/Nexie.svg';
 import nexieCloud from '@/assets/svg/NexieCloud.svg';
 import nexieSittingClassic from '@/assets/svg/NexieSittingClassic.svg';
@@ -16,18 +15,15 @@ import avatar2 from '@/assets/avatar2.png';
 import avatar3 from '@/assets/avatar3.png';
 import pillarsImage from '@/assets/pillars_image.png';
 import vrConsultation from '@/assets/vr_consultation.png';
-import { JournalPage } from './JournalPage';
-import { PsychologistPage } from './PsychologistPage';
 import { Footer } from '../components/Footer';
+import { LandingNavbar } from '../components/LandingNavbar';
 import { psychologists } from '@/data/psychologists';
 import { ScrollReveal } from '../components/ScrollReveal';
 import { useEffect } from 'react';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
-  const [activeScreen, setActiveScreen] = useState<'landing' | 'journal' | 'psychologist'>('landing');
   const [activeSection, setActiveSection] = useState(0);
-  const [selectedPsychologistId, setSelectedPsychologistId] = useState<number>(1);
   const [openAccordion, setOpenAccordion] = useState<number | null>(1);
 
   const [isMascotInView, setIsMascotInView] = useState<boolean>(false);
@@ -44,15 +40,15 @@ export const LandingPage = () => {
   const activeCardIndexRef = useRef<1 | 2 | 3>(1);
   const [isTeleporting, setIsTeleporting] = useState<boolean>(false);
 
+  const mainRef = useRef<HTMLElement>(null);
   const roadmapRef = useRef<HTMLDivElement>(null);
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (activeScreen !== 'landing') return;
 
-    const mainContainer = document.querySelector('main');
+    const mainContainer = mainRef.current;
     if (!mainContainer) return;
 
     const updateMascotPosition = () => {
@@ -138,10 +134,9 @@ export const LandingPage = () => {
       mainContainer.removeEventListener('scroll', updateMascotPosition);
       window.removeEventListener('resize', updateMascotPosition);
     };
-  }, [activeScreen]);
+  }, []);
 
   const scrollToSection = (id: string) => {
-    setActiveScreen('landing');
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
@@ -151,8 +146,6 @@ export const LandingPage = () => {
   };
 
   useEffect(() => {
-    if (activeScreen !== 'landing') return;
-
     const sections = [
       { id: 'hero', index: 0 },
       { id: 'features', index: 1 },
@@ -192,7 +185,17 @@ export const LandingPage = () => {
     return () => {
       observer.disconnect();
     };
-  }, [activeScreen]);
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const id = hash.replace('#', '');
+      scrollToSection(id);
+    }
+  }, []);
+
+
 
   // mascotSrc and mascotFilter are derived directly from activeCardIndex.
   // The wrapper is at opacity:0 during the 120ms teleport window, so React
@@ -221,7 +224,35 @@ export const LandingPage = () => {
   const mascotOpacity = isMascotInView && !isTeleporting ? 1 : 0;
 
   return (
-    <div className="h-screen w-full bg-gradient-to-br from-[#8a4fff]/20 via-[#1E293B] to-[#1E293B] flex flex-col relative font-sans">
+    <div className="h-screen w-full flex flex-col relative font-sans text-white overflow-hidden">
+      {/* Dynamic Background Layers */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Layer 1: Landing - Hero & Features */}
+        <div
+          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          style={{
+            background: 'linear-gradient(260.37deg, #263151 -4.41%, #245D68 51.97%, #914899 100%)',
+            opacity: activeSection <= 1 ? 1 : 0
+          }}
+        />
+        {/* Layer 2: Landing - Pillars, Testimonials & Roadmap */}
+        <div
+          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          style={{
+            background: 'linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)',
+            opacity: activeSection >= 2 && activeSection <= 4 ? 1 : 0
+          }}
+        />
+        {/* Layer 3: Landing - VR, CTA & Experts */}
+        <div
+          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          style={{
+            background: 'linear-gradient(45deg, #263151 0%, #245D68 60%, #914899 100%)',
+            opacity: activeSection >= 7 ? 1 : 0
+          }}
+        />
+      </div>
+
       <style>
         {`
           /* Hide scrollbar for Chrome, Safari and Opera */
@@ -244,57 +275,26 @@ export const LandingPage = () => {
         `}
       </style>
       {/* Background ambient light */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#b070ff] rounded-full blur-[150px] opacity-20 pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#b070ff] rounded-full blur-[150px] opacity-20 pointer-events-none z-10" />
 
-      {/* Navbar (Stays fixed/top) */}
-      <header className="w-full px-[72px] py-4 flex items-center justify-between z-50 bg-white/5 backdrop-blur-md border-b border-white/10 shrink-0">
-        <div
-          onClick={() => scrollToSection('hero')}
-          className="flex items-center gap-2 cursor-pointer z-50 relative pointer-events-auto"
-        >
-          <img src={nexusLogo} alt="Nexus Mind" className="h-12 sm:h-14 w-auto" />
-        </div>
-
-        <nav className="hidden md:flex items-center gap-8 text-[15px] font-medium z-50 relative">
-          <button onClick={() => scrollToSection('hero')} className={`transition-colors relative z-50 cursor-pointer pointer-events-auto ${activeScreen === 'landing' && activeSection === 0 ? 'text-white' : 'text-white/60 hover:text-white'}`}>Əsas səhifə</button>
-          <button onClick={() => scrollToSection('experts')} className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto ${activeScreen === 'landing' && activeSection === 9 ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'}`}>Ekspertlər</button>
-          <button className="text-white/60 hover:text-white transition-colors z-50 cursor-pointer pointer-events-auto">Xəritə</button>
-          <button className="text-white/60 hover:text-white transition-colors z-50 cursor-pointer pointer-events-auto">Bloq</button>
-          <button onClick={() => setActiveScreen('journal')} className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto ${activeScreen === 'journal' ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'}`}>Gündəlik</button>
-          <button onClick={() => scrollToSection('vr')} className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto ${activeScreen === 'landing' && activeSection === 7 ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'}`}>Vr konsultasiya</button>
-        </nav>
-
-        <div className="relative group z-50">
-          <div
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-[#9f5bff] via-[#00f2ff] to-white/90 pointer-events-none transition-opacity group-hover:opacity-100 opacity-60"
-            style={{
-              padding: '1.5px',
-              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-              WebkitMaskComposite: 'xor',
-              maskComposite: 'exclude'
-            }}
-          />
-          <button
-            onClick={() => navigate(PATHS.LOGIN)}
-            className="px-8 py-2.5 rounded-full text-white text-[15px] font-medium bg-transparent hover:bg-white/5 transition-colors relative pointer-events-auto"
-          >
-            Giriş et
-          </button>
-        </div>
-      </header>
+      <LandingNavbar
+        activePage="landing"
+        activeSection={activeSection}
+        scrollToSection={scrollToSection}
+      />
 
       {/* Main Content Area - Stacked Sections */}
-      <main className="flex-1 w-full overflow-y-auto overscroll-y-none scroll-smooth no-scrollbar relative">
+      <main ref={mainRef} className="flex-1 w-full overflow-x-hidden overflow-y-auto overscroll-y-none scroll-smooth no-scrollbar relative">
 
         {/* LANDING PAGE CONTENT */}
-        <div className={`w-full relative flex flex-col transition-opacity duration-700 ease-in-out ${activeScreen === 'landing' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className="w-full relative flex flex-col">
           {/* ================= SECTION 0: HERO ================= */}
           <section
             id="hero"
-            className="relative w-full min-h-screen flex flex-col items-center px-[72px] pt-[80px] pb-0"
+            className="relative w-full min-h-fit flex flex-col items-center px-[72px] pt-[80px] pb-[100px]"
           >
             <ScrollReveal className="w-full mx-auto flex flex-col items-center relative">
-              <div className="relative w-[1056px] h-[417px] bg-white/10 backdrop-blur-xl border border-white/10 rounded-[8px] pt-[14px] pr-[21px] pb-[14px] pl-[21px] gap-[8px] flex flex-col justify-between items-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+              <div className="relative w-full max-w-[1056px] h-[417px] bg-white/10 backdrop-blur-xl border border-white/10 rounded-[8px] pt-[14px] pr-[21px] pb-[14px] pl-[21px] gap-[8px] flex flex-col justify-between items-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
 
                 {/* Mascot overlapping left border - Taller & Larger */}
                 <div className="absolute -left-[145px] bottom-[-25px] hidden md:flex flex-col items-center pointer-events-none z-20">
@@ -328,13 +328,13 @@ export const LandingPage = () => {
               </div>
 
               {/* Bottom Cards aligned centered with exact Figma dimensions */}
-              <div className="w-full mt-[64px] flex flex-wrap justify-between gap-6 px-[58px]">
+              <div className="w-full mt-[64px] flex flex-wrap justify-evenly gap-6 px-6 xl:px-[58px]">
                 <div className="flex items-center gap-[10px] w-[326px] h-[80px] bg-white/10 backdrop-blur-md border border-white/20 pt-[13px] pr-[22px] pl-[21px] rounded-[8px] hover:bg-white/15 transition-colors rotate-0 opacity-100">
                   <div className="w-[46px] h-[46px] rounded-full overflow-hidden flex-shrink-0 bg-[#591b98]/30">
                     <img src={hi0101} alt="Feature 1" className="w-full h-full object-cover" />
                   </div>
                   <p className="text-white text-[13px] leading-snug font-medium text-left">
-                    Mütəxəssislər köməyilə çətinliklərdən azad ol !
+                    Mütəxəssislər köməyilə çətinliklərdən azad ol!
                   </p>
                 </div>
 
@@ -343,7 +343,7 @@ export const LandingPage = () => {
                     <img src={hi0102} alt="Feature 2" className="w-full h-full object-cover" />
                   </div>
                   <p className="text-white text-[13px] leading-snug font-medium text-left">
-                    Vr konsultasiya ilə evdən çıxmağa belə ehtiyac yoxur !
+                    Vr konsultasiya ilə evdən çıxmağa belə ehtiyac yoxdur!
                   </p>
                 </div>
 
@@ -352,7 +352,7 @@ export const LandingPage = () => {
                     <img src={hi0103} alt="Feature 3" className="w-full h-full object-cover" />
                   </div>
                   <p className="text-white text-[13px] leading-snug font-medium text-left">
-                    Günlük notlar qeyd edərək səndə öz inkişafını gör !
+                    Günlük notlar qeyd edərək səndə öz inkişafını gör!
                   </p>
                 </div>
               </div>
@@ -386,7 +386,7 @@ export const LandingPage = () => {
                   </div>
                   <p className="text-white/80 text-[15px] leading-relaxed max-w-[450px] mb-8">
                     Bu platforma düşüncələrini anlamaq, emosiyalarını idarə etmək və gündəlik streslə daha sağlam şəkildə başa çıxmaq üçün hazırlanıb.
-                    Sən burada tək deyilsən.Sevdiyin bir məkan seç və terapiyaya başla
+                    Sən burada tək deyilsən.Sevdiyin bir məkan seç və terapiyaya başla.
                   </p>
                   <div className="w-full h-[180px] sm:h-[220px] rounded-[8px] overflow-hidden mt-auto">
                     <img src={purpleRoom} alt="Room" className="w-full h-full object-cover object-center border border-white/10 opacity-90" />
@@ -801,7 +801,7 @@ export const LandingPage = () => {
                     </div>
 
                     <button
-                      onClick={() => { setSelectedPsychologistId(psych.id); setActiveScreen('psychologist'); }}
+                      onClick={() => navigate(PATHS.PSYCHOLOGIST.replace(':id', String(psych.id)))}
                       className="w-full bg-[#a88bff] hover:bg-[#9773fc] text-white font-semibold py-3 rounded-xl transition-colors cursor-pointer z-50 relative"
                     >
                       Başlayaq
@@ -820,15 +820,7 @@ export const LandingPage = () => {
 
         </div>
 
-        {/* JOURNAL PAGE CONTENT */}
-        <div className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${activeScreen === 'journal' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-          {activeScreen === 'journal' && <JournalPage />}
-        </div>
 
-        {/* PSYCHOLOGIST PREVIEW SCREEN */}
-        <div className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${activeScreen === 'psychologist' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-          {activeScreen === 'psychologist' && <PsychologistPage psychologistId={selectedPsychologistId} />}
-        </div>
 
       </main>
     </div>

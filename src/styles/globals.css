@@ -21,10 +21,7 @@
     @apply antialiased;
     font-family: "Lexend", sans-serif;
     color: var(--color-primary-text);
-    background: radial-gradient(circle at top left, rgba(123, 44, 191, 0.25), transparent 40%),
-                radial-gradient(circle at bottom right, rgba(0, 242, 255, 0.18), transparent 35%),
-                var(--color-ui-bg);
-    background-color: var(--color-ui-bg); /* Fallback */
+    background: linear-gradient(260.37deg, #263151 -4.41%, #245D68 51.97%, #914899 100%);
     background-attachment: fixed;
     min-height: 100vh;
     overscroll-behavior-y: none;
