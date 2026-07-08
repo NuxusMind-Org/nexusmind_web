@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import onboardingData from '../data/onboardingData.json';
-import nexusLogo from '@/assets/nexusmindlogo.png';
+import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
 import femaleAvatar from '@/assets/female_avatar.png';
 import maleAvatar from '@/assets/male_avatar.png';
 
@@ -115,7 +115,12 @@ export const OnboardingPage = () => {
     <div className="min-h-screen flex flex-col p-6 sm:p-10">
       {/* Header */}
       <div className="flex flex-col gap-6 mb-4 z-10 relative">
-        <img src={nexusLogo} alt="Nexus Mind" className="h-8 w-auto self-start" />
+        <img 
+          src={nexusLogo} 
+          alt="Nexus Mind" 
+          className="h-8 w-auto self-start cursor-pointer hover:opacity-80 transition-opacity" 
+          onClick={() => navigate(PATHS.HOME)}
+        />
         <button 
           onClick={handleBack}
           className="flex items-center gap-2 text-[#E0E0E0] hover:text-white transition-colors self-start font-medium text-[15px]"

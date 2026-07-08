@@ -1,5 +1,5 @@
 import { VerifyOtpForm } from '../components/VerifyOtpForm';
-import registrationImg from '@/assets/registrationimg01.png';
+import registrationImg from '@/assets/svg/emotionsIllustration.svg';
 
 export const VerifyOtpPage = () => {
   return (

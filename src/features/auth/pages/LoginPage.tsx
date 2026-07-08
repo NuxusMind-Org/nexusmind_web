@@ -1,5 +1,5 @@
 import { LoginForm } from '../components/LoginForm';
-import registrationImg from '@/assets/registrationimg01.png';
+import registrationImg from '@/assets/svg/emotionsIllustration.svg';
 
 export const LoginPage = () => {
   return (

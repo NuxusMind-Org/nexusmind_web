@@ -1,5 +1,5 @@
 import { ForgotPasswordForm } from '../components/ForgotPasswordForm';
-import registrationImg from '@/assets/registrationimg01.png';
+import registrationImg from '@/assets/svg/emotionsIllustration.svg';
 
 export const ForgotPasswordPage = () => {
   return (

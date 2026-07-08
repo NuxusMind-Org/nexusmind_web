@@ -1,5 +1,5 @@
 import { NewPasswordForm } from '../components/NewPasswordForm';
-import registrationImg from '@/assets/registrationimg01.png';
+import registrationImg from '@/assets/svg/emotionsIllustration.svg';
 
 export const NewPasswordPage = () => {
   return (

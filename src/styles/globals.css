@@ -27,6 +27,7 @@
     background-color: var(--color-ui-bg); /* Fallback */
     background-attachment: fixed;
     min-height: 100vh;
+    overscroll-behavior-y: none;
   }
 
   /* Base Typography Adjustments based on scale */

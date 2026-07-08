@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '@/components/input';
 import { Button } from '@/components/button';
 import { PATHS } from '@/routes/paths';
-import nexusMindLogo from '@/assets/nexusmindlogo.png';
+import nexusMindLogo from '@/assets/svg/NexusMindLogo.svg';
 import { newPasswordSchema } from '../schemas/new-password.schema';
 import type { NewPasswordFormInput, NewPasswordFormOutput } from '../schemas/new-password.schema';
 
@@ -35,9 +35,9 @@ export const NewPasswordForm = () => {
     <div className="w-full h-full flex flex-col justify-center max-w-[420px] mx-auto px-6 py-8">
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-center mb-6">
-          <img src={nexusMindLogo} alt="Nexus Mind Logo" className="h-10 object-contain" />
-        </div>
+        <Link to={PATHS.HOME} className="flex items-center mb-6 self-start w-fit hover:opacity-80 transition-opacity">
+          <img src={nexusMindLogo} alt="Nexus Mind Logo" className="h-10 object-contain cursor-pointer" />
+        </Link>
         <h1 className="text-[32px] font-bold text-white mb-1 tracking-tight">Yeni şifrə yarat</h1>
       </div>
 

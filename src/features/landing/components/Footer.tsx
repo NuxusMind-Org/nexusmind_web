@@ -1,8 +1,8 @@
 
 import { Link } from 'react-router-dom';
-import nexusLogo from '@/assets/nexusmindlogo.png';
-import nexie from '@/assets/nexie.png';
-import nexieCloud from '@/assets/nexie_cloud.png';
+import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
+import nexie from '@/assets/svg/Nexie.svg';
+import nexieCloud from '@/assets/svg/NexieCloud.svg';
 
 export const Footer = () => {
   return (
