@@ -192,7 +192,7 @@ export const LandingPage = () => {
         });
       },
       {
-        root: document.querySelector('main'),
+        root: null, // Use browser viewport now that we scroll at the window level
         threshold: 0.2, // Trigger when 20% of section is visible
         rootMargin: '-5% 0px -5% 0px'
       }
