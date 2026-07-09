@@ -48,10 +48,6 @@ export const LandingPage = () => {
   const card3Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-
-    const mainContainer = mainRef.current;
-    if (!mainContainer) return;
-
     const updateMascotPosition = () => {
       const container = roadmapRef.current;
       const card1 = card1Ref.current;
@@ -151,14 +147,14 @@ export const LandingPage = () => {
       setIsMascotInView(inView);
     };
 
-    mainContainer.addEventListener('scroll', updateMascotPosition);
+    window.addEventListener('scroll', updateMascotPosition);
     window.addEventListener('resize', updateMascotPosition);
 
     // Initial call to set positions once rendered
     setTimeout(updateMascotPosition, 100);
 
     return () => {
-      mainContainer.removeEventListener('scroll', updateMascotPosition);
+      window.removeEventListener('scroll', updateMascotPosition);
       window.removeEventListener('resize', updateMascotPosition);
     };
   }, []);
@@ -251,7 +247,7 @@ export const LandingPage = () => {
   const mascotOpacity = isMascotInView && !isTeleporting ? 1 : 0;
 
   return (
-    <div className="h-screen w-full flex flex-col relative font-sans text-white overflow-hidden">
+    <div className="w-full min-h-screen flex flex-col relative font-sans text-white">
       {/* Dynamic Background Layers */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Layer 1: Landing - Hero & Features */}
@@ -311,14 +307,14 @@ export const LandingPage = () => {
       />
 
       {/* Main Content Area - Stacked Sections */}
-      <main ref={mainRef} className="flex-1 w-full overflow-x-hidden overflow-y-auto overscroll-y-none scroll-smooth no-scrollbar relative">
+      <main ref={mainRef} className="flex-1 w-full relative">
 
         {/* LANDING PAGE CONTENT */}
         <div className="w-full relative flex flex-col">
           {/* ================= SECTION 0: HERO ================= */}
           <section
             id="hero"
-            className="relative w-full min-h-fit flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] sm:pt-[80px] pb-[80px] sm:pb-[100px]"
+            className="relative w-full min-h-fit flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] sm:pt-[80px] pb-[80px] sm:pb-[100px] scroll-mt-20"
           >
             <ScrollReveal className="w-full mx-auto flex flex-col items-center relative">
               <div className="relative w-full max-w-[1056px] h-auto min-h-[417px] md:h-[417px] bg-white/10 backdrop-blur-xl border border-white/10 rounded-[8px] pt-[24px] pb-[24px] pr-[16px] pl-[16px] sm:pr-[21px] sm:pl-[21px] gap-[8px] flex flex-col justify-between items-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
@@ -394,7 +390,7 @@ export const LandingPage = () => {
           {/* ================= SECTION 1: FEATURE GRID ================= */}
           <section
             id="features"
-            className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-0 pb-20"
+            className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20 scroll-mt-20"
           >
             <ScrollReveal className="w-full mx-auto flex flex-col items-center">
               {/* Header */}
@@ -475,7 +471,7 @@ export const LandingPage = () => {
           {/* ================= SECTION 2: ACCORDION PILLARS ================= */}
           <section
             id="pillars"
-            className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-20"
+            className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20 scroll-mt-20"
           >
             <ScrollReveal className="w-full mx-auto flex flex-col lg:flex-row items-center lg:items-stretch gap-12 lg:gap-20">
               {/* Left Image (Pillars) */}
@@ -533,7 +529,7 @@ export const LandingPage = () => {
           {/* ================= SECTION 3: TESTIMONIALS ================= */}
           <section
             id="testimonials"
-            className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-20"
+            className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20 scroll-mt-20"
           >
             <ScrollReveal className="w-full max-w-[1100px] mx-auto flex flex-col items-center">
               {/* Header */}
@@ -584,7 +580,7 @@ export const LandingPage = () => {
           {/* ================= SECTION 4: ROADMAP (Steps 4, 5, 6) ================= */}
           <section
             id="roadmap"
-            className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20"
+            className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20 scroll-mt-20"
           >
             <div className="w-full max-w-[1100px] mx-auto flex flex-col">
               <ScrollReveal className="w-full flex flex-col">
@@ -747,7 +743,7 @@ export const LandingPage = () => {
           {/* ================= SECTION 7: VR CONSULTATION ================= */}
           <section
             id="vr"
-            className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20"
+            className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20 scroll-mt-20"
           >
             <ScrollReveal className="w-full max-w-[1200px] h-[50vh] sm:h-[60vh] md:h-[75vh] mx-auto relative rounded-[8px] overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.5)] border border-white/20 group">
               {/* Background Image */}
@@ -777,7 +773,7 @@ export const LandingPage = () => {
           {/* ================= SECTION 8: CTA ================= */}
           <section
             id="cta"
-            className="relative w-full flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-10 md:pt-[112px] pb-10 md:pb-0"
+            className="relative w-full flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-10 md:pt-[112px] pb-10 md:pb-0 scroll-mt-20"
           >
             <ScrollReveal className="w-full max-w-[898px] h-auto min-h-[354px] md:h-[354px] mx-auto bg-white/20 backdrop-blur-md rounded-[8px] pt-[24px] pb-[24px] pr-[16px] pl-[16px] sm:pr-[21px] sm:pl-[21px] gap-[8px] flex flex-col items-center justify-center text-center shadow-2xl border border-white/10 rotate-0 opacity-100">
               <h2 className="text-[30px] sm:text-[44px] font-bold text-white tracking-tight">
@@ -810,7 +806,7 @@ export const LandingPage = () => {
           {/* ================= SECTION 9: SPECIALISTS & FOOTER ================= */}
           <section
             id="experts"
-            className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center pt-10 md:pt-[112px]"
+            className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center pt-10 md:pt-[112px] scroll-mt-20"
           >
             <ScrollReveal className="w-full max-w-[1200px] mx-auto flex flex-col items-center pb-20 px-4 sm:px-8 md:px-12 lg:px-[72px]">
 

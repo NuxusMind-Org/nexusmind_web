@@ -134,7 +134,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
 
   return (
     <>
-      <header className="w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 bg-white/5 backdrop-blur-md border-b border-white/10 shrink-0 relative">
+      <header className="w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 bg-[#0d0415]/90 backdrop-blur-md border-b border-white/10 shrink-0 sticky top-0">
         <div
           onClick={() => {
             setIsMobileMenuOpen(false);

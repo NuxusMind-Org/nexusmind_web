@@ -24,7 +24,6 @@
     background: linear-gradient(260.37deg, #263151 -4.41%, #245D68 51.97%, #914899 100%);
     background-attachment: fixed;
     min-height: 100vh;
-    overscroll-behavior-y: none;
   }
 
   /* Base Typography Adjustments based on scale */
