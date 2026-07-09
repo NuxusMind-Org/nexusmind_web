@@ -75,7 +75,7 @@ export const JournalPage = () => {
       <LandingNavbar activePage="journal" />
 
       {/* Page Content */}
-      <div className="w-full px-[72px] pt-[40px] pb-[80px] flex flex-col lg:flex-row gap-8">
+      <div className="w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[40px] pb-[80px] flex flex-col lg:flex-row gap-8">
         {/* Left Column */}
         <div className="flex-1 flex flex-col gap-6 w-full">
           <div>
@@ -86,13 +86,13 @@ export const JournalPage = () => {
           {/* Mood Selector */}
           <div className="bg-white/10 backdrop-blur-md rounded-[24px] p-6 sm:p-8 border border-white/10 shadow-xl">
             <h3 className="text-white text-[18px] mb-8 font-medium">Bu gün özünüzü necə hiss edirsiniz?</h3>
-            <div className="flex justify-between items-center px-1 sm:px-6">
+            <div className="flex flex-wrap sm:flex-nowrap justify-around sm:justify-between items-center gap-4 sm:gap-0 px-1 sm:px-6">
               {moods.map(mood => (
                 <div key={mood.id} className="flex flex-col items-center gap-3 cursor-pointer group" onClick={() => setSelectedMood(mood.id)}>
-                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${selectedMood === mood.id ? 'bg-[#9333ea] scale-110 shadow-[0_0_20px_rgba(147,51,234,0.5)]' : 'bg-[#2b6a8c] group-hover:bg-[#327ba3]'}`}>
+                  <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${selectedMood === mood.id ? 'bg-[#9333ea] scale-110 shadow-[0_0_20px_rgba(147,51,234,0.5)]' : 'bg-[#2b6a8c] group-hover:bg-[#327ba3]'}`}>
                     {mood.icon}
                   </div>
-                  <span className="text-white/60 text-[10px] sm:text-[11px] tracking-widest uppercase font-medium">{mood.label}</span>
+                  <span className="text-white/60 text-[9px] sm:text-[11px] tracking-widest uppercase font-medium">{mood.label}</span>
                 </div>
               ))}
             </div>

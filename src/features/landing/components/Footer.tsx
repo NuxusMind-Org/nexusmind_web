@@ -6,7 +6,7 @@ import nexieCloud from '@/assets/svg/NexieCloud.svg';
 
 export const Footer = () => {
   return (
-    <div className="w-full mt-24 bg-[#2D1B44]/90 backdrop-blur-xl rounded-t-[40px] px-8 md:px-16 pt-16 pb-8 relative flex flex-col justify-between overflow-visible border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] shrink-0">
+    <div className="w-full mt-24 bg-[#2D1B44]/90 backdrop-blur-xl rounded-t-[40px] px-4 sm:px-8 md:px-16 pt-16 pb-8 relative flex flex-col justify-between overflow-visible border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] shrink-0">
       <div className="w-full max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between relative h-full">
         {/* Left Side: Brand, Links, Socials */}
         <div className="flex flex-col w-full md:w-[60%] z-10 h-full">

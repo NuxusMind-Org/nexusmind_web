@@ -15,7 +15,7 @@ export const PsychologistPage = () => {
       <LandingNavbar activePage="psychologist" />
 
       {/* Main Content Container */}
-      <div className="w-full px-[72px] pt-[40px] pb-[80px] flex flex-col gap-8">
+      <div className="w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[40px] pb-[80px] flex flex-col gap-8">
 
         <h1 className="text-[32px] sm:text-[42px] md:text-[56px] font-serif font-light text-white mb-2 leading-tight">
           Psixoloq haqqında
