@@ -30,7 +30,7 @@ export const VerifyOtpForm = () => {
     setValue,
     register,
     formState: { errors, isSubmitting },
-  } = useForm<VerifyOtpFormInput, any, VerifyOtpFormOutput>({
+  } = useForm<VerifyOtpFormInput, unknown, VerifyOtpFormOutput>({
     resolver: zodResolver(verifyOtpSchema),
     mode: 'onSubmit',
   });
@@ -74,8 +74,8 @@ export const VerifyOtpForm = () => {
     }
   };
 
-  const onSubmit = async (data: VerifyOtpFormOutput) => {
-    console.log('OTP data:', data);
+  const onSubmit = async () => {
+    // TODO: Implement OTP verification API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
     navigate(PATHS.NEW_PASSWORD);
   };
@@ -132,7 +132,7 @@ export const VerifyOtpForm = () => {
 
         <div className="relative w-full group">
           <div 
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
+            className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
             style={{
               padding: '1.5px',
               WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -144,7 +144,7 @@ export const VerifyOtpForm = () => {
             type="submit"
             variant="glass"
             size="lg"
-            className="w-full !border-0 !rounded-full bg-white/5 hover:bg-white/10"
+            className="w-full !border-0 !rounded-lg bg-white/5 hover:bg-white/10"
             isLoading={isSubmitting}
           >
             Növbəti

@@ -10,6 +10,12 @@ import { OnboardingPage } from '@/features/onboarding/pages/OnboardingPage';
 import { LandingPage } from '@/features/landing/pages/LandingPage';
 import { JournalPage } from '@/features/landing/pages/JournalPage';
 import { PsychologistPage } from '@/features/landing/pages/PsychologistPage';
+import { BlogPage } from '@/features/landing/pages/BlogPage';
+import { ArticlesPage } from '@/features/landing/pages/ArticlesPage';
+import { NewsPage } from '@/features/landing/pages/NewsPage';
+import { NewsDetailPage } from '@/features/landing/pages/NewsDetailPage';
+import { GalleryPage } from '@/features/landing/pages/GalleryPage';
+import { TrainingsPage } from '@/features/landing/pages/TrainingsPage';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +29,30 @@ const router = createBrowserRouter([
   {
     path: PATHS.PSYCHOLOGIST,
     element: <PsychologistPage />,
+  },
+  {
+    path: PATHS.BLOG,
+    element: <BlogPage />,
+  },
+  {
+    path: PATHS.ARTICLE,
+    element: <ArticlesPage />,
+  },
+  {
+    path: PATHS.NEWS,
+    element: <NewsPage />,
+  },
+  {
+    path: PATHS.NEWS_DETAIL,
+    element: <NewsDetailPage />,
+  },
+  {
+    path: PATHS.GALLERY,
+    element: <GalleryPage />,
+  },
+  {
+    path: PATHS.TRAININGS,
+    element: <TrainingsPage />,
   },
   {
     path: PATHS.REGISTER,

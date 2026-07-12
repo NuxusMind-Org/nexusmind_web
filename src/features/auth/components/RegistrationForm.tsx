@@ -32,8 +32,7 @@ export const RegistrationForm = () => {
   });
 
   const onSubmit = async (data: RegistrationFormValues) => {
-    // API Call goes here
-    console.log('Registration data:', data);
+    // TODO: Implement registration API call
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock network
     navigate(PATHS.REGISTRATION_SUCCESS, { state: { email: data.email } });
   };
@@ -130,7 +129,7 @@ export const RegistrationForm = () => {
 
         <div className="relative mt-2 w-full group">
           <div 
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
+            className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
             style={{
               padding: '1.5px',
               WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -142,7 +141,7 @@ export const RegistrationForm = () => {
             type="submit"
             variant="glass"
             size="lg"
-            className="w-full !border-0 !rounded-full bg-white/5 hover:bg-white/10"
+            className="w-full !border-0 !rounded-lg bg-white/5 hover:bg-white/10"
             isLoading={isSubmitting}
           >
             Qeydiyyatdan keç

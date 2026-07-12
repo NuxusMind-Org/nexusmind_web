@@ -17,14 +17,13 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormInput, any, LoginFormOutput>({
+  } = useForm<LoginFormInput, unknown, LoginFormOutput>({
     resolver: zodResolver(loginSchema),
     mode: 'onTouched',
   });
 
-  const onSubmit = async (data: LoginFormOutput) => {
-    // API Call goes here
-    console.log('Login data:', data);
+  const onSubmit = async () => {
+    // TODO: Implement login API call
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock network
   };
 
@@ -73,7 +72,7 @@ export const LoginForm = () => {
 
         <div className="relative mt-4 w-full group">
           <div 
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
+            className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
             style={{
               padding: '1.5px',
               WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -85,7 +84,7 @@ export const LoginForm = () => {
             type="submit"
             variant="glass"
             size="lg"
-            className="w-full !border-0 !rounded-full bg-white/5 hover:bg-white/10"
+            className="w-full !border-0 !rounded-lg bg-white/5 hover:bg-white/10"
             isLoading={isSubmitting}
           >
             Daxil ol

@@ -6,7 +6,7 @@ import nexieCloud from '@/assets/svg/NexieCloud.svg';
 
 export const Footer = () => {
   return (
-    <div className="w-full mt-24 bg-[#2D1B44]/90 backdrop-blur-xl rounded-t-[40px] px-4 sm:px-8 md:px-16 pt-16 pb-8 relative flex flex-col justify-between overflow-visible border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] shrink-0">
+    <div className="w-full mt-24 bg-[#2D1B44]/90 backdrop-blur-xl rounded-t-lg px-4 sm:px-8 md:px-16 pt-16 pb-8 relative flex flex-col justify-between overflow-visible border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] shrink-0">
       <div className="w-full max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between relative h-full">
         {/* Left Side: Brand, Links, Socials */}
         <div className="flex flex-col w-full md:w-[60%] z-10 h-full">
@@ -40,13 +40,13 @@ export const Footer = () => {
             <div className="mb-6 md:mb-0">
               <p className="text-white font-medium mb-3 text-[14px]">Download our mobile app</p>
               <div className="flex gap-3">
-                <button className="bg-black/80 border border-white/10 hover:border-white/30 text-white px-4 py-2 rounded-xl flex items-center gap-2 transition-all">
+                <button className="bg-black/80 border border-white/10 hover:border-white/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
                   <div className="flex flex-col items-start text-left">
                     <span className="text-[9px] text-white/60 leading-none">GET IT ON</span>
                     <span className="text-[13px] font-semibold leading-none mt-1">Google Play</span>
                   </div>
                 </button>
-                <button className="bg-black/80 border border-white/10 hover:border-white/30 text-white px-4 py-2 rounded-xl flex items-center gap-2 transition-all">
+                <button className="bg-black/80 border border-white/10 hover:border-white/30 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
                   <div className="flex flex-col items-start text-left">
                     <span className="text-[9px] text-white/60 leading-none">Download on the</span>
                     <span className="text-[13px] font-semibold leading-none mt-1">App Store</span>

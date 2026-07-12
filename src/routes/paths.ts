@@ -10,5 +10,11 @@ export const PATHS = {
   DASHBOARD: '/dashboard',
   JOURNAL: '/journal',
   PSYCHOLOGIST: '/psychologist/:id',
+  BLOG: '/blog',
+  ARTICLE: '/articles',
+  NEWS: '/news',
+  NEWS_DETAIL: '/news/:id',
+  GALLERY: '/gallery',
+  TRAININGS: '/trainings',
 } as const;
 

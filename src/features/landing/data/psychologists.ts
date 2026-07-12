@@ -2,21 +2,7 @@ import therapist1 from '@/assets/therapist1.png';
 import avatar1 from '@/assets/avatar1.png';
 import avatar2 from '@/assets/avatar2.png';
 import avatar3 from '@/assets/avatar3.png';
-
-export type Psychologist = {
-  id: number;
-  name: string;
-  title: string;
-  experience: string;
-  rating: number;
-  price: number;
-  image: string;
-  description: string;
-  languages: string[];
-  tags: string[];
-  education: { uni: string; degree: string }[];
-  certifications: string[];
-};
+import type { Psychologist } from '../types/psychologist.types';
 
 export const psychologists: Psychologist[] = [
   {

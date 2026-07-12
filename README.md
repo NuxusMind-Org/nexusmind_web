@@ -1,73 +1,66 @@
-# React + TypeScript + Vite
+# NexusMind Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mental health and psychological wellbeing platform built with React + TypeScript + Vite.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Layer | Technology |
+|---|---|
+| Framework | React 19 + TypeScript |
+| Build Tool | Vite 8 |
+| Styling | Tailwind CSS v4 |
+| Routing | React Router v7 |
+| State | Zustand |
+| Server State | TanStack React Query |
+| Forms | React Hook Form + Zod |
+| HTTP | Axios |
+| Analytics | Vercel Analytics + Speed Insights |
 
-## React Compiler
+## Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── api/                    # Axios HTTP client & interceptors
+├── app/                    # App bootstrap (App, Providers, Router)
+├── assets/                 # Images, SVGs, and static media
+│   └── svg/
+├── components/             # Shared UI components (Button, Input)
+├── constants/              # Design tokens (colors, spacing, typography…)
+├── features/               # Feature modules
+│   ├── auth/               # Registration, Login, OTP, Password reset
+│   │   ├── components/     # Form components + AuthPageLayout
+│   │   ├── pages/          # Route-level page components
+│   │   └── schemas/        # Zod validation schemas
+│   ├── landing/            # Public marketing & content pages
+│   │   ├── components/     # Navbar, Footer, ScrollReveal, sections/
+│   │   │   └── sections/   # HeroSection, FeaturesSection, PillarsSection…
+│   │   ├── constants/      # Landing-specific data (pillars, testimonials)
+│   │   ├── data/           # Psychologist profiles
+│   │   ├── hooks/          # useActiveSection, useRoadmapMascot
+│   │   ├── pages/          # LandingPage, JournalPage, PsychologistPage
+│   │   └── types/          # Psychologist type definitions
+│   └── onboarding/         # User onboarding flow
+│       ├── constants/      # IMAGE_MAP for onboarding assets
+│       ├── data/           # onboardingData.json
+│       └── pages/          # OnboardingPage
+├── routes/                 # PATHS constant (route path definitions)
+├── store/                  # Zustand stores (appStore, authStore)
+└── styles/                 # globals.css (Tailwind theme + utilities)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev       # Start dev server at http://localhost:5173
+npm run build     # Type-check + production build
+npm run lint      # ESLint
+npm run preview   # Preview production build
 ```
+
+## Architecture Principles
+
+- **Feature-based structure** — each feature is self-contained with its own components, pages, hooks, constants, and types
+- **Single Responsibility** — pages are pure composition layers; logic lives in hooks and utilities
+- **DRY** — shared layouts (`AuthPageLayout`) and data constants eliminate duplication
+- **No God Components** — large pages are decomposed into focused section components

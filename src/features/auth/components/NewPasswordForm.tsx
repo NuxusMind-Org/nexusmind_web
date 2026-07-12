@@ -19,14 +19,13 @@ export const NewPasswordForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<NewPasswordFormInput, any, NewPasswordFormOutput>({
+  } = useForm<NewPasswordFormInput, unknown, NewPasswordFormOutput>({
     resolver: zodResolver(newPasswordSchema),
     mode: 'onTouched',
   });
 
-  const onSubmit = async (data: NewPasswordFormOutput) => {
-    // API Call goes here
-    console.log('New Password data:', data);
+  const onSubmit = async () => {
+    // TODO: Implement set new password API call
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock network
     navigate(PATHS.LOGIN);
   };
@@ -92,7 +91,7 @@ export const NewPasswordForm = () => {
 
         <div className="relative mt-4 w-full group">
           <div 
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
+            className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
             style={{
               padding: '1.5px',
               WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -104,7 +103,7 @@ export const NewPasswordForm = () => {
             type="submit"
             variant="glass"
             size="lg"
-            className="w-full !border-0 !rounded-full bg-white/5 hover:bg-white/10"
+            className="w-full !border-0 !rounded-lg bg-white/5 hover:bg-white/10"
             isLoading={isSubmitting}
           >
             Şifrəni təyin et

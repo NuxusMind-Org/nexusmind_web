@@ -84,12 +84,12 @@ export const JournalPage = () => {
           </div>
 
           {/* Mood Selector */}
-          <div className="bg-white/10 backdrop-blur-md rounded-[24px] p-6 sm:p-8 border border-white/10 shadow-xl">
+          <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
             <h3 className="text-white text-[18px] mb-8 font-medium">Bu gün özünüzü necə hiss edirsiniz?</h3>
             <div className="flex flex-wrap sm:flex-nowrap justify-around sm:justify-between items-center gap-4 sm:gap-0 px-1 sm:px-6">
               {moods.map(mood => (
                 <div key={mood.id} className="flex flex-col items-center gap-3 cursor-pointer group" onClick={() => setSelectedMood(mood.id)}>
-                  <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center transition-all duration-300 ${selectedMood === mood.id ? 'bg-[#9333ea] scale-110 shadow-[0_0_20px_rgba(147,51,234,0.5)]' : 'bg-[#2b6a8c] group-hover:bg-[#327ba3]'}`}>
+                  <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center transition-all duration-300 ${selectedMood === mood.id ? 'bg-[#9333ea] scale-110 shadow-[0_0_20px_rgba(147,51,234,0.5)]' : 'bg-[#2b6a8c] group-hover:bg-[#327ba3]'}`}>
                     {mood.icon}
                   </div>
                   <span className="text-white/60 text-[9px] sm:text-[11px] tracking-widest uppercase font-medium">{mood.label}</span>
@@ -99,7 +99,7 @@ export const JournalPage = () => {
           </div>
 
           {/* Text Area Box */}
-          <div className="bg-white/10 backdrop-blur-md rounded-[24px] p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col min-h-[450px]">
+          <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col min-h-[450px]">
             <div className="flex justify-between items-end mb-6">
               <div>
                 <h4 className="text-white/50 text-[11px] tracking-[0.2em] uppercase font-light mb-2">GÜNÜN DÜŞÜNCƏLƏRİ</h4>
@@ -114,13 +114,13 @@ export const JournalPage = () => {
             ></textarea>
 
             <div className="flex flex-wrap justify-end items-center gap-3 sm:gap-4 mt-8">
-              <button className="w-12 h-12 bg-[#4f46e5] rounded-xl flex items-center justify-center text-white hover:bg-[#4338ca] transition-colors shadow-lg">
+              <button className="w-12 h-12 bg-[#4f46e5] rounded-lg flex items-center justify-center text-white hover:bg-[#4338ca] transition-colors shadow-lg">
                 <Lock size={20} />
               </button>
-              <button className="px-6 sm:px-8 py-3 bg-[#d8b4fe] text-[#2D1B44] font-light rounded-xl hover:bg-[#c084fc] transition-colors shadow-lg whitespace-nowrap">
+              <button className="px-6 sm:px-8 py-3 bg-[#d8b4fe] text-[#2D1B44] font-light rounded-lg hover:bg-[#c084fc] transition-colors shadow-lg whitespace-nowrap">
                 Saxla
               </button>
-              <button className="px-6 sm:px-8 py-3 bg-[#d8b4fe] text-[#2D1B44] font-light rounded-xl hover:bg-[#c084fc] transition-colors shadow-lg whitespace-nowrap">
+              <button className="px-6 sm:px-8 py-3 bg-[#d8b4fe] text-[#2D1B44] font-light rounded-lg hover:bg-[#c084fc] transition-colors shadow-lg whitespace-nowrap">
                 Psixoloqa göndər
               </button>
             </div>
@@ -130,7 +130,7 @@ export const JournalPage = () => {
         {/* Right Column */}
         <div className="w-full lg:w-[350px] xl:w-[400px] flex flex-col gap-6 lg:mt-[104px]">
           {/* History Box */}
-          <div className="bg-white/10 backdrop-blur-md rounded-[24px] p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
+          <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
             <h3 className="text-white/80 text-[16px] mb-8 flex items-center gap-2 font-medium">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               Keçmiş Qeydlər
@@ -159,15 +159,15 @@ export const JournalPage = () => {
               </div>
             </div>
 
-            <button className="w-full mt-10 py-3.5 border border-white/20 rounded-xl text-white text-[12px] font-light tracking-widest hover:bg-white/10 transition-colors">
+            <button className="w-full mt-10 py-3.5 border border-white/20 rounded-lg text-white text-[12px] font-light tracking-widest hover:bg-white/10 transition-colors">
               HAMISINI GÖR
             </button>
           </div>
 
           {/* VR Consultation Mini Box */}
-          <div className="w-full h-[180px] rounded-[24px] overflow-hidden relative group cursor-pointer shadow-xl border border-white/10 hidden sm:block">
+          <div className="w-full h-[180px] rounded-lg overflow-hidden relative group cursor-pointer shadow-xl border border-white/10 hidden sm:block">
             <img src={vrConsultation} alt="VR Consultation" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110" />
-            <div className="absolute bottom-4 left-4 right-4 bg-[#eeb3b3]/30 backdrop-blur-xl border border-white/20 rounded-[16px] p-4">
+            <div className="absolute bottom-4 left-4 right-4 bg-[#eeb3b3]/30 backdrop-blur-xl border border-white/20 rounded-lg p-4">
               <h4 className="text-[14px] font-light text-[#111] mb-1">VR KONSULTASİYA</h4>
               <p className="text-[9px] text-[#222] font-light line-clamp-2">Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.</p>
             </div>

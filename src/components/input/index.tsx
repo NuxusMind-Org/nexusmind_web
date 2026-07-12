@@ -20,7 +20,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <div className="relative flex items-center">
           <input
             ref={ref}
-            className={`w-full h-11 px-4 bg-ui-surface border border-ui-border rounded-[var(--radius-md,14px)] text-[14px] text-white placeholder-ui-muted transition-colors focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand ${
+            className={`w-full h-11 px-4 bg-ui-surface border border-ui-border rounded-lg text-[14px] text-white placeholder-ui-muted transition-colors focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand ${
               error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
             } ${rightElement ? 'pr-10' : ''} ${className}`}
             {...props}

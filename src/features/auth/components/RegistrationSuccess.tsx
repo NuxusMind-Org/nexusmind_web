@@ -27,7 +27,7 @@ export const RegistrationSuccess = () => {
       {/* Button */}
       <div className="relative w-full group">
         <div 
-          className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
+          className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
           style={{
             padding: '1.5px',
             WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -40,7 +40,7 @@ export const RegistrationSuccess = () => {
             type="button"
             variant="glass"
             size="lg"
-            className="w-full !border-0 !rounded-full bg-white/5 hover:bg-white/10"
+            className="w-full !border-0 !rounded-lg bg-white/5 hover:bg-white/10"
           >
             Başlayaq
           </Button>

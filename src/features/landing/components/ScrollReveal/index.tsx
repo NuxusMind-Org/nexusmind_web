@@ -7,7 +7,7 @@ interface ScrollRevealProps {
 
 export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
   ({ children, className = '' }, ref) => {
-    const internalRef = useRef<HTMLDivElement>(null);
+    const internalRef = useRef<HTMLDivElement | null>(null);
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -47,11 +47,11 @@ export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
 
     // Combine forwarded ref and internal ref
     const setRefs = (node: HTMLDivElement | null) => {
-      (internalRef as any).current = node;
+      internalRef.current = node;
       if (typeof ref === 'function') {
         ref(node);
       } else if (ref) {
-        (ref as any).current = node;
+        (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
       }
     };
 
