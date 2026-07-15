@@ -62,7 +62,7 @@ export const GalleryPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: 'linear-gradient(260.37deg, #263151 -4.41%, #245D68 51.97%, #914899 100%)', backgroundAttachment: 'fixed' }}>
+    <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}>
       <LandingNavbar activePage="gallery" />
 
       {/* Page Content */}

@@ -34,19 +34,14 @@ export const TrainingsPage = () => {
   return (
     <div
       className="min-h-screen w-full flex flex-col font-sans text-white"
-      style={{
-        background:
-          'linear-gradient(260.37deg, #263151 -4.41%, #245D68 51.97%, #914899 100%)',
-        backgroundAttachment: 'fixed',
-      }}
+      style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}
     >
       {/* Navbar */}
       <LandingNavbar activePage="trainings" />
 
       {/* Main Content Area with Page Entry Animation */}
-      <main className={`flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[32px] pb-[80px] flex flex-col items-center transition-all duration-700 ease-out transform ${
-        animateEntry ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}>
+      <main className={`flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[32px] pb-[80px] flex flex-col items-center transition-all duration-700 ease-out transform ${animateEntry ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}>
         <div className="w-full max-w-[1200px] flex flex-col">
           {/* Header */}
           <TrainingsHeader />
@@ -60,11 +55,10 @@ export const TrainingsPage = () => {
           {/* Active View Render with Cross-Fade and Slide-Scale Transitions */}
           <div className="relative w-full">
             <div
-              className={`transition-all duration-500 ease-out transform ${
-                activeView === 'list'
+              className={`transition-all duration-500 ease-out transform ${activeView === 'list'
                   ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
                   : 'absolute top-0 left-0 w-full opacity-0 -translate-y-4 scale-95 pointer-events-none'
-              }`}
+                }`}
             >
               <TrainingsGrid
                 trainings={TRAINING_ITEMS}
@@ -72,11 +66,10 @@ export const TrainingsPage = () => {
               />
             </div>
             <div
-              className={`transition-all duration-500 ease-out transform ${
-                activeView === 'calendar'
+              className={`transition-all duration-500 ease-out transform ${activeView === 'calendar'
                   ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
                   : 'absolute top-0 left-0 w-full opacity-0 translate-y-4 scale-95 pointer-events-none'
-              }`}
+                }`}
             >
               <TrainingsCalendar
                 trainings={TRAINING_ITEMS}
