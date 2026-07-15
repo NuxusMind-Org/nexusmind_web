@@ -79,7 +79,7 @@ export const NewsPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: 'linear-gradient(320deg, #914899 -4.41%, #263151 51.97%, #245D68 100%)' }}>
+    <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: 'linear-gradient(260.37deg, #263151 -4.41%, #245D68 51.97%, #914899 100%)', backgroundAttachment: 'fixed' }}>
       <LandingNavbar activePage="news" />
 
       {/* Page Content */}

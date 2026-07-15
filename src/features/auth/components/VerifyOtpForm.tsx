@@ -1,23 +1,32 @@
 import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { MailCheck } from 'lucide-react';
 import { Button } from '@/components/button';
-import { PATHS } from '@/routes/paths';
 import { verifyOtpSchema } from '../schemas/verify-otp.schema';
 import type { VerifyOtpFormInput, VerifyOtpFormOutput } from '../schemas/verify-otp.schema';
+import { useVerifyOtp } from '../hooks/useVerifyOtp';
+import { authApi } from '../api/auth.api';
+import { AxiosError } from 'axios';
 
 export const VerifyOtpForm = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const email = location.state?.email || 'xxxxxxxx@gmail.com';
+  const isRegistrationFlow = location.state?.isRegistrationFlow || false;
   
+  const verifyOtpMutation = useVerifyOtp();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   
-  // Timer state
-  const [timeLeft, setTimeLeft] = useState(59);
+  // Timer state (5 minutes = 300 seconds)
+  const [timeLeft, setTimeLeft] = useState(300);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -74,16 +83,28 @@ export const VerifyOtpForm = () => {
     }
   };
 
-  const onSubmit = async () => {
-    // TODO: Implement OTP verification API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    navigate(PATHS.NEW_PASSWORD);
+  const onSubmit = () => {
+    const loginCreds = location.state?.password
+      ? { email, password: location.state.password }
+      : undefined;
+
+    verifyOtpMutation.mutate({
+      verify: {
+        email,
+        otp: otp.join(''),
+      },
+      login: isRegistrationFlow ? loginCreds : undefined,
+    });
   };
 
-  const handleResend = () => {
+  const handleResend = async () => {
     if (timeLeft > 0) return;
-    console.log('Resending code...');
-    setTimeLeft(59);
+    try {
+      await authApi.sendOtp(email);
+      setTimeLeft(300);
+    } catch (err) {
+      console.error('OTP resend failed:', err);
+    }
   };
 
   return (
@@ -96,9 +117,14 @@ export const VerifyOtpForm = () => {
       </div>
 
       {/* Header */}
-      <div className="mb-8 text-center">
-        <h1 className="text-[28px] font-bold text-white mb-2 tracking-tight">Şifrənin bərpası</h1>
-        <p className="text-[18px] text-white font-medium">
+      <div className="mb-8 text-center animate-fade-in">
+        <h1 className="text-[28px] font-bold text-white mb-2 tracking-tight">
+          {isRegistrationFlow ? 'Qeydiyyatın təsdiqi' : 'Şifrənin bərpası'}
+        </h1>
+        <p className="text-gray-400 text-xs mb-2">
+          {isRegistrationFlow ? 'Təsdiq kodu email ünvanınıza göndərildi:' : ''}
+        </p>
+        <p className="text-[18px] text-[#00F2FF] font-medium">
           {email}
         </p>
       </div>
@@ -127,8 +153,14 @@ export const VerifyOtpForm = () => {
         )}
 
         <div className="text-center text-white text-[14px]">
-          00:{timeLeft.toString().padStart(2, '0')}
+          {formatTime(timeLeft)}
         </div>
+
+        {verifyOtpMutation.isError && (
+          <div className="text-red-400 text-xs mt-2 text-center font-medium bg-red-950/30 border border-red-500/20 py-2 px-3 rounded-md">
+            {((verifyOtpMutation.error as AxiosError<{ message?: string }>).response?.data?.message) || 'Daxil etdiyiniz təsdiq kodu yanlışdır.'}
+          </div>
+        )}
 
         <div className="relative w-full group">
           <div 
@@ -145,9 +177,9 @@ export const VerifyOtpForm = () => {
             variant="glass"
             size="lg"
             className="w-full !border-0 !rounded-lg bg-white/5 hover:bg-white/10"
-            isLoading={isSubmitting}
+            isLoading={isSubmitting || verifyOtpMutation.isPending}
           >
-            Növbəti
+            {isRegistrationFlow ? 'Təsdiqlə və Daxil ol' : 'Növbəti'}
           </Button>
         </div>
       </form>

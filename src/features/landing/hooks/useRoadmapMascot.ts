@@ -1,17 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import nexieSittingClassic from '@/assets/svg/NexieSittingClassic.svg';
-import nexieSittingPurple from '@/assets/svg/NexieSittingPurple.svg';
 
 export interface RoadmapMascotState {
   roadmapRef: React.RefObject<HTMLDivElement | null>;
   card1Ref: React.RefObject<HTMLDivElement | null>;
   card2Ref: React.RefObject<HTMLDivElement | null>;
   card3Ref: React.RefObject<HTMLDivElement | null>;
-  mascotSrc: string;
-  mascotFilter: string;
+  /** opacity of the outer mascot wrapper — used to hide during card-to-card position jump */
+  mascotOpacity: number;
   mascotX: number;
   mascotY: number;
-  mascotOpacity: number;
+  /** true when the classic (cyan) Nexie should be visible */
+  isClassicVisible: boolean;
+  /** true when the purple Nexie should be visible */
+  isPurpleVisible: boolean;
   arrowsVisible: { a1: boolean; a2: boolean };
   arrow1Path: string;
   arrow1Chevron: string;
@@ -152,12 +153,11 @@ export const useRoadmapMascot = (): RoadmapMascotState => {
     };
   }, []);
 
-  const mascotSrc = activeCardIndex === 2 ? nexieSittingPurple : nexieSittingClassic;
-  const mascotFilter =
-    activeCardIndex === 2
-      ? 'drop-shadow(0 15px 30px rgba(123, 75, 139, 0.5))'
-      : 'drop-shadow(0 15px 30px rgba(0, 242, 255, 0.3))';
+  // Each Nexie image has its own visibility flag — no src swap, no reload flash.
+  const isClassicVisible = activeCardIndex !== 2;
+  const isPurpleVisible = activeCardIndex === 2;
 
+  // Outer wrapper opacity: hide only during the position jump between cards.
   const mascotOpacity = isMascotInView && !isTeleporting ? 1 : 0;
 
   return {
@@ -165,11 +165,11 @@ export const useRoadmapMascot = (): RoadmapMascotState => {
     card1Ref,
     card2Ref,
     card3Ref,
-    mascotSrc,
-    mascotFilter,
     mascotX,
     mascotY,
     mascotOpacity,
+    isClassicVisible,
+    isPurpleVisible,
     arrowsVisible,
     arrow1Path,
     arrow1Chevron,

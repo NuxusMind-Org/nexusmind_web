@@ -12,8 +12,8 @@ export const RoadmapSection = () => {
     card1Ref,
     card2Ref,
     card3Ref,
-    mascotSrc,
-    mascotFilter,
+    isClassicVisible,
+    isPurpleVisible,
     mascotX,
     mascotY,
     mascotOpacity,
@@ -60,7 +60,7 @@ export const RoadmapSection = () => {
             )}
           </svg>
 
-          {/* Desktop Mascot */}
+          {/* Desktop Mascot — two images stacked, cross-fading independently to avoid src-swap flash */}
           <div
             className="absolute pointer-events-none z-30 hidden md:block"
             style={{
@@ -73,11 +73,27 @@ export const RoadmapSection = () => {
               transition: 'opacity 0.15s ease-in-out',
             }}
           >
+            {/* Classic Nexie — cards 1 & 3 */}
             <img
-              src={mascotSrc}
+              src={nexieSittingClassic}
               alt="Nexie Mascot"
               className="absolute inset-0 w-full h-auto object-contain"
-              style={{ filter: mascotFilter }}
+              style={{
+                opacity: isClassicVisible ? 1 : 0,
+                transition: 'opacity 0.25s ease-in-out',
+                filter: 'drop-shadow(0 15px 30px rgba(0, 242, 255, 0.3))',
+              }}
+            />
+            {/* Purple Nexie — card 2 */}
+            <img
+              src={nexieSittingPurple}
+              alt="Nexie Mascot Purple"
+              className="absolute inset-0 w-full h-auto object-contain"
+              style={{
+                opacity: isPurpleVisible ? 1 : 0,
+                transition: 'opacity 0.25s ease-in-out',
+                filter: 'drop-shadow(0 15px 30px rgba(123, 75, 139, 0.5))',
+              }}
             />
           </div>
 

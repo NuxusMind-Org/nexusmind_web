@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
+import { AxiosError } from 'axios';
 import { Link } from 'react-router-dom';
 import { Input } from '@/components/input';
 import { Button } from '@/components/button';
@@ -9,9 +10,11 @@ import { PATHS } from '@/routes/paths';
 import nexusMindLogo from '@/assets/svg/NexusMindLogo.svg';
 import { loginSchema } from '../schemas/login.schema';
 import type { LoginFormInput, LoginFormOutput } from '../schemas/login.schema';
+import { useLogin } from '../hooks/useLogin';
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const loginMutation = useLogin();
 
   const {
     register,
@@ -22,9 +25,11 @@ export const LoginForm = () => {
     mode: 'onTouched',
   });
 
-  const onSubmit = async () => {
-    // TODO: Implement login API call
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock network
+  const onSubmit = (data: LoginFormOutput) => {
+    loginMutation.mutate({
+      email: data.email,
+      password: data.password,
+    });
   };
 
   return (
@@ -39,10 +44,10 @@ export const LoginForm = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <Input
-          label="İstifadəçi adı"
-          placeholder="xxxxxxxxxx"
-          {...register('username')}
-          error={errors.username?.message}
+          label="Email ünvanı"
+          placeholder="xxxxxx@gmail.com"
+          {...register('email')}
+          error={errors.email?.message}
         />
 
         <div className="flex flex-col gap-1">
@@ -70,6 +75,12 @@ export const LoginForm = () => {
           </div>
         </div>
 
+        {loginMutation.isError && (
+          <div className="text-red-400 text-xs mt-2 text-center font-medium bg-red-950/30 border border-red-500/20 py-2 px-3 rounded-md">
+            {((loginMutation.error as AxiosError<{ message?: string }>).response?.data?.message) || 'İstifadəçi adı və ya şifrə yanlışdır'}
+          </div>
+        )}
+
         <div className="relative mt-4 w-full group">
           <div 
             className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
@@ -85,7 +96,7 @@ export const LoginForm = () => {
             variant="glass"
             size="lg"
             className="w-full !border-0 !rounded-lg bg-white/5 hover:bg-white/10"
-            isLoading={isSubmitting}
+            isLoading={isSubmitting || loginMutation.isPending}
           >
             Daxil ol
           </Button>

@@ -12,9 +12,12 @@ export const PATHS = {
   PSYCHOLOGIST: '/psychologist/:id',
   BLOG: '/blog',
   ARTICLE: '/articles',
+  ARTICLE_DETAIL: '/articles/:id',
   NEWS: '/news',
   NEWS_DETAIL: '/news/:id',
   GALLERY: '/gallery',
   TRAININGS: '/trainings',
+  CHAT: '/chat',
+  PROFILE: '/profile',
 } as const;
 
