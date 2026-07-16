@@ -28,16 +28,18 @@ export const NewsDetailBody = () => {
       </div>
 
       {/* Premium Glassmorphic Blockquote card */}
-      <div className="my-6 relative bg-white/5 border-l-4 border-[#c39ffd] rounded-r-lg p-6 sm:p-8 backdrop-blur-sm overflow-hidden flex items-start gap-4">
-        <Quote size={28} className="text-[#c39ffd] shrink-0 transform -translate-y-1 opacity-70" />
-        <div className="flex flex-col gap-3">
-          <blockquote className="text-white text-[16px] sm:text-[18px] font-medium italic leading-relaxed">
-            "Həqiqi şəfa insanın öz daxili səssizliyini kəşf etdiyi andan başlayır. Biz sadəcə bu yolda bələdçilik edirik."
-          </blockquote>
-          <cite className="text-[#c39ffd] text-[13px] sm:text-[14px] font-semibold not-italic">
-            — Dr. Leyla Rəhimova
-          </cite>
+      <div className="my-6 relative bg-gradient-to-r from-[#7B2CBF]/20 to-[#1B3A4B]/20 border-l-[3px] border-l-[#A682FF]/60 border-t border-t-white/10 border-r border-r-white/10 border-b border-b-white/10 rounded-lg p-6 sm:p-8 pr-6 sm:pr-10 pl-10 sm:pl-12 backdrop-blur-sm flex flex-col gap-3">
+        {/* Quote Icon Box (centered on the top-left corner vertex) */}
+        <div className="absolute left-0 -translate-x-1/2 top-0 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded bg-[#130d24] border border-[#A682FF]/30 flex items-center justify-center z-20 shadow-lg">
+          <Quote className="text-white fill-white w-4 h-4 sm:w-5 sm:h-5" />
         </div>
+
+        <blockquote className="text-white text-[16px] font-light italic leading-relaxed z-10">
+          "Həqiqi şəfa insanın öz daxili səssizliyini kəşf etdiyi andan başlayır. Biz sadəcə bu yolda bələdçilik edirik."
+        </blockquote>
+        <cite className="text-[#A682FF] text-[14px] font-semibold not-italic z-10">
+          — Dr. Leyla Rəhimova
+        </cite>
       </div>
 
       {/* Section 2: Structure */}

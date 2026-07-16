@@ -56,8 +56,8 @@ export const TrainingsPage = () => {
           <div className="relative w-full">
             <div
               className={`transition-all duration-500 ease-out transform ${activeView === 'list'
-                  ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
-                  : 'absolute top-0 left-0 w-full opacity-0 -translate-y-4 scale-95 pointer-events-none'
+                ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+                : 'absolute top-0 left-0 w-full opacity-0 -translate-y-4 scale-95 pointer-events-none'
                 }`}
             >
               <TrainingsGrid
@@ -67,8 +67,8 @@ export const TrainingsPage = () => {
             </div>
             <div
               className={`transition-all duration-500 ease-out transform ${activeView === 'calendar'
-                  ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
-                  : 'absolute top-0 left-0 w-full opacity-0 translate-y-4 scale-95 pointer-events-none'
+                ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+                : 'absolute top-0 left-0 w-full opacity-0 translate-y-4 scale-95 pointer-events-none'
                 }`}
             >
               <TrainingsCalendar

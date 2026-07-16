@@ -62,6 +62,7 @@ export const LandingPage = () => {
       {/* Background ambient light */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#b070ff] rounded-full blur-[150px] opacity-20 pointer-events-none z-10" />
 
+
       <LandingNavbar
         activePage="landing"
         activeSection={activeSection}
