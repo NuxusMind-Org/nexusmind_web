@@ -1,6 +1,8 @@
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import salviAvatar from '@/assets/female_avatar.png';
+import { PATHS } from '@/routes/paths';
 
 interface ExpertItem {
   id: number;
@@ -14,6 +16,7 @@ interface ExpertItem {
 }
 
 export const Experts = () => {
+  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const experts: ExpertItem[] = [
@@ -75,7 +78,8 @@ export const Experts = () => {
     <div className="w-full bg-white px-6 pb-20 lg:px-10 flex flex-col justify-start select-none relative">
       {/* 1. Section Header */}
       <h2
-        className="w-full text-left text-[#1E0A42] font-normal mb-8"
+        onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
+        className="w-full text-left text-[#1E0A42] font-normal mb-8 cursor-pointer hover:text-[#4A247A] transition-colors"
         style={{
           fontSize: '31.15px',
           lineHeight: '59.84px',
@@ -83,7 +87,7 @@ export const Experts = () => {
           maxWidth: '1251.75px',
         }}
       >
-        Mütəxəssislər
+        Mütəxəssislər →
       </h2>
 
       {/* 2. Carousel Wrapper with Nav Buttons */}
@@ -104,12 +108,13 @@ export const Experts = () => {
           {experts.map((expert) => (
             <div
               key={expert.id}
+              onClick={() => navigate(PATHS.WEBAPP_EXPERT_DETAIL.replace(':id', String(expert.id)))}
               className="flex flex-col text-white flex-shrink-0 snap-start transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl cursor-pointer group p-8"
               style={{
                 width: '593.6px',
                 height: '458.45px',
                 borderRadius: '19.47px',
-                backgroundColor: 'rgba(13, 6, 105, 0.74)',
+                backgroundColor: '#4B2E83',
                 boxShadow: '0px 4.48px 4.48px rgba(0, 0, 0, 0.25), 0px 4.48px 4.48px rgba(0, 0, 0, 0.25)',
               }}
             >

@@ -47,10 +47,10 @@ export const ArticlesPage = () => {
             <div
               key={idx}
               onClick={() => navigate(PATHS.WEBAPP_ARTICLE_DETAIL.replace(':id', String(idx)))}
-              className="w-full md:w-[366.55px] max-w-[366.55px] h-[592px] rounded-[16.15px] bg-[#36106F]/15 border-[1.01px] border-white/55 backdrop-blur-[20.19px] flex flex-col p-4 gap-4 overflow-hidden relative cursor-pointer group shadow-lg hover:-translate-y-1 transition-all duration-300 mx-auto"
+              className="w-full md:w-[366.55px] max-w-[366.55px] h-[592px] rounded-[16.15px] bg-[#36106F]/15 border-[1.01px] border-white/55 backdrop-blur-[20.19px] flex flex-col p-0 overflow-hidden relative cursor-pointer group shadow-lg hover:-translate-y-1 transition-all duration-300 mx-auto"
             >
               {/* Cover Image wrapper (Height: 220px) */}
-              <div className="w-full h-[220px] rounded-[12px] overflow-hidden relative shrink-0">
+              <div className="w-full h-[220px] rounded-t-[16.15px] rounded-b-none overflow-hidden relative shrink-0">
                 <img
                   src={therapist1Img}
                   alt="Məqalə Cover"
@@ -61,47 +61,50 @@ export const ArticlesPage = () => {
                 </span>
               </div>
 
-              {/* Author details block */}
-              <div className="flex items-center gap-3 mt-1 text-left">
-                <div className="w-9 h-9 rounded-full overflow-hidden bg-[#482476]/15 flex items-center justify-center text-[#482476] border border-[#482476]/10 shrink-0">
-                  <img src={femaleAvatarImg} alt="Dr. Leyla Rəhimova" className="w-full h-full object-cover" />
+              {/* Card content container with padding */}
+              <div className="p-5 pt-3.5 flex flex-col gap-3 flex-grow">
+                {/* Author details block */}
+                <div className="flex items-center gap-3 text-left">
+                  <div className="w-9 h-9 rounded-full overflow-hidden bg-[#482476]/15 flex items-center justify-center text-[#482476] border border-[#482476]/10 shrink-0">
+                    <img src={femaleAvatarImg} alt="Dr. Leyla Rəhimova" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex flex-col text-left font-['Lexend']">
+                    <span className="text-[#1E0A42] font-bold text-sm">Dr. Leyla Rəhimova</span>
+                    <span className="text-[#1E0A42]/60 text-xs mt-0.5">Klinik Psixoloq</span>
+                  </div>
                 </div>
-                <div className="flex flex-col text-left font-['Lexend']">
-                  <span className="text-[#1E0A42] font-bold text-sm">Dr. Leyla Rəhimova</span>
-                  <span className="text-[#1E0A42]/60 text-xs mt-0.5">Klinik Psixoloq</span>
+
+                {/* Meta indicators row */}
+                <div className="flex justify-between items-center text-[#1E0A42]/70 text-xs font-semibold font-['Lexend'] border-t border-[#1E0A42]/5 pt-3">
+                  <span className="flex items-center gap-1.5">
+                    <Calendar size={14} className="text-[#1E0A42]/55" />
+                    24 Mart 2026
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock size={14} className="text-[#1E0A42]/55" />
+                    4 dəq oxu
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Eye size={14} className="text-[#1E0A42]/55" />
+                    93 baxış
+                  </span>
                 </div>
-              </div>
 
-              {/* Meta indicators row */}
-              <div className="flex justify-between items-center text-[#1E0A42]/70 text-xs font-semibold font-['Lexend'] mt-1 border-t border-[#1E0A42]/5 pt-3">
-                <span className="flex items-center gap-1.5">
-                  <Calendar size={14} className="text-[#1E0A42]/55" />
-                  24 Mart 2026
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Clock size={14} className="text-[#1E0A42]/55" />
-                  4 dəq oxu
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Eye size={14} className="text-[#1E0A42]/55" />
-                  93 baxış
-                </span>
-              </div>
+                {/* Article Title */}
+                <h3 className="text-[#1E0A42] text-lg font-bold font-['Lexend'] text-left leading-snug line-clamp-2 min-h-[48px] group-hover:text-[#4D2059] transition-colors mt-1">
+                  VR Terapiyasının Travma Müalicəsində Effektivliyi
+                </h3>
 
-              {/* Article Title */}
-              <h3 className="text-[#1E0A42] text-lg font-bold font-['Lexend'] text-left leading-snug line-clamp-2 min-h-[48px] group-hover:text-[#4D2059] transition-colors mt-2">
-                VR Terapiyasının Travma Müalicəsində Effektivliyi
-              </h3>
+                {/* Article Description */}
+                <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 text-left font-['Lexend'] mt-1">
+                  Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi və klinik sınaqların nəticələri haqqında.
+                </p>
 
-              {/* Article Description */}
-              <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 text-left font-['Lexend'] mt-1">
-                Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi və klinik sınaqların nəticələri haqqında.
-              </p>
-
-              {/* Footer CTA Link */}
-              <div className="flex items-center gap-1.5 font-bold text-[#4D2059] group-hover:underline text-sm font-['Lexend'] mt-auto self-end cursor-pointer pt-2">
-                <span>Davamı oxu</span>
-                <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform duration-200" />
+                {/* Footer CTA Link */}
+                <div className="flex items-center gap-1.5 font-bold text-[#4D2059] group-hover:underline text-sm font-['Lexend'] mt-auto self-end cursor-pointer pt-2">
+                  <span>Davamı oxu</span>
+                  <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform duration-200" />
+                </div>
               </div>
 
             </div>

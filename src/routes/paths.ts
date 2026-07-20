@@ -33,5 +33,8 @@ export const PATHS = {
   WEBAPP_BLOG_DETAIL: '/dashboard/blog/:id',
   WEBAPP_ARTICLE: '/dashboard/articles',
   WEBAPP_ARTICLE_DETAIL: '/dashboard/articles/:id',
+  WEBAPP_TRAININGS: '/dashboard/trainings',
+  WEBAPP_EXPERTS: '/dashboard/experts',
+  WEBAPP_EXPERT_DETAIL: '/dashboard/experts/:id',
 };
 

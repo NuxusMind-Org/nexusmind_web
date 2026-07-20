@@ -122,10 +122,10 @@ export const BlogPage = () => {
               <div
                 key={idx}
                 onClick={() => navigate(PATHS.WEBAPP_BLOG_DETAIL.replace(':id', String(idx)))}
-                className="bg-[#F6EFFF] rounded-[10.06px] overflow-hidden flex flex-col p-[10.06px] gap-[6.29px] shadow-[1.26px_1.26px_1.26px_rgba(119,67,188,0.59)] hover:shadow-md transition-shadow duration-300 w-full md:w-[264.79px] max-w-[264.79px] h-[298.13px] mx-auto cursor-pointer group"
+                className="bg-[#F6EFFF] rounded-[10.06px] overflow-hidden flex flex-col p-0 shadow-[1.26px_1.26px_1.26px_rgba(119,67,188,0.59)] hover:shadow-md transition-shadow duration-300 w-full md:w-[264.79px] max-w-[264.79px] h-[298.13px] mx-auto cursor-pointer group"
               >
                 {/* Image Cover */}
-                <div className="w-full h-[120px] rounded-[8px] overflow-hidden relative shrink-0">
+                <div className="w-full h-[120px] rounded-t-[10.06px] rounded-b-none overflow-hidden relative shrink-0">
                   <img
                     src={digitalBrainImg}
                     alt="İmmersiyanın Elmi"
@@ -136,26 +136,29 @@ export const BlogPage = () => {
                   </span>
                 </div>
 
-                {/* Title and Summary */}
-                <div className="flex flex-col gap-[4px] flex-grow text-left">
-                  <h4 className="text-[#1E0A42] font-bold text-xs leading-snug line-clamp-2 font-['Lexend'] group-hover:text-[#4D2059] transition-colors">
-                    İmmersiyanın Elmi: Niyə VR Beyni İnanır?
-                  </h4>
-                  <p className="text-[#1E0A42]/70 text-[10px] leading-relaxed line-clamp-3 font-['Lexend']">
-                    Virtual mühitin sinir sistemimizə təsiri və beynin rəqəmsal stimullara qarşı verdiyi reaksiyaların dərin analizi.
-                  </p>
-                </div>
+                {/* Card content container with padding */}
+                <div className="p-3 pt-2.5 flex flex-col gap-[6.29px] flex-grow justify-between">
+                  {/* Title and Summary */}
+                  <div className="flex flex-col gap-[4px] text-left">
+                    <h4 className="text-[#1E0A42] font-bold text-xs leading-snug line-clamp-2 font-['Lexend'] group-hover:text-[#4D2059] transition-colors">
+                      İmmersiyanın Elmi: Niyə VR Beyni İnanır?
+                    </h4>
+                    <p className="text-[#1E0A42]/70 text-[10px] leading-relaxed line-clamp-3 font-['Lexend']">
+                      Virtual mühitin sinir sistemimizə təsiri və beynin rəqəmsal stimullara qarşı verdiyi reaksiyaların dərin analizi.
+                    </p>
+                  </div>
 
-                {/* Card Footer */}
-                <div className="flex justify-between items-center text-[#1E0A42]/60 text-[10px] font-semibold font-['Lexend'] border-t border-[#E5DFDF]/50 pt-2 mt-auto shrink-0">
-                  <span className="flex items-center gap-1">
-                    <Calendar size={11} className="text-[#1E0A42]/40" />
-                    12 Okt, 2024
-                  </span>
-                  <span className="text-[#4D2059] hover:underline flex items-center gap-0.5 font-bold cursor-pointer">
-                    Daha çox oxu
-                    <span className="text-[9px]">&gt;</span>
-                  </span>
+                  {/* Card Footer */}
+                  <div className="flex justify-between items-center text-[#1E0A42]/60 text-[10px] font-semibold font-['Lexend'] border-t border-[#E5DFDF]/50 pt-2 mt-auto shrink-0">
+                    <span className="flex items-center gap-1">
+                      <Calendar size={11} className="text-[#1E0A42]/40" />
+                      12 Okt, 2024
+                    </span>
+                    <span className="text-[#4D2059] hover:underline flex items-center gap-0.5 font-bold cursor-pointer">
+                      Daha çox oxu
+                      <span className="text-[9px]">&gt;</span>
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}

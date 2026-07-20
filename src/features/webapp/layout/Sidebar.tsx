@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Brain,
   FileText,
+  Users,
 } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
@@ -35,6 +36,7 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
     { name: 'Ana səhifə', path: PATHS.DASHBOARD, icon: Home },
     { name: 'Qeydlərim', path: PATHS.WEBAPP_JOURNAL, icon: BookOpen },
     { name: 'Seanslarım', path: PATHS.WEBAPP_SESSIONS, icon: Video },
+    { name: 'Mütəxəssislər', path: PATHS.WEBAPP_EXPERTS, icon: Users },
     { name: 'Media', path: PATHS.WEBAPP_MEDIA, icon: Image },
     { name: 'Maariflənmə', path: PATHS.WEBAPP_ENLIGHTENMENT, icon: Book },
     { name: 'Tənzimləmələr', path: PATHS.WEBAPP_SETTINGS, icon: Settings },
@@ -123,7 +125,7 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
             );
 
             if (isEnlightenment) {
-              const isEnlightenmentActive = showMaariflenmeSub || ['/articles', '/dashboard/articles', '/blog', '/dashboard/blog', '/trainings', PATHS.WEBAPP_ENLIGHTENMENT].includes(location.pathname);
+              const isEnlightenmentActive = showMaariflenmeSub || ['/articles', '/dashboard/articles', '/blog', '/dashboard/blog', '/trainings', '/dashboard/trainings', PATHS.WEBAPP_ENLIGHTENMENT].includes(location.pathname);
               return (
                 <div key={item.name} className="relative w-full flex justify-center">
                   <button
@@ -153,7 +155,7 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
                         {[
                           {name: 'Məqalələr', path: PATHS.WEBAPP_ARTICLE, icon: BookOpen},
                           {name: 'Bloqlar', path: PATHS.WEBAPP_BLOG, icon: FileText},
-                          {name: 'Təlimlər', path: PATHS.TRAININGS, icon: null},
+                          {name: 'Təlimlər', path: PATHS.WEBAPP_TRAININGS, icon: null},
                         ].map((sub) => {
                           const isCustomIcon = sub.name === 'Təlimlər';
                           return (

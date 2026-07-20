@@ -387,10 +387,10 @@ export const BlogDetailPage = () => {
                 <div
                   key={item.id}
                   onClick={() => navigate(PATHS.WEBAPP_BLOG_DETAIL.replace(':id', String(item.id)))}
-                  className="bg-[#F8F9FA] rounded-[18px] overflow-hidden border border-[#E5DFDF] flex flex-col p-4 pb-[26.68px] gap-[7.62px] shadow-sm hover:shadow-md transition-shadow duration-300 w-full md:w-[385.96px] max-w-[385.96px] h-[411.99px] shrink-0 snap-start cursor-pointer group"
+                  className="bg-[#F8F9FA] rounded-[18px] overflow-hidden border border-[#E5DFDF] flex flex-col p-0 shadow-sm hover:shadow-md transition-shadow duration-300 w-full md:w-[385.96px] max-w-[385.96px] h-[411.99px] shrink-0 snap-start cursor-pointer group"
                 >
                   {/* Card Image Cover wrapper */}
-                  <div className="w-full h-[180px] rounded-[12px] overflow-hidden relative shrink-0">
+                  <div className="w-full h-[180px] rounded-t-[18px] rounded-b-none overflow-hidden relative shrink-0">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -401,26 +401,29 @@ export const BlogDetailPage = () => {
                     </span>
                   </div>
 
-                  {/* Meta details row */}
-                  <div className="flex justify-between items-center text-[#1E0A42]/60 text-xs font-semibold font-['Lexend'] mt-1">
-                    <span>{item.date}</span>
-                    <span>4 dəq oxu</span>
-                  </div>
+                  {/* Card content container with padding */}
+                  <div className="p-5 pt-3 pb-[26.68px] flex flex-col gap-[7.62px] flex-grow text-left">
+                    {/* Meta details row */}
+                    <div className="flex justify-between items-center text-[#1E0A42]/60 text-xs font-semibold font-['Lexend'] mt-1">
+                      <span>{item.date}</span>
+                      <span>4 dəq oxu</span>
+                    </div>
 
-                  {/* Title & Description details */}
-                  <div className="flex flex-col flex-grow">
-                    <h4 className="text-[#1E0A42] font-bold text-base leading-snug mb-1 line-clamp-2 font-['Lexend'] min-h-[44px] group-hover:text-[#4D2059] transition-colors">
-                      {item.title}
-                    </h4>
-                    <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 font-['Lexend']">
-                      {item.description}
-                    </p>
-                  </div>
+                    {/* Title & Description details */}
+                    <div className="flex flex-col flex-grow">
+                      <h4 className="text-[#1E0A42] font-bold text-base leading-snug mb-1 line-clamp-2 font-['Lexend'] min-h-[44px] group-hover:text-[#4D2059] transition-colors">
+                        {item.title}
+                      </h4>
+                      <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 font-['Lexend']">
+                        {item.description}
+                      </p>
+                    </div>
 
-                  {/* Footer CTA link */}
-                  <div className="text-[#0D9488] font-bold text-sm tracking-wide flex items-center gap-1 hover:underline cursor-pointer font-['Lexend'] pt-1 mt-auto">
-                    <span>Daha çox oxu</span>
-                    <span>→</span>
+                    {/* Footer CTA link */}
+                    <div className="text-[#0D9488] font-bold text-sm tracking-wide flex items-center gap-1 hover:underline cursor-pointer font-['Lexend'] pt-1 mt-auto">
+                      <span>Daha çox oxu</span>
+                      <span>→</span>
+                    </div>
                   </div>
                 </div>
               ))}

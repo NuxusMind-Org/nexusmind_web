@@ -28,12 +28,15 @@ import { BlogPage as WebappBlogPage } from '@/features/webapp/pages/BlogPage';
 import { BlogDetailPage as WebappBlogDetailPage } from '@/features/webapp/pages/BlogDetailPage';
 import { ArticlesPage as WebappArticlesPage } from '@/features/webapp/pages/ArticlesPage';
 import { ArticleDetailPage as WebappArticleDetailPage } from '@/features/webapp/pages/ArticleDetailPage';
+import { TrainingsPage as WebappTrainingsPage } from '@/features/webapp/pages/TrainingsPage';
 import { SessionsPage } from '@/features/webapp/pages/SessionsPage';
 import { MediaPage } from '@/features/webapp/pages/MediaPage';
 import { EnlightenmentPage } from '@/features/webapp/pages/EnlightenmentPage';
 import { ProfilePage } from '@/features/webapp/pages/ProfilePage';
 import { SettingsPage } from '@/features/webapp/pages/SettingsPage';
 import { NotificationsPage } from '@/features/webapp/pages/NotificationsPage';
+import { ExpertsPage } from '@/features/webapp/pages/ExpertsPage';
+import { ExpertDetailPage } from '@/features/webapp/pages/ExpertDetailPage';
 import { ScrollToTop } from '@/components';
 
 const RootLayout = () => {
@@ -166,6 +169,18 @@ const router = createBrowserRouter([
               {
                 path: PATHS.WEBAPP_ARTICLE_DETAIL,
                 element: <WebappArticleDetailPage />,
+              },
+              {
+                path: PATHS.WEBAPP_TRAININGS,
+                element: <WebappTrainingsPage />,
+              },
+              {
+                path: PATHS.WEBAPP_EXPERTS,
+                element: <ExpertsPage />,
+              },
+              {
+                path: PATHS.WEBAPP_EXPERT_DETAIL,
+                element: <ExpertDetailPage />,
               },
               {
                 path: PATHS.WEBAPP_ENLIGHTENMENT,
