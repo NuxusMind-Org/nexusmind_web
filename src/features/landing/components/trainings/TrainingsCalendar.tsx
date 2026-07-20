@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import type { Training } from '../../constants/trainings';
+import supportIcon from '@/assets/svg/supportIcon.svg';
 
 interface TrainingsCalendarProps {
   trainings: Training[];
@@ -192,27 +193,30 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
         </div>
 
         {/* Support Card */}
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.2)] bg-gradient-to-br from-white/10 to-white/[0.02] backdrop-blur-md flex flex-col gap-4">
-          {/* Decorative Leaf SVG in top right */}
-          <div className="absolute -top-1 -right-1 w-14 h-14 opacity-25 text-white/40 pointer-events-none">
-            <svg className="w-full h-full fill-current" viewBox="0 0 24 24">
-              <path d="M17 8C8 10 7 18 7 18s8-1 10-10zm-5 7c-4 1-5 5-5 5s4 0 5-5zm6-9c-5.5 1-7.5 5.5-7.5 5.5S13 7.5 18 6z" />
-            </svg>
+        <div className="relative overflow-hidden bg-[rgba(255,255,255,0.73)] rounded-[24px] p-8 shadow-xl flex flex-col gap-4 font-sans text-left">
+          {/* Absolute positioned Support Icon */}
+          <img
+            src={supportIcon}
+            alt="Support Icon"
+            className="absolute top-3 right-8 w-14 h-14 pointer-events-none select-none z-10 opacity-25"
+          />
+
+          <h4 className="text-[#311066] text-[20px] font-semibold tracking-tight leading-snug pr-16 z-10">
+            Dəstək lazımdır?
+          </h4>
+
+          <p className="text-[#311066]/90 text-[16px] leading-relaxed font-light z-10">
+            Mütəxəssislərimiz sizə kömək etməyə hazırdır.
+          </p>
+
+          <div className="w-full z-10">
+            <button
+              onClick={() => navigate(`${PATHS.HOME}#experts`)}
+              className="w-full py-3.5 rounded-[16px] text-white text-[14px] sm:text-[15px] font-semibold bg-[#581c87] hover:bg-[#6b21a8] hover:shadow-[0_0_15px_rgba(107,33,168,0.4)] border-0 cursor-pointer transition-all duration-300 select-none outline-none text-center z-10"
+            >
+              Məsləhət Alın
+            </button>
           </div>
-          
-          <div className="flex flex-col gap-1.5 z-10">
-            <h5 className="text-[15px] font-semibold text-white">Dəstək lazımdır?</h5>
-            <p className="text-[12.5px] text-white/70 leading-relaxed">
-              Mütəxəssislərimiz sizə kömək etməyə hazırdır.
-            </p>
-          </div>
-          
-          <button
-            onClick={() => navigate(`${PATHS.HOME}#experts`)}
-            className="w-full py-2.5 rounded-xl text-center text-white text-[12.5px] font-semibold bg-[#4c1d95] hover:bg-[#581c87] hover:shadow-[0_0_15px_rgba(88,28,135,0.5)] transition-all cursor-pointer border-0 outline-none select-none z-10"
-          >
-            Məsləhət Alın
-          </button>
         </div>
 
         {/* Popular Topics Tags */}

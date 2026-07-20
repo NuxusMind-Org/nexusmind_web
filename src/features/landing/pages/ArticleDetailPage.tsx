@@ -7,6 +7,7 @@ import {
   ArticleDetailHero,
   ArticleDetailBody,
   ArticleDetailSidebar,
+  ArticleDetailRelated,
 } from '../components/article-detail';
 
 export const ArticleDetailPage = () => {
@@ -48,6 +49,9 @@ export const ArticleDetailPage = () => {
               <ArticleDetailSidebar />
             </div>
           </div>
+
+          {/* Related Articles and Newsletter */}
+          <ArticleDetailRelated />
         </div>
       </main>
 

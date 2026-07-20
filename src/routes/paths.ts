@@ -7,8 +7,6 @@ export const PATHS = {
   NEW_PASSWORD: '/new-password',
   REGISTRATION_SUCCESS: '/registration-success',
   ONBOARDING: '/onboarding',
-  DASHBOARD: '/dashboard',
-  JOURNAL: '/journal',
   PSYCHOLOGIST: '/psychologist/:id',
   BLOG: '/blog',
   ARTICLE: '/articles',
@@ -17,7 +15,23 @@ export const PATHS = {
   NEWS_DETAIL: '/news/:id',
   GALLERY: '/gallery',
   TRAININGS: '/trainings',
-  CHAT: '/chat',
-  PROFILE: '/profile',
-} as const;
+  JOURNAL: '/journal', // Public Landing Page Journal
+
+  // Webapp Paths
+  DASHBOARD: '/dashboard', // Webapp Home
+  WEBAPP_JOURNAL: '/dashboard/journal',
+  WEBAPP_SESSIONS: '/dashboard/sessions',
+  WEBAPP_MEDIA: '/dashboard/media',
+  WEBAPP_ENLIGHTENMENT: '/dashboard/enlightenment',
+  WEBAPP_PROFILE: '/dashboard/profile',
+  WEBAPP_SETTINGS: '/dashboard/settings',
+  WEBAPP_NOTIFICATIONS: '/dashboard/notifications',
+  WEBAPP_GALLERY: '/dashboard/gallery',
+  WEBAPP_NEWS: '/dashboard/news',
+  WEBAPP_NEWS_DETAIL: '/dashboard/news/:id',
+  WEBAPP_BLOG: '/dashboard/blog',
+  WEBAPP_BLOG_DETAIL: '/dashboard/blog/:id',
+  WEBAPP_ARTICLE: '/dashboard/articles',
+  WEBAPP_ARTICLE_DETAIL: '/dashboard/articles/:id',
+};
 

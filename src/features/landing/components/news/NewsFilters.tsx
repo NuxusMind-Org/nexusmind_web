@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { SlidersHorizontal, ChevronDown, ChevronRight, X } from 'lucide-react';
+import { SlidersHorizontal, ChevronDown } from 'lucide-react';
 
 export type NewsCategoryFilter = 'all' | 'elanlar' | 'tecrube' | 'tedbirler';
 export type NewsSortOption = 'popularity' | 'date-desc' | 'date-asc';
@@ -24,7 +24,7 @@ export const NewsFilters = ({
   onSortChange,
 }: NewsFiltersProps) => {
   const [isSortOpen, setIsSortOpen] = useState(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
@@ -52,17 +52,12 @@ export const NewsFilters = ({
         {/* Clickable Filter Toggle Button */}
         <button
           onClick={() => setIsFilterOpen(!isFilterOpen)}
-          className="flex items-center gap-2 bg-[#255765]/85 hover:bg-[#255765] border border-[#255765] rounded-[8px] px-4 py-2 text-[14px] font-medium text-white shadow-lg cursor-pointer transition-all duration-300 select-none outline-none group"
+          className={`flex items-center gap-2 bg-[#255765]/85 hover:bg-[#255765] border rounded-[8px] px-4 py-2 text-[14px] font-medium text-white shadow-lg cursor-pointer transition-all duration-300 select-none outline-none group ${
+            isFilterOpen ? 'border-[#8A38F5]' : 'border-[rgba(255,255,255,0.1)]'
+          }`}
         >
           <SlidersHorizontal size={15} className="group-hover:scale-105 transition-transform duration-300" />
           <span>Filter</span>
-          <span className="flex items-center justify-center w-4.5 h-4.5 ml-1 border border-white/20 rounded-full bg-white/5 group-hover:bg-white/10 transition-colors">
-            {isFilterOpen ? (
-              <X size={11} className="transition-all duration-300 scale-100" />
-            ) : (
-              <ChevronRight size={11} className="transition-all duration-300 scale-100" />
-            )}
-          </span>
         </button>
 
         {/* Category Pills with smooth horizontal slide animation */}

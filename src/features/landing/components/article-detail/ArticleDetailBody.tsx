@@ -1,4 +1,4 @@
-import { Settings, Brain } from 'lucide-react';
+import { Settings, Brain, Quote } from 'lucide-react';
 
 export const ArticleDetailBody = () => {
   return (
@@ -63,46 +63,17 @@ export const ArticleDetailBody = () => {
         </p>
       </div>
 
-      {/* ── Blockquote ── */}
-      <div
-        style={{
-          position: 'relative',
-          background: 'rgba(90, 68, 162, 0.42)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(180,150,255,0.18)',
-          borderRadius: '16px',
-          padding: '32px 32px 32px 32px',
-        }}
-      >
-        {/* Large "99" style quote mark */}
-        <span
-          style={{
-            display: 'block',
-            fontSize: '52px',
-            lineHeight: 1,
-            color: '#b39af5',
-            fontFamily: 'Georgia, serif',
-            fontWeight: 700,
-            marginBottom: '12px',
-            userSelect: 'none',
-          }}
-        >
-          &#8220;&#8220;
-        </span>
-        <p
-          style={{
-            margin: 0,
-            color: 'rgba(255,255,255,0.95)',
-            fontSize: '17px',
-            fontStyle: 'italic',
-            lineHeight: '1.7',
-            fontWeight: 400,
-          }}
-        >
-          VR terapiyası beynin neyroplastikliyini stimullaşdıraraq, travmatik neyron yollarının
+      {/* Premium Glassmorphic Blockquote card */}
+      <div className="my-6 relative bg-gradient-to-r from-[#7B2CBF]/20 to-[#1B3A4B]/20 border-l-[3px] border-l-[#A682FF]/60 border-t border-t-white/10 border-r border-r-white/10 border-b border-b-white/10 rounded-lg p-6 sm:p-8 pr-6 sm:pr-10 pl-10 sm:pl-12 backdrop-blur-sm flex flex-col gap-3">
+        {/* Quote Icon Box (centered on the top-left corner vertex) */}
+        <div className="absolute left-0 -translate-x-1/2 top-10 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded bg-[#130d24] border border-[#A682FF]/30 flex items-center justify-center z-20 shadow-lg">
+          <Quote className="text-white fill-white w-4 h-4 sm:w-5 sm:h-5" />
+        </div>
+
+        <blockquote className="text-white text-[16px] font-light italic leading-relaxed z-10">
+          "VR terapiyası beynin neyroplastikliyini stimullaşdıraraq, travmatik neyron yollarının
           yenidən formalaşmasına kömək edir. Bu, sadəcə texnologiya deyil, yeni bir nevroloji şəfa yoludur."
-        </p>
+        </blockquote>
       </div>
 
       {/* ── Section 2 ── */}

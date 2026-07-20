@@ -19,10 +19,21 @@ import { GalleryPage } from '@/features/landing/pages/GalleryPage';
 import { TrainingsPage } from '@/features/landing/pages/TrainingsPage';
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute';
 import { AppLayout } from '@/features/webapp/layout/AppLayout';
-import { DashboardPage } from '@/features/webapp/pages/DashboardPage';
-import { RitualsPage } from '@/features/webapp/pages/RitualsPage';
-import { ChatPage } from '@/features/webapp/pages/ChatPage';
+import { HomePage } from '@/features/webapp/pages/HomePage';
+import { JournalPage as WebappJournalPage } from '@/features/webapp/pages/JournalPage';
+import { GalleryPage as WebappGalleryPage } from '@/features/webapp/pages/GalleryPage';
+import { NewsPage as WebappNewsPage } from '@/features/webapp/pages/NewsPage';
+import { NewsDetailPage as WebappNewsDetailPage } from '@/features/webapp/pages/NewsDetailPage';
+import { BlogPage as WebappBlogPage } from '@/features/webapp/pages/BlogPage';
+import { BlogDetailPage as WebappBlogDetailPage } from '@/features/webapp/pages/BlogDetailPage';
+import { ArticlesPage as WebappArticlesPage } from '@/features/webapp/pages/ArticlesPage';
+import { ArticleDetailPage as WebappArticleDetailPage } from '@/features/webapp/pages/ArticleDetailPage';
+import { SessionsPage } from '@/features/webapp/pages/SessionsPage';
+import { MediaPage } from '@/features/webapp/pages/MediaPage';
+import { EnlightenmentPage } from '@/features/webapp/pages/EnlightenmentPage';
 import { ProfilePage } from '@/features/webapp/pages/ProfilePage';
+import { SettingsPage } from '@/features/webapp/pages/SettingsPage';
+import { NotificationsPage } from '@/features/webapp/pages/NotificationsPage';
 import { ScrollToTop } from '@/components';
 
 const RootLayout = () => {
@@ -114,19 +125,63 @@ const router = createBrowserRouter([
             children: [
               {
                 path: PATHS.DASHBOARD,
-                element: <DashboardPage />,
+                element: <HomePage />,
               },
               {
-                path: PATHS.JOURNAL,
-                element: <RitualsPage />,
+                path: PATHS.WEBAPP_JOURNAL,
+                element: <WebappJournalPage />,
               },
               {
-                path: PATHS.CHAT,
-                element: <ChatPage />,
+                path: PATHS.WEBAPP_SESSIONS,
+                element: <SessionsPage />,
               },
               {
-                path: PATHS.PROFILE,
+                path: PATHS.WEBAPP_MEDIA,
+                element: <MediaPage />,
+              },
+              {
+                path: PATHS.WEBAPP_GALLERY,
+                element: <WebappGalleryPage />,
+              },
+              {
+                path: PATHS.WEBAPP_NEWS,
+                element: <WebappNewsPage />,
+              },
+              {
+                path: PATHS.WEBAPP_NEWS_DETAIL,
+                element: <WebappNewsDetailPage />,
+              },
+              {
+                path: PATHS.WEBAPP_BLOG,
+                element: <WebappBlogPage />,
+              },
+              {
+                path: PATHS.WEBAPP_BLOG_DETAIL,
+                element: <WebappBlogDetailPage />,
+              },
+              {
+                path: PATHS.WEBAPP_ARTICLE,
+                element: <WebappArticlesPage />,
+              },
+              {
+                path: PATHS.WEBAPP_ARTICLE_DETAIL,
+                element: <WebappArticleDetailPage />,
+              },
+              {
+                path: PATHS.WEBAPP_ENLIGHTENMENT,
+                element: <EnlightenmentPage />,
+              },
+              {
+                path: PATHS.WEBAPP_PROFILE,
                 element: <ProfilePage />,
+              },
+              {
+                path: PATHS.WEBAPP_SETTINGS,
+                element: <SettingsPage />,
+              },
+              {
+                path: PATHS.WEBAPP_NOTIFICATIONS,
+                element: <NotificationsPage />,
               },
             ],
           },
