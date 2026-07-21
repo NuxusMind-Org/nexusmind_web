@@ -10,11 +10,11 @@ export const ExpertDetailPage = () => {
   const psych = psychologists.find(p => p.id === psychologistId) || psychologists[0];
 
   return (
-    <div className="w-full flex flex-col rounded-t-[38.93px] rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-12 sm:pb-20 opacity-100">
 
       {/* Top Header Section (Card with Gradient) - Height 188px */}
       <div
-        className="w-full rounded-t-[38.93px] rounded-b-none h-[188px] pt-[36px] pb-[28px] px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-auto min-h-[140px] sm:min-h-[160px] md:h-[188px] pt-5 sm:pt-[36px] pb-4 sm:pb-[28px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
@@ -25,7 +25,7 @@ export const ExpertDetailPage = () => {
         </h2>
 
         {/* Breadcrumb row - Aligned left at the bottom */}
-        <div className="w-full flex items-center justify-start gap-2 text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] select-none">
+        <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] select-none overflow-x-auto no-scrollbar whitespace-nowrap">
           <Link to={PATHS.DASHBOARD} className="hover:text-[#4D2059] transition-colors">
             Ana səhifə
           </Link>
@@ -39,7 +39,7 @@ export const ExpertDetailPage = () => {
       </div>
 
       {/* Main Content Area: Left & Right columns grid */}
-      <div className="w-full max-w-[1240px] mx-auto px-6 py-10 flex flex-col lg:flex-row gap-8 items-start">
+      <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col lg:flex-row gap-6 sm:gap-8 items-start">
 
         {/* Left Column (65% width) */}
         <div className="w-full lg:w-[68%] flex flex-col gap-6">
@@ -148,7 +148,7 @@ export const ExpertDetailPage = () => {
         <div className="w-full lg:w-[32%] flex flex-col gap-6">
 
           {/* Booking Widget Box */}
-          <div className="bg-[#3C2475] rounded-[38.93px] p-[38.93px] text-white shadow-xl flex flex-col text-left gap-[28px]">
+          <div className="bg-[#3C2475] rounded-[24px] sm:rounded-[38.93px] p-6 sm:p-[38.93px] text-white shadow-xl flex flex-col text-left gap-5 sm:gap-[28px] w-full">
             <h3 className="text-white text-[28px] font-medium font-['Lexend'] leading-normal">
               Məsləhət Təyin Edin
             </h3>
@@ -197,7 +197,7 @@ export const ExpertDetailPage = () => {
           </div>
 
           {/* VR Promotion Box */}
-          <div className="w-full max-w-[388px] lg:w-[388px] h-[287px] rounded-[30.25px] overflow-hidden relative group cursor-pointer shadow-xl border border-white/5 opacity-100">
+          <div className="w-full max-w-[388px] h-[240px] sm:h-[287px] rounded-[24px] sm:rounded-[30.25px] overflow-hidden relative group cursor-pointer shadow-xl border border-white/5 opacity-100 mx-auto lg:mx-0">
             <img
               src={vrConsultation}
               alt="VR Consultation"

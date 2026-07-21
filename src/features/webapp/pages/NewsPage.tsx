@@ -56,10 +56,10 @@ export const NewsPage = () => {
   }, [activeCategory, activeSort]);
 
   return (
-    <div className="w-full flex flex-col rounded-t-[38.93px] rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
       {/* Top Header Section (Card with Gradient) - Height 270px according to Figma layout */}
       <div
-        className="w-full rounded-t-[38.93px] rounded-b-none h-[270px] pt-[48px] pb-[32px] px-[48px] flex flex-col justify-between items-center text-left opacity-100"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-auto min-h-[220px] sm:min-h-[250px] md:h-[270px] pt-6 sm:pt-[48px] pb-6 md:pb-[32px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-left opacity-100"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
@@ -151,7 +151,7 @@ export const NewsPage = () => {
       </div>
 
       {/* Second Section: News Feed List Container */}
-      <div className="px-[48px] py-12 w-full flex flex-col gap-8">
+      <div className="px-4 sm:px-6 md:px-[48px] py-6 sm:py-12 w-full flex flex-col gap-8">
         {processedItems.length > 0 ? (() => {
           const item = processedItems[0];
           return (
@@ -169,7 +169,7 @@ export const NewsPage = () => {
               </div>
 
               {/* Right Column: Panel text and controls content */}
-              <div className="w-full md:w-[470px] shrink-0 pt-[46px] pr-[44px] pb-[42px] pl-[44px] flex flex-col justify-start text-left h-auto md:h-[535px] bg-[#482476]">
+              <div className="w-full md:w-[470px] shrink-0 p-5 sm:p-8 md:pt-[46px] md:pr-[44px] md:pb-[42px] md:pl-[44px] flex flex-col justify-start text-left h-auto md:h-[535px] bg-[#482476]">
                 {/* Meta details row */}
                 <div className="flex items-center gap-[16px] mb-[24px]">
                   <span className="bg-white/15 text-white/90 text-[10px] tracking-widest h-[28px] px-[14px] py-[6px] rounded-full uppercase font-bold font-['Lexend'] flex items-center justify-center">
@@ -226,7 +226,7 @@ export const NewsPage = () => {
       </div>
 
       {/* Third Section: Ən son yeniliklər (Latest News) Grid */}
-      <div className="px-[48px] pb-16 w-full flex flex-col max-w-[1235.6px] mx-auto mt-6 text-left">
+      <div className="px-4 sm:px-6 md:px-[48px] pb-16 w-full flex flex-col max-w-[1235.6px] mx-auto mt-6 text-left">
         <h3 className="text-[32px] font-normal leading-[28px] text-[#1E0A42] font-['Lexend'] mb-8">
           Ən son yeniliklər
         </h3>

@@ -141,7 +141,7 @@ export const VerifyOtpForm = () => {
               value={digit}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className={`w-[52px] h-[52px] bg-transparent border rounded-[8px] text-center text-[24px] text-white font-medium focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand transition-colors ${
+              className={`w-[44px] h-[44px] sm:w-[52px] sm:h-[52px] bg-transparent border rounded-[8px] text-center text-[20px] sm:text-[24px] text-white font-medium focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand transition-colors ${
                 errors.otp ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-[#4F4F6C]'
               }`}
             />

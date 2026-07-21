@@ -95,7 +95,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
         backgroundColor: '#111827',
         display: 'flex',
         flexDirection: 'column',
-        padding: '32px 24px',
+        padding: '32px 24px calc(32px + env(safe-area-inset-bottom, 0px)) 24px',
         transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-16px)',
         opacity: isMobileMenuOpen ? 1 : 0,
         pointerEvents: isMobileMenuOpen ? 'auto' : 'none',

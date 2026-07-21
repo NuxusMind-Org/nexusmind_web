@@ -90,10 +90,10 @@ export const GalleryPage = () => {
   }, [processedItems, validatedCurrentPage]);
 
   return (
-    <div className="w-full flex flex-col rounded-t-[38.93px] rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-12 opacity-100">
+    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-12 opacity-100">
       {/* Top Header Section (Card with Gradient) - Height increased to 340px for spacious layout */}
       <div
-        className="w-full rounded-t-[38.93px] rounded-b-none h-[340px] pt-[56px] pb-[32px] px-[48px] flex flex-col justify-between items-center text-left opacity-100"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-auto min-h-[220px] sm:min-h-[280px] md:h-[340px] pt-6 sm:pt-10 md:pt-[56px] pb-6 md:pb-[32px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-left opacity-100"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
@@ -189,7 +189,7 @@ export const GalleryPage = () => {
       </div>
 
       {/* Gallery Grid Section (4 Columns x 2 Rows = 8 items) */}
-      <div className="px-[48px] py-10 w-full text-left flex-1 flex flex-col justify-between">
+      <div className="px-4 sm:px-6 md:px-[48px] py-6 sm:py-10 w-full text-left flex-1 flex flex-col justify-between">
         {paginatedItems.length > 0 ? (
           <div className="flex flex-col h-full justify-between gap-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

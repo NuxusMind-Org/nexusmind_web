@@ -16,7 +16,7 @@ interface MoodSelectorProps {
 
 export const MoodSelector = ({
   showTitle = true,
-  className = "w-full bg-white px-6 md:px-[48px] py-12 flex flex-col justify-start select-none",
+  className = "w-full bg-white px-4 sm:px-6 md:px-[48px] py-8 sm:py-12 flex flex-col justify-start select-none",
   titlePl = "pl-[20px] md:pl-[40px] mb-6"
 }: MoodSelectorProps) => {
   const [activeMoodId, setActiveMoodId] = useState<string>('normal');

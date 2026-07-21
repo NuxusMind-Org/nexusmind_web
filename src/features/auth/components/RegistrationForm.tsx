@@ -91,7 +91,7 @@ export const RegistrationForm = () => {
           error={errors.email?.message}
         />
 
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <Input
             label="Yaş"
             placeholder="xx"

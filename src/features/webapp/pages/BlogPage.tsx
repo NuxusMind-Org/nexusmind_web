@@ -10,10 +10,10 @@ export const BlogPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <div className="w-full flex flex-col rounded-t-[38.93px] rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
       {/* First Section: Top Header Section (Card with Gradient) - Height 188px */}
       <div
-        className="w-full rounded-t-[38.93px] rounded-b-none h-[188px] pt-[32px] pb-[24px] px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-auto min-h-[140px] sm:min-h-[160px] md:h-[188px] pt-5 sm:pt-[32px] pb-4 sm:pb-[24px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
@@ -38,7 +38,7 @@ export const BlogPage = () => {
       </div>
 
       {/* Second Section: Featured Blog Card Container */}
-      <div className="px-[48px] py-12 w-full flex flex-col items-center">
+      <div className="px-4 sm:px-6 md:px-[48px] py-6 sm:py-12 w-full flex flex-col items-center">
         {/* Featured Card: Width 1232px, Height 475.68px, connected panels without spacing */}
         <div className="w-full max-w-[1232px] h-auto md:h-[475.68px] mx-auto rounded-[18px] overflow-hidden border-[0.95px] border-white/22 bg-[#1E0F44] shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl shrink-0 flex flex-col md:flex-row">
 
@@ -52,7 +52,7 @@ export const BlogPage = () => {
           </div>
 
           {/* Right Column: Panel text and controls content (470px width) */}
-          <div className="w-full md:w-[470px] shrink-0 pt-[46px] pr-[44px] pb-[42px] pl-[44px] flex flex-col justify-between text-left h-auto md:h-[475.68px] bg-[#1E0F44] text-white font-['Lexend']">
+          <div className="w-full md:w-[470px] shrink-0 p-5 sm:p-8 md:pt-[46px] md:pr-[44px] md:pb-[42px] md:pl-[44px] flex flex-col justify-between text-left h-auto md:h-[475.68px] bg-[#1E0F44] text-white font-['Lexend']">
 
             {/* Top Details (Gap: 30.44px) */}
             <div className="flex flex-col gap-[30.44px]">
@@ -107,7 +107,7 @@ export const BlogPage = () => {
       </div>
 
       {/* Third Section: Other Blogs grid and sidebar widgets */}
-      <div className="pb-20 w-full flex flex-col lg:flex-row justify-between gap-5 max-w-[1232px] mx-auto items-start">
+      <div className="px-4 sm:px-6 md:px-0 pb-16 sm:pb-20 w-full flex flex-col lg:flex-row justify-between gap-8 max-w-[1232px] mx-auto items-start">
 
         {/* Left Column: Other Blogs grid (863.93px width) */}
         <div className="w-full lg:w-[863.93px] flex flex-col gap-8 text-left shrink-0">

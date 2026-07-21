@@ -14,7 +14,7 @@ export const HomePage = () => {
   const [showMeditationCard, setShowMeditationCard] = useState(true);
 
   return (
-    <div className="w-full flex flex-col rounded-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in">
+    <div className="w-full flex flex-col rounded-none lg:rounded-[38.93px] min-h-full overflow-hidden shadow-none lg:shadow-2xl bg-white animate-fade-in">
       <WelcomeHeader />
       <MoodSelector />
       <NextSession />

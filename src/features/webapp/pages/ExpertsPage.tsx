@@ -76,11 +76,11 @@ export const ExpertsPage = () => {
   }, [searchQuery, activeCategory, activeSort]);
 
   return (
-    <div className="w-full flex flex-col rounded-t-[38.93px] rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
       
       {/* Top Header Section (Card with Gradient) - Height 270px */}
       <div
-        className="w-full rounded-t-[38.93px] rounded-b-none h-[270px] pt-[45px] pb-[35px] px-[48px] flex flex-col justify-between items-center text-left opacity-100 relative"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none min-h-[220px] sm:min-h-[250px] md:min-h-[270px] pt-[24px] sm:pt-[36px] md:pt-[45px] pb-[24px] sm:pb-[30px] md:pb-[35px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-left opacity-100 relative"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
@@ -187,14 +187,14 @@ export const ExpertsPage = () => {
       </div>
 
       {/* Second Section: Expert Cards Grid Section */}
-      <div className="w-full max-w-[1240px] mx-auto px-6 py-12">
+      <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {processedExperts.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-[30.98px] w-full justify-start items-stretch">
             {processedExperts.map((expert) => (
               <div
                 key={expert.id}
                 onClick={() => navigate(PATHS.WEBAPP_EXPERT_DETAIL.replace(':id', String(expert.id)))}
-                className="flex flex-col text-white w-full max-w-[593.6px] h-[458.45px] rounded-[19.47px] bg-[#4B2E83] border border-white/10 hover:shadow-2xl cursor-pointer group p-8 transition-all duration-300 hover:scale-[1.01] mx-auto"
+                className="flex flex-col text-white w-full max-w-[593.6px] rounded-[16px] sm:rounded-[19px] bg-[#4B2E83] border border-white/10 hover:shadow-2xl cursor-pointer group p-5 sm:p-6 md:p-8 transition-all duration-300 hover:scale-[1.01] mx-auto"
                 style={{
                   boxShadow: '0px 4.48px 4.48px rgba(0, 0, 0, 0.25), 0px 4.48px 4.48px rgba(0, 0, 0, 0.25)',
                 }}

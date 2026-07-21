@@ -211,11 +211,11 @@ export const TrainingsPage = () => {
   const onlineList = trainingsData.filter(t => t.type === 'online' && t.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
-    <div className="w-full flex flex-col rounded-t-[38.93px] rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
       
       {/* First Section: Top Header Section (Card with Gradient) - Width: 100% full boundary, Height: 271px */}
       <div
-        className="w-full rounded-t-[38.93px] rounded-b-none h-[271px] pt-[45px] pb-[35px] px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-auto min-h-[220px] sm:min-h-[250px] md:h-[271px] pt-6 sm:pt-[45px] pb-6 md:pb-[35px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
@@ -268,7 +268,7 @@ export const TrainingsPage = () => {
       </div>
 
       {/* Main Content Area (Trainings Feed Grid) - max-width exactly 1239.4px with transitions */}
-      <div className="w-full max-w-[1239.4px] mx-auto px-6 py-12 relative min-h-[500px]">
+      <div className="w-full max-w-[1239.4px] mx-auto px-4 sm:px-6 py-6 sm:py-12 relative min-h-[500px]">
         
         {/* ==================== Siyahı (List) View ==================== */}
         <div
@@ -294,7 +294,7 @@ export const TrainingsPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-[30.98px] w-full justify-start items-stretch">
               {inPersonList.map((item) => (
-                <div key={item.id} className="w-full h-[559.47px] rounded-[11.62px] bg-[#4B2E83]/90 border-[1.45px] border-white/55 backdrop-blur-[19.37px] flex flex-col p-0 overflow-hidden relative cursor-pointer group shadow-lg">
+                <div key={item.id} className="w-full h-auto min-h-[480px] md:h-[559.47px] rounded-[11.62px] bg-[#4B2E83]/90 border-[1.45px] border-white/55 backdrop-blur-[19.37px] flex flex-col p-0 overflow-hidden relative cursor-pointer group shadow-lg">
                   <div className="w-full h-[280px] rounded-t-[11.62px] rounded-b-none overflow-hidden relative shrink-0">
                     <img
                       src={item.image}
@@ -371,7 +371,7 @@ export const TrainingsPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-[30.98px] w-full justify-start items-stretch">
               {onlineList.map((item) => (
-                <div key={item.id} className="w-full h-[559.47px] rounded-[11.62px] bg-[#4B2E83]/90 border-[1.45px] border-white/55 backdrop-blur-[19.37px] flex flex-col p-0 overflow-hidden relative cursor-pointer group shadow-lg">
+                <div key={item.id} className="w-full h-auto min-h-[480px] md:h-[559.47px] rounded-[11.62px] bg-[#4B2E83]/90 border-[1.45px] border-white/55 backdrop-blur-[19.37px] flex flex-col p-0 overflow-hidden relative cursor-pointer group shadow-lg">
                   <div className="w-full h-[280px] rounded-t-[11.62px] rounded-b-none overflow-hidden relative shrink-0">
                     <img
                       src={item.image}
@@ -584,7 +584,7 @@ export const TrainingsPage = () => {
             </div>
 
             {/* Right Side Calendar Card */}
-            <div className="flex-grow w-full bg-[#311F5E] rounded-[24px] p-6 text-white shadow-2xl border border-white/5 flex flex-col">
+            <div className="flex-grow w-full bg-[#311F5E] rounded-[24px] p-4 sm:p-6 text-white shadow-2xl border border-white/5 flex flex-col overflow-x-auto no-scrollbar">
               
               {/* Header block */}
               <div className="flex justify-between items-center mb-6">
@@ -618,7 +618,7 @@ export const TrainingsPage = () => {
               </div>
 
               {/* Grid block */}
-              <div className="grid grid-cols-7 border-t border-l border-white/10 rounded-[12px] overflow-hidden bg-white/[0.01]">
+              <div className="grid grid-cols-7 border-t border-l border-white/10 rounded-[12px] overflow-hidden bg-white/[0.01] min-w-[640px]">
                 
                 {/* Weekday titles */}
                 {azWeekdays.map((day) => (

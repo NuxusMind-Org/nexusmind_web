@@ -22,11 +22,11 @@ export const SessionsPage = () => {
   };
 
   return (
-    <div className="w-full flex flex-col rounded-t-[38.93px] rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-10 opacity-100">
+    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-10 opacity-100">
       
       {/* Top Header Section (Card with Gradient) - Height 250px */}
       <div
-        className="w-full rounded-t-[38.93px] rounded-b-none h-[250px] pt-[48px] pb-[38px] px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-[200px] sm:h-[230px] md:h-[250px] pt-[24px] sm:pt-[36px] md:pt-[48px] pb-[24px] sm:pb-[32px] md:pb-[38px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
@@ -65,7 +65,7 @@ export const SessionsPage = () => {
       </div>
 
       {/* Section 3: Explore Experts Slider */}
-      <div className="w-full bg-white px-[48px] py-8 flex flex-col justify-start select-none relative border-t border-gray-100">
+      <div className="w-full bg-white px-4 sm:px-6 md:px-[48px] py-8 flex flex-col justify-start select-none relative border-t border-gray-100">
         <h2 className="text-left text-[#1E0A42] font-semibold mb-6 font-['Lexend'] text-[28px]">
           Mütəxəssisləri araşdır
         </h2>
@@ -89,11 +89,8 @@ export const SessionsPage = () => {
               <div
                 key={expert.id}
                 onClick={() => navigate(PATHS.WEBAPP_EXPERT_DETAIL.replace(':id', String(expert.id)))}
-                className="flex flex-col text-white flex-shrink-0 snap-start transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl cursor-pointer group p-8"
+                className="flex flex-col text-white flex-shrink-0 snap-start transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl cursor-pointer group p-5 sm:p-6 md:p-8 w-[280px] sm:w-[380px] md:w-[480px] lg:w-[593px] rounded-[16px] sm:rounded-[19px]"
                 style={{
-                  width: '593.6px',
-                  height: '458.45px',
-                  borderRadius: '19.47px',
                   backgroundColor: '#4B2E83',
                   boxShadow: '0px 4.48px 4.48px rgba(0, 0, 0, 0.25), 0px 4.48px 4.48px rgba(0, 0, 0, 0.25)',
                 }}

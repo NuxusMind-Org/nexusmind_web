@@ -100,13 +100,11 @@ export const Articles = () => {
   };
 
   return (
-    <div className="w-full bg-white px-6 pb-20 lg:px-10 flex flex-col justify-start select-none relative">
+    <div className="w-full bg-white px-4 sm:px-6 pb-12 sm:pb-20 lg:px-10 flex flex-col justify-start select-none relative">
       {/* 1. Section Header */}
       <h2
-        className="w-full text-left text-[#1E0A42] font-normal mb-8"
+        className="w-full text-left text-[#1E0A42] font-normal mb-6 sm:mb-8 text-[22px] sm:text-[26px] md:text-[31.15px] leading-[32px] sm:leading-[42px] md:leading-[59.84px]"
         style={{
-          fontSize: '31.15px',
-          lineHeight: '59.84px',
           letterSpacing: '-0.96px',
           maxWidth: '1251.75px',
         }}
@@ -132,11 +130,8 @@ export const Articles = () => {
           {articles.map((article) => (
             <div
               key={article.id}
-              className="flex flex-col bg-[#4D2059] text-white shadow-xl shadow-purple-950/10 cursor-pointer overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border hover:scale-[1.02] hover:shadow-purple-900/20 select-none group"
+              className="flex flex-col bg-[#4D2059] text-white shadow-xl shadow-purple-950/10 cursor-pointer overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border hover:scale-[1.02] hover:shadow-purple-900/20 select-none group w-[280px] sm:w-[340px] md:w-[404px] rounded-[18px]"
               style={{
-                width: '404.39px',
-                height: '653.12px',
-                borderRadius: '17.82px',
                 borderWidth: '1.11px',
                 borderColor: 'rgba(255, 255, 255, 0.55)',
                 backdropFilter: 'blur(22.28px)',

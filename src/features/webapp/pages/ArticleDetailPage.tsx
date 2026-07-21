@@ -22,11 +22,11 @@ export const ArticleDetailPage = () => {
   };
 
   return (
-    <div className="w-full flex flex-col rounded-t-[38.93px] rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
       
       {/* First Section: Top Header Section (Card with Gradient) - Width: 1279px, Height: 271px */}
       <div
-        className="w-full rounded-t-[38.93px] rounded-b-none h-[271px] pt-[50px] pb-[40px] px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-auto min-h-[220px] sm:min-h-[250px] md:h-[271px] pt-6 sm:pt-[50px] pb-6 md:pb-[40px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
@@ -37,7 +37,7 @@ export const ArticleDetailPage = () => {
         </h2>
 
         {/* Left-aligned Breadcrumbs at the bottom */}
-        <div className="w-full flex items-center justify-start gap-2 text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] mt-auto select-none">
+        <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] mt-auto select-none overflow-x-auto no-scrollbar whitespace-nowrap">
           <Link to={PATHS.DASHBOARD} className="hover:text-[#4D2059] transition-colors">
             Ana səhifə
           </Link>
@@ -51,7 +51,7 @@ export const ArticleDetailPage = () => {
       </div>
 
       {/* Second Section: Split Hero Details Section */}
-      <div className="px-[48px] py-12 w-full flex flex-col lg:flex-row gap-12 mt-4 items-center justify-between max-w-[1232px] mx-auto border-b border-[#E5DFDF]/50 pb-12">
+      <div className="px-4 sm:px-6 md:px-[48px] py-6 sm:py-12 w-full flex flex-col lg:flex-row gap-8 sm:gap-12 mt-4 items-center justify-between max-w-[1232px] mx-auto border-b border-[#E5DFDF]/50 pb-8 sm:pb-12">
         
         {/* Left Column: Title, Category Badge, and Buttons */}
         <div className="w-full lg:w-[42%] flex flex-col items-start text-left">
@@ -89,7 +89,7 @@ export const ArticleDetailPage = () => {
       </div>
 
       {/* Third Section: Split Columns Article Content with Drop-Cap, Quote Box, and Right Sidebar */}
-      <div className="px-[48px] py-12 w-full flex flex-col lg:flex-row gap-12 items-start justify-between max-w-[1232px] mx-auto">
+      <div className="px-4 sm:px-6 md:px-[48px] py-6 sm:py-12 w-full flex flex-col lg:flex-row gap-8 sm:gap-12 items-start justify-between max-w-[1232px] mx-auto">
         
         {/* Left Column: Article Content (68% width) */}
         <div className="w-full lg:w-[68%] flex flex-col gap-6 text-left text-[#1E0A42]/90 leading-relaxed font-normal text-[15px] sm:text-[16px] font-['Lexend']">
@@ -207,10 +207,10 @@ export const ArticleDetailPage = () => {
       </div>
 
       {/* Full-width descriptive cards container at the bottom */}
-      <div className="px-[48px] py-6 w-full flex flex-col md:flex-row gap-[10.85px] items-center justify-center max-w-[1232px] mx-auto">
+      <div className="px-4 sm:px-6 md:px-[48px] py-6 w-full flex flex-col md:flex-row gap-4 sm:gap-[10.85px] items-center justify-center max-w-[1232px] mx-auto">
         
         {/* Card 1: Tam Nəzarət */}
-        <div className="w-full md:w-[563px] max-w-[563px] h-[286px] rounded-[21.69px] bg-[#181445] border-[1.36px] border-[#4D4354]/20 p-6 sm:p-[43.38px] flex flex-col gap-[10.85px] text-left shrink-0 shadow-lg justify-center">
+        <div className="w-full md:w-[563px] max-w-[563px] h-auto min-h-[220px] sm:min-h-[286px] rounded-[21.69px] bg-[#181445] border-[1.36px] border-[#4D4354]/20 p-5 sm:p-[43.38px] flex flex-col gap-[10.85px] text-left shrink-0 shadow-lg justify-center">
           <div className="flex items-center gap-3">
             <span className="w-11 h-11 rounded bg-white/10 flex items-center justify-center shrink-0">
               <Settings size={22} className="text-[#DDB7FF]" />
@@ -225,7 +225,7 @@ export const ArticleDetailPage = () => {
         </div>
 
         {/* Card 2: Beynin Reaksiyası */}
-        <div className="w-full md:w-[563px] max-w-[563px] h-[286px] rounded-[21.69px] bg-[#181445] border-[1.36px] border-[#4D4354]/20 p-6 sm:p-[43.38px] flex flex-col gap-[10.85px] text-left shrink-0 shadow-lg justify-center">
+        <div className="w-full md:w-[563px] max-w-[563px] h-auto min-h-[220px] sm:min-h-[286px] rounded-[21.69px] bg-[#181445] border-[1.36px] border-[#4D4354]/20 p-5 sm:p-[43.38px] flex flex-col gap-[10.85px] text-left shrink-0 shadow-lg justify-center">
           <div className="flex items-center gap-3">
             <span className="w-11 h-11 rounded bg-white/10 flex items-center justify-center shrink-0">
               <Brain size={22} className="text-[#DDB7FF]" />
@@ -242,7 +242,7 @@ export const ArticleDetailPage = () => {
       </div>
 
       {/* Related Blogs Carousel Slider */}
-      <div className="w-full mt-12 border-t border-[#E5DFDF]/50 pt-12 text-left select-none relative group/slider px-[48px] max-w-[1232px] mx-auto">
+      <div className="w-full mt-8 sm:mt-12 border-t border-[#E5DFDF]/50 pt-8 sm:pt-12 text-left select-none relative group/slider px-4 sm:px-6 md:px-[48px] max-w-[1232px] mx-auto">
         {/* Header Row */}
         <div className="flex items-center justify-between mb-8">
           <h3 className="text-[#1E0A42] text-[28px] font-semibold font-['Lexend']">
@@ -347,7 +347,7 @@ export const ArticleDetailPage = () => {
       </div>
 
       {/* Geri qayıt back navigation link container */}
-      <div className="px-[48px] w-full max-w-[1232px] mx-auto text-left mt-8">
+      <div className="px-4 sm:px-6 md:px-[48px] w-full max-w-[1232px] mx-auto text-left mt-8">
         <button
           onClick={() => navigate(PATHS.WEBAPP_ARTICLE)}
           className="text-[#204F5E] hover:text-[#204F5E]/80 font-bold text-sm tracking-wide flex items-center gap-1.5 hover:underline cursor-pointer font-['Lexend'] border-0 bg-transparent outline-none"

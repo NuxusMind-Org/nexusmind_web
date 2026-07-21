@@ -27,16 +27,16 @@ export const JournalPage = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col rounded-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-12">
+    <div className="w-full flex flex-col rounded-[20px] md:rounded-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-8 sm:pb-12">
       {/* Top Header Section Card with Pastel Gradient */}
       <div
-        className="w-full rounded-t-[38.93px] pt-14 pb-8 px-[24px] md:px-[48px] flex flex-col justify-between h-[442px] shrink-0"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] pt-8 sm:pt-14 pb-6 sm:pb-8 px-4 sm:px-6 md:px-[48px] flex flex-col justify-between h-auto min-h-[320px] sm:min-h-[380px] md:min-h-[442px] shrink-0"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
       >
         {/* Main Centered Header */}
-        <h1 className="text-[32px] md:text-[46.72px] font-normal text-[#1E0A42] text-center tracking-[-0.96px] leading-[42px] md:leading-[59.84px] w-full">
+        <h1 className="text-[24px] sm:text-[32px] md:text-[46.72px] font-normal text-[#1E0A42] text-center tracking-[-0.96px] leading-[32px] sm:leading-[42px] md:leading-[59.84px] w-full">
           Çəkinmədən bütün qeydlərini et.
         </h1>
 
@@ -47,7 +47,7 @@ export const JournalPage = () => {
       </div>
 
       {/* Second Section Container */}
-      <div className="px-8 md:px-12 py-10 flex flex-col w-full max-w-[1231px] mx-auto text-left">
+      <div className="px-4 sm:px-8 md:px-12 py-6 sm:py-10 flex flex-col w-full max-w-[1231px] mx-auto text-left">
         {/* Row 1: Left Column Header Row */}
         <div className="flex justify-between items-end mb-6 w-full max-w-[880px]">
           <div>
@@ -66,7 +66,7 @@ export const JournalPage = () => {
         {/* Row 2: Cards container aligned natively by items-start */}
         <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
           {/* Note Editor Card */}
-          <div className="w-full lg:w-[880px] lg:shrink-0 bg-[#B784F7]/80 border-2 border-[#BE00FE]/56 rounded-[40px] pt-[40px] pr-[40px] pb-[58px] pl-[40px] shadow-sm flex flex-col h-[500px] min-h-[500px]">
+          <div className="w-full lg:w-[880px] lg:shrink-0 bg-[#B784F7]/80 border-2 border-[#BE00FE]/56 rounded-[24px] sm:rounded-[40px] pt-[24px] sm:pt-[40px] pr-[24px] sm:pr-[40px] pb-[32px] sm:pb-[58px] pl-[24px] sm:pl-[40px] shadow-sm flex flex-col h-[350px] sm:h-[400px] md:h-[500px] min-h-[350px] sm:min-h-[400px] md:min-h-[500px]">
             <textarea
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
@@ -76,7 +76,7 @@ export const JournalPage = () => {
           </div>
 
           {/* Right Column - Keçmiş Qeydlər Sidebar Card */}
-          <div className="w-full lg:w-[319px] lg:shrink-0 bg-[#482476] border-[0.74px] border-[#6F7B9E] rounded-[23.63px] p-[23.63px] flex flex-col justify-between h-[500px] gap-[23.63px] shadow-lg">
+          <div className="w-full lg:w-[319px] lg:shrink-0 bg-[#482476] border-[0.74px] border-[#6F7B9E] rounded-[20px] sm:rounded-[23.63px] p-5 sm:p-[23.63px] flex flex-col justify-between h-auto min-h-[350px] sm:min-h-[400px] lg:h-[500px] gap-5 sm:gap-[23.63px] shadow-lg">
             {/* Header */}
             <div className="flex items-center gap-3">
               <History size={20} className="text-white/80" />

@@ -75,7 +75,7 @@ export const OnboardingPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-6 sm:p-10">
+    <div className="min-h-screen flex flex-col p-4 sm:p-6 md:p-10">
       {/* Header */}
       <div className="flex flex-col gap-6 mb-4 z-10 relative">
         <img
@@ -95,7 +95,7 @@ export const OnboardingPage = () => {
 
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center relative z-10">
-        <div className="bg-[#2a3a46]/70 backdrop-blur-md border border-white/10 w-full max-w-[800px] h-full min-h-[550px] rounded-lg p-8 sm:p-12 relative flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="bg-[#2a3a46]/70 backdrop-blur-md border border-white/10 w-full max-w-[800px] h-full min-h-[450px] sm:min-h-[550px] rounded-lg p-5 sm:p-8 md:p-12 relative flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
 
           {/* Progress Bar */}
           {!isAnalyzing && (
@@ -127,7 +127,7 @@ export const OnboardingPage = () => {
           {/* Options */}
           {isAnalyzing ? (
             <div className="flex flex-col items-center flex-1 justify-center">
-              <div className="w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] rounded-full overflow-hidden bg-[#1E293B] shadow-[0_0_40px_rgba(159,91,255,0.2)] mb-16">
+              <div className="w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px] rounded-full overflow-hidden bg-[#1E293B] shadow-[0_0_40px_rgba(159,91,255,0.2)] mb-10 sm:mb-16">
                 {IMAGE_MAP[currentQuestion.image as string] ? (
                   <img src={IMAGE_MAP[currentQuestion.image as string]} alt="analyzing" className="w-full h-full object-cover" />
                 ) : (
@@ -180,7 +180,7 @@ export const OnboardingPage = () => {
               )}
             </div>
           ) : currentQuestion.layout === 'circles' ? (
-            <div className="flex flex-wrap justify-center gap-12 sm:gap-20 mb-8 flex-1 items-center">
+            <div className="flex flex-wrap justify-center gap-6 sm:gap-12 md:gap-20 mb-8 flex-1 items-center">
               {currentQuestion.options.map((option: OnboardingOption) => {
                 const isSelected = selectedOptions.includes(option.id);
                 return (
@@ -189,7 +189,7 @@ export const OnboardingPage = () => {
                     onClick={() => handleOptionClick(option.id)}
                     className="flex flex-col items-center gap-5 transition-all duration-300 group"
                   >
-                    <div className={`w-[170px] h-[170px] rounded-full p-[3px] transition-all duration-300 ${isSelected ? 'bg-gradient-to-br from-[#b070ff] to-[#6020c0] scale-105 shadow-[0_0_20px_rgba(176,112,255,0.4)]' : 'bg-gradient-to-br from-[#7030a0] to-[#401080] hover:scale-105 hover:bg-gradient-to-br hover:from-[#9050d0] hover:to-[#5015a0]'}`}>
+                    <div className={`w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] md:w-[170px] md:h-[170px] rounded-full p-[3px] transition-all duration-300 ${isSelected ? 'bg-gradient-to-br from-[#b070ff] to-[#6020c0] scale-105 shadow-[0_0_20px_rgba(176,112,255,0.4)]' : 'bg-gradient-to-br from-[#7030a0] to-[#401080] hover:scale-105 hover:bg-gradient-to-br hover:from-[#9050d0] hover:to-[#5015a0]'}`}>
                       <div className="w-full h-full rounded-full overflow-hidden bg-[#1E293B]">
                         {IMAGE_MAP[option.image] ? (
                           <img src={IMAGE_MAP[option.image]} alt={option.label} className="w-full h-full object-cover" />
@@ -198,7 +198,7 @@ export const OnboardingPage = () => {
                         )}
                       </div>
                     </div>
-                    <span className={`text-[24px] font-medium transition-colors ${isSelected ? 'text-white' : 'text-white/90 group-hover:text-white'}`}>
+                    <span className={`text-[18px] sm:text-[20px] md:text-[24px] font-medium transition-colors ${isSelected ? 'text-white' : 'text-white/90 group-hover:text-white'}`}>
                       {option.label}
                     </span>
                   </button>

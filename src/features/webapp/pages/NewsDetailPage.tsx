@@ -30,10 +30,10 @@ export const NewsDetailPage = () => {
   const article = NEWS_ITEMS.find((item) => item.id === articleId) || NEWS_ITEMS[0];
 
   return (
-    <div className="w-full flex flex-col rounded-t-[38.93px] rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
       {/* Top Header Section (Card with Gradient) - Height 188px according to Figma layout */}
       <div
-        className="w-full rounded-t-[38.93px] rounded-b-none h-[188px] pt-[36px] pb-[28px] px-[48px] flex flex-col justify-between items-center text-center opacity-100"
+        className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-auto min-h-[140px] sm:min-h-[160px] md:h-[188px] pt-5 sm:pt-[36px] pb-4 sm:pb-[28px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-center opacity-100"
         style={{
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
@@ -43,7 +43,7 @@ export const NewsDetailPage = () => {
         </h2>
 
         {/* Breadcrumbs navigation */}
-        <div className="w-full flex items-center justify-start gap-2 text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] select-none">
+        <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] select-none overflow-x-auto no-scrollbar whitespace-nowrap">
           <Link to={PATHS.DASHBOARD} className="hover:text-[#4D2059] transition-colors">
             Ana səhifə
           </Link>
@@ -57,9 +57,9 @@ export const NewsDetailPage = () => {
       </div>
 
       {/* Main Container */}
-      <div className="px-[48px] py-12 w-full flex flex-col gap-8 max-w-[1227.5px] mx-auto">
+      <div className="px-4 sm:px-6 md:px-[48px] py-6 sm:py-12 w-full flex flex-col gap-8 max-w-[1227.5px] mx-auto">
         {/* Cover Image banner card */}
-        <div className="w-full rounded-[22.75px] overflow-hidden relative min-h-[420px] md:h-[582px] flex flex-col justify-end p-8 md:p-12 shadow-xl shrink-0 group">
+        <div className="w-full rounded-[16px] sm:rounded-[22.75px] overflow-hidden relative min-h-[300px] sm:min-h-[420px] md:h-[582px] flex flex-col justify-end p-5 sm:p-8 md:p-12 shadow-xl shrink-0 group">
           {/* Background image cover */}
           <img
             src={article.image}

@@ -21,13 +21,13 @@ export const MiniGameCard: React.FC<MiniGameCardProps> = ({
   onClose,
 }) => {
   return (
-    <div className="w-full bg-white px-6 pb-16 lg:px-10 flex flex-col justify-start select-none">
+    <div className="w-full bg-white px-4 sm:px-6 pb-10 sm:pb-16 lg:px-10 flex flex-col justify-start select-none">
       {/* Container wrapper for the mini-game card with custom gradient and rounding */}
       <div
-        className="w-full relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-6 md:px-10 text-white shadow-lg md:h-[231.66px] min-h-[231.66px]"
+        className="w-full relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-5 sm:p-6 md:px-10 text-white shadow-lg min-h-[180px] md:min-h-[231px]"
         style={{
           background: bgGradient,
-          borderRadius: '33.43px',
+          borderRadius: '20px',
           boxShadow: '0px 27.86px 83.57px rgba(75, 46, 131, 0.35)',
         }}
       >
@@ -47,7 +47,7 @@ export const MiniGameCard: React.FC<MiniGameCardProps> = ({
         )}
 
         {/* Left Side: Icon & Details */}
-        <div className="flex flex-col md:flex-row items-center gap-8 relative z-10 text-center md:text-left flex-1 h-full">
+        <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8 relative z-10 text-center md:text-left flex-1">
           {/* Reusable Icon Frame */}
           <div className="flex-shrink-0 flex items-center justify-center">
             {icon}
@@ -65,7 +65,7 @@ export const MiniGameCard: React.FC<MiniGameCardProps> = ({
         </div>
 
         {/* Right Side: Reusable Action CTA Button */}
-        <div className="flex-shrink-0 relative z-10 w-full md:w-auto mt-6 md:mt-0 flex justify-center">
+        <div className="flex-shrink-0 relative z-10 w-full md:w-auto mt-4 md:mt-0 flex justify-center">
           <button
             onClick={onAction}
             className="w-full md:w-[200px] py-4 border border-white/40 bg-white/5 hover:bg-white/15 text-white font-bold text-xs md:text-sm rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer uppercase tracking-wider text-center"

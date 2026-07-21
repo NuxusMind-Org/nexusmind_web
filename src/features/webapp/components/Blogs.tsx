@@ -64,13 +64,11 @@ export const Blogs = () => {
   };
 
   return (
-    <div className="w-full bg-white px-6 pb-20 lg:px-10 flex flex-col justify-start select-none relative">
+    <div className="w-full bg-white px-4 sm:px-6 pb-12 sm:pb-20 lg:px-10 flex flex-col justify-start select-none relative">
       {/* 1. Section Header */}
       <h2
-        className="w-full text-left text-[#1E0A42] font-normal mb-8"
+        className="w-full text-left text-[#1E0A42] font-normal mb-6 sm:mb-8 text-[22px] sm:text-[26px] md:text-[31.15px] leading-[32px] sm:leading-[42px] md:leading-[59.84px]"
         style={{
-          fontSize: '31.15px',
-          lineHeight: '59.84px',
           letterSpacing: '-0.96px',
           maxWidth: '1251.75px',
         }}
@@ -96,11 +94,8 @@ export const Blogs = () => {
           {blogs.map((blog) => (
             <div
               key={blog.id}
-              className="flex flex-col bg-[#F6EFFF] text-[#1E0A42] overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border border-purple-100/50 hover:scale-[1.02] cursor-pointer group"
+              className="flex flex-col bg-[#F6EFFF] text-[#1E0A42] overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border border-purple-100/50 hover:scale-[1.02] cursor-pointer group w-[280px] sm:w-[340px] md:w-[409px] rounded-[16px]"
               style={{
-                width: '409.79px',
-                height: '461.37px',
-                borderRadius: '15.57px',
                 boxShadow: '1.95px 1.95px 1.95px rgba(119, 67, 188, 0.59)',
               }}
             >
