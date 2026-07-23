@@ -4,7 +4,7 @@ import nexieSittingPurple from '@/assets/svg/NexieSittingPurple.svg';
 import { ScrollReveal } from '../ScrollReveal';
 import { useRoadmapMascot } from '../../hooks/useRoadmapMascot';
 
-const PARTNER_NAMES = ['Bakı Psixologiya Mərkəzi', 'MindBridge', 'HealthTech AZ', 'Zenith Wellness', 'PsycheCore', 'NeuroHarmony'];
+const PARTNER_NAMES = ['Bakı Psixologiya Mərkəzi', 'NexusMind'];
 
 export const RoadmapSection = () => {
   const {
