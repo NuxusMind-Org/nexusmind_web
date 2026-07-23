@@ -13,9 +13,6 @@ export const TestimonialsSection = () => {
           <h2 className="text-[30px] sm:text-[44px] font-bold text-white mb-3 tracking-tight">
             Real həyat hekayələri
           </h2>
-          <p className="text-[15px] sm:text-[19px] text-white/80">
-            İstifadəçilərimizin təcrübələri (50,000+ istifadəçidən)
-          </p>
         </div>
 
         {/* Testimonials Grid */}

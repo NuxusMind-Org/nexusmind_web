@@ -65,10 +65,13 @@ export const MiniGameCard: React.FC<MiniGameCardProps> = ({
         </div>
 
         {/* Right Side: Reusable Action CTA Button */}
-        <div className="flex-shrink-0 relative z-10 w-full md:w-auto mt-4 md:mt-0 flex justify-center">
+        <div className="flex-shrink-0 relative z-10 w-full md:w-auto mt-4 md:mt-0 flex justify-center items-center">
           <button
             onClick={onAction}
-            className="w-full md:w-[200px] py-4 border border-white/40 bg-white/5 hover:bg-white/15 text-white font-bold text-xs md:text-sm rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer uppercase tracking-wider text-center"
+            className="w-full md:w-[311px] py-[16.71px] px-[55.72px] bg-white/[0.14] hover:bg-white/[0.22] border-[0.93px] border-white/70 text-white font-bold text-xs md:text-sm rounded-[22.29px] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer uppercase tracking-wider text-center backdrop-blur-sm shadow-md flex items-center justify-center"
+            style={{
+              minHeight: '55.29px',
+            }}
           >
             {actionText}
           </button>

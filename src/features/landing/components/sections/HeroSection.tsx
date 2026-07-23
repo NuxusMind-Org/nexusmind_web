@@ -69,12 +69,12 @@ export const HeroSection = () => {
           {FEATURE_CARDS.map((card, i) => (
             <div
               key={i}
-              className="flex items-center gap-[10px] w-full max-w-[326px] h-[80px] bg-white/10 backdrop-blur-md border border-white/20 pt-[13px] pr-[22px] pl-[21px] rounded-[8px] hover:bg-white/15 transition-colors"
+              className="flex items-center justify-center gap-3.5 w-full max-w-[326px] min-h-[80px] bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-[12px] hover:bg-white/15 transition-colors"
             >
               <div className="w-[46px] h-[46px] rounded-full overflow-hidden flex-shrink-0 bg-[#591b98]/30">
                 <img src={card.img} alt={`Feature ${i + 1}`} className="w-full h-full object-cover" />
               </div>
-              <p className="text-white text-[13px] leading-snug font-medium text-left">{card.text}</p>
+              <p className="text-white text-[13px] leading-snug font-medium text-left flex-1">{card.text}</p>
             </div>
           ))}
         </div>

@@ -1,9 +1,6 @@
-import { useState } from 'react';
 import { Search } from 'lucide-react';
 
 export const WelcomeHeader = () => {
-  const [activeTab, setActiveTab] = useState<'home' | 'personal'>('home');
-
   return (
     <div
       className="w-full px-4 sm:px-8 md:px-16 flex flex-col items-center justify-center text-center relative border-b border-black/5 rounded-none lg:rounded-t-[38.93px] gap-4 sm:gap-6 h-[260px] sm:h-[300px] md:h-[359px]"
@@ -22,31 +19,7 @@ export const WelcomeHeader = () => {
         Salam Mətin! Bugünkü səyahətimizə hazırsan?
       </h1>
 
-      {/* 2. Segmented Controller (Navigation Tabs) */}
-      <div className="flex bg-[#4A247A]/5 border border-[#4A247A]/10 p-1 rounded-full gap-1 max-w-max mx-auto select-none shadow-sm backdrop-blur-sm">
-        <button
-          onClick={() => setActiveTab('home')}
-          className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
-            activeTab === 'home'
-              ? 'bg-white text-[#4A247A] shadow-md shadow-black/5'
-              : 'text-[#7A7495] hover:text-[#4A247A]'
-          }`}
-        >
-          Ana Səhifə
-        </button>
-        <button
-          onClick={() => setActiveTab('personal')}
-          className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
-            activeTab === 'personal'
-              ? 'bg-white text-[#4A247A] shadow-md shadow-black/5'
-              : 'text-[#7A7495] hover:text-[#4A247A]'
-          }`}
-        >
-          Şəxsi məlumatlar
-        </button>
-      </div>
-
-      {/* 3. Rounded Search Bar */}
+      {/* 2. Rounded Search Bar */}
       <div className="w-full max-w-[1020px] relative flex items-center group">
         <Search
           size={18}

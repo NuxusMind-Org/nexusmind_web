@@ -53,9 +53,10 @@ export const Blogs = () => {
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const { scrollLeft } = scrollRef.current;
-      const cardWidth = 433; // Card width 409.79px + gap 24px
-      const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
+      const { scrollLeft, firstElementChild } = scrollRef.current;
+      const cardWidth = (firstElementChild as HTMLElement)?.offsetWidth || 340;
+      const step = cardWidth + 24; // Card width + gap 24px
+      const scrollAmount = direction === 'left' ? -step : step;
       scrollRef.current.scrollTo({
         left: scrollLeft + scrollAmount,
         behavior: 'smooth',
@@ -66,15 +67,21 @@ export const Blogs = () => {
   return (
     <div className="w-full bg-white px-4 sm:px-6 pb-12 sm:pb-20 lg:px-10 flex flex-col justify-start select-none relative">
       {/* 1. Section Header */}
-      <h2
-        className="w-full text-left text-[#1E0A42] font-normal mb-6 sm:mb-8 text-[22px] sm:text-[26px] md:text-[31.15px] leading-[32px] sm:leading-[42px] md:leading-[59.84px]"
-        style={{
-          letterSpacing: '-0.96px',
-          maxWidth: '1251.75px',
-        }}
-      >
-        Bloqlar
-      </h2>
+      <div className="w-full flex items-center justify-between mb-6 sm:mb-8">
+        <h2
+          className="text-left text-[#1E0A42] font-normal text-[22px] sm:text-[26px] md:text-[31.15px] leading-[32px] sm:leading-[42px] md:leading-[59.84px]"
+          style={{
+            letterSpacing: '-0.96px',
+          }}
+        >
+          Bloqlar
+        </h2>
+        <button
+          className="text-[#1E0A42]/60 hover:text-[#1E0A42] font-semibold text-xs sm:text-sm md:text-base cursor-pointer transition-colors bg-transparent border-none p-0 outline-none select-none"
+        >
+          Daha çox
+        </button>
+      </div>
 
       {/* 2. Carousel Wrapper with Nav Buttons */}
       <div className="w-full relative flex items-center group/carousel">
@@ -94,7 +101,7 @@ export const Blogs = () => {
           {blogs.map((blog) => (
             <div
               key={blog.id}
-              className="flex flex-col bg-[#F6EFFF] text-[#1E0A42] overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border border-purple-100/50 hover:scale-[1.02] cursor-pointer group w-[280px] sm:w-[340px] md:w-[409px] rounded-[16px]"
+              className="flex flex-col bg-[#F6EFFF] text-[#1E0A42] overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border border-purple-100/50 hover:scale-[1.02] cursor-pointer group w-[280px] sm:w-[340px] lg:w-[calc((100%-72px)/3.5)] rounded-[16px]"
               style={{
                 boxShadow: '1.95px 1.95px 1.95px rgba(119, 67, 188, 0.59)',
               }}

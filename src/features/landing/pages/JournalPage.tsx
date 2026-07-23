@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Lock } from 'lucide-react';
 import vrConsultation from '@/assets/vr_consultation.png';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
@@ -84,15 +83,15 @@ export const JournalPage = () => {
           </div>
 
           {/* Mood Selector */}
-          <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
-            <h3 className="text-white text-[18px] mb-8 font-medium">Bu gün özünüzü necə hiss edirsiniz?</h3>
-            <div className="flex flex-wrap sm:flex-nowrap justify-around sm:justify-between items-center gap-4 sm:gap-0 px-1 sm:px-6">
+          <div className="bg-white/10 backdrop-blur-md rounded-lg px-3 py-6 sm:p-8 border border-white/10 shadow-xl">
+            <h3 className="text-white text-[16px] sm:text-[18px] mb-6 sm:mb-8 font-medium text-left">Bu gün özünüzü necə hiss edirsiniz?</h3>
+            <div className="grid grid-cols-5 gap-1 sm:gap-4 items-center justify-items-center w-full">
               {moods.map(mood => (
-                <div key={mood.id} className="flex flex-col items-center gap-3 cursor-pointer group" onClick={() => setSelectedMood(mood.id)}>
-                  <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center transition-all duration-300 ${selectedMood === mood.id ? 'bg-[#9333ea] scale-110 shadow-[0_0_20px_rgba(147,51,234,0.5)]' : 'bg-[#2b6a8c] group-hover:bg-[#327ba3]'}`}>
+                <div key={mood.id} className="flex flex-col items-center gap-2 sm:gap-3 cursor-pointer group" onClick={() => setSelectedMood(mood.id)}>
+                  <div className={`w-10 h-10 min-[375px]:w-12 min-[375px]:h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center transition-all duration-300 ${selectedMood === mood.id ? 'bg-[#9333ea] scale-110 shadow-[0_0_20px_rgba(147,51,234,0.5)]' : 'bg-[#2b6a8c] group-hover:bg-[#327ba3]'}`}>
                     {mood.icon}
                   </div>
-                  <span className="text-white/60 text-[9px] sm:text-[11px] tracking-widest uppercase font-medium">{mood.label}</span>
+                  <span className="text-white/60 text-[8px] min-[375px]:text-[9px] sm:text-[11px] tracking-tight sm:tracking-widest uppercase font-medium text-center whitespace-nowrap">{mood.label}</span>
                 </div>
               ))}
             </div>
@@ -113,14 +112,14 @@ export const JournalPage = () => {
               placeholder="Səhifə sənindir..."
             ></textarea>
 
-            <div className="flex flex-wrap justify-end items-center gap-3 sm:gap-4 mt-8">
-              <button className="w-12 h-12 bg-[#4f46e5] rounded-lg flex items-center justify-center text-white hover:bg-[#4338ca] transition-colors shadow-lg">
-                <Lock size={20} />
-              </button>
-              <button className="px-6 sm:px-8 py-3 bg-[#d8b4fe] text-[#2D1B44] font-light rounded-lg hover:bg-[#c084fc] transition-colors shadow-lg whitespace-nowrap">
+            <div className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8 w-full">
+              {/* Saxla Button - Filled (Primary) */}
+              <button className="w-full sm:w-auto px-7 py-3 bg-[#d8b4fe] text-[#2D1B44] font-semibold rounded-lg hover:bg-[#c084fc] transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(216,180,254,0.4)] whitespace-nowrap text-center cursor-pointer outline-none">
                 Saxla
               </button>
-              <button className="px-6 sm:px-8 py-3 bg-[#d8b4fe] text-[#2D1B44] font-light rounded-lg hover:bg-[#c084fc] transition-colors shadow-lg whitespace-nowrap">
+
+              {/* Psixoloqa göndər Button - Stroke / Outlined (Secondary) */}
+              <button className="w-full sm:w-auto px-7 py-3 bg-transparent border-2 border-[#d8b4fe] text-[#d8b4fe] hover:text-white font-semibold rounded-lg hover:bg-[#d8b4fe]/15 hover:border-[#c084fc] transition-all duration-300 whitespace-nowrap text-center cursor-pointer outline-none">
                 Psixoloqa göndər
               </button>
             </div>

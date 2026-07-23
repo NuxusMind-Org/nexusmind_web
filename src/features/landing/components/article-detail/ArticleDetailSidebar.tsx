@@ -14,15 +14,7 @@ export const ArticleDetailSidebar = () => {
   ];
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
-        width: '284px',
-        flexShrink: 0,
-      }}
-    >
+    <div className="w-full flex flex-col gap-4">
       {/* Card 1: Support */}
       <div className="relative overflow-hidden bg-[rgba(255,255,255,0.73)] rounded-[24px] p-8 shadow-xl flex flex-col gap-4 font-sans text-left">
         {/* Absolute positioned Support Icon */}

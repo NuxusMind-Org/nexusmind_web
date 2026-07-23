@@ -9,6 +9,7 @@ export const PATHS = {
   ONBOARDING: '/onboarding',
   PSYCHOLOGIST: '/psychologist/:id',
   BLOG: '/blog',
+  BLOG_DETAIL: '/blog/:id',
   ARTICLE: '/articles',
   ARTICLE_DETAIL: '/articles/:id',
   NEWS: '/news',

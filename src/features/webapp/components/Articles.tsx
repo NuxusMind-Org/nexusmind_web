@@ -89,9 +89,10 @@ export const Articles = () => {
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const { scrollLeft } = scrollRef.current;
-      const cardWidth = 428; // Card width 404.39px + gap 24px
-      const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
+      const { scrollLeft, firstElementChild } = scrollRef.current;
+      const cardWidth = (firstElementChild as HTMLElement)?.offsetWidth || 340;
+      const step = cardWidth + 24; // Card width + gap 24px
+      const scrollAmount = direction === 'left' ? -step : step;
       scrollRef.current.scrollTo({
         left: scrollLeft + scrollAmount,
         behavior: 'smooth',
@@ -102,15 +103,21 @@ export const Articles = () => {
   return (
     <div className="w-full bg-white px-4 sm:px-6 pb-12 sm:pb-20 lg:px-10 flex flex-col justify-start select-none relative">
       {/* 1. Section Header */}
-      <h2
-        className="w-full text-left text-[#1E0A42] font-normal mb-6 sm:mb-8 text-[22px] sm:text-[26px] md:text-[31.15px] leading-[32px] sm:leading-[42px] md:leading-[59.84px]"
-        style={{
-          letterSpacing: '-0.96px',
-          maxWidth: '1251.75px',
-        }}
-      >
-        Məqalələr
-      </h2>
+      <div className="w-full flex items-center justify-between mb-6 sm:mb-8">
+        <h2
+          className="text-left text-[#1E0A42] font-normal text-[22px] sm:text-[26px] md:text-[31.15px] leading-[32px] sm:leading-[42px] md:leading-[59.84px]"
+          style={{
+            letterSpacing: '-0.96px',
+          }}
+        >
+          Məqalələr
+        </h2>
+        <button
+          className="text-[#1E0A42]/60 hover:text-[#1E0A42] font-semibold text-xs sm:text-sm md:text-base cursor-pointer transition-colors bg-transparent border-none p-0 outline-none select-none"
+        >
+          Daha çox
+        </button>
+      </div>
 
       {/* 2. Carousel Wrapper with Nav Buttons */}
       <div className="w-full relative flex items-center group/carousel">
@@ -130,7 +137,7 @@ export const Articles = () => {
           {articles.map((article) => (
             <div
               key={article.id}
-              className="flex flex-col bg-[#4D2059] text-white shadow-xl shadow-purple-950/10 cursor-pointer overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border hover:scale-[1.02] hover:shadow-purple-900/20 select-none group w-[280px] sm:w-[340px] md:w-[404px] rounded-[18px]"
+              className="flex flex-col bg-[#4D2059] text-white shadow-xl shadow-purple-950/10 cursor-pointer overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border hover:scale-[1.02] hover:shadow-purple-900/20 select-none group w-[280px] sm:w-[340px] lg:w-[calc((100%-72px)/3.5)] rounded-[18px]"
               style={{
                 borderWidth: '1.11px',
                 borderColor: 'rgba(255, 255, 255, 0.55)',

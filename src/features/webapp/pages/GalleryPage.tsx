@@ -103,9 +103,75 @@ export const GalleryPage = () => {
         </h2>
 
         {/* Controls Row */}
-        <div className="w-full flex flex-col lg:flex-row justify-between items-center gap-6 mt-4">
-          {/* Left: Filter & Categories with sliding transition */}
-          <div className="flex flex-wrap items-center gap-4 w-full lg:w-auto">
+        <div className="w-full flex flex-col lg:flex-row justify-between items-center gap-4 sm:gap-6 mt-4">
+          
+          {/* ===== MOBILE VIEW (< lg) ===== */}
+          <div className="flex flex-col gap-3.5 w-full lg:hidden">
+            {/* Always-visible Horizontal Scrollable Category Bar */}
+            <div className="w-full overflow-x-auto no-scrollbar scroll-smooth py-1">
+              <div className="flex items-center gap-2 whitespace-nowrap px-0.5">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      setActiveCategory(cat.id);
+                      setCurrentPage(1);
+                    }}
+                    className={`min-h-[44px] px-5 py-2.5 rounded-full text-[13px] sm:text-sm font-semibold transition-all duration-200 cursor-pointer border font-['Lexend'] flex items-center justify-center select-none ${
+                      activeCategory === cat.id
+                        ? 'bg-[#DDD4F8] border-[#4D2059] text-[#1E0A42] shadow-sm font-bold'
+                        : 'bg-white/40 border-[#4D2059]/30 text-[#1E0A42]/80 hover:bg-[#4D2059]/10'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile Sort Dropdown */}
+            <div className="flex items-center justify-between gap-3 w-full">
+              <span className="text-xs sm:text-sm font-medium text-[#1E0A42]/70 font-['Lexend'] whitespace-nowrap">Sıralama :</span>
+              <div className="relative flex-1 max-w-[240px]">
+                <button
+                  onClick={() => setShowSortDropdown(!showSortDropdown)}
+                  className="w-full min-h-[44px] bg-[#4D2059] text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center justify-between gap-2 shadow-md cursor-pointer font-['Lexend'] outline-none"
+                >
+                  <span className="truncate">{currentSortLabel}</span>
+                  <ChevronDown size={16} className={`shrink-0 transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* Dropdown Card */}
+                {showSortDropdown && (
+                  <>
+                    <div className="fixed inset-0 z-20 cursor-default" onClick={() => setShowSortDropdown(false)} />
+                    <div className="absolute right-0 mt-2 bg-white border-[2.5px] border-[#E5DFDF] rounded-[24px] shadow-[0_8px_32px_rgba(0,0,0,0.25)] w-full min-w-[200px] z-30 flex flex-col gap-1 p-2 animate-fade-in text-left">
+                      {sortOptions.map((opt) => (
+                        <button
+                          key={opt.id}
+                          onClick={() => {
+                            setActiveSort(opt.id);
+                            setShowSortDropdown(false);
+                            setCurrentPage(1);
+                          }}
+                          className={`w-full text-left min-h-[44px] px-4 py-2.5 rounded-[14px] text-[13px] font-medium font-['Lexend'] transition-colors cursor-pointer flex items-center ${
+                            activeSort === opt.id
+                              ? 'bg-[#482476]/15 text-[#482476] font-bold'
+                              : 'text-[#482476] hover:bg-[#482476]/5'
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* ===== DESKTOP VIEW (≥ lg) ===== */}
+          <div className="hidden lg:flex items-center gap-4 w-auto">
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
               className={`bg-[#204F5E] text-white px-5 py-2.5 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-[#204F5E]/90 transition-all duration-300 shadow-sm cursor-pointer font-['Lexend'] border select-none outline-none group ${
@@ -144,9 +210,9 @@ export const GalleryPage = () => {
             </div>
           </div>
 
-          {/* Right: Sort controls dropdown */}
-          <div className="relative w-full lg:w-auto flex justify-end">
-            <div className="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-start">
+          {/* Desktop Sort controls dropdown */}
+          <div className="hidden lg:flex relative w-auto justify-end">
+            <div className="flex items-center gap-3 w-auto justify-start">
               <span className="text-sm font-medium text-[#1E0A42]/60 font-['Lexend'] whitespace-nowrap">Sıralama :</span>
               <div className="relative">
                 <button

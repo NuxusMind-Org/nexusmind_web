@@ -4,7 +4,7 @@ import nexieSittingPurple from '@/assets/svg/NexieSittingPurple.svg';
 import { ScrollReveal } from '../ScrollReveal';
 import { useRoadmapMascot } from '../../hooks/useRoadmapMascot';
 
-const PARTNER_NAMES = ['MindBridge', 'HealthTech AZ', 'Zenith Wellness', 'PsycheCore', 'NeuroHarmony'];
+const PARTNER_NAMES = ['Bakı Psixologiya Mərkəzi', 'MindBridge', 'HealthTech AZ', 'Zenith Wellness', 'PsycheCore', 'NeuroHarmony'];
 
 export const RoadmapSection = () => {
   const {
@@ -12,11 +12,6 @@ export const RoadmapSection = () => {
     card1Ref,
     card2Ref,
     card3Ref,
-    isClassicVisible,
-    isPurpleVisible,
-    mascotX,
-    mascotY,
-    mascotOpacity,
     arrowsVisible,
     arrow1Path,
     arrow1Chevron,
@@ -42,7 +37,7 @@ export const RoadmapSection = () => {
         </ScrollReveal>
 
         {/* Roadmap Cards */}
-        <div ref={roadmapRef} className="w-full max-w-[1100px] mx-auto relative flex flex-col gap-28 md:gap-[240px] pb-12 md:pb-[200px]">
+        <div ref={roadmapRef} className="w-full max-w-[1100px] mx-auto relative flex flex-col gap-20 sm:gap-24 md:gap-[240px] pb-12 md:pb-[200px]">
 
           {/* SVG Connector Lines */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ overflow: 'visible' }}>
@@ -60,49 +55,17 @@ export const RoadmapSection = () => {
             )}
           </svg>
 
-          {/* Desktop Mascot — two images stacked, cross-fading independently to avoid src-swap flash */}
-          <div
-            className="absolute pointer-events-none z-30 hidden md:block"
-            style={{
-              left: 0,
-              top: 0,
-              width: '150px',
-              height: '150px',
-              transform: `translate3d(${mascotX}px, ${mascotY}px, 0)`,
-              opacity: mascotOpacity,
-              transition: 'opacity 0.15s ease-in-out',
-            }}
-          >
-            {/* Classic Nexie — cards 1 & 3 */}
-            <img
-              src={nexieSittingClassic}
-              alt="Nexie Mascot"
-              className="absolute inset-0 w-full h-auto object-contain"
-              style={{
-                opacity: isClassicVisible ? 1 : 0,
-                transition: 'opacity 0.25s ease-in-out',
-                filter: 'drop-shadow(0 15px 30px rgba(0, 242, 255, 0.3))',
-              }}
-            />
-            {/* Purple Nexie — card 2 */}
-            <img
-              src={nexieSittingPurple}
-              alt="Nexie Mascot Purple"
-              className="absolute inset-0 w-full h-auto object-contain"
-              style={{
-                opacity: isPurpleVisible ? 1 : 0,
-                transition: 'opacity 0.25s ease-in-out',
-                filter: 'drop-shadow(0 15px 30px rgba(123, 75, 139, 0.5))',
-              }}
-            />
-          </div>
-
           {/* Card 1 — Özünü tanı */}
-          <ScrollReveal ref={card1Ref} className="w-full max-w-[581px] h-auto min-h-[345px] md:h-[345px] relative self-center md:self-auto mt-8 md:mt-0">
-            <div className="md:hidden absolute -top-[55px] right-6 pointer-events-none z-20">
-              <img src={nexieSittingClassic} alt="Nexie Mascot" className="w-[135px] sm:w-[165px] object-contain drop-shadow-[0_15px_30px_rgba(0,242,255,0.3)]" />
+          <ScrollReveal ref={card1Ref} className="w-full max-w-[581px] h-auto min-h-0 md:h-[345px] md:min-h-[345px] relative self-center md:self-auto mt-8 md:mt-0">
+            {/* Dedicated Classic Nexie Mascot */}
+            <div className="absolute -top-[75px] sm:-top-[85px] left-4 sm:left-6 pointer-events-none z-20">
+              <img
+                src={nexieSittingClassic}
+                alt="Nexie Mascot Classic"
+                className="w-[125px] sm:w-[150px] object-contain drop-shadow-[0_15px_30px_rgba(0,242,255,0.3)]"
+              />
             </div>
-            <div className="w-full h-full bg-[#155567] rounded-[8px] p-6 sm:p-10 relative shadow-2xl flex flex-col justify-center">
+            <div className="w-full h-full bg-[#155567] rounded-[8px] p-5 sm:p-8 md:p-10 relative shadow-2xl flex flex-col justify-center">
               <h3 className="text-white text-[22px] sm:text-[26px] font-bold mb-4 flex items-center gap-4">
                 <Sparkles size={28} className="text-white" /> Özünü tanı
               </h3>
@@ -113,11 +76,16 @@ export const RoadmapSection = () => {
           </ScrollReveal>
 
           {/* Card 2 — Ekspertlə əlaqə */}
-          <ScrollReveal ref={card2Ref} className="w-full max-w-[581px] h-auto min-h-[345px] md:h-[345px] self-center md:self-end relative md:mt-0">
-            <div className="md:hidden absolute -top-[55px] right-6 pointer-events-none z-20">
-              <img src={nexieSittingPurple} alt="Nexie Mascot" className="w-[135px] sm:w-[165px] object-contain drop-shadow-[0_15px_30px_rgba(123,75,139,0.5)]" />
+          <ScrollReveal ref={card2Ref} className="w-full max-w-[581px] h-auto min-h-0 md:h-[345px] md:min-h-[345px] self-center md:self-end relative md:mt-0">
+            {/* Dedicated Purple Nexie Mascot */}
+            <div className="absolute -top-[75px] sm:-top-[85px] right-4 sm:right-6 pointer-events-none z-20">
+              <img
+                src={nexieSittingPurple}
+                alt="Nexie Mascot Purple"
+                className="w-[125px] sm:w-[150px] object-contain drop-shadow-[0_15px_30px_rgba(123,75,139,0.5)]"
+              />
             </div>
-            <div className="w-full h-full bg-[#7B4B8B] rounded-[8px] p-6 sm:p-10 relative shadow-2xl flex flex-col justify-center">
+            <div className="w-full h-full bg-[#7B4B8B] rounded-[8px] p-5 sm:p-8 md:p-10 relative shadow-2xl flex flex-col justify-center">
               <h3 className="text-white text-[22px] sm:text-[26px] font-bold mb-4 flex items-center gap-4">
                 <Users size={28} className="text-white" /> Ekspertlə əlaqə
               </h3>
@@ -128,11 +96,16 @@ export const RoadmapSection = () => {
           </ScrollReveal>
 
           {/* Card 3 — İnkişaf Et */}
-          <ScrollReveal ref={card3Ref} className="w-full max-w-[581px] h-auto min-h-[345px] md:h-[345px] relative self-center md:self-auto md:mt-0">
-            <div className="md:hidden absolute -top-[55px] right-6 pointer-events-none z-20">
-              <img src={nexieSittingClassic} alt="Nexie Mascot" className="w-[135px] sm:w-[165px] object-contain drop-shadow-[0_15px_30px_rgba(0,242,255,0.3)]" />
+          <ScrollReveal ref={card3Ref} className="w-full max-w-[581px] h-auto min-h-0 md:h-[345px] md:min-h-[345px] relative self-center md:self-auto md:mt-0">
+            {/* Dedicated Classic Nexie Mascot */}
+            <div className="absolute -top-[75px] sm:-top-[85px] left-4 sm:left-6 pointer-events-none z-20">
+              <img
+                src={nexieSittingClassic}
+                alt="Nexie Mascot Classic"
+                className="w-[125px] sm:w-[150px] object-contain drop-shadow-[0_15px_30px_rgba(0,242,255,0.3)]"
+              />
             </div>
-            <div className="w-full h-full bg-[#155567] rounded-[8px] p-6 sm:p-10 relative shadow-2xl flex flex-col justify-center">
+            <div className="w-full h-full bg-[#155567] rounded-[8px] p-5 sm:p-8 md:p-10 relative shadow-2xl flex flex-col justify-center">
               <h3 className="text-white text-[22px] sm:text-[26px] font-bold mb-4 flex items-center gap-4">
                 <BookOpen size={28} className="text-white" /> İnkişaf Et
               </h3>
@@ -158,3 +131,4 @@ export const RoadmapSection = () => {
     </section>
   );
 };
+

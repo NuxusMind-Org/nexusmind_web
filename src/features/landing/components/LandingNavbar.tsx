@@ -213,7 +213,11 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
 
   return (
     <>
-      <header ref={headerRef} className="w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 bg-white/5 backdrop-blur-md border-b border-white/10 shrink-0 sticky top-0">
+      <header
+        ref={headerRef}
+        className="w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 border-b border-white/10 shrink-0 sticky top-0"
+        style={{ background: 'linear-gradient(90deg, #476388 0%, #314B6B 50%, #1F3347 100%)' }}
+      >
         <div
           onClick={() => {
             setIsMobileMenuOpen(false);

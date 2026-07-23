@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import registrationImg from '@/assets/svg/emotionsIllustration.svg';
+import formBannerImage from '@/assets/svg/formBannerImage.svg';
 
 interface AuthPageLayoutProps {
   children: ReactNode;
@@ -22,20 +22,16 @@ export const AuthPageLayout = ({ children }: AuthPageLayoutProps) => {
         </div>
 
         {/* Right Illustration Section (desktop only) */}
-        <div className="hidden md:block flex-1 relative bg-gradient-to-br from-[#1E293B] to-[#0F172A]">
-          <div
-            className="absolute inset-0 bg-cover bg-center opacity-90"
-            style={{ backgroundImage: `url(${registrationImg})` }}
+        <div className="hidden md:block flex-1 relative overflow-hidden bg-[#0A1624]">
+          <img
+            src={formBannerImage}
+            alt="NexusMind Banner Illustration"
+            className="w-full h-full object-cover"
           />
-          {/* Blend overlays */}
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-ui-bg/90 mix-blend-overlay" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ui-bg/80 via-transparent to-transparent" />
-          {/* Decorative neon orbs */}
-          <div className="absolute bottom-[30%] left-[20%] w-32 h-32 bg-brand/30 blur-[60px] rounded-full pointer-events-none" />
-          <div className="absolute top-[20%] right-[20%] w-40 h-40 bg-accent/20 blur-[80px] rounded-full pointer-events-none" />
         </div>
 
       </div>
     </div>
   );
 };
+

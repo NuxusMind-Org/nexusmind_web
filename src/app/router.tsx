@@ -11,6 +11,7 @@ import { LandingPage } from '@/features/landing/pages/LandingPage';
 import { JournalPage } from '@/features/landing/pages/JournalPage';
 import { PsychologistPage } from '@/features/landing/pages/PsychologistPage';
 import { BlogPage } from '@/features/landing/pages/BlogPage';
+import { BlogDetailPage } from '@/features/landing/pages/BlogDetailPage';
 import { ArticlesPage } from '@/features/landing/pages/ArticlesPage';
 import { ArticleDetailPage } from '@/features/landing/pages/ArticleDetailPage';
 import { NewsPage } from '@/features/landing/pages/NewsPage';
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: PATHS.BLOG,
         element: <BlogPage />,
+      },
+      {
+        path: PATHS.BLOG_DETAIL,
+        element: <BlogDetailPage />,
       },
       {
         path: PATHS.ARTICLE,

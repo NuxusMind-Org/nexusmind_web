@@ -78,7 +78,7 @@ export const RegistrationForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <Input
           label="Tam ad"
-          placeholder="Rafiq Səfərov"
+          placeholder="Ad Soyad"
           {...register('fullName')}
           error={errors.fullName?.message}
         />
@@ -154,7 +154,7 @@ export const RegistrationForm = () => {
         )}
 
         <div className="relative mt-2 w-full group">
-          <div 
+          <div
             className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
             style={{
               padding: '1.5px',

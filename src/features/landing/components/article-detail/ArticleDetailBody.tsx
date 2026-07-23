@@ -85,14 +85,7 @@ export const ArticleDetailBody = () => {
       </p>
 
       {/* ── Feature cards ── */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '16px',
-          marginTop: '8px',
-        }}
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mt-2">
         {/* Card 1 — Tam Nəzarət */}
         <div
           style={{

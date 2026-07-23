@@ -64,9 +64,10 @@ export const Experts = () => {
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const { scrollLeft } = scrollRef.current;
-      const cardWidth = 618; // Card width 593.6px + gap 24px
-      const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
+      const { scrollLeft, firstElementChild } = scrollRef.current;
+      const cardWidth = (firstElementChild as HTMLElement)?.offsetWidth || 340;
+      const step = cardWidth + 24; // Card width + gap 24px
+      const scrollAmount = direction === 'left' ? -step : step;
       scrollRef.current.scrollTo({
         left: scrollLeft + scrollAmount,
         behavior: 'smooth',
@@ -77,16 +78,22 @@ export const Experts = () => {
   return (
     <div className="w-full bg-white px-4 sm:px-6 pb-12 sm:pb-20 lg:px-10 flex flex-col justify-start select-none relative">
       {/* 1. Section Header */}
-      <h2
-        onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
-        className="w-full text-left text-[#1E0A42] font-normal mb-6 sm:mb-8 cursor-pointer hover:text-[#4A247A] transition-colors text-[22px] sm:text-[26px] md:text-[31.15px] leading-[32px] sm:leading-[42px] md:leading-[59.84px]"
-        style={{
-          letterSpacing: '-0.96px',
-          maxWidth: '1251.75px',
-        }}
-      >
-        Mütəxəssislər →
-      </h2>
+      <div className="w-full flex items-center justify-between mb-6 sm:mb-8">
+        <h2
+          className="text-left text-[#1E0A42] font-normal text-[22px] sm:text-[26px] md:text-[31.15px] leading-[32px] sm:leading-[42px] md:leading-[59.84px]"
+          style={{
+            letterSpacing: '-0.96px',
+          }}
+        >
+          Mütəxəssislər
+        </h2>
+        <button
+          onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
+          className="text-[#1E0A42]/60 hover:text-[#1E0A42] font-semibold text-xs sm:text-sm md:text-base cursor-pointer transition-colors bg-transparent border-none p-0 outline-none select-none"
+        >
+          Daha çox
+        </button>
+      </div>
 
       {/* 2. Carousel Wrapper with Nav Buttons */}
       <div className="w-full relative flex items-center group/carousel">
@@ -107,7 +114,7 @@ export const Experts = () => {
             <div
               key={expert.id}
               onClick={() => navigate(PATHS.WEBAPP_EXPERT_DETAIL.replace(':id', String(expert.id)))}
-              className="flex flex-col text-white flex-shrink-0 snap-start transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl cursor-pointer group p-5 sm:p-6 md:p-8 w-[280px] sm:w-[380px] md:w-[480px] lg:w-[593px] rounded-[16px] sm:rounded-[19px]"
+              className="flex flex-col text-white flex-shrink-0 snap-start transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl cursor-pointer group p-5 sm:p-6 md:p-8 w-[280px] sm:w-[340px] lg:w-[calc((100%-72px)/3.5)] rounded-[16px] sm:rounded-[19px]"
               style={{
                 backgroundColor: '#4B2E83',
                 boxShadow: '0px 4.48px 4.48px rgba(0, 0, 0, 0.25), 0px 4.48px 4.48px rgba(0, 0, 0, 0.25)',
