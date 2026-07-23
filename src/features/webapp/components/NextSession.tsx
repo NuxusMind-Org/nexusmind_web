@@ -12,7 +12,7 @@ export const NextSession = () => {
           maxWidth: '1251.75px',
         }}
       >
-        Növəti seansın
+        Növbəti seansın
       </h2>
 
       {/* 2. Purple Session Card */}
