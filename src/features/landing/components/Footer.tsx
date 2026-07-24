@@ -11,8 +11,8 @@ import { PATHS } from '@/routes/paths';
 
 export const Footer = () => {
   return (
-    <footer className="w-full relative mt-24 z-20">
-      <div className="w-full max-w-[1440px] mx-auto bg-[#4E1070] text-white rounded-t-[40px] sm:rounded-t-[64px] px-6 sm:px-12 md:px-16 pt-12 md:pt-16 pb-8 relative shadow-2xl overflow-visible">
+    <footer className="w-full bg-[#4E1070] text-white relative mt-24 z-20 rounded-t-[40px] sm:rounded-t-[64px] shadow-2xl overflow-visible">
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-12 md:px-16 pt-12 md:pt-16 pb-8 relative overflow-visible">
         <div className="w-full flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-8 relative z-10">
           {/* Left Main Section */}
           <div className="w-full lg:w-[65%] xl:w-[60%] flex flex-col">
