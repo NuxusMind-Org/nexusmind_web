@@ -141,59 +141,61 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
                   </button>
 
                   {/* 3. Floating Sub-Navigation Popover Card for Maariflənmə */}
-                  {showMaariflenmeSub && (
-                    <div
-                      ref={popoverRef}
-                      className="absolute z-50 bg-white border-[2.5px] border-[#E5DFDF] rounded-[32px] shadow-[4px_4px_4px_rgba(0,0,0,0.25)] w-[195px] h-auto animate-fade-in text-left"
-                      style={{
-                        left: isExpanded ? '305px' : '85px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                      }}
-                    >
-                      <div className="flex flex-col gap-[21px] py-[14px] px-4">
-                        {[
-                          {name: 'Məqalələr', path: PATHS.WEBAPP_ARTICLE, icon: BookOpen},
-                          {name: 'Bloqlar', path: PATHS.WEBAPP_BLOG, icon: FileText},
-                          {name: 'Təlimlər', path: PATHS.WEBAPP_TRAININGS, icon: null},
-                        ].map((sub) => {
-                          const isCustomIcon = sub.name === 'Təlimlər';
-                          return (
-                            <NavLink
-                              key={sub.path}
-                              to={sub.path}
-                              onClick={() => setShowMaariflenmeSub(false)}
-                              className="flex items-center justify-between text-[#4D2059] hover:bg-[#4D2059]/5 px-2.5 py-1.5 rounded-2xl transition-colors duration-150 cursor-pointer"
-                            >
-                              <div className="flex items-center gap-2.5">
-                                {isCustomIcon ? (
-                                  <svg
-                                    viewBox="0 0 24 24"
-                                    width="20"
-                                    height="20"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="1.75"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="text-[#4D2059] flex-shrink-0"
-                                  >
-                                    <path d="M18 19c0-2.2-1.8-4-4-4H6c-2.2 0-4 1.8-4 4" />
-                                    <circle cx="10" cy="8" r="4" />
-                                    <path d="M17 9a3 3 0 0 1 0 6M20 7a6 6 0 0 1 0 10" />
-                                  </svg>
-                                ) : (
-                                  sub.icon && <sub.icon size={20} className="text-[#4D2059] flex-shrink-0" />
-                                )}
-                                <span className="text-[12px] font-bold tracking-tight">{sub.name}</span>
-                              </div>
-                              <ChevronRight size={16} className="text-[#4D2059] opacity-80" />
-                            </NavLink>
-                          );
-                        })}
-                      </div>
+                  <div
+                    ref={popoverRef}
+                    className={`absolute z-50 bg-white border-[2.5px] border-[#E5DFDF] rounded-[32px] shadow-[4px_4px_4px_rgba(0,0,0,0.25)] w-[195px] h-auto text-left transition-all duration-200 ease-in-out ${
+                      showMaariflenmeSub
+                        ? 'opacity-100 pointer-events-auto'
+                        : 'opacity-0 pointer-events-none'
+                    }`}
+                    style={{
+                      left: isExpanded ? '305px' : '85px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                    }}
+                  >
+                    <div className="flex flex-col gap-[21px] py-[14px] px-4">
+                      {[
+                        {name: 'Məqalələr', path: PATHS.WEBAPP_ARTICLE, icon: BookOpen},
+                        {name: 'Bloqlar', path: PATHS.WEBAPP_BLOG, icon: FileText},
+                        {name: 'Təlimlər', path: PATHS.WEBAPP_TRAININGS, icon: null},
+                      ].map((sub) => {
+                        const isCustomIcon = sub.name === 'Təlimlər';
+                        return (
+                          <NavLink
+                            key={sub.path}
+                            to={sub.path}
+                            onClick={() => setShowMaariflenmeSub(false)}
+                            className="flex items-center justify-between text-[#4D2059] hover:bg-[#4D2059]/5 px-2.5 py-1.5 rounded-2xl transition-colors duration-150 cursor-pointer"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              {isCustomIcon ? (
+                                <svg
+                                  viewBox="0 0 24 24"
+                                  width="20"
+                                  height="20"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.75"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="text-[#4D2059] flex-shrink-0"
+                                >
+                                  <path d="M18 19c0-2.2-1.8-4-4-4H6c-2.2 0-4 1.8-4 4" />
+                                  <circle cx="10" cy="8" r="4" />
+                                  <path d="M17 9a3 3 0 0 1 0 6M20 7a6 6 0 0 1 0 10" />
+                                </svg>
+                              ) : (
+                                sub.icon && <sub.icon size={20} className="text-[#4D2059] flex-shrink-0" />
+                              )}
+                              <span className="text-[12px] font-bold tracking-tight">{sub.name}</span>
+                            </div>
+                            <ChevronRight size={16} className="text-[#4D2059] opacity-80" />
+                          </NavLink>
+                        );
+                      })}
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             }
@@ -215,59 +217,61 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
                   </button>
 
                   {/* 4. Floating Sub-Navigation Popover Card for Media */}
-                  {showMediaSub && (
-                    <div
-                      ref={mediaPopoverRef}
-                      className="absolute z-50 bg-white border-[2.5px] border-[#E5DFDF] rounded-[32px] shadow-[4px_4px_4px_rgba(0,0,0,0.25)] w-[195px] h-auto animate-fade-in text-left"
-                      style={{
-                        left: isExpanded ? '305px' : '85px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                      }}
-                    >
-                      <div className="flex flex-col gap-[21px] py-[14px] px-4">
-                        {[
-                          { name: 'Qalereya', path: PATHS.WEBAPP_GALLERY, icon: Image },
-                          { name: 'Xəbərlər', path: PATHS.WEBAPP_NEWS, icon: null },
-                        ].map((sub) => {
-                          const isCustomIcon = sub.name === 'Xəbərlər';
-                          return (
-                            <NavLink
-                              key={sub.path}
-                              to={sub.path}
-                              onClick={() => setShowMediaSub(false)}
-                              className="flex items-center justify-between text-[#4D2059] hover:bg-[#4D2059]/5 px-2.5 py-1 rounded-2xl transition-colors duration-150 cursor-pointer"
-                            >
-                              <div className="flex items-center gap-2.5">
-                                {isCustomIcon ? (
-                                  <svg
-                                    viewBox="0 0 24 24"
-                                    width="20"
-                                    height="20"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="1.75"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="text-[#4D2059] flex-shrink-0"
-                                  >
-                                    <rect x="3" y="3" width="18" height="18" rx="5" ry="5" />
-                                    <line x1="8" y1="17" x2="8" y2="13" />
-                                    <line x1="12" y1="17" x2="12" y2="9" />
-                                    <line x1="16" y1="17" x2="16" y2="11" />
-                                  </svg>
-                                ) : (
-                                  sub.icon && <sub.icon size={20} className="text-[#4D2059] flex-shrink-0" />
-                                )}
-                                <span className="text-[12px] font-bold tracking-tight">{sub.name}</span>
-                              </div>
-                              <ChevronRight size={16} className="text-[#4D2059] opacity-80" />
-                            </NavLink>
-                          );
-                        })}
-                      </div>
+                  <div
+                    ref={mediaPopoverRef}
+                    className={`absolute z-50 bg-white border-[2.5px] border-[#E5DFDF] rounded-[32px] shadow-[4px_4px_4px_rgba(0,0,0,0.25)] w-[195px] h-auto text-left transition-all duration-200 ease-in-out ${
+                      showMediaSub
+                        ? 'opacity-100 pointer-events-auto'
+                        : 'opacity-0 pointer-events-none'
+                    }`}
+                    style={{
+                      left: isExpanded ? '305px' : '85px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                    }}
+                  >
+                    <div className="flex flex-col gap-[21px] py-[14px] px-4">
+                      {[
+                        { name: 'Qalereya', path: PATHS.WEBAPP_GALLERY, icon: Image },
+                        { name: 'Xəbərlər', path: PATHS.WEBAPP_NEWS, icon: null },
+                      ].map((sub) => {
+                        const isCustomIcon = sub.name === 'Xəbərlər';
+                        return (
+                          <NavLink
+                            key={sub.path}
+                            to={sub.path}
+                            onClick={() => setShowMediaSub(false)}
+                            className="flex items-center justify-between text-[#4D2059] hover:bg-[#4D2059]/5 px-2.5 py-1 rounded-2xl transition-colors duration-150 cursor-pointer"
+                          >
+                            <div className="flex items-center gap-2.5">
+                              {isCustomIcon ? (
+                                <svg
+                                  viewBox="0 0 24 24"
+                                  width="20"
+                                  height="20"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.75"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="text-[#4D2059] flex-shrink-0"
+                                >
+                                  <rect x="3" y="3" width="18" height="18" rx="5" ry="5" />
+                                  <line x1="8" y1="17" x2="8" y2="13" />
+                                  <line x1="12" y1="17" x2="12" y2="9" />
+                                  <line x1="16" y1="17" x2="16" y2="11" />
+                                </svg>
+                              ) : (
+                                sub.icon && <sub.icon size={20} className="text-[#4D2059] flex-shrink-0" />
+                              )}
+                              <span className="text-[12px] font-bold tracking-tight">{sub.name}</span>
+                            </div>
+                            <ChevronRight size={16} className="text-[#4D2059] opacity-80" />
+                          </NavLink>
+                        );
+                      })}
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             }
