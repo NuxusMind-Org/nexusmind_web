@@ -81,10 +81,10 @@ export const BlogPage = () => {
 
       {/* Page Content */}
       <div className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[40px] sm:pt-[60px] pb-[80px] flex flex-col items-center gap-10">
-        
+
         {/* Left-Aligned Header Section */}
         <div className="w-full max-w-[1295px] text-left">
-          <h1 className="text-[36px] sm:text-[48px] font-semibold text-white tracking-tight leading-tight">
+          <h1 className="text-[42px] sm:text-[56px] font-sans font-light text-white mb-2 leading-tight tracking-tight">
             Bloqlar
           </h1>
           <p className="text-white/60 text-[15px] sm:text-[16px] font-light mt-2">
@@ -144,7 +144,7 @@ export const BlogPage = () => {
 
         {/* Section 3: Bənzər bloqlar */}
         <div className="w-full max-w-[1295px] flex flex-col gap-6 mt-6">
-          
+
           {/* Section Header */}
           <div className="w-full text-left">
             <h2 className="text-[28px] sm:text-[36px] font-bold text-white tracking-tight">
@@ -166,7 +166,7 @@ export const BlogPage = () => {
 
           {/* Main Layout Grid: 2 Columns for Cards, 1 Column for Sidebar */}
           <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-start mt-2">
-            
+
             {/* Left/Center Column: 2x2 Blog Cards Grid */}
             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredBlogs.map((blog) => (
@@ -205,7 +205,7 @@ export const BlogPage = () => {
                         <span>{blog.date}</span>
                       </div>
                       <span className="text-white/80 font-medium group-hover:text-white flex items-center gap-1 transition-colors select-none">
-                        Daha çox oxu <ChevronRightIcon className="w-3.5 h-3.5" />
+                        Dəvamını oxu <ChevronRightIcon className="w-3.5 h-3.5" />
                       </span>
                     </div>
                   </div>
@@ -215,7 +215,7 @@ export const BlogPage = () => {
 
             {/* Right Column: Sidebar Stack */}
             <div className="lg:col-span-1 flex flex-col gap-6 w-full">
-              
+
               {/* Widget 1: Newsletter Subscription */}
               <div className="bg-[#121c3b]/90 backdrop-blur-md border border-white/10 rounded-[20px] p-6 flex flex-col gap-4 text-left shadow-xl">
                 <h3 className="text-white text-[20px] sm:text-[22px] font-bold tracking-tight">
@@ -296,11 +296,10 @@ export const BlogPage = () => {
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
-                className={`w-10 h-10 rounded-full text-[14px] font-semibold flex items-center justify-center transition-all cursor-pointer select-none ${
-                  currentPage === page
-                    ? 'bg-gradient-to-r from-[#7048ea] to-[#3a7afb] text-white shadow-lg shadow-indigo-500/30'
-                    : 'bg-white/10 hover:bg-white/20 border border-white/15 text-white/80'
-                }`}
+                className={`w-10 h-10 rounded-full text-[14px] font-semibold flex items-center justify-center transition-all cursor-pointer select-none ${currentPage === page
+                  ? 'bg-gradient-to-r from-[#7048ea] to-[#3a7afb] text-white shadow-lg shadow-indigo-500/30'
+                  : 'bg-white/10 hover:bg-white/20 border border-white/15 text-white/80'
+                  }`}
               >
                 {page}
               </button>

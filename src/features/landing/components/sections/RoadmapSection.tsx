@@ -58,7 +58,7 @@ export const RoadmapSection = () => {
           {/* Card 1 — Özünü tanı */}
           <ScrollReveal ref={card1Ref} className="w-full max-w-[581px] h-auto min-h-0 md:h-[345px] md:min-h-[345px] relative self-center md:self-auto mt-8 md:mt-0">
             {/* Dedicated Classic Nexie Mascot */}
-            <div className="absolute -top-[75px] sm:-top-[85px] left-4 sm:left-6 pointer-events-none z-20">
+            <div className="absolute -top-[75px] sm:-top-[85px] right-4 sm:right-6 pointer-events-none z-20">
               <img
                 src={nexieSittingClassic}
                 alt="Nexie Mascot Classic"
@@ -98,7 +98,7 @@ export const RoadmapSection = () => {
           {/* Card 3 — İnkişaf Et */}
           <ScrollReveal ref={card3Ref} className="w-full max-w-[581px] h-auto min-h-0 md:h-[345px] md:min-h-[345px] relative self-center md:self-auto md:mt-0">
             {/* Dedicated Classic Nexie Mascot */}
-            <div className="absolute -top-[75px] sm:-top-[85px] left-4 sm:left-6 pointer-events-none z-20">
+            <div className="absolute -top-[75px] sm:-top-[85px] right-4 sm:right-6 pointer-events-none z-20">
               <img
                 src={nexieSittingClassic}
                 alt="Nexie Mascot Classic"
