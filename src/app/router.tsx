@@ -38,6 +38,8 @@ import { SettingsPage } from '@/features/webapp/pages/SettingsPage';
 import { NotificationsPage } from '@/features/webapp/pages/NotificationsPage';
 import { ExpertsPage } from '@/features/webapp/pages/ExpertsPage';
 import { ExpertDetailPage } from '@/features/webapp/pages/ExpertDetailPage';
+import { MiniGamesPage } from '@/features/webapp/pages/MiniGamesPage';
+import { BreathingGamePage } from '@/features/webapp/pages/BreathingGamePage';
 import { ScrollToTop } from '@/components';
 
 const RootLayout = () => {
@@ -202,6 +204,14 @@ const router = createBrowserRouter([
               {
                 path: PATHS.WEBAPP_NOTIFICATIONS,
                 element: <NotificationsPage />,
+              },
+              {
+                path: PATHS.WEBAPP_MINI_GAMES,
+                element: <MiniGamesPage />,
+              },
+              {
+                path: PATHS.WEBAPP_BREATHING_GAME,
+                element: <BreathingGamePage />,
               },
             ],
           },

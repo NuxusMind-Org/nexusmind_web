@@ -37,5 +37,7 @@ export const PATHS = {
   WEBAPP_TRAININGS: '/dashboard/trainings',
   WEBAPP_EXPERTS: '/dashboard/experts',
   WEBAPP_EXPERT_DETAIL: '/dashboard/experts/:id',
+  WEBAPP_MINI_GAMES: '/dashboard/mini-games',
+  WEBAPP_BREATHING_GAME: '/dashboard/mini-games/play',
 };
 

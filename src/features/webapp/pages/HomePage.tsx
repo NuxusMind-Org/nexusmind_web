@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Wind } from 'lucide-react';
+import { PATHS } from '@/routes/paths';
 import { WelcomeHeader } from '../components/WelcomeHeader';
 import { MoodSelector } from '../components/MoodSelector';
 import { NextSession } from '../components/NextSession';
@@ -10,6 +12,7 @@ import { Blogs } from '../components/Blogs';
 import { Experts } from '../components/Experts';
 
 export const HomePage = () => {
+  const navigate = useNavigate();
   const [showBreathingCard, setShowBreathingCard] = useState(true);
   const [showMeditationCard, setShowMeditationCard] = useState(true);
 
@@ -25,6 +28,7 @@ export const HomePage = () => {
           description="Dərin nəfəs almaq stress hormonlarını azaldır və ağlını sabitləşdirir. Bunu indi cəhd et!"
           icon={<Wind size={64} className="text-white" />}
           bgGradient="linear-gradient(135deg, #06976B 0%, #38A06F 50%, #0E4D2D 100%)"
+          onAction={() => navigate(PATHS.WEBAPP_MINI_GAMES)}
           onClose={() => setShowBreathingCard(false)}
         />
       )}
@@ -55,6 +59,7 @@ export const HomePage = () => {
             </svg>
           }
           bgGradient="linear-gradient(135deg, #120697 0%, #3863A0 50%, #2C8BD4 100%)"
+          onAction={() => navigate(PATHS.WEBAPP_MINI_GAMES)}
           onClose={() => setShowMeditationCard(false)}
         />
       )}
