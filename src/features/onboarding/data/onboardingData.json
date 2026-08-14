@@ -1,129 +1,198 @@
 [
   {
-    "id": 1,
-    "layout": "circles",
+    "step": 1,
+    "totalSteps": 4,
     "question": "Sizə necə xitab etməyimizi istərdiniz?",
+    "type": "single_choice",
     "options": [
       {
-        "id": "female",
+        "id": "gender_female",
         "label": "Xanım",
+        "hasImage": true,
         "image": "female_avatar.png"
       },
       {
-        "id": "male",
+        "id": "gender_male",
         "label": "Bəy",
+        "hasImage": true,
         "image": "male_avatar.png"
       }
-    ]
+    ],
+    "actions": {
+      "primary": "Sonrakı"
+    }
   },
   {
-    "id": 2,
-    "layout": "grid",
+    "step": 2,
+    "totalSteps": 4,
     "question": "Terapiyaya necə qoşulmaq istəyirsiz ?",
+    "type": "single_choice",
     "options": [
       {
-        "id": "single",
+        "id": "therapy_solo",
         "label": "Tək",
+        "hasImage": true,
         "image": "single_person.png"
       },
       {
-        "id": "couple",
+        "id": "therapy_couple",
         "label": "Cütlük",
+        "hasImage": true,
         "image": "couple.png"
       },
       {
-        "id": "family",
+        "id": "therapy_family",
         "label": "Ailə",
-        "image": "family.png"
+        "hasImage": true,
+        "image": "family.png",
+        "subOptions": [
+          {
+            "id": "count_parent",
+            "label": "Valideyn",
+            "type": "counter",
+            "min": 0
+          },
+          {
+            "id": "count_child",
+            "label": "Uşaq",
+            "type": "counter",
+            "min": 0
+          }
+        ]
       },
       {
-        "id": "friends",
+        "id": "therapy_friends",
         "label": "Dostlar",
-        "image": "friends.png"
+        "hasImage": true,
+        "image": "friends.png",
+        "subOptions": [
+          {
+            "id": "count_female",
+            "label": "Xanım",
+            "type": "counter",
+            "min": 0
+          },
+          {
+            "id": "count_male",
+            "label": "Bəy",
+            "type": "counter",
+            "min": 0
+          }
+        ]
       }
-    ]
+    ],
+    "actions": {
+      "primary": "Sonrakı",
+      "secondary": "Geri"
+    }
   },
   {
-    "id": 3,
-    "layout": "cards",
+    "step": 3,
+    "totalSteps": 4,
     "question": "Hansı məkanda özünüzü rahat hiss edirsiz ?",
+    "subtitle": "3 versiya seçə bilərsən",
+    "type": "multiple_choice",
     "maxSelections": 3,
     "options": [
       {
-        "id": "sessiz",
+        "id": "env_silent",
         "label": "Səssiz",
+        "hasImage": true,
         "image": "ob0301.png"
       },
       {
-        "id": "yaradici",
+        "id": "env_creative",
         "label": "Yaradıcı",
+        "hasImage": true,
         "image": "ob0302.png"
       },
       {
-        "id": "tebiet",
+        "id": "env_nature",
         "label": "Təbiət",
+        "hasImage": true,
         "image": "ob0303.png"
       },
       {
-        "id": "kitabxana",
+        "id": "env_library",
         "label": "Kitabxana",
+        "hasImage": true,
         "image": "ob0304.png"
       },
       {
-        "id": "minimalist",
+        "id": "env_minimalist",
         "label": "Minimalist",
+        "hasImage": true,
         "image": "ob0305.png"
       },
       {
-        "id": "semimi",
+        "id": "env_cozy",
         "label": "Səmimi",
+        "hasImage": true,
         "image": "ob0306.png"
       }
-    ]
+    ],
+    "actions": {
+      "primary": "Sonrakı",
+      "secondary": "Geri"
+    }
   },
   {
-    "id": 4,
-    "layout": "cards",
+    "step": 4,
+    "totalSteps": 4,
     "question": "Sizi ən çox nə narahat edir ?",
+    "subtitle": "3 versiya seçə bilərsən",
+    "type": "multiple_choice",
     "maxSelections": 3,
     "options": [
       {
-        "id": "aile",
+        "id": "issue_family",
         "label": "Ailə problemləri",
+        "hasImage": true,
         "image": "ob0401.png"
       },
       {
-        "id": "sevgi",
+        "id": "issue_love",
         "label": "Sevgi problemləri",
+        "hasImage": true,
         "image": "ob0402.png"
       },
       {
-        "id": "teklik",
+        "id": "issue_loneliness",
         "label": "Təklik",
+        "hasImage": true,
         "image": "ob0403.png"
       },
       {
-        "id": "gelecek",
+        "id": "issue_future",
         "label": "Gələcək qayğısı",
+        "hasImage": true,
         "image": "ob0404.png"
       },
       {
-        "id": "depressiya",
+        "id": "issue_depression",
         "label": "Ağır depressiya",
+        "hasImage": true,
         "image": "ob0405.png"
       },
       {
-        "id": "yorgunluq",
+        "id": "issue_fatigue",
         "label": "Xroniki yorğunluq",
+        "hasImage": true,
         "image": "ob0406.png"
       }
-    ]
+    ],
+    "actions": {
+      "primary": "Əsas səhifə",
+      "secondary": "Geri"
+    }
   },
   {
-    "id": 5,
-    "layout": "analyzing",
-    "question": "Qeydlər analiz olunur",
-    "image": "analyzing.png",
-    "options": []
+    "step": 5,
+    "type": "loading_state",
+    "message": "Qeydlər analiz olunur",
+    "hasAnimation": true,
+    "actions": {
+      "secondary": "Geri"
+    }
   }
 ]

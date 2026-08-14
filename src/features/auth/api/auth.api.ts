@@ -5,7 +5,12 @@ import type {
   PasientRegisterDto,
   ChangePasswordRequest,
   VerifyOtpRequest,
-} from './auth.types';
+  ForgotPasswordRequest,
+  ResetPasswordWithOtpRequest,
+  AdminLoginRequest,
+  PatientMood,
+  PasientRegisterEntity,
+} from '@/api/types';
 
 export const authApi = {
   login: async (data: LoginRequest): Promise<AuthResponse> => {
@@ -18,8 +23,29 @@ export const authApi = {
     return response.data;
   },
 
-  getMe: async (): Promise<string> => {
-    const response = await apiClient.get<string>('/auth/me');
+  getUserById: async (id: number): Promise<PasientRegisterDto> => {
+    const response = await apiClient.get<PasientRegisterDto>(`/auth/${id}`);
+    return response.data;
+  },
+
+  updateUser: async (id: number, data: PasientRegisterDto): Promise<string> => {
+    const response = await apiClient.put<string>(`/auth/${id}`, data);
+    return response.data;
+  },
+
+  deleteUser: async (id: number): Promise<string> => {
+    const response = await apiClient.delete<string>(`/auth/${id}`);
+    return response.data;
+  },
+
+  updateMood: async (patientId: number, mood: PatientMood): Promise<void> => {
+    await apiClient.put(`/auth/${patientId}/mood`, null, {
+      params: { mood },
+    });
+  },
+
+  getMe: async (): Promise<PasientRegisterEntity | string> => {
+    const response = await apiClient.get('/auth');
     return response.data;
   },
 
@@ -30,6 +56,36 @@ export const authApi = {
 
   changePassword: async (data: ChangePasswordRequest): Promise<string> => {
     const response = await apiClient.put<string>('/auth/change-password', data);
+    return response.data;
+  },
+
+  forgotPassword: async (data: ForgotPasswordRequest): Promise<string> => {
+    const response = await apiClient.post<string>('/auth/forgot-password', data);
+    return response.data;
+  },
+
+  resetPassword: async (data: ResetPasswordWithOtpRequest): Promise<string> => {
+    const response = await apiClient.post<string>('/auth/reset-password', data);
+    return response.data;
+  },
+
+  superAdminLogin: async (data: AdminLoginRequest): Promise<AuthResponse> => {
+    const response = await apiClient.post<AuthResponse>('/auth/super-admin-login', data);
+    return response.data;
+  },
+
+  doctorPanelLogin: async (data: AdminLoginRequest): Promise<AuthResponse> => {
+    const response = await apiClient.post<AuthResponse>('/auth/doctor-panel-login', data);
+    return response.data;
+  },
+
+  doctorLogin: async (data: LoginRequest): Promise<AuthResponse> => {
+    const response = await apiClient.post<AuthResponse>('/auth/doctor-login', data);
+    return response.data;
+  },
+
+  bpmLogin: async (data: LoginRequest): Promise<AuthResponse> => {
+    const response = await apiClient.post<AuthResponse>('/auth/bpm-login', data);
     return response.data;
   },
 

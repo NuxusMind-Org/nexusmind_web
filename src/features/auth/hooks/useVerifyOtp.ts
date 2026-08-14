@@ -25,12 +25,12 @@ export const useVerifyOtp = () => {
       }
       return null;
     },
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       if (data?.token) {
         // Save auth token
         localStorage.setItem('auth_token', data.token);
         queryClient.invalidateQueries({ queryKey: authKeys.me() });
-        navigate(PATHS.DASHBOARD);
+        navigate(PATHS.REGISTRATION_SUCCESS, { state: { email: variables.verify.email } });
       } else {
         // Fallback for Password recovery flow: navigate to set new password
         navigate(PATHS.NEW_PASSWORD);
