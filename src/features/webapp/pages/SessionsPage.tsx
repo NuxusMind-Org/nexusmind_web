@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Frown, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Star, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { psychologists } from '@/features/landing/data/psychologists';
 import { PATHS } from '@/routes/paths';
+import presentingNexie from '@/assets/svg/presenting_nexie.svg';
 
 export const SessionsPage = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export const SessionsPage = () => {
 
   return (
     <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-10 opacity-100">
-      
+
       {/* Top Header Section (Card with Gradient) - Height 250px */}
       <div
         className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-[200px] sm:h-[230px] md:h-[250px] pt-[24px] sm:pt-[36px] md:pt-[48px] pb-[24px] sm:pb-[32px] md:pb-[38px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-center opacity-100 relative"
@@ -52,16 +53,25 @@ export const SessionsPage = () => {
       </div>
 
       {/* Main Content Area - Empty State */}
-      <div className="flex-grow flex flex-col items-center justify-center pt-20 pb-12 px-6 gap-6 bg-white">
+      <div className="flex-grow flex flex-col items-center justify-center pt-10 md:pt-20 pb-12 px-6 gap-6 bg-white">
         <h3 className="text-[32px] md:text-[42px] font-light text-[#7A7570] font-['Lexend'] text-center">
           Hələki seans yoxdur .
         </h3>
-        
-        <Frown 
-          size={110} 
-          className="text-[#7A7570]" 
-          strokeWidth={1.2} 
-        />
+
+        <div className="relative w-full max-w-[500px] h-[235px] sm:h-[320px] mt-4 sm:mt-8 mx-auto">
+          <img
+            src={presentingNexie}
+            alt="Presenting Nexie"
+            className="absolute left-[50%] -translate-x-[85%] sm:-translate-x-[85%] bottom-0 w-[200px] sm:w-[260px] object-contain"
+          />
+          <button 
+            onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
+            className="absolute top-[25%] sm:top-[32%] left-[59%] -translate-x-[15%] sm:-translate-x-[15%] translate-y-[-50%] bg-[#4B2E83] hover:bg-[#3C2475] text-white rounded-full px-4 sm:px-6 py-3 sm:py-4 font-semibold font-['Lexend'] flex items-center justify-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] text-[11px] sm:text-[15px] border-0 cursor-pointer uppercase tracking-wide whitespace-nowrap z-10"
+          >
+            <Plus strokeWidth={2.5} className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px]" />
+            seans təyin et
+          </button>
+        </div>
       </div>
 
       {/* Section 3: Explore Experts Slider */}
@@ -154,7 +164,7 @@ export const SessionsPage = () => {
                 </div>
 
                 {/* CTA Booking Button */}
-                <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-auto shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-['Lexend'] border-0">
+                <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-2.5 shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-['Lexend'] border-0">
                   Başlayaq
                 </button>
               </div>

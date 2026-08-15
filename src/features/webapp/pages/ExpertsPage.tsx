@@ -77,7 +77,7 @@ export const ExpertsPage = () => {
 
   return (
     <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
-      
+
       {/* Top Header Section (Card with Gradient) - Height 270px */}
       <div
         className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none min-h-[220px] sm:min-h-[250px] md:min-h-[270px] pt-[24px] sm:pt-[36px] md:pt-[45px] pb-[24px] sm:pb-[30px] md:pb-[35px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-left opacity-100 relative"
@@ -105,7 +105,7 @@ export const ExpertsPage = () => {
 
         {/* Controls Row */}
         <div className="w-full flex flex-col lg:flex-row justify-between items-center gap-4 sm:gap-6 mt-4 z-10">
-          
+
           {/* ===== MOBILE VIEW (< lg) ===== */}
           <div className="flex flex-col gap-3.5 w-full lg:hidden">
             {/* Always-visible Horizontal Scrollable Category Bar */}
@@ -115,11 +115,10 @@ export const ExpertsPage = () => {
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`min-h-[44px] px-5 py-2.5 rounded-full text-[13px] sm:text-sm font-semibold transition-all duration-200 cursor-pointer border font-['Lexend'] flex items-center justify-center select-none ${
-                      activeCategory === cat.id
+                    className={`min-h-[44px] px-5 py-2.5 rounded-full text-[13px] sm:text-sm font-semibold transition-all duration-200 cursor-pointer border font-['Lexend'] flex items-center justify-center select-none ${activeCategory === cat.id
                         ? 'bg-[#DDD4F8] border-[#4D2059] text-[#1E0A42] shadow-sm font-bold'
                         : 'bg-white/40 border-[#4D2059]/30 text-[#1E0A42]/80 hover:bg-[#4D2059]/10'
-                    }`}
+                      }`}
                   >
                     {cat.label}
                   </button>
@@ -151,11 +150,10 @@ export const ExpertsPage = () => {
                             setActiveSort(opt.id);
                             setShowSortDropdown(false);
                           }}
-                          className={`w-full text-left min-h-[44px] px-4 py-2.5 rounded-[14px] text-[13px] font-medium font-['Lexend'] transition-colors cursor-pointer flex items-center border-0 ${
-                            activeSort === opt.id
+                          className={`w-full text-left min-h-[44px] px-4 py-2.5 rounded-[14px] text-[13px] font-medium font-['Lexend'] transition-colors cursor-pointer flex items-center border-0 ${activeSort === opt.id
                               ? 'bg-[#482476]/15 text-[#482476] font-bold'
                               : 'text-[#482476] hover:bg-[#482476]/5'
-                          }`}
+                            }`}
                         >
                           {opt.label}
                         </button>
@@ -171,31 +169,28 @@ export const ExpertsPage = () => {
           <div className="hidden lg:flex items-center gap-4 w-auto">
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`bg-[#204F5E] text-white px-5 py-2.5 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-[#204F5E]/90 transition-all duration-300 shadow-sm cursor-pointer font-['Lexend'] border select-none outline-none group ${
-                isFilterOpen ? 'border-[#4D2059]' : 'border-transparent'
-              }`}
+              className={`bg-[#204F5E] text-white px-5 py-2.5 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-[#204F5E]/90 transition-all duration-300 shadow-sm cursor-pointer font-['Lexend'] border select-none outline-none group ${isFilterOpen ? 'border-[#4D2059]' : 'border-transparent'
+                }`}
             >
               <SlidersHorizontal size={16} className="group-hover:scale-105 transition-transform duration-300" />
               <span>Filter</span>
             </button>
 
             <div
-              className={`transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-                isFilterOpen
+              className={`transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isFilterOpen
                   ? 'max-w-[700px] opacity-100 translate-x-0 overflow-x-auto no-scrollbar'
                   : 'max-w-0 opacity-0 -translate-x-8 overflow-hidden pointer-events-none'
-              }`}
+                }`}
             >
               <div className="flex items-center gap-2.5 whitespace-nowrap pl-1 pr-4 py-1">
                 {categories.map((cat) => (
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer border font-['Lexend'] ${
-                      activeCategory === cat.id
+                    className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer border font-['Lexend'] ${activeCategory === cat.id
                         ? 'bg-[#DDD4F8] border-[#4D2059] text-[#1E0A42] shadow-sm'
                         : 'border-[#4D2059]/40 text-[#1E0A42] hover:bg-[#4D2059]/5'
-                    }`}
+                      }`}
                   >
                     {cat.label}
                   </button>
@@ -229,11 +224,10 @@ export const ExpertsPage = () => {
                             setActiveSort(opt.id);
                             setShowSortDropdown(false);
                           }}
-                          className={`w-full text-left px-3.5 py-1.5 rounded-[14px] text-[11px] font-bold leading-[21px] tracking-[0.35px] font-['Lexend'] transition-colors duration-150 cursor-pointer border-0 ${
-                            activeSort === opt.id
+                          className={`w-full text-left px-3.5 py-1.5 rounded-[14px] text-[11px] font-bold leading-[21px] tracking-[0.35px] font-['Lexend'] transition-colors duration-150 cursor-pointer border-0 ${activeSort === opt.id
                               ? 'bg-[#482476]/10 text-[#482476]'
                               : 'text-[#482476] hover:bg-[#482476]/5'
-                          }`}
+                            }`}
                         >
                           {opt.label}
                         </button>
@@ -320,7 +314,7 @@ export const ExpertsPage = () => {
                 </div>
 
                 {/* CTA Booking Button */}
-                <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-auto shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-['Lexend'] border-0">
+                <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-2.5 shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-['Lexend'] border-0">
                   Başlayaq
                 </button>
               </div>
