@@ -1,14 +1,16 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Star, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import { Search, Star, ChevronLeft, ChevronRight, Plus, Calendar, Clock, Video } from 'lucide-react';
 import { psychologists } from '@/features/landing/data/psychologists';
 import { PATHS } from '@/routes/paths';
 import presentingNexie from '@/assets/svg/presenting_nexie.svg';
+import { useSessionStore } from '@/store/sessionStore';
 
 export const SessionsPage = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
+  const sessions = useSessionStore(state => state.sessions);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -52,26 +54,106 @@ export const SessionsPage = () => {
         </div>
       </div>
 
-      {/* Main Content Area - Empty State */}
-      <div className="flex-grow flex flex-col items-center justify-center pt-10 md:pt-20 pb-12 px-6 gap-6 bg-white">
-        <h3 className="text-[32px] md:text-[42px] font-light text-[#7A7570] font-['Lexend'] text-center">
-          Hələki seans yoxdur .
-        </h3>
+      {/* Main Content Area */}
+      <div className="flex-grow w-full flex flex-col justify-center pt-10 md:pt-14 pb-12 px-4 sm:px-6 md:px-[48px] gap-6 bg-[#FAFAFA] min-h-[350px]">
+        {sessions.length === 0 ? (
+          <div className="flex flex-col items-center justify-center w-full">
+            <h3 className="text-[32px] md:text-[42px] font-light text-[#7A7570] font-['Lexend'] text-center">
+              Hələki seans yoxdur .
+            </h3>
 
-        <div className="relative w-full max-w-[500px] h-[235px] sm:h-[320px] mt-4 sm:mt-8 mx-auto">
-          <img
-            src={presentingNexie}
-            alt="Presenting Nexie"
-            className="absolute left-[50%] -translate-x-[85%] sm:-translate-x-[85%] bottom-0 w-[200px] sm:w-[260px] object-contain"
-          />
-          <button 
-            onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
-            className="absolute top-[25%] sm:top-[32%] left-[59%] -translate-x-[15%] sm:-translate-x-[15%] translate-y-[-50%] bg-[#4B2E83] hover:bg-[#3C2475] text-white rounded-full px-4 sm:px-6 py-3 sm:py-4 font-semibold font-['Lexend'] flex items-center justify-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] text-[11px] sm:text-[15px] border-0 cursor-pointer uppercase tracking-wide whitespace-nowrap z-10"
-          >
-            <Plus strokeWidth={2.5} className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px]" />
-            seans təyin et
-          </button>
-        </div>
+            <div className="relative w-full max-w-[500px] h-[235px] sm:h-[320px] mt-4 sm:mt-8 mx-auto">
+              <img
+                src={presentingNexie}
+                alt="Presenting Nexie"
+                className="absolute left-[50%] -translate-x-[85%] sm:-translate-x-[85%] bottom-0 w-[200px] sm:w-[260px] object-contain"
+              />
+              <button 
+                onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
+                className="absolute top-[25%] sm:top-[32%] left-[59%] -translate-x-[15%] sm:-translate-x-[15%] translate-y-[-50%] bg-[#4B2E83] hover:bg-[#3C2475] text-white rounded-full px-4 sm:px-6 py-3 sm:py-4 font-semibold font-['Lexend'] flex items-center justify-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] text-[11px] sm:text-[15px] border-0 cursor-pointer uppercase tracking-wide whitespace-nowrap z-10"
+              >
+                <Plus strokeWidth={2.5} className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px]" />
+                seans təyin et
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="w-full flex flex-col gap-6 animate-fade-in mx-auto">
+            <div className="flex justify-between items-center mb-2">
+               <h3 className="text-[24px] md:text-[28px] font-bold text-[#1E0A42] font-['Lexend']">
+                 Qarşıdan gələn seanslar
+               </h3>
+               <button 
+                 onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
+                 className="flex items-center gap-1.5 text-sm md:text-base font-semibold text-[#4B2E83] hover:text-[#3C2475] transition-colors bg-transparent border-0 cursor-pointer font-['Lexend']"
+               >
+                 <Plus size={18} /> Yeni Seans
+               </button>
+            </div>
+            {sessions.map(session => {
+              const psych = psychologists.find(p => p.id === session.psychologistId);
+              const title = psych ? psych.title : 'Klinik Psixoloq';
+              const startTime = session.time.split(' - ')[0] || session.time;
+              
+              return (
+                <div 
+                  key={session.id} 
+                  className="w-full relative overflow-hidden rounded-[24px] sm:rounded-[33px] p-6 sm:p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 hover:scale-[1.01] transition-transform duration-300"
+                  style={{
+                    background: 'linear-gradient(100deg, #3B2068 0%, #5E38A0 50%, #8B63C9 100%)',
+                    boxShadow: '0px 27px 83px rgba(75, 46, 131, 0.35)'
+                  }}
+                >
+                  {/* Decorative circles */}
+                  <div className="absolute top-0 right-[20%] w-[300px] h-[300px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 pointer-events-none hidden md:block"></div>
+                  <div className="absolute bottom-0 right-[40%] w-[200px] h-[200px] bg-white/5 rounded-full blur-2xl translate-y-1/2 pointer-events-none hidden md:block"></div>
+
+                  {/* Left side info */}
+                  <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 w-full relative z-10">
+                    {/* Avatar */}
+                    <div className="relative shrink-0">
+                      <img 
+                        src={session.psychologistImage} 
+                        alt={session.psychologistName} 
+                        className="w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] rounded-[24px] object-cover border-2 border-white/20 shadow-md" 
+                      />
+                    </div>
+                    
+                    {/* Text info */}
+                    <div className="flex flex-col text-center sm:text-left font-['Lexend']">
+                      <span className="text-white/70 text-[13px] sm:text-sm font-medium">{title}</span>
+                      <h4 className="text-[22px] sm:text-[28px] font-bold text-white mt-1 mb-3">{session.psychologistName}</h4>
+                      
+                      <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 text-white/85 text-[13px] sm:text-sm font-medium mb-5">
+                        <span className="flex items-center gap-1.5"><Calendar size={16} className="opacity-70" /> Avq {session.date}, 2026</span>
+                        <span className="flex items-center gap-1.5"><Clock size={16} className="opacity-70" /> {startTime}</span>
+                      </div>
+
+                      <div className="flex items-center justify-center sm:justify-start gap-3">
+                        <span className="bg-white/10 text-white/90 text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow-sm backdrop-blur-sm border border-white/5">
+                          Video Seans
+                        </span>
+                        <span className="bg-white/10 text-white/90 text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow-sm backdrop-blur-sm border border-white/5">
+                          45 dəqiqə
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right side buttons */}
+                  <div className="flex flex-col w-full md:w-[220px] shrink-0 gap-3.5 relative z-10 mt-2 md:mt-0">
+                    <button className="w-full bg-white hover:bg-gray-50 text-[#3B2068] py-3.5 sm:py-4 rounded-[16px] font-bold font-['Lexend'] shadow-md cursor-pointer transition-all active:scale-[0.98] border-0 text-[15px] sm:text-[16px]">
+                      Qoşul
+                    </button>
+                    <button className="w-full bg-white/10 hover:bg-white/20 text-white py-3.5 sm:py-4 rounded-[16px] font-bold font-['Lexend'] cursor-pointer transition-all active:scale-[0.98] border border-white/30 text-[15px] sm:text-[16px]">
+                      Vaxtı dəyiş
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Section 3: Explore Experts Slider */}
