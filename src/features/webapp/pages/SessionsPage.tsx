@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Star, ChevronLeft, ChevronRight, Plus, Calendar, Clock, Video } from 'lucide-react';
+import { Search, Star, ChevronLeft, ChevronRight, Plus, Calendar, Clock } from 'lucide-react';
 import { psychologists } from '@/features/landing/data/psychologists';
 import { PATHS } from '@/routes/paths';
 import presentingNexie from '@/assets/svg/presenting_nexie.svg';

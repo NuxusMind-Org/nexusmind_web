@@ -26,6 +26,7 @@
 - [site-settings-controller](#site-settings-controller)
 - [super-admin-controller](#super-admin-controller)
 - [training-controller](#training-controller)
+- [webhook-controller](#webhook-controller)
 - [Schemas & Data Models](#schemas--data-models)
 
 ---
@@ -53,6 +54,7 @@
 ### `POST` /appointments
 
 **Operation ID:** `create_5`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -104,6 +106,24 @@
 | Status Code | Description | Schema |
 | --- | --- | --- |
 | `200` | OK | `SessionNoteDto` |
+
+---
+
+### `POST` /appointments/{id}/join-token
+
+**Operation ID:** `getJoinToken`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `id` | `path` | ✅ Yes | `integer` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `object` |
 
 ---
 
@@ -166,9 +186,28 @@
 
 ---
 
+### `PATCH` /appointments/{id}
+
+**Operation ID:** `updateStatus_2`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `id` | `path` | ✅ Yes | `integer` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `AppointmentDto` |
+
+---
+
 ### `GET` /appointments/stats
 
 **Operation ID:** `getStats`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -241,6 +280,7 @@
 ### `GET` /meqale
 
 **Operation ID:** `getAll_1`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -252,6 +292,7 @@
 ### `POST` /meqale
 
 **Operation ID:** `create_2`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -332,7 +373,7 @@
 | Name | In | Required | Type | Description |
 | --- | --- | --- | --- | --- |
 | `patientId` | `path` | ✅ Yes | `integer` | - |
-| `mood` | `query` | ✅ Yes | `"SAD"` | `"HAPPY"` | `"TIRED"` | `"CALM"` | `"NORMAL"` | - |
+| `mood` | `query` | ✅ Yes | `string` | - |
 
 #### Responses
 
@@ -427,6 +468,7 @@
 ### `POST` /auth/super-admin-login
 
 **Operation ID:** `superAdminLogin`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -443,6 +485,7 @@
 ### `POST` /auth/reset-password
 
 **Operation ID:** `resetPassword`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -459,6 +502,7 @@
 ### `POST` /auth/login
 
 **Operation ID:** `login`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -475,6 +519,7 @@
 ### `POST` /auth/forgot-password
 
 **Operation ID:** `forgotPassword`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -491,6 +536,7 @@
 ### `POST` /auth/doctor-panel-login
 
 **Operation ID:** `doctorPanelLogin`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -507,6 +553,7 @@
 ### `POST` /auth/doctor-login
 
 **Operation ID:** `doctorLogin`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -523,6 +570,7 @@
 ### `POST` /auth/bpm-login
 
 **Operation ID:** `bpmLogin`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -539,6 +587,7 @@
 ### `POST` /auth/add
 
 **Operation ID:** `addPasient`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -555,6 +604,7 @@
 ### `GET` /auth
 
 **Operation ID:** `getAllUsers`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -645,6 +695,7 @@
 ### `GET` /blog
 
 **Operation ID:** `getAll_2`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -656,6 +707,7 @@
 ### `POST` /blog
 
 **Operation ID:** `create_4`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -712,6 +764,7 @@
 ### `GET` /bpm/patients
 
 **Operation ID:** `getPatients`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -723,6 +776,7 @@
 ### `GET` /bpm/doctors
 
 **Operation ID:** `getDoctors`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -757,6 +811,7 @@
 ### `POST` /doctors/register
 
 **Operation ID:** `registerDoctor`  
+
 #### Request Body
 
 - **Content-Type:** `multipart/form-data`
@@ -773,6 +828,7 @@
 ### `GET` /doctors/me/patients
 
 **Operation ID:** `getMyPatients`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -784,6 +840,7 @@
 ### `GET` /doctors/doctors
 
 **Operation ID:** `getAllDoctors_2`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -797,6 +854,7 @@
 ### `GET` /doctors
 
 **Operation ID:** `getAllDoctors_1`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -890,6 +948,7 @@
 ### `POST` /gallery
 
 **Operation ID:** `create_3`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -908,6 +967,7 @@
 ### `POST` /journal
 
 **Operation ID:** `saveToday`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -960,6 +1020,7 @@
 ### `GET` /journal/today
 
 **Operation ID:** `getToday`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -1051,6 +1112,7 @@
 ### `GET` /xeber
 
 **Operation ID:** `getAll`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -1062,6 +1124,7 @@
 ### `POST` /xeber
 
 **Operation ID:** `create`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -1197,6 +1260,7 @@
 ### `POST` /otp/verify
 
 **Operation ID:** `verifyOtp`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -1215,6 +1279,7 @@
 ### `PUT` /profile/status
 
 **Operation ID:** `updateStatus`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -1231,6 +1296,7 @@
 ### `PUT` /profile/name
 
 **Operation ID:** `updateName`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -1247,6 +1313,7 @@
 ### `PUT` /profile/language
 
 **Operation ID:** `updateLanguage`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -1263,6 +1330,7 @@
 ### `PUT` /profile/email
 
 **Operation ID:** `updateEmail`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -1297,6 +1365,7 @@
 ### `POST` /profile/photo
 
 **Operation ID:** `uploadPhoto`  
+
 #### Request Body
 
 - **Content-Type:** `multipart/form-data`
@@ -1313,6 +1382,7 @@
 ### `DELETE` /profile/photo
 
 **Operation ID:** `deletePhoto`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -1323,52 +1393,10 @@
 
 ## site-settings-controller
 
-### `GET` /admin/site-settings
-
-**Operation ID:** `getSettings`  
-#### Responses
-
-| Status Code | Description | Schema |
-| --- | --- | --- |
-| `200` | OK | `SiteSettingsResponseDto` |
-
----
-
-### `PUT` /admin/site-settings
-
-**Operation ID:** `updateSettings`  
-#### Request Body
-
-- **Content-Type:** `application/json`
-- **Schema:** `SiteSettingsRequestDto`
-
-#### Responses
-
-| Status Code | Description | Schema |
-| --- | --- | --- |
-| `200` | OK | `SiteSettingsResponseDto` |
-
----
-
-### `POST` /admin/site-settings/post-keywords
-
-**Operation ID:** `addPostKeywords`  
-#### Request Body
-
-- **Content-Type:** `application/json`
-- **Schema:** `PostKeywordsRequestDto`
-
-#### Responses
-
-| Status Code | Description | Schema |
-| --- | --- | --- |
-| `200` | OK | `string` |
-
----
-
 ### `GET` /sitemap.xml
 
 **Operation ID:** `sitemapXml`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -1377,20 +1405,27 @@
 
 ---
 
-### `GET` /site-settings/scripts
+### `POST` /sitemap.xml
 
-**Operation ID:** `getPublicScripts`  
+**Operation ID:** `updateSitemapXml`  
+
+#### Request Body
+
+- **Content-Type:** `application/xml`
+- **Schema:** `string`
+
 #### Responses
 
 | Status Code | Description | Schema |
 | --- | --- | --- |
-| `200` | OK | `SiteSettingsResponseDto` |
+| `200` | OK | void |
 
 ---
 
 ### `GET` /robots.txt
 
 **Operation ID:** `robotsTxt`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -1399,14 +1434,61 @@
 
 ---
 
+### `POST` /robots.txt
+
+**Operation ID:** `updateRobotsTxt`  
+
+#### Request Body
+
+- **Content-Type:** `text/plain`
+- **Schema:** `string`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | void |
+
+---
+
 ### `GET` /llms.txt
 
 **Operation ID:** `llmsTxt`  
+
 #### Responses
 
 | Status Code | Description | Schema |
 | --- | --- | --- |
 | `200` | OK | `string` |
+
+---
+
+### `POST` /llms.txt
+
+**Operation ID:** `updateLlmsTxt`  
+
+#### Request Body
+
+- **Content-Type:** `text/plain`
+- **Schema:** `string`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | void |
+
+---
+
+### `GET` /site-settings/scripts
+
+**Operation ID:** `getPublicScripts`  
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `SiteSettingsResponseDto` |
 
 ---
 
@@ -1415,6 +1497,7 @@
 ### `GET` /nexusmind/patients
 
 **Operation ID:** `getAllPatients`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -1426,6 +1509,7 @@
 ### `GET` /nexusmind/doctors
 
 **Operation ID:** `getAllDoctors`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -1503,7 +1587,7 @@
 
 | Name | In | Required | Type | Description |
 | --- | --- | --- | --- | --- |
-| `type` | `query` | ❌ No | `"ONLINE"` | `"IN_PERSON"` | - |
+| `type` | `query` | ❌ No | `string` | - |
 | `search` | `query` | ❌ No | `string` | - |
 | `pageable` | `query` | ✅ Yes | `Pageable` | - |
 
@@ -1518,6 +1602,7 @@
 ### `POST` /trainings
 
 **Operation ID:** `create_1`  
+
 #### Request Body
 
 - **Content-Type:** `application/json`
@@ -1570,6 +1655,7 @@
 ### `GET` /trainings/type-counts
 
 **Operation ID:** `getTypeCounts`  
+
 #### Responses
 
 | Status Code | Description | Schema |
@@ -1612,6 +1698,31 @@
 | Status Code | Description | Schema |
 | --- | --- | --- |
 | `200` | OK | Array<`TrainingResponse`> |
+
+---
+
+## webhook-controller
+
+### `POST` /api/webhooks/livekit
+
+**Operation ID:** `receiveWebhook`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `Authorization` | `header` | ✅ Yes | `string` | - |
+
+#### Request Body
+
+- **Content-Type:** `application/webhook+json`
+- **Schema:** `string`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `string` |
 
 ---
 
@@ -1680,6 +1791,9 @@
 | `authorName` | `string` | - | ❌ No |
 | `schemaMarkup` | `string` | - | ❌ No |
 | `metaKeywords` | `array` | Array<`string`> | ❌ No |
+| `metaTitle` | `string` | - | ❌ No |
+| `metaDescription` | `string` | - | ❌ No |
+| `slug` | `string` | - | ❌ No |
 
 ### BlogResponse
 
@@ -1727,7 +1841,7 @@
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
 | `appointmentId` | `integer` | `int64` | ❌ No |
-| `senderRole` | `string` | `"SUPER_ADMIN"` \| `"BPM"` \| `"DOCTOR"` \| `"PATIENT"` | ❌ No |
+| `senderRole` | `string` | `"SUPER_ADMIN"` \| `"BPM"` \| `"DOCTOR"` \| `"PATIENT"` \| `"SEO"` | ❌ No |
 | `senderId` | `integer` | `int64` | ❌ No |
 | `content` | `string` | - | ❌ No |
 | `sentAt` | `string` | `date-time` | ❌ No |
@@ -1788,7 +1902,7 @@
 | `password` | `string` | - | ❌ No |
 | `title` | `string` | - | ❌ No |
 | `rating` | `number` | `double` | ❌ No |
-| `role` | `string` | `"SUPER_ADMIN"` \| `"BPM"` \| `"DOCTOR"` \| `"PATIENT"` | ❌ No |
+| `role` | `string` | `"SUPER_ADMIN"` \| `"BPM"` \| `"DOCTOR"` \| `"PATIENT"` \| `"SEO"` | ❌ No |
 | `languages` | `array` | Array<`string`> | ❌ No |
 | `education` | `array` | Array<`string`> | ❌ No |
 | `certificates` | `array` | Array<`string`> | ❌ No |
@@ -1981,6 +2095,102 @@
 | `concerns` | `array` | Array<`string`> | ❌ No |
 | `completed` | `boolean` | - | ❌ No |
 
+### PageBlogResponse
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `totalElements` | `integer` | `int64` | ❌ No |
+| `totalPages` | `integer` | `int32` | ❌ No |
+| `pageable` | `ref` | `PageableObject` | ❌ No |
+| `size` | `integer` | `int32` | ❌ No |
+| `content` | `array` | Array<`BlogResponse`> | ❌ No |
+| `number` | `integer` | `int32` | ❌ No |
+| `sort` | `ref` | `SortObject` | ❌ No |
+| `first` | `boolean` | - | ❌ No |
+| `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
+| `empty` | `boolean` | - | ❌ No |
+
+### PageGalleryItemResponse
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `totalElements` | `integer` | `int64` | ❌ No |
+| `totalPages` | `integer` | `int32` | ❌ No |
+| `pageable` | `ref` | `PageableObject` | ❌ No |
+| `size` | `integer` | `int32` | ❌ No |
+| `content` | `array` | Array<`GalleryItemResponse`> | ❌ No |
+| `number` | `integer` | `int32` | ❌ No |
+| `sort` | `ref` | `SortObject` | ❌ No |
+| `first` | `boolean` | - | ❌ No |
+| `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
+| `empty` | `boolean` | - | ❌ No |
+
+### PageJournalEntryResponse
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `totalElements` | `integer` | `int64` | ❌ No |
+| `totalPages` | `integer` | `int32` | ❌ No |
+| `pageable` | `ref` | `PageableObject` | ❌ No |
+| `size` | `integer` | `int32` | ❌ No |
+| `content` | `array` | Array<`JournalEntryResponse`> | ❌ No |
+| `number` | `integer` | `int32` | ❌ No |
+| `sort` | `ref` | `SortObject` | ❌ No |
+| `first` | `boolean` | - | ❌ No |
+| `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
+| `empty` | `boolean` | - | ❌ No |
+
+### PageMeqaleResponseDto
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `totalElements` | `integer` | `int64` | ❌ No |
+| `totalPages` | `integer` | `int32` | ❌ No |
+| `pageable` | `ref` | `PageableObject` | ❌ No |
+| `size` | `integer` | `int32` | ❌ No |
+| `content` | `array` | Array<`MeqaleResponseDto`> | ❌ No |
+| `number` | `integer` | `int32` | ❌ No |
+| `sort` | `ref` | `SortObject` | ❌ No |
+| `first` | `boolean` | - | ❌ No |
+| `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
+| `empty` | `boolean` | - | ❌ No |
+
+### PageTrainingResponse
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `totalElements` | `integer` | `int64` | ❌ No |
+| `totalPages` | `integer` | `int32` | ❌ No |
+| `pageable` | `ref` | `PageableObject` | ❌ No |
+| `size` | `integer` | `int32` | ❌ No |
+| `content` | `array` | Array<`TrainingResponse`> | ❌ No |
+| `number` | `integer` | `int32` | ❌ No |
+| `sort` | `ref` | `SortObject` | ❌ No |
+| `first` | `boolean` | - | ❌ No |
+| `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
+| `empty` | `boolean` | - | ❌ No |
+
+### PageXeberResponseDto
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `totalElements` | `integer` | `int64` | ❌ No |
+| `totalPages` | `integer` | `int32` | ❌ No |
+| `pageable` | `ref` | `PageableObject` | ❌ No |
+| `size` | `integer` | `int32` | ❌ No |
+| `content` | `array` | Array<`XeberResponseDto`> | ❌ No |
+| `number` | `integer` | `int32` | ❌ No |
+| `sort` | `ref` | `SortObject` | ❌ No |
+| `first` | `boolean` | - | ❌ No |
+| `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
+| `empty` | `boolean` | - | ❌ No |
+
 ### Pageable
 
 | Property | Type | Format / Ref | Required |
@@ -1999,102 +2209,6 @@
 | `offset` | `integer` | `int64` | ❌ No |
 | `sort` | `ref` | `SortObject` | ❌ No |
 | `unpaged` | `boolean` | - | ❌ No |
-
-### PageBlogResponse
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `totalElements` | `integer` | `int64` | ❌ No |
-| `totalPages` | `integer` | `int32` | ❌ No |
-| `pageable` | `ref` | `PageableObject` | ❌ No |
-| `size` | `integer` | `int32` | ❌ No |
-| `content` | `array` | Array<`BlogResponse`> | ❌ No |
-| `number` | `integer` | `int32` | ❌ No |
-| `sort` | `ref` | `SortObject` | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
-| `first` | `boolean` | - | ❌ No |
-| `last` | `boolean` | - | ❌ No |
-| `empty` | `boolean` | - | ❌ No |
-
-### PageGalleryItemResponse
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `totalElements` | `integer` | `int64` | ❌ No |
-| `totalPages` | `integer` | `int32` | ❌ No |
-| `pageable` | `ref` | `PageableObject` | ❌ No |
-| `size` | `integer` | `int32` | ❌ No |
-| `content` | `array` | Array<`GalleryItemResponse`> | ❌ No |
-| `number` | `integer` | `int32` | ❌ No |
-| `sort` | `ref` | `SortObject` | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
-| `first` | `boolean` | - | ❌ No |
-| `last` | `boolean` | - | ❌ No |
-| `empty` | `boolean` | - | ❌ No |
-
-### PageJournalEntryResponse
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `totalElements` | `integer` | `int64` | ❌ No |
-| `totalPages` | `integer` | `int32` | ❌ No |
-| `pageable` | `ref` | `PageableObject` | ❌ No |
-| `size` | `integer` | `int32` | ❌ No |
-| `content` | `array` | Array<`JournalEntryResponse`> | ❌ No |
-| `number` | `integer` | `int32` | ❌ No |
-| `sort` | `ref` | `SortObject` | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
-| `first` | `boolean` | - | ❌ No |
-| `last` | `boolean` | - | ❌ No |
-| `empty` | `boolean` | - | ❌ No |
-
-### PageMeqaleResponseDto
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `totalElements` | `integer` | `int64` | ❌ No |
-| `totalPages` | `integer` | `int32` | ❌ No |
-| `pageable` | `ref` | `PageableObject` | ❌ No |
-| `size` | `integer` | `int32` | ❌ No |
-| `content` | `array` | Array<`MeqaleResponseDto`> | ❌ No |
-| `number` | `integer` | `int32` | ❌ No |
-| `sort` | `ref` | `SortObject` | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
-| `first` | `boolean` | - | ❌ No |
-| `last` | `boolean` | - | ❌ No |
-| `empty` | `boolean` | - | ❌ No |
-
-### PageTrainingResponse
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `totalElements` | `integer` | `int64` | ❌ No |
-| `totalPages` | `integer` | `int32` | ❌ No |
-| `pageable` | `ref` | `PageableObject` | ❌ No |
-| `size` | `integer` | `int32` | ❌ No |
-| `content` | `array` | Array<`TrainingResponse`> | ❌ No |
-| `number` | `integer` | `int32` | ❌ No |
-| `sort` | `ref` | `SortObject` | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
-| `first` | `boolean` | - | ❌ No |
-| `last` | `boolean` | - | ❌ No |
-| `empty` | `boolean` | - | ❌ No |
-
-### PageXeberResponseDto
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `totalElements` | `integer` | `int64` | ❌ No |
-| `totalPages` | `integer` | `int32` | ❌ No |
-| `pageable` | `ref` | `PageableObject` | ❌ No |
-| `size` | `integer` | `int32` | ❌ No |
-| `content` | `array` | Array<`XeberResponseDto`> | ❌ No |
-| `number` | `integer` | `int32` | ❌ No |
-| `sort` | `ref` | `SortObject` | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
-| `first` | `boolean` | - | ❌ No |
-| `last` | `boolean` | - | ❌ No |
-| `empty` | `boolean` | - | ❌ No |
 
 ### PasientRegisterDto
 
@@ -2127,14 +2241,6 @@
 | `twoFactorEnabled` | `boolean` | - | ❌ No |
 | `appointments` | `array` | Array<`AppointmentEntity`> | ❌ No |
 | `verified` | `boolean` | - | ❌ No |
-
-### PostKeywordsRequestDto
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `postId` | `integer` | `int64` | ❌ No |
-| `type` | `string` | `"ARTICLE"` \| `"BLOG"` \| `"NEWS"` | ❌ No |
-| `keywords` | `array` | Array<`string`> | ❌ No |
 
 ### ProfileResponse
 
@@ -2179,15 +2285,6 @@
 | `objective` | `string` | - | ❌ No |
 | `assessment` | `string` | - | ❌ No |
 | `plan` | `string` | - | ❌ No |
-
-### SiteSettingsRequestDto
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `customHeadScripts` | `string` | - | ❌ No |
-| `customBodyScripts` | `string` | - | ❌ No |
-| `robotsTxt` | `string` | - | ❌ No |
-| `llmsTxt` | `string` | - | ❌ No |
 
 ### SiteSettingsResponseDto
 
@@ -2297,6 +2394,11 @@
 | `category` | `string` | - | ❌ No |
 | `readTimeMinutes` | `integer` | `int32` | ❌ No |
 | `status` | `string` | `"DRAFT"` \| `"PUBLISHED"` \| `"ARCHIVED"` | ❌ No |
+| `metaTitle` | `string` | - | ❌ No |
+| `metaDescription` | `string` | - | ❌ No |
+| `slug` | `string` | - | ❌ No |
+| `schemaMarkup` | `string` | - | ❌ No |
+| `metaKeywords` | `array` | Array<`string`> | ❌ No |
 
 ### XeberResponseDto
 
@@ -2316,6 +2418,11 @@
 | `status` | `string` | `"DRAFT"` \| `"PUBLISHED"` \| `"ARCHIVED"` | ❌ No |
 | `createdAt` | `string` | `date-time` | ❌ No |
 | `updatedAt` | `string` | `date-time` | ❌ No |
+| `metaTitle` | `string` | - | ❌ No |
+| `metaDescription` | `string` | - | ❌ No |
+| `slug` | `string` | - | ❌ No |
+| `schemaMarkup` | `string` | - | ❌ No |
+| `metaKeywords` | `array` | Array<`string`> | ❌ No |
 
 ### XeberSectionRequestDto
 

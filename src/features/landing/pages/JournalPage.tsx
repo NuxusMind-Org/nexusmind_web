@@ -98,8 +98,12 @@ export const JournalPage = () => {
           </div>
 
           {/* Text Area Box */}
-          <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col min-h-[450px]">
-            <div className="flex justify-between items-end mb-6">
+          <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col min-h-[450px] relative overflow-hidden">
+            {/* Left margin line for notebook aesthetic */}
+            <div className="absolute left-[16px] sm:left-[32px] top-0 bottom-0 w-[2px] bg-white/20" />
+            <div className="absolute left-[20px] sm:left-[36px] top-0 bottom-0 w-[1px] bg-white/10" />
+
+            <div className="flex justify-between items-end mb-6 relative z-10 pl-6 sm:pl-8">
               <div>
                 <h4 className="text-white/50 text-[11px] tracking-[0.2em] uppercase font-light mb-2">GÜNÜN DÜŞÜNCƏLƏRİ</h4>
                 <h3 className="text-white text-[24px] sm:text-[28px] italic font-serif">Nə barədə düşünürsünüz?</h3>
@@ -108,11 +112,16 @@ export const JournalPage = () => {
             </div>
 
             <textarea
-              className="w-full flex-1 bg-transparent text-white text-[18px] resize-none outline-none placeholder:text-white/80 leading-relaxed"
+              className="w-full flex-1 bg-transparent text-white text-[18px] resize-none outline-none placeholder:text-white/80 leading-[32px] relative z-10 pl-6 sm:pl-8"
               placeholder="Səhifə sənindir..."
+              style={{
+                backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, rgba(255, 255, 255, 0.1) 31px, rgba(255, 255, 255, 0.1) 32px)',
+                backgroundAttachment: 'local',
+                backgroundPosition: '0 4px', // Offset slightly so text sits nicely on the line
+              }}
             ></textarea>
 
-            <div className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8 w-full">
+            <div className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8 w-full relative z-10 pl-6 sm:pl-8">
               {/* Saxla Button - Filled (Primary) */}
               <button className="w-full sm:w-auto px-7 py-3 bg-[#d8b4fe] text-[#2D1B44] font-semibold rounded-lg hover:bg-[#c084fc] transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(216,180,254,0.4)] whitespace-nowrap text-center cursor-pointer outline-none">
                 Saxla

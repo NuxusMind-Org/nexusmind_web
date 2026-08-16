@@ -66,12 +66,21 @@ export const JournalPage = () => {
         {/* Row 2: Cards container aligned natively by items-start */}
         <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
           {/* Note Editor Card */}
-          <div className="w-full lg:w-[880px] lg:shrink-0 bg-[#B784F7]/80 border-2 border-[#BE00FE]/56 rounded-[24px] sm:rounded-[40px] pt-[24px] sm:pt-[40px] pr-[24px] sm:pr-[40px] pb-[32px] sm:pb-[58px] pl-[24px] sm:pl-[40px] shadow-sm flex flex-col h-[350px] sm:h-[400px] md:h-[500px] min-h-[350px] sm:min-h-[400px] md:min-h-[500px]">
+          <div className="w-full lg:w-[880px] lg:shrink-0 bg-white border-2 border-gray-200 rounded-[24px] sm:rounded-[40px] pt-[24px] sm:pt-[40px] pr-[24px] sm:pr-[40px] pb-[32px] sm:pb-[58px] pl-[24px] sm:pl-[40px] shadow-sm flex flex-col h-[350px] sm:h-[400px] md:h-[500px] min-h-[350px] sm:min-h-[400px] md:min-h-[500px] relative overflow-hidden">
+            {/* Left margin line for notebook aesthetic */}
+            <div className="absolute left-[16px] sm:left-[32px] top-0 bottom-0 w-[2px] bg-red-400/30" />
+            <div className="absolute left-[20px] sm:left-[36px] top-0 bottom-0 w-[1px] bg-red-400/20" />
+            
             <textarea
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
               placeholder="Səhifə sənindir..."
-              className="w-full h-full bg-transparent text-[#1E0A42] placeholder-[#1E0A42]/50 text-base font-normal resize-none focus:outline-none font-['Lexend'] leading-relaxed"
+              className="w-full h-full bg-transparent text-gray-800 placeholder-gray-400 text-base font-normal resize-none focus:outline-none font-['Lexend'] leading-[32px] z-10 relative"
+              style={{
+                backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, rgba(0, 0, 0, 0.08) 31px, rgba(0, 0, 0, 0.08) 32px)',
+                backgroundAttachment: 'local',
+                backgroundPosition: '0 4px', // Offset slightly so text sits nicely on the line
+              }}
             />
           </div>
 
