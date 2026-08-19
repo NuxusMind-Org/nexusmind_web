@@ -4,6 +4,7 @@ import type {
   DoctorDto,
   DoctorResponseDto,
   PasientRegisterEntity,
+  AvailableSlotDto,
 } from './types';
 
 export const doctorsApi = {
@@ -41,6 +42,13 @@ export const doctorsApi = {
 
   getDoctorList: async (): Promise<DoctorResponseDto[]> => {
     const response = await apiClient.get<DoctorResponseDto[]>('/doctors/doctors');
+    return response.data;
+  },
+
+  getAvailableWorkingHours: async (doctorId: number, from: string, to: string): Promise<AvailableSlotDto[]> => {
+    const response = await apiClient.get<AvailableSlotDto[]>(`/doctors/${doctorId}/working-hours/available`, {
+      params: { from, to },
+    });
     return response.data;
   },
 };

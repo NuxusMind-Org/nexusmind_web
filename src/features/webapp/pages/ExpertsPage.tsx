@@ -1,8 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, SlidersHorizontal, ChevronDown, Star } from 'lucide-react';
-import { psychologists } from '@/features/landing/data/psychologists';
+import { psychologists as mockPsychologists } from '@/features/landing/data/psychologists';
 import { PATHS } from '@/routes/paths';
+import { doctorsApi } from '@/api/doctors.api';
+import type { Psychologist } from '@/features/landing/types/psychologist.types';
+import defaultAvatar from '@/assets/avatar1.png';
+import { mapDoctorToPsychologist } from '@/utils/mappers';
 
 type CategoryFilter = 'all' | 'child' | 'teen' | 'family';
 type SortOption = 'popularity' | 'price-asc' | 'price-desc';
@@ -14,6 +18,21 @@ export const ExpertsPage = () => {
   const [activeSort, setActiveSort] = useState<SortOption>('popularity');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(true);
+
+  const [realExperts, setRealExperts] = useState<Psychologist[]>([]);
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const doctors = await doctorsApi.getAll();
+        const mapped = doctors.map(mapDoctorToPsychologist);
+        setRealExperts(mapped);
+      } catch (error) {
+        console.error('Failed to fetch doctors:', error);
+      }
+    };
+    fetchDoctors();
+  }, []);
 
   const categories = [
     { id: 'all', label: 'Hamısı' },
@@ -32,7 +51,9 @@ export const ExpertsPage = () => {
 
   // Process data filtering and sorting
   const processedExperts = useMemo(() => {
-    let items = [...psychologists];
+    const realExpertIds = new Set(realExperts.map(e => e.id));
+    const filteredMock = mockPsychologists.filter(m => !realExpertIds.has(m.id));
+    let items = [...realExperts, ...filteredMock];
 
     // 1. Search Query Filter
     if (searchQuery.trim() !== '') {
@@ -73,7 +94,7 @@ export const ExpertsPage = () => {
     });
 
     return items;
-  }, [searchQuery, activeCategory, activeSort]);
+  }, [searchQuery, activeCategory, activeSort, realExperts]);
 
   return (
     <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
@@ -262,6 +283,9 @@ export const ExpertsPage = () => {
                     <img
                       src={expert.image}
                       alt={expert.name}
+                      onError={(e) => {
+                        e.currentTarget.src = defaultAvatar;
+                      }}
                       className="w-20 h-20 rounded-full border-2 border-white/20 object-cover shadow-sm flex-shrink-0"
                     />
                     <div className="flex flex-col text-left font-['Lexend']">

@@ -6,9 +6,14 @@ import type {
   SessionNoteDto,
   AppointmentStatsDto,
   AppointmentStatus,
+  JoinTokenResponse,
 } from './types';
 
 export const appointmentsApi = {
+  getJoinToken: async (id: number): Promise<JoinTokenResponse> => {
+    const response = await apiClient.post<JoinTokenResponse>(`/appointments/${id}/join-token`);
+    return response.data;
+  },
   getMyAppointments: async (range?: string): Promise<AppointmentDto[]> => {
     const response = await apiClient.get<AppointmentDto[]>('/appointments', {
       params: { range },

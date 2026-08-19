@@ -441,6 +441,19 @@ export interface DoctorResponseDto {
   cvUrl?: string;
 }
 
+export interface LocalTime {
+  hour: number;
+  minute: number;
+  second: number;
+  nano: number;
+}
+
+export interface AvailableSlotDto {
+  date: string;
+  time: string;
+  booked: boolean;
+}
+
 // --- Appointment DTOs ---
 export type AppointmentStatus = 'SCHEDULED' | 'WAITING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 export type AppointmentMode = 'VR' | 'VIDEO_CALL' | 'APP';
@@ -448,7 +461,7 @@ export type AppointmentMode = 'VR' | 'VIDEO_CALL' | 'APP';
 export interface CreateAppointmentRequest {
   doctorId?: number;
   appointmentDate?: string;
-  appointmentTime?: string; // HH:mm:ss format
+  appointmentTime?: string;
   mode?: AppointmentMode;
 }
 
@@ -462,6 +475,12 @@ export interface AppointmentDto {
   mode?: AppointmentMode;
   roomUrl?: string;
   hasNote?: boolean;
+}
+
+export interface JoinTokenResponse {
+  token: string;
+  serverUrl: string;
+  roomName: string;
 }
 
 export interface CreateSessionNoteRequest {

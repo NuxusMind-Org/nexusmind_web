@@ -22,6 +22,7 @@ export const PATHS = {
   DASHBOARD: '/dashboard', // Webapp Home
   WEBAPP_JOURNAL: '/dashboard/journal',
   WEBAPP_SESSIONS: '/dashboard/sessions',
+  WEBAPP_SESSION_CALL: '/dashboard/sessions/:id/call',
   WEBAPP_MEDIA: '/dashboard/media',
   WEBAPP_ENLIGHTENMENT: '/dashboard/enlightenment',
   WEBAPP_PROFILE: '/dashboard/profile',

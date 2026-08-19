@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Star, GraduationCap, Award, Video, Clock, Lock, CheckCircle2, ChevronRight } from 'lucide-react';
 import { psychologists } from '@/features/landing/data/psychologists';
@@ -6,14 +6,36 @@ import { PATHS } from '@/routes/paths';
 import vrConsultation from '@/assets/vr_consultation.png';
 import { CalendarWidget } from '../components/CalendarWidget';
 import { useSessionStore } from '@/store/sessionStore';
+import { doctorsApi } from '@/api/doctors.api';
+import { mapDoctorToPsychologist } from '@/utils/mappers';
+import type { Psychologist } from '@/features/landing/types/psychologist.types';
+import defaultAvatar from '@/assets/avatar1.png';
 
 export const ExpertDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const bookSession = useSessionStore(state => state.bookSession);
   const psychologistId = id ? parseInt(id, 10) : 1;
-  const psych = psychologists.find(p => p.id === psychologistId) || psychologists[0];
+  const [psych, setPsych] = useState<Psychologist | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPsychologist = async () => {
+      try {
+        const doctor = await doctorsApi.getById(psychologistId);
+        setPsych(mapDoctorToPsychologist(doctor));
+      } catch (error) {
+        console.error('Failed to fetch psychologist, falling back to mock data:', error);
+        setPsych(psychologists.find(p => p.id === psychologistId) || psychologists[0]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPsychologist();
+  }, [psychologistId]);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [booking, setBooking] = useState(false);
+  const [bookingError, setBookingError] = useState<string | null>(null);
 
   return (
     <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-12 sm:pb-20 opacity-100">
@@ -44,7 +66,11 @@ export const ExpertDetailPage = () => {
         </div>
       </div>
 
-      {/* Main Content Area: Left & Right columns grid */}
+      {isLoading || !psych ? (
+        <div className="w-full flex items-center justify-center py-20 text-[#1E0A42]/50">
+          Yüklənir...
+        </div>
+      ) : (
       <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col items-center">
         {!showCalendar ? (
           <div className="w-full flex flex-col lg:flex-row gap-6 sm:gap-8 items-start animate-fade-in">
@@ -58,6 +84,9 @@ export const ExpertDetailPage = () => {
                   <img
                     src={psych.image}
                     alt={psych.name}
+                    onError={(e) => {
+                      e.currentTarget.src = defaultAvatar;
+                    }}
                     className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full object-cover border-4 border-white/20 shadow-md"
                   />
                   <div className="absolute bottom-10 right-0 bg-[#03C6B2] text-[#111] px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-md font-['Lexend'] select-none">
@@ -227,23 +256,47 @@ export const ExpertDetailPage = () => {
 
           </div>
         ) : (
-          <CalendarWidget
-            psychologistName={psych.name}
-            onBack={() => setShowCalendar(false)}
-            onConfirm={(date, time) => {
-              bookSession({
-                psychologistId: psych.id,
-                psychologistName: psych.name,
-                psychologistImage: psych.image,
-                date,
-                time
-              });
-              navigate(PATHS.WEBAPP_SESSIONS);
-            }}
-          />
+          <>
+            <CalendarWidget
+              psychologistId={psych.id}
+              psychologistName={psych.name}
+              onBack={() => { setShowCalendar(false); setBookingError(null); }}
+              onConfirm={async (appointmentDate, appointmentTimeStr, selectedMode) => {
+                setBooking(true);
+                setBookingError(null);
+                try {
+                  await bookSession({
+                    doctorId: psych.id,
+                    appointmentDate,
+                    appointmentTime: appointmentTimeStr,
+                    mode: selectedMode,
+                  });
+                  navigate(PATHS.WEBAPP_SESSIONS);
+                } catch (err: any) {
+                  console.error('Booking error response:', err?.response?.data || err);
+                  setBookingError(
+                    err?.response?.data?.message ||
+                    'Seansı təyin etmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.'
+                  );
+                } finally {
+                  setBooking(false);
+                }
+              }}
+            />
+            {bookingError && (
+              <div className="w-full max-w-[900px] mx-auto mt-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-['Lexend'] text-center">
+                {bookingError}
+              </div>
+            )}
+            {booking && (
+              <div className="w-full max-w-[900px] mx-auto mt-4 p-4 bg-[#4B2E83]/10 border border-[#4B2E83]/20 rounded-xl text-[#4B2E83] text-sm font-['Lexend'] text-center animate-pulse">
+                Seans təyin olunur...
+              </div>
+            )}
+          </>
         )}
       </div>
-
+      )}
     </div>
   );
 };

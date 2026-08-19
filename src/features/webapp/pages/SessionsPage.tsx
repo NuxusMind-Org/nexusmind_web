@@ -1,16 +1,60 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Star, ChevronLeft, ChevronRight, Plus, Calendar, Clock } from 'lucide-react';
 import { psychologists } from '@/features/landing/data/psychologists';
 import { PATHS } from '@/routes/paths';
 import presentingNexie from '@/assets/svg/presenting_nexie.svg';
 import { useSessionStore } from '@/store/sessionStore';
+import type { AppointmentDto } from '@/api/types';
 
 export const SessionsPage = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
-  const sessions = useSessionStore(state => state.sessions);
+  const { sessions, loading, fetchSessions } = useSessionStore();
+
+  useEffect(() => {
+    fetchSessions();
+  }, [fetchSessions]);
+
+  const checkIsJoinable = (session: AppointmentDto) => {
+    // Allow joining if status is SCHEDULED or WAITING
+    if (session.status === 'COMPLETED' || session.status === 'CANCELLED') return false;
+    if (session.status === 'IN_PROGRESS') return true;
+    try {
+      const dateStr = session.appointmentDate || '';
+      const timeStr = session.appointmentTime || '00:00:00';
+      const [hours, minutes] = timeStr.split(':').map(Number);
+      const [year, month, day] = dateStr.split('-').map(Number);
+      const sessionDateObj = new Date(year, month - 1, day, hours, minutes);
+      const now = new Date();
+      const diffMins = (sessionDateObj.getTime() - now.getTime()) / (1000 * 60);
+      return diffMins <= 15 && diffMins >= -60;
+    } catch {
+      return true;
+    }
+  };
+
+  const formatDate = (dateStr?: string) => {
+    if (!dateStr) return '';
+    const [, month, day] = dateStr.split('-').map(Number);
+    const months = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'İyn', 'İyl', 'Avq', 'Sen', 'Okt', 'Noy', 'Dek'];
+    return `${months[month - 1]} ${day}, ${dateStr.split('-')[0]}`;
+  };
+
+  const formatTime = (timeStr?: string) => {
+    if (!timeStr) return '';
+    return timeStr.substring(0, 5); // "14:00:00" → "14:00"
+  };
+
+  const getModeLabel = (mode?: string) => {
+    switch (mode) {
+      case 'VIDEO_CALL': return 'Video Seans';
+      case 'VR': return 'VR Seans';
+      case 'APP': return 'App Seans';
+      default: return 'Video Seans';
+    }
+  };
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -23,6 +67,11 @@ export const SessionsPage = () => {
       });
     }
   };
+
+  // Filter out completed/cancelled sessions for the "upcoming" view
+  const upcomingSessions = sessions.filter(
+    s => s.status !== 'COMPLETED' && s.status !== 'CANCELLED'
+  );
 
   return (
     <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-10 opacity-100">
@@ -56,7 +105,12 @@ export const SessionsPage = () => {
 
       {/* Main Content Area */}
       <div className="flex-grow w-full flex flex-col justify-center pt-10 md:pt-14 pb-12 px-4 sm:px-6 md:px-[48px] gap-6 bg-[#FAFAFA] min-h-[350px]">
-        {sessions.length === 0 ? (
+        {loading ? (
+          <div className="flex flex-col items-center justify-center w-full py-20">
+            <div className="w-10 h-10 border-4 border-[#4B2E83]/20 border-t-[#4B2E83] rounded-full animate-spin mb-4"></div>
+            <p className="text-[#7A7570] font-['Lexend']">Seanslar yüklənir...</p>
+          </div>
+        ) : upcomingSessions.length === 0 ? (
           <div className="flex flex-col items-center justify-center w-full">
             <h3 className="text-[32px] md:text-[42px] font-light text-[#7A7570] font-['Lexend'] text-center">
               Hələki seans yoxdur .
@@ -90,10 +144,8 @@ export const SessionsPage = () => {
                  <Plus size={18} /> Yeni Seans
                </button>
             </div>
-            {sessions.map(session => {
-              const psych = psychologists.find(p => p.id === session.psychologistId);
-              const title = psych ? psych.title : 'Klinik Psixoloq';
-              const startTime = session.time.split(' - ')[0] || session.time;
+            {upcomingSessions.map(session => {
+              const isJoinable = checkIsJoinable(session);
               
               return (
                 <div 
@@ -110,28 +162,26 @@ export const SessionsPage = () => {
 
                   {/* Left side info */}
                   <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 w-full relative z-10">
-                    {/* Avatar */}
+                    {/* Avatar placeholder */}
                     <div className="relative shrink-0">
-                      <img 
-                        src={session.psychologistImage} 
-                        alt={session.psychologistName} 
-                        className="w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] rounded-[24px] object-cover border-2 border-white/20 shadow-md" 
-                      />
+                      <div className="w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] rounded-[24px] bg-white/10 border-2 border-white/20 shadow-md flex items-center justify-center text-white/60 text-3xl font-bold font-['Lexend']">
+                        {(session.doctorName || 'D').charAt(0)}
+                      </div>
                     </div>
                     
                     {/* Text info */}
                     <div className="flex flex-col text-center sm:text-left font-['Lexend']">
-                      <span className="text-white/70 text-[13px] sm:text-sm font-medium">{title}</span>
-                      <h4 className="text-[22px] sm:text-[28px] font-bold text-white mt-1 mb-3">{session.psychologistName}</h4>
+                      <span className="text-white/70 text-[13px] sm:text-sm font-medium">Psixoloq</span>
+                      <h4 className="text-[22px] sm:text-[28px] font-bold text-white mt-1 mb-3">{session.doctorName || 'Həkim'}</h4>
                       
                       <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 text-white/85 text-[13px] sm:text-sm font-medium mb-5">
-                        <span className="flex items-center gap-1.5"><Calendar size={16} className="opacity-70" /> Avq {session.date}, 2026</span>
-                        <span className="flex items-center gap-1.5"><Clock size={16} className="opacity-70" /> {startTime}</span>
+                        <span className="flex items-center gap-1.5"><Calendar size={16} className="opacity-70" /> {formatDate(session.appointmentDate)}</span>
+                        <span className="flex items-center gap-1.5"><Clock size={16} className="opacity-70" /> {formatTime(session.appointmentTime)}</span>
                       </div>
 
                       <div className="flex items-center justify-center sm:justify-start gap-3">
                         <span className="bg-white/10 text-white/90 text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow-sm backdrop-blur-sm border border-white/5">
-                          Video Seans
+                          {getModeLabel(session.mode)}
                         </span>
                         <span className="bg-white/10 text-white/90 text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl shadow-sm backdrop-blur-sm border border-white/5">
                           45 dəqiqə
@@ -142,8 +192,12 @@ export const SessionsPage = () => {
 
                   {/* Right side buttons */}
                   <div className="flex flex-col w-full md:w-[220px] shrink-0 gap-3.5 relative z-10 mt-2 md:mt-0">
-                    <button className="w-full bg-white hover:bg-gray-50 text-[#3B2068] py-3.5 sm:py-4 rounded-[16px] font-bold font-['Lexend'] shadow-md cursor-pointer transition-all active:scale-[0.98] border-0 text-[15px] sm:text-[16px]">
-                      Qoşul
+                    <button 
+                      onClick={() => navigate(PATHS.WEBAPP_SESSION_CALL.replace(':id', String(session.id)))}
+                      disabled={!isJoinable}
+                      className={`w-full py-3.5 sm:py-4 rounded-[16px] font-bold font-['Lexend'] shadow-md transition-all border-0 text-[15px] sm:text-[16px] ${isJoinable ? "bg-white hover:bg-gray-50 text-[#3B2068] cursor-pointer active:scale-[0.98]" : "bg-white/40 text-[#3B2068]/50 cursor-not-allowed"}`}
+                    >
+                      {isJoinable ? 'Qoşul' : 'Gözlənilir'}
                     </button>
                     <button className="w-full bg-white/10 hover:bg-white/20 text-white py-3.5 sm:py-4 rounded-[16px] font-bold font-['Lexend'] cursor-pointer transition-all active:scale-[0.98] border border-white/30 text-[15px] sm:text-[16px]">
                       Vaxtı dəyiş
