@@ -1,15 +1,21 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Star, ChevronLeft, ChevronRight, Plus, Calendar, Clock } from 'lucide-react';
 import { psychologists } from '@/features/landing/data/psychologists';
 import { PATHS } from '@/routes/paths';
 import presentingNexie from '@/assets/svg/presenting_nexie.svg';
 import { useSessionStore } from '@/store/sessionStore';
-import type { AppointmentDto } from '@/api/types';
+import {
+  isSessionUpcomingOrActive,
+  checkIsJoinable,
+  sortSessionsChronologically,
+  filterSessionsBySearch,
+} from '@/features/webapp/utils/sessionFilters';
 
 export const SessionsPage = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentTime, setCurrentTime] = useState(() => new Date());
   const scrollRef = useRef<HTMLDivElement>(null);
   const { sessions, loading, fetchSessions } = useSessionStore();
 
@@ -17,23 +23,14 @@ export const SessionsPage = () => {
     fetchSessions();
   }, [fetchSessions]);
 
-  const checkIsJoinable = (session: AppointmentDto) => {
-    // Allow joining if status is SCHEDULED or WAITING
-    if (session.status === 'COMPLETED' || session.status === 'CANCELLED') return false;
-    if (session.status === 'IN_PROGRESS') return true;
-    try {
-      const dateStr = session.appointmentDate || '';
-      const timeStr = session.appointmentTime || '00:00:00';
-      const [hours, minutes] = timeStr.split(':').map(Number);
-      const [year, month, day] = dateStr.split('-').map(Number);
-      const sessionDateObj = new Date(year, month - 1, day, hours, minutes);
-      const now = new Date();
-      const diffMins = (sessionDateObj.getTime() - now.getTime()) / (1000 * 60);
-      return diffMins <= 15 && diffMins >= -60;
-    } catch {
-      return true;
-    }
-  };
+  // Periodically refresh current time every 30 seconds to dynamically expire sessions > 1 hour past
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 30000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return '';
@@ -68,10 +65,13 @@ export const SessionsPage = () => {
     }
   };
 
-  // Filter out completed/cancelled sessions for the "upcoming" view
-  const upcomingSessions = sessions.filter(
-    s => s.status !== 'COMPLETED' && s.status !== 'CANCELLED'
-  );
+  // Filter out completed/cancelled sessions & sessions where > 1 hour has elapsed since start time,
+  // then apply search and sort chronologically
+  const upcomingSessions = useMemo(() => {
+    const validSessions = sessions.filter((s) => isSessionUpcomingOrActive(s, currentTime));
+    const searchFiltered = filterSessionsBySearch(validSessions, searchQuery);
+    return sortSessionsChronologically(searchFiltered);
+  }, [sessions, currentTime, searchQuery]);
 
   return (
     <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-10 opacity-100">
@@ -144,8 +144,8 @@ export const SessionsPage = () => {
                  <Plus size={18} /> Yeni Seans
                </button>
             </div>
-            {upcomingSessions.map(session => {
-              const isJoinable = checkIsJoinable(session);
+            {upcomingSessions.map((session) => {
+              const isJoinable = checkIsJoinable(session, currentTime);
               
               return (
                 <div 
