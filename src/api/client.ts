@@ -1,4 +1,24 @@
-import axios from 'axios';
+import axios, { type InternalAxiosRequestConfig } from 'axios';
+import { getAccessToken, refreshAccessToken } from './tokenManager';
+
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
+// Endpoints that should never trigger automatic 401 token refresh
+const AUTH_EXCLUDED_ENDPOINTS = [
+  '/auth/login',
+  '/auth/doctor-login',
+  '/auth/doctor-panel-login',
+  '/auth/super-admin-login',
+  '/auth/bpm-login',
+  '/auth/refresh',
+  '/auth/forgot-password',
+  '/auth/reset-password',
+  '/auth/add',
+  '/otp/verify',
+  '/otp/send',
+];
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
@@ -9,8 +29,8 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
+    const token = getAccessToken();
+    if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -20,12 +40,38 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
-    // Handle global errors (e.g., 401 logout)
-    if (error.response?.status === 401) {
-      localStorage.removeItem('auth_token');
-      window.location.href = '/login';
+  async (error) => {
+    const originalRequest = error.config as CustomAxiosRequestConfig | undefined;
+
+    // Check if error is 401 Unauthorized
+    if (error.response?.status === 401 && originalRequest) {
+      const requestUrl = originalRequest.url || '';
+      const isExcluded = AUTH_EXCLUDED_ENDPOINTS.some((endpoint) => requestUrl.includes(endpoint));
+
+      // Do not attempt refresh on auth-establishing or public endpoints, or if already retried
+      if (isExcluded || originalRequest._retry) {
+        return Promise.reject(error);
+      }
+
+      originalRequest._retry = true;
+
+      try {
+        // Await single-flight refresh
+        const newToken = await refreshAccessToken();
+
+        // Update Authorization header with the new token
+        if (originalRequest.headers) {
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        }
+
+        // Retry the original request
+        return apiClient(originalRequest);
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
+      }
     }
+
     return Promise.reject(error);
   }
 );
+

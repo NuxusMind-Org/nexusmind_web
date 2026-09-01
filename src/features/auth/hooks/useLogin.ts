@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { authApi } from '../api/auth.api';
 import { authKeys } from '../api/auth.keys';
 import { PATHS } from '@/routes/paths';
+import { setTokens, scheduleProactiveRefresh } from '@/api/tokenManager';
+import { useAuthStore } from '@/store/authStore';
 
 export const useLogin = () => {
   const navigate = useNavigate();
@@ -11,14 +13,24 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: authApi.login,
     onSuccess: (data) => {
-      // 1. Store JWT token
-      localStorage.setItem('auth_token', data.token);
+      // 1. Store both access and refresh tokens
+      setTokens({
+        token: data.token,
+        refreshToken: data.refreshToken,
+      });
 
-      // 2. Invalidate cache for the user session
+      // 2. Schedule proactive refresh timer
+      scheduleProactiveRefresh(data.token);
+
+      // 3. Update auth store
+      useAuthStore.getState().login();
+
+      // 4. Invalidate cache for the user session
       queryClient.invalidateQueries({ queryKey: authKeys.me() });
 
-      // 3. Redirect to web app dashboard
+      // 5. Redirect to web app dashboard
       navigate(PATHS.DASHBOARD);
     },
   });
 };
+

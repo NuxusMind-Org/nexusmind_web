@@ -49,13 +49,13 @@ export const Footer = () => {
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
                   <Phone size={18} className="shrink-0 text-white/90" />
                   <a href="tel:+994124000000" className="hover:text-white transition-colors">
-                    +994 (12) 400 00 00
+                    +994 10 328 21 19
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
                   <Mail size={18} className="shrink-0 text-white/90" />
-                  <a href="mailto:info@ethereal-sanctuary.az" className="hover:text-white transition-colors">
-                    info@ethereal-sanctuary.az
+                  <a href="mailto:nexusmind.net@gmail.com" className="hover:text-white transition-colors">
+                    nexusmind.net@gmail.com
                   </a>
                 </div>
               </div>
@@ -110,7 +110,9 @@ export const Footer = () => {
               <div className="flex items-center gap-3">
                 {/* Instagram */}
                 <a
-                  href="#"
+                  href="https://www.instagram.com/nexusmind.offical/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Instagram"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center text-white"
                 >
@@ -132,7 +134,9 @@ export const Footer = () => {
 
                 {/* LinkedIn */}
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/company/135324814/admin/dashboard/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="LinkedIn"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center text-white"
                 >
@@ -143,7 +147,9 @@ export const Footer = () => {
 
                 {/* YouTube */}
                 <a
-                  href="#"
+                  href="https://www.youtube.com/@NexusMind_Platform"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="YouTube"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center text-white"
                 >

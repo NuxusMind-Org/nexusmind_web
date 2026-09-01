@@ -142,16 +142,18 @@
   }
 
   100% {
-    transform: translateX(-33.333%);
+    transform: translateX(-100%);
   }
 }
 
 .animate-ticker {
   display: flex;
-  width: max-content;
-  animation: ticker 30s linear infinite;
+  flex-shrink: 0;
+  animation: ticker 35s linear infinite;
+  will-change: transform;
 }
 
+.group:hover .animate-ticker,
 .animate-ticker:hover {
   animation-play-state: paused;
 }

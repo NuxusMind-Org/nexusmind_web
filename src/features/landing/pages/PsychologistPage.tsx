@@ -4,11 +4,14 @@ import vrConsultation from '@/assets/vr_consultation.png';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { psychologists } from '../data/psychologists';
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '@/routes/paths';
 
 export const PsychologistPage = () => {
   const { id } = useParams<{ id: string }>();
   const psychologistId = id ? parseInt(id, 10) : 1;
   const psych = psychologists.find(p => p.id === psychologistId) || psychologists[0];
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}>
@@ -125,7 +128,7 @@ export const PsychologistPage = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock size={18} className="text-white/70" />
-                  <span className="text-white/80 text-[14px]">60 dəqiqəlik görüş</span>
+                  <span className="text-white/80 text-[14px]">45 dəqiqəlik görüş</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Lock size={18} className="text-white/70" />
@@ -133,13 +136,12 @@ export const PsychologistPage = () => {
                 </div>
               </div>
 
-              <button className="w-full py-4 bg-[#c084fc] hover:bg-[#a855f7] text-[#1e1b4b] font-light text-[16px] rounded-lg transition-colors shadow-lg">
+              <button
+                className="w-full py-4 bg-[#c084fc] hover:bg-[#a855f7] text-[#1e1b4b] font-light text-[16px] rounded-lg transition-colors shadow-lg"
+                onClick={() => navigate(PATHS.LOGIN)}
+              >
                 Seans Təyin Et
               </button>
-
-              <p className="text-center text-white/40 text-[11px] mt-4">
-                Ləğv etmə siyasəti: 24 saat əvvəl
-              </p>
             </div>
 
             {/* VR Consultation Mini Box */}

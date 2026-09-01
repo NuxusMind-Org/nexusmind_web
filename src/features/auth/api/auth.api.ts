@@ -7,6 +7,7 @@ import type {
   VerifyOtpRequest,
   ForgotPasswordRequest,
   ResetPasswordWithOtpRequest,
+  RefreshTokenRequest,
   AdminLoginRequest,
   PatientMood,
   PasientRegisterEntity,
@@ -67,6 +68,19 @@ export const authApi = {
   resetPassword: async (data: ResetPasswordWithOtpRequest): Promise<string> => {
     const response = await apiClient.post<string>('/auth/reset-password', data);
     return response.data;
+  },
+
+  refresh: async (data: RefreshTokenRequest): Promise<AuthResponse> => {
+    const response = await apiClient.post<AuthResponse>('/auth/refresh', data);
+    return response.data;
+  },
+
+  logout: async (): Promise<void> => {
+    try {
+      await apiClient.post('/auth/logout');
+    } catch {
+      // Ignore network errors on server logout
+    }
   },
 
   superAdminLogin: async (data: AdminLoginRequest): Promise<AuthResponse> => {

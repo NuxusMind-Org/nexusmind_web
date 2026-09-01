@@ -5,6 +5,7 @@ export type {
   ResetPasswordWithOtpRequest,
   LoginRequest,
   ForgotPasswordRequest,
+  RefreshTokenRequest,
   AdminLoginRequest,
   AuthResponse,
   PatientMood,

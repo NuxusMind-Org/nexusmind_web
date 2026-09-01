@@ -47,6 +47,11 @@ export interface LoginRequest {
 
 export interface AuthResponse {
   token: string;
+  refreshToken?: string;
+}
+
+export interface RefreshTokenRequest {
+  refreshToken: string;
 }
 
 export interface PasientRegisterDto {
@@ -71,8 +76,8 @@ export interface ForgotPasswordRequest {
 export interface ResetPasswordWithOtpRequest {
   email: string;
   otp: string;
-  newPassword?: string;
-  confirmPassword?: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 export interface VerifyOtpRequest {

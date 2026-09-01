@@ -69,7 +69,10 @@ export const ExpertsSection = () => {
           ))}
         </div>
 
-        <button className="text-white hover:text-[#a88bff] transition-colors flex items-center gap-2 text-[18px]">
+        <button
+          onClick={() => navigate(PATHS.LOGIN)}
+          className="text-white hover:text-[#a88bff] transition-colors flex items-center gap-2 text-[18px] cursor-pointer"
+        >
           Daha çox <span>→</span>
         </button>
 

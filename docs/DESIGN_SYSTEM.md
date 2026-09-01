@@ -625,18 +625,22 @@ Nav item stagger:     transitionDelay: index × 60ms
 
 **`nav-pulse`** — see §8 (Shadows). Applied to `.nav-active-glow`.
 
-**`ticker`** — partner logo strip:
+**`ticker`** — partner logo strip (seamless dual-track infinite marquee):
 ```css
 @keyframes ticker {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-33.333%); }
+  100% { transform: translateX(-100%); }
 }
 .animate-ticker {
   display: flex;
-  width: max-content;
-  animation: ticker 30s linear infinite;
+  flex-shrink: 0;
+  animation: ticker 35s linear infinite;
+  will-change: transform;
 }
-.animate-ticker:hover { animation-play-state: paused; }
+.group:hover .animate-ticker,
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
 ```
 
 ### Loading Spinner

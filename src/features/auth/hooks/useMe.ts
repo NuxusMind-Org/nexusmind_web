@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { authApi } from '../api/auth.api';
 import { authKeys } from '../api/auth.keys';
+import { getAccessToken } from '@/api/tokenManager';
 
 export const useMe = () => {
-  const token = localStorage.getItem('auth_token');
+  const token = getAccessToken();
 
   return useQuery({
     queryKey: authKeys.me(),
@@ -12,3 +13,4 @@ export const useMe = () => {
     retry: false,
   });
 };
+

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { authApi } from '../api/auth.api';
 import { authKeys } from '../api/auth.keys';
 import { PATHS } from '@/routes/paths';
+import { setTokens, scheduleProactiveRefresh } from '@/api/tokenManager';
+import { useAuthStore } from '@/store/authStore';
 import type { VerifyOtpRequest, LoginRequest } from '../api/auth.types';
 
 interface VerifyOtpMutationParams {
@@ -27,8 +29,14 @@ export const useVerifyOtp = () => {
     },
     onSuccess: (data, variables) => {
       if (data?.token) {
-        // Save auth token
-        localStorage.setItem('auth_token', data.token);
+        // Save auth and refresh tokens
+        setTokens({
+          token: data.token,
+          refreshToken: data.refreshToken,
+        });
+        scheduleProactiveRefresh(data.token);
+        useAuthStore.getState().login();
+
         queryClient.invalidateQueries({ queryKey: authKeys.me() });
         navigate(PATHS.REGISTRATION_SUCCESS, { state: { email: variables.verify.email } });
       } else {

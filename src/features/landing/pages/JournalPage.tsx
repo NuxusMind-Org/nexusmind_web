@@ -1,10 +1,31 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import vrConsultation from '@/assets/vr_consultation.png';
+import { PATHS } from '@/routes/paths';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 
+const AZ_MONTHS = [
+  'Yanvar',
+  'Fevral',
+  'Mart',
+  'Aprel',
+  'May',
+  'İyun',
+  'İyul',
+  'Avqust',
+  'Sentyabr',
+  'Oktyabr',
+  'Noyabr',
+  'Dekabr',
+];
+
 export const JournalPage = () => {
+  const navigate = useNavigate();
   const [selectedMood, setSelectedMood] = useState<number | null>(null);
+
+  const today = new Date();
+  const currentDateFormatted = `${today.getDate()} ${AZ_MONTHS[today.getMonth()]}, ${today.getFullYear()}`;
 
   const moods = [
     {
@@ -108,7 +129,7 @@ export const JournalPage = () => {
                 <h4 className="text-white/50 text-[11px] tracking-[0.2em] uppercase font-light mb-2">GÜNÜN DÜŞÜNCƏLƏRİ</h4>
                 <h3 className="text-white text-[24px] sm:text-[28px] italic font-serif">Nə barədə düşünürsünüz?</h3>
               </div>
-              <span className="text-white/60 text-[13px] font-medium hidden sm:block">13 May, 2026</span>
+              <span className="text-white/60 text-[13px] font-medium hidden sm:block">{currentDateFormatted}</span>
             </div>
 
             <textarea
@@ -123,12 +144,18 @@ export const JournalPage = () => {
 
             <div className="flex flex-col sm:flex-row justify-end items-stretch sm:items-center gap-3 sm:gap-4 mt-6 sm:mt-8 w-full relative z-10 pl-6 sm:pl-8">
               {/* Saxla Button - Filled (Primary) */}
-              <button className="w-full sm:w-auto px-7 py-3 bg-[#d8b4fe] text-[#2D1B44] font-semibold rounded-lg hover:bg-[#c084fc] transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(216,180,254,0.4)] whitespace-nowrap text-center cursor-pointer outline-none">
+              <button
+                onClick={() => navigate(PATHS.LOGIN)}
+                className="w-full sm:w-auto px-7 py-3 bg-[#d8b4fe] text-[#2D1B44] font-semibold rounded-lg hover:bg-[#c084fc] transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(216,180,254,0.4)] whitespace-nowrap text-center cursor-pointer outline-none"
+              >
                 Saxla
               </button>
 
               {/* Psixoloqa göndər Button - Stroke / Outlined (Secondary) */}
-              <button className="w-full sm:w-auto px-7 py-3 bg-transparent border-2 border-[#d8b4fe] text-[#d8b4fe] hover:text-white font-semibold rounded-lg hover:bg-[#d8b4fe]/15 hover:border-[#c084fc] transition-all duration-300 whitespace-nowrap text-center cursor-pointer outline-none">
+              <button
+                onClick={() => navigate(PATHS.LOGIN)}
+                className="w-full sm:w-auto px-7 py-3 bg-transparent border-2 border-[#d8b4fe] text-[#d8b4fe] hover:text-white font-semibold rounded-lg hover:bg-[#d8b4fe]/15 hover:border-[#c084fc] transition-all duration-300 whitespace-nowrap text-center cursor-pointer outline-none"
+              >
                 Psixoloqa göndər
               </button>
             </div>
@@ -167,7 +194,10 @@ export const JournalPage = () => {
               </div>
             </div>
 
-            <button className="w-full mt-10 py-3.5 border border-white/20 rounded-lg text-white text-[12px] font-light tracking-widest hover:bg-white/10 transition-colors">
+            <button
+              onClick={() => navigate(PATHS.LOGIN)}
+              className="w-full mt-10 py-3.5 border border-white/20 rounded-lg text-white text-[12px] font-light tracking-widest hover:bg-white/10 transition-colors cursor-pointer"
+            >
               HAMISINI GÖR
             </button>
           </div>

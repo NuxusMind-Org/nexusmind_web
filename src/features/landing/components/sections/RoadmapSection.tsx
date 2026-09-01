@@ -5,6 +5,8 @@ import { ScrollReveal } from '../ScrollReveal';
 import { useRoadmapMascot } from '../../hooks/useRoadmapMascot';
 
 const PARTNER_NAMES = ['Bakı Psixologiya Mərkəzi', 'NexusMind'];
+const PARTNER_REPEAT_COUNT = Math.max(1, Math.ceil(8 / PARTNER_NAMES.length));
+const PARTNER_ITEMS = Array.from({ length: PARTNER_REPEAT_COUNT }, () => PARTNER_NAMES).flat();
 
 export const RoadmapSection = () => {
   const {
@@ -119,10 +121,26 @@ export const RoadmapSection = () => {
       </div>
 
       {/* Partner Ticker */}
-      <div className="w-screen -mx-4 sm:-mx-8 md:-mx-12 lg:-mx-[72px] bg-white/5 py-4 md:py-8 border-y border-white/10 overflow-hidden relative mt-10 md:mt-20">
-        <div className="animate-ticker flex items-center gap-24">
-          {[...PARTNER_NAMES, ...PARTNER_NAMES, ...PARTNER_NAMES].map((name, i) => (
-            <span key={i} className="text-[20px] sm:text-[24px] font-bold text-white/50 whitespace-nowrap">
+      <div className="group relative w-screen -mx-4 sm:-mx-8 md:-mx-12 lg:-mx-[72px] bg-white/5 py-4 md:py-8 border-y border-white/10 overflow-hidden select-none flex mt-10 md:mt-20 [mask-image:linear-gradient(to_right,transparent_0%,black_6%,black_94%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_6%,black_94%,transparent_100%)]">
+        {/* Track 1 */}
+        <div className="animate-ticker flex items-center gap-16 md:gap-24 pr-16 md:pr-24 shrink-0">
+          {PARTNER_ITEMS.map((name, i) => (
+            <span
+              key={`track1-${i}`}
+              className="text-[20px] sm:text-[24px] font-bold text-white/50 hover:text-white/80 transition-colors whitespace-nowrap cursor-default"
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+
+        {/* Track 2 (Duplicate for infinite seamless loop) */}
+        <div className="animate-ticker flex items-center gap-16 md:gap-24 pr-16 md:pr-24 shrink-0" aria-hidden="true">
+          {PARTNER_ITEMS.map((name, i) => (
+            <span
+              key={`track2-${i}`}
+              className="text-[20px] sm:text-[24px] font-bold text-white/50 hover:text-white/80 transition-colors whitespace-nowrap cursor-default"
+            >
               {name}
             </span>
           ))}
