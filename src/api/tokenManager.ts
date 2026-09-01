@@ -4,6 +4,7 @@ import type { AuthResponse } from '@/api/types';
 
 export const AUTH_TOKEN_KEY = 'auth_token';
 export const REFRESH_TOKEN_KEY = 'refresh_token';
+export const USER_ID_KEY = 'user_id';
 
 // In-flight singleton refresh promise lock (Layer 2)
 let refreshPromise: Promise<string> | null = null;
@@ -18,7 +19,7 @@ export const registerOnLogoutCallback = (cb: () => void) => {
   onLogoutCallback = cb;
 };
 
-// ── Token Storage Helpers ─────────────────────────────────────
+// ── Token & User Storage Helpers ──────────────────────────────
 
 export const getAccessToken = (): string | null => {
   return localStorage.getItem(AUTH_TOKEN_KEY);
@@ -28,36 +29,77 @@ export const getRefreshToken = (): string | null => {
   return localStorage.getItem(REFRESH_TOKEN_KEY);
 };
 
+export const getUserId = (): number | null => {
+  const stored = localStorage.getItem(USER_ID_KEY);
+  if (stored) {
+    const parsed = parseInt(stored, 10);
+    if (!isNaN(parsed)) return parsed;
+  }
+  return null;
+};
+
+export const setUserId = (id: number | string): void => {
+  localStorage.setItem(USER_ID_KEY, String(id));
+};
+
 export const setTokens = ({
   token,
   refreshToken,
+  userId,
 }: {
   token: string;
   refreshToken?: string;
+  userId?: number | string;
 }): void => {
   localStorage.setItem(AUTH_TOKEN_KEY, token);
   if (refreshToken) {
     localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+  }
+
+  // If userId is explicitly passed, save it
+  if (userId !== undefined && userId !== null) {
+    setUserId(userId);
+  } else {
+    // Attempt extracting userId from JWT payload
+    const payload = getJwtPayload(token);
+    const extractedId = payload?.id ?? payload?.userId;
+    if (extractedId !== undefined && extractedId !== null) {
+      setUserId(extractedId);
+    }
   }
 };
 
 export const clearTokens = (): void => {
   localStorage.removeItem(AUTH_TOKEN_KEY);
   localStorage.removeItem(REFRESH_TOKEN_KEY);
+  localStorage.removeItem(USER_ID_KEY);
 };
 
 export const hasValidSession = (): boolean => {
   return Boolean(getAccessToken());
 };
 
-// ── JWT Payload Decoder ───────────────────────────────────────
+export interface JwtPayload {
+  id?: number;
+  userId?: number;
+  sub?: string;
+  email?: string;
+  name?: string;
+  surname?: string;
+  role?: string;
+  exp?: number;
+  iat?: number;
+  [key: string]: unknown;
+}
 
 /**
- * Decodes the `exp` timestamp (in seconds) from a standard JWT token.
+ * Decodes the complete JSON payload from a JWT token.
  */
-export const getJwtExp = (token: string): number | null => {
+export const getJwtPayload = (token?: string | null): JwtPayload | null => {
+  const jwt = token || getAccessToken();
+  if (!jwt) return null;
   try {
-    const parts = token.split('.');
+    const parts = jwt.split('.');
     if (parts.length < 2) return null;
     const base64Url = parts[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -67,11 +109,18 @@ export const getJwtExp = (token: string): number | null => {
         .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
         .join('')
     );
-    const parsed = JSON.parse(jsonPayload);
-    return typeof parsed.exp === 'number' ? parsed.exp : null;
+    return JSON.parse(jsonPayload) as JwtPayload;
   } catch {
     return null;
   }
+};
+
+/**
+ * Decodes the `exp` timestamp (in seconds) from a standard JWT token.
+ */
+export const getJwtExp = (token: string): number | null => {
+  const payload = getJwtPayload(token);
+  return typeof payload?.exp === 'number' ? payload.exp : null;
 };
 
 // ── Proactive Refresh Timer (Layer 3) ─────────────────────────

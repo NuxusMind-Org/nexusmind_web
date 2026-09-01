@@ -13,10 +13,11 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: authApi.login,
     onSuccess: (data) => {
-      // 1. Store both access and refresh tokens
+      // 1. Store both access and refresh tokens along with user ID
       setTokens({
         token: data.token,
         refreshToken: data.refreshToken,
+        userId: data.id ?? data.userId,
       });
 
       // 2. Schedule proactive refresh timer
@@ -27,6 +28,7 @@ export const useLogin = () => {
 
       // 4. Invalidate cache for the user session
       queryClient.invalidateQueries({ queryKey: authKeys.me() });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
 
       // 5. Redirect to web app dashboard
       navigate(PATHS.DASHBOARD);

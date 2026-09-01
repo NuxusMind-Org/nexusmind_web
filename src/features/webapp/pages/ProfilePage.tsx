@@ -1,17 +1,23 @@
-import { useState, useRef } from 'react';
-import { User, Lock, Camera, Trash2, ChevronDown, Check, Eye, EyeOff, ShieldCheck } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { User, Lock, Camera, Trash2, ChevronDown, Check, Eye, EyeOff, ShieldCheck, Loader2 } from 'lucide-react';
+import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
+import { useUpdateUser } from '@/features/auth/hooks/useUpdateUser';
+import { authApi } from '@/features/auth/api/auth.api';
 
 export const ProfilePage = () => {
+  const { data: user } = useCurrentUser();
+  const updateUserMutation = useUpdateUser();
+
   const [activeTab, setActiveTab] = useState<'account' | 'security'>('account');
 
   // Account Form State
-  const [name, setName] = useState('Çiçək Ömərova');
+  const [name, setName] = useState('');
   const [isEditingName, setIsEditingName] = useState(false);
-  const [tempName, setTempName] = useState(name);
+  const [tempName, setTempName] = useState('');
 
-  const [email, setEmail] = useState('ciciomarova20061012@gmail.com');
+  const [email, setEmail] = useState('');
   const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [tempEmail, setTempEmail] = useState(email);
+  const [tempEmail, setTempEmail] = useState('');
 
   const [status, setStatus] = useState('Tələbə');
   const [isStatusOpen, setIsStatusOpen] = useState(false);
@@ -22,8 +28,8 @@ export const ProfilePage = () => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const statusOptions = ['Tələbə', 'Məzun', 'İşləyən', 'Digər'];
-  const languageOptions = ['Azərbaycan dili', 'English', 'Türkçe', 'Русский'];
+  const [saveFeedback, setSaveFeedback] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   // Security Form State
   const [currentPassword, setCurrentPassword] = useState('');
@@ -36,6 +42,32 @@ export const ProfilePage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
+  const [passwordStatus, setPasswordStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+
+  const statusOptions = ['Tələbə', 'Məzun', 'İşləyən', 'Digər'];
+  const languageOptions = ['Azərbaycan dili', 'English', 'Türkçe', 'Русский'];
+
+  // Initialize and sync form with fetched user data
+  useEffect(() => {
+    if (user) {
+      const fullName = [user.name, user.surname].filter(Boolean).join(' ').trim();
+      const initialName = fullName || user.name || '';
+      setName(initialName);
+      setTempName(initialName);
+
+      const initialEmail = user.email || '';
+      setEmail(initialEmail);
+      setTempEmail(initialEmail);
+
+      if (user.status) setStatus(user.status);
+      if (user.language) setLanguage(user.language);
+      if (user.profileImageUrl) setProfileImage(user.profileImageUrl);
+      if (typeof user.twoFactorEnabled === 'boolean') setIs2FAEnabled(user.twoFactorEnabled);
+    }
+  }, [user]);
+
+  const userInitial = user?.name ? user.name.trim().charAt(0).toUpperCase() : 'U';
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -52,27 +84,100 @@ export const ProfilePage = () => {
     }
   };
 
-  const handleSaveName = () => {
+  const handleSaveName = async () => {
     setName(tempName);
     setIsEditingName(false);
   };
 
-  const handleSaveEmail = () => {
+  const handleSaveEmail = async () => {
     setEmail(tempEmail);
     setIsEditingEmail(false);
   };
 
   const handleCancelAll = () => {
-    setTempName(name);
+    const fullName = [user?.name, user?.surname].filter(Boolean).join(' ').trim();
+    setTempName(fullName || user?.name || '');
     setIsEditingName(false);
-    setTempEmail(email);
+    setTempEmail(user?.email || '');
     setIsEditingEmail(false);
+    setSaveFeedback(null);
+    setSaveError(null);
+  };
+
+  const handleSaveAllChanges = async () => {
+    if (!user?.id) {
+      setSaveFeedback('Dəyişikliklər qeydə alındı.');
+      setTimeout(() => setSaveFeedback(null), 3000);
+      return;
+    }
+
+    setSaveError(null);
+    setSaveFeedback(null);
+
+    const nameParts = name.trim().split(' ');
+    const firstName = nameParts[0] || user.name || '';
+    const lastName = nameParts.slice(1).join(' ') || user.surname || '';
+
+    try {
+      await updateUserMutation.mutateAsync({
+        id: user.id,
+        data: {
+          name: firstName,
+          surname: lastName,
+          email: email.trim(),
+          age: user.age || 20,
+          phone: user.phone,
+          password: user.password,
+        },
+      });
+      setIsEditingName(false);
+      setIsEditingEmail(false);
+      setSaveFeedback('Məlumatlarınız uğurla yeniləndi.');
+      setTimeout(() => setSaveFeedback(null), 3000);
+    } catch {
+      setSaveError('Məlumatları yeniləyərkən xəta baş verdi.');
+      setTimeout(() => setSaveError(null), 3000);
+    }
   };
 
   const handleCancelPasswordChange = () => {
     setCurrentPassword('');
     setNewPassword('');
     setConfirmPassword('');
+    setPasswordStatus(null);
+  };
+
+  const handleSavePasswordChange = async () => {
+    setPasswordStatus(null);
+
+    if (!currentPassword) {
+      setPasswordStatus({ type: 'error', message: 'Hazırkı şifrəni daxil edin.' });
+      return;
+    }
+    if (newPassword.length < 8) {
+      setPasswordStatus({ type: 'error', message: 'Yeni şifrə ən az 8 simvol olmalıdır.' });
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordStatus({ type: 'error', message: 'Yeni şifrələr uyğun gəlmir.' });
+      return;
+    }
+
+    setIsChangingPassword(true);
+    try {
+      await authApi.changePassword({
+        oldPassword: currentPassword,
+        newPassword,
+        confirmPassword,
+      });
+      setPasswordStatus({ type: 'success', message: 'Şifrəniz uğurla yeniləndi!' });
+      handleCancelPasswordChange();
+      setTimeout(() => setPasswordStatus(null), 4000);
+    } catch {
+      setPasswordStatus({ type: 'error', message: 'Şifrəni dəyişmək mümkün olmadı. Hazırkı şifrənizi yoxlayın.' });
+    } finally {
+      setIsChangingPassword(false);
+    }
   };
 
   return (
@@ -157,7 +262,7 @@ export const ProfilePage = () => {
                       {profileImage ? (
                         <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
                       ) : (
-                        <span>M</span>
+                        <span>{userInitial}</span>
                       )}
                     </div>
                     {/* Camera Button */}
@@ -221,7 +326,7 @@ export const ProfilePage = () => {
                     </div>
                   ) : (
                     <span className="text-base sm:text-lg font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                      {name}
+                      {name || '—'}
                     </span>
                   )}
                 </div>
@@ -262,7 +367,7 @@ export const ProfilePage = () => {
                     </div>
                   ) : (
                     <span className="text-base sm:text-lg font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] break-all">
-                      {email}
+                      {email || '—'}
                     </span>
                   )}
                 </div>
@@ -361,6 +466,18 @@ export const ProfilePage = () => {
                   </div>
                 )}
               </div>
+
+              {/* Feedback messages */}
+              {saveFeedback && (
+                <div className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 py-2.5 px-4 rounded-xl font-medium">
+                  {saveFeedback}
+                </div>
+              )}
+              {saveError && (
+                <div className="text-xs text-red-600 bg-red-50 border border-red-200 py-2.5 px-4 rounded-xl font-medium">
+                  {saveError}
+                </div>
+              )}
             </div>
 
             {/* Bottom Actions Bar */}
@@ -372,14 +489,12 @@ export const ProfilePage = () => {
                 Ləğv et
               </button>
               <button
-                onClick={() => {
-                  /* handle save */
-                  setIsEditingName(false);
-                  setIsEditingEmail(false);
-                }}
-                className="px-6 py-3 rounded-2xl bg-[#351465] text-white hover:bg-[#290f50] text-sm font-semibold transition-colors shadow-md cursor-pointer"
+                onClick={handleSaveAllChanges}
+                disabled={updateUserMutation.isPending}
+                className="px-6 py-3 rounded-2xl bg-[#351465] text-white hover:bg-[#290f50] text-sm font-semibold transition-colors shadow-md cursor-pointer flex items-center gap-2"
               >
-                Dəyişiklikləri yadda saxla
+                {updateUserMutation.isPending && <Loader2 size={16} className="animate-spin" />}
+                <span>Dəyişiklikləri yadda saxla</span>
               </button>
             </div>
           </div>
@@ -463,6 +578,19 @@ export const ProfilePage = () => {
                       </button>
                     </div>
                   </div>
+
+                  {/* Password status feedback */}
+                  {passwordStatus && (
+                    <div
+                      className={`text-xs py-2.5 px-4 rounded-xl font-medium ${
+                        passwordStatus.type === 'success'
+                          ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+                          : 'text-red-600 bg-red-50 border border-red-200'
+                      }`}
+                    >
+                      {passwordStatus.message}
+                    </div>
+                  )}
                 </div>
 
                 {/* Form Buttons */}
@@ -474,14 +602,12 @@ export const ProfilePage = () => {
                     Ləğv et
                   </button>
                   <button
-                    onClick={() => {
-                      /* handle password save */
-                      alert('Şifrə yeniləndi!');
-                      handleCancelPasswordChange();
-                    }}
-                    className="px-6 py-3 rounded-2xl bg-[#351465] text-white font-semibold text-sm hover:bg-[#280f4f] transition-all shadow-md cursor-pointer"
+                    onClick={handleSavePasswordChange}
+                    disabled={isChangingPassword}
+                    className="px-6 py-3 rounded-2xl bg-[#351465] text-white font-semibold text-sm hover:bg-[#280f4f] transition-all shadow-md cursor-pointer flex items-center gap-2"
                   >
-                    Şifrəni yenilə
+                    {isChangingPassword && <Loader2 size={16} className="animate-spin" />}
+                    <span>Şifrəni yenilə</span>
                   </button>
                 </div>
               </div>

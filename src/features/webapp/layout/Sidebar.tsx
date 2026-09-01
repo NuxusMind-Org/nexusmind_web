@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
-import maleAvatar from '@/assets/male_avatar.png';
+import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 
 interface SidebarProps {
   isExpanded: boolean;
@@ -24,6 +24,9 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
+  const { data: user } = useCurrentUser();
+  const userInitial = user?.name ? user.name.trim().charAt(0).toUpperCase() : 'U';
+
   const [showMaariflenmeSub, setShowMaariflenmeSub] = useState(false);
   const [showMediaSub, setShowMediaSub] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -308,16 +311,19 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
           </NavLink>
 
           {/* Avatar Profile */}
-          <NavLink to={PATHS.WEBAPP_PROFILE} className="relative group">
+          <NavLink to={PATHS.WEBAPP_PROFILE} className="relative group" title={user?.name || 'Profil'}>
             <div className="w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-orange-400 to-yellow-300 group-hover:scale-105 transition-transform duration-300">
-              <img
-                src={maleAvatar}
-                alt="User Avatar"
-                className="w-full h-full rounded-full object-cover border-2 border-white"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
+              {user?.profileImageUrl ? (
+                <img
+                  src={user.profileImageUrl}
+                  alt={user.name || 'User Avatar'}
+                  className="w-full h-full rounded-full object-cover border-2 border-white"
+                />
+              ) : (
+                <div className="w-full h-full rounded-full bg-[#5d2f97] border-2 border-white flex items-center justify-center text-white font-bold text-sm shadow-inner">
+                  {userInitial}
+                </div>
+              )}
             </div>
           </NavLink>
         </div>

@@ -29,15 +29,17 @@ export const useVerifyOtp = () => {
     },
     onSuccess: (data, variables) => {
       if (data?.token) {
-        // Save auth and refresh tokens
+        // Save auth and refresh tokens along with user ID
         setTokens({
           token: data.token,
           refreshToken: data.refreshToken,
+          userId: data.id ?? data.userId,
         });
         scheduleProactiveRefresh(data.token);
         useAuthStore.getState().login();
 
         queryClient.invalidateQueries({ queryKey: authKeys.me() });
+        queryClient.invalidateQueries({ queryKey: ['user'] });
         navigate(PATHS.REGISTRATION_SUCCESS, { state: { email: variables.verify.email } });
       } else {
         // Fallback for Password recovery flow: navigate to set new password

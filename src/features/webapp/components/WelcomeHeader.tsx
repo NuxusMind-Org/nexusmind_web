@@ -1,6 +1,10 @@
 import { Search } from 'lucide-react';
+import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 
 export const WelcomeHeader = () => {
+  const { data: user } = useCurrentUser();
+  const displayName = user?.name ? user.name.trim().split(' ')[0] : 'Dost';
+
   return (
     <div
       className="w-full px-4 sm:px-8 md:px-16 flex flex-col items-center justify-center text-center relative border-b border-black/5 rounded-none lg:rounded-t-[38.93px] gap-4 sm:gap-6 h-[260px] sm:h-[300px] md:h-[359px]"
@@ -16,7 +20,7 @@ export const WelcomeHeader = () => {
           maxWidth: '1041.5px',
         }}
       >
-        Salam Mətin! Bugünkü səyahətimizə hazırsan?
+        Salam {displayName}! Bugünkü səyahətimizə hazırsan?
       </h1>
 
       {/* 2. Rounded Search Bar */}

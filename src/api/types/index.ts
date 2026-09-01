@@ -48,6 +48,8 @@ export interface LoginRequest {
 export interface AuthResponse {
   token: string;
   refreshToken?: string;
+  id?: number;
+  userId?: number;
 }
 
 export interface RefreshTokenRequest {
