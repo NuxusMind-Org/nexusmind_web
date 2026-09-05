@@ -13,7 +13,7 @@ export const articlesApi = {
     return response.data;
   },
 
-  getById: async (id: number): Promise<MeqaleResponseDto> => {
+  getById: async (id: number | string): Promise<MeqaleResponseDto> => {
     const response = await apiClient.get<MeqaleResponseDto>(`/meqale/${id}`);
     return response.data;
   },

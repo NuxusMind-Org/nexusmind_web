@@ -1,13 +1,69 @@
-import { useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { ChevronRight, Mic, Play, Quote, Settings, Brain, ChevronLeft } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { useNavigate, Link, useParams } from 'react-router-dom';
+import { ChevronRight, Mic, Play, Quote, Settings, Brain, ChevronLeft, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 import newsBrainArtImg from '@/assets/news/news_brain_art.png';
 import digitalBrainImg from '@/assets/digital_brain.png';
 import { PATHS } from '@/routes/paths';
+import { articlesApi } from '@/api/articles.api';
+import type { MeqaleResponseDto } from '@/api/types';
+import { SEO } from '@/components';
+import { ARTICLE_ITEMS } from '@/features/landing/constants/articles';
 
 export const ArticleDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [meqale, setMeqale] = useState<MeqaleResponseDto | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(Boolean(id));
+  const [isError, setIsError] = useState<boolean>(!id);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (!id) return;
+
+    articlesApi
+      .getById(id)
+      .then((data) => {
+        if (isMounted) {
+          if (data && (data.id || data.title)) {
+            setMeqale(data);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.warn(`[WebappArticleDetailPage] Failed to fetch article with id "${id}":`, err);
+        if (isMounted) {
+          const numericId = Number(id);
+          const mockFound = ARTICLE_ITEMS.find((item) => item.id === numericId);
+          if (mockFound || numericId === 1 || id === '1') {
+            const fallback = mockFound || ARTICLE_ITEMS[0];
+            setMeqale({
+              id: fallback.id,
+              title: fallback.title,
+              shortDescription: fallback.description,
+              imageUrl: fallback.image,
+              category: fallback.categoryLabel,
+              createdAt: fallback.date,
+              slug: String(fallback.id),
+              metaTitle: fallback.title,
+              metaDescription: fallback.description,
+            });
+            setIsError(false);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -21,8 +77,57 @@ export const ArticleDetailPage = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center min-h-[400px] py-20">
+        <Loader2 className="w-10 h-10 animate-spin text-[#4D2059]" />
+        <p className="mt-4 text-[#1E0A42]/70 font-['Lexend'] font-medium">Məqalə yüklənir...</p>
+      </div>
+    );
+  }
+
+  if (isError || !meqale) {
+    return (
+      <>
+        <SEO
+          metaTitle="Məqalə tapılmadı | NexusMind"
+          metaDescription="Axtardığınız məqalə tapılmadı və ya mövcud deyil."
+          contentType="article"
+        />
+        <div className="w-full flex flex-col items-center justify-center min-h-[400px] py-16 px-4">
+          <div className="max-w-md w-full bg-white rounded-2xl shadow-lg border border-[#E5DFDF] p-8 text-center flex flex-col items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+              <AlertCircle className="w-7 h-7" />
+            </div>
+            <h3 className="text-xl font-bold text-[#1E0A42] font-['Lexend']">Məqalə tapılmadı</h3>
+            <p className="text-sm text-[#1E0A42]/70 font-['Lexend']">
+              Axtardığınız elmi məqalə silinmiş və ya mövcud olmaya bilər.
+            </p>
+            <button
+              onClick={() => navigate(PATHS.WEBAPP_ARTICLE)}
+              className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4D2059] text-white text-sm font-semibold hover:bg-[#4D2059]/90 transition-colors cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Məqalələr siyahısına qayıt</span>
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
-    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <>
+      <SEO
+        metaTitle={meqale.metaTitle || meqale.title}
+        metaDescription={meqale.metaDescription || meqale.shortDescription}
+        slug={meqale.slug || meqale.id}
+        schemaMarkup={meqale.schemaMarkup}
+        metaKeywords={meqale.metaKeywords}
+        contentType="article"
+        image={meqale.imageUrl || newsBrainArtImg}
+      />
+      <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
       
       {/* First Section: Top Header Section (Card with Gradient) - Width: 1279px, Height: 271px */}
       <div
@@ -58,12 +163,12 @@ export const ArticleDetailPage = () => {
           {/* Turquoise Category Tag Badge */}
           <div className="bg-[#EBFBF7] text-[#0D9488] text-[11px] font-bold tracking-wider px-3.5 py-2 rounded-full uppercase font-['Lexend'] inline-flex items-center gap-1.5 self-start select-none">
             <span className="w-1.5 h-1.5 rounded-full bg-[#0D9488]" />
-            KLİNİK ARAŞDIRMA
+            {meqale.category || 'KLİNİK ARAŞDIRMA'}
           </div>
 
           {/* Heading Title */}
           <h1 className="text-2xl md:text-[38px] lg:text-[40px] font-bold leading-tight text-[#1E0A42] font-['Lexend'] text-left mt-5 max-w-[520px]">
-            VR Terapiyasının Travma Müalicəsində Effektivliyi
+            {meqale.title || 'VR Terapiyasının Travma Müalicəsində Effektivliyi'}
           </h1>
 
           {/* Buttons Row */}
@@ -80,8 +185,8 @@ export const ArticleDetailPage = () => {
         {/* Right Column: Hero Cover Image Card displaying VR portal */}
         <div className="w-full lg:w-[58%] rounded-[24px] overflow-hidden shadow-xl border border-white/10 shrink-0 relative aspect-[1.6]">
           <img
-            src={newsBrainArtImg}
-            alt="VR Terapiya Portalı"
+            src={meqale.imageUrl || newsBrainArtImg}
+            alt={meqale.title || "VR Terapiya Portalı"}
             className="w-full h-full object-cover hover:scale-[1.01] transition-transform duration-700"
           />
         </div>
@@ -355,7 +460,7 @@ export const ArticleDetailPage = () => {
           <span>← Geri qayıt</span>
         </button>
       </div>
-
     </div>
-  );
+  </>
+);
 };

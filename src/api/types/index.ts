@@ -164,6 +164,11 @@ export interface XeberRequestDto {
   category?: string;
   readTimeMinutes?: number;
   status?: XeberStatus;
+  slug?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  schemaMarkup?: string;
+  metaKeywords?: string[];
 }
 
 export interface XeberResponseDto {
@@ -180,6 +185,11 @@ export interface XeberResponseDto {
   status?: XeberStatus;
   createdAt?: string;
   updatedAt?: string;
+  slug?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  schemaMarkup?: string;
+  metaKeywords?: string[];
 }
 
 export type PageXeberResponseDto = PaginatedResponse<XeberResponseDto>;
@@ -270,6 +280,9 @@ export interface MeqaleRequestDto {
   readTimeMinutes?: number;
   doctorId?: number;
   status?: XeberStatus;
+  slug?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   schemaMarkup?: string;
   metaKeywords?: string[];
 }
@@ -290,6 +303,9 @@ export interface MeqaleResponseDto {
   status?: XeberStatus;
   createdAt?: string;
   updatedAt?: string;
+  slug?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   schemaMarkup?: string;
   metaKeywords?: string[];
 }
@@ -316,6 +332,9 @@ export interface BlogRequest {
   imageUrl?: string;
   category?: string;
   authorName?: string;
+  slug?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   schemaMarkup?: string;
   metaKeywords?: string[];
 }
@@ -331,6 +350,9 @@ export interface BlogResponse {
   authorName?: string;
   createdAt?: string;
   updatedAt?: string;
+  slug?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   schemaMarkup?: string;
   metaKeywords?: string[];
 }

@@ -1,17 +1,70 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Share2, Bookmark, Calendar, Clock, ChevronRight, Quote, Check, Mic, Play, ChevronLeft } from 'lucide-react';
+import { Share2, Bookmark, Calendar, Clock, ChevronRight, Quote, Check, Mic, Play, ChevronLeft, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { NEWS_ITEMS } from '@/features/landing/constants/news';
 import { PATHS } from '@/routes/paths';
 import workshopImage from '@/assets/gallery/gallery_workshop.png';
 import newsTherapyRoom from '@/assets/news/news_therapy_room.png';
 import newsBrainArt from '@/assets/news/news_brain_art.png';
 import newsLakeDock from '@/assets/news/news_lake_dock.png';
+import { newsApi } from '@/api/news.api';
+import type { XeberResponseDto } from '@/api/types';
+import { SEO } from '@/components';
 
 export const NewsDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [news, setNews] = useState<XeberResponseDto | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(Boolean(id));
+  const [isError, setIsError] = useState<boolean>(!id);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (!id) return;
+
+    newsApi
+      .getById(id)
+      .then((data) => {
+        if (isMounted) {
+          if (data && (data.id || data.title)) {
+            setNews(data);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.warn(`[WebappNewsDetailPage] Failed to fetch news with id "${id}":`, err);
+        if (isMounted) {
+          const numericId = Number(id);
+          const mockItem = NEWS_ITEMS.find((item) => item.id === numericId) || NEWS_ITEMS[0];
+          if (mockItem) {
+            setNews({
+              id: mockItem.id,
+              title: mockItem.title,
+              shortDescription: mockItem.description,
+              imageUrl: mockItem.image,
+              category: mockItem.categoryLabel,
+              createdAt: mockItem.date,
+              slug: String(mockItem.id),
+              metaTitle: mockItem.title,
+              metaDescription: mockItem.description,
+            });
+            setIsError(false);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -25,12 +78,70 @@ export const NewsDetailPage = () => {
     }
   };
 
-  // Find article by id, default to the first one if not found
-  const articleId = id ? parseInt(id, 10) : 1;
-  const article = NEWS_ITEMS.find((item) => item.id === articleId) || NEWS_ITEMS[0];
+  const article = useMemo(() => {
+    if (!news) return null;
+    const defaultItem = NEWS_ITEMS[0];
+    return {
+      id: news.id ?? (id ? parseInt(id, 10) : 1),
+      image: news.imageUrl || defaultItem.image,
+      categoryLabel: news.category || defaultItem.categoryLabel,
+      date: news.createdAt || defaultItem.date,
+      title: news.title || defaultItem.title,
+      description: news.shortDescription || news.introText || defaultItem.description,
+    };
+  }, [news, id]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center min-h-[400px] py-20">
+        <Loader2 className="w-10 h-10 animate-spin text-[#4D2059]" />
+        <p className="mt-4 text-[#1E0A42]/70 font-['Lexend'] font-medium">Xəbər yüklənir...</p>
+      </div>
+    );
+  }
+
+  if (isError || !article || !news) {
+    return (
+      <>
+        <SEO
+          metaTitle="Xəbər tapılmadı | NexusMind"
+          metaDescription="Axtardığınız xəbər tapılmadı və ya mövcud deyil."
+          contentType="news"
+        />
+        <div className="w-full flex flex-col items-center justify-center min-h-[400px] py-16 px-4">
+          <div className="max-w-md w-full bg-white rounded-2xl shadow-lg border border-[#E5DFDF] p-8 text-center flex flex-col items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+              <AlertCircle className="w-7 h-7" />
+            </div>
+            <h3 className="text-xl font-bold text-[#1E0A42] font-['Lexend']">Xəbər tapılmadı</h3>
+            <p className="text-sm text-[#1E0A42]/70 font-['Lexend']">
+              Axtardığınız xəbər silinmiş və ya mövcud olmaya bilər.
+            </p>
+            <button
+              onClick={() => navigate(PATHS.WEBAPP_NEWS)}
+              className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4D2059] text-white text-sm font-semibold hover:bg-[#4D2059]/90 transition-colors cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Xəbərlər siyahısına qayıt</span>
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
-    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <>
+      <SEO
+        metaTitle={news.metaTitle || news.title}
+        metaDescription={news.metaDescription || news.shortDescription}
+        slug={news.slug || news.id}
+        schemaMarkup={news.schemaMarkup}
+        metaKeywords={news.metaKeywords}
+        contentType="news"
+        image={news.imageUrl || article.image}
+      />
+      <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
       {/* Top Header Section (Card with Gradient) - Height 188px according to Figma layout */}
       <div
         className="w-full rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-none h-auto min-h-[140px] sm:min-h-[160px] md:h-[188px] pt-5 sm:pt-[36px] pb-4 sm:pb-[28px] px-4 sm:px-6 md:px-[48px] flex flex-col justify-between items-center text-center opacity-100"
@@ -389,5 +500,6 @@ export const NewsDetailPage = () => {
         </div>
       </div>
     </div>
-  );
+  </>
+);
 };

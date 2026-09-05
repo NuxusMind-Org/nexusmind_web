@@ -1,16 +1,75 @@
-import { useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Share2, Bookmark, Calendar, Clock, ChevronRight, Mic, ChevronLeft, Eye, Settings, Brain, Flower2 } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { useNavigate, Link, useParams } from 'react-router-dom';
+import { Share2, Bookmark, Calendar, Clock, ChevronRight, Mic, ChevronLeft, Eye, Settings, Brain, Flower2, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { Footer } from '../components/Footer';
 import vrConsultationImg from '@/assets/vr_consultation.png';
 import digitalBrainImg from '@/assets/digital_brain.png';
 import mountainSunsetImg from '@/assets/mountain_sunset_clouds.png';
+import { blogsApi } from '@/api/blogs.api';
+import type { BlogResponse } from '@/api/types';
+import { SEO } from '@/components';
 
 export const BlogDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [blog, setBlog] = useState<BlogResponse | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(Boolean(id));
+  const [isError, setIsError] = useState<boolean>(!id);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (!id) return;
+
+    blogsApi
+      .getById(id)
+      .then((data) => {
+        if (isMounted) {
+          if (data && (data.id || data.title)) {
+            setBlog(data);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.warn(`[LandingBlogDetailPage] Failed to fetch blog with id "${id}":`, err);
+        if (isMounted) {
+          // Fallback mock item if id is 1 or matches default
+          const numericId = Number(id);
+          if (numericId === 1 || id === '1') {
+            setBlog({
+              id: 1,
+              title: 'VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma',
+              shortDescription:
+                "Psixoterapiya klassik 'şüuraltı söhbətlər' üzərində qurulub. Lakin bu gün Virtual Reallıq (VR) texnologiyası bu sahədə tamamilə yeni bir səhifə açır.",
+              introText:
+                "Psixoterapiya klassik 'şüuraltı söhbətlər' üzərində qurulub. Lakin bu gün Virtual Reallıq (VR) texnologiyası bu sahədə tamamilə yeni bir səhifə açır. Bəs VR terapiyası klassik üsullardan nə ilə fərqlənir və o, insan beyninə necə təsir edir?",
+              imageUrl: vrConsultationImg,
+              category: 'BLOQ',
+              authorName: 'Dr. Leyla Rəhimova',
+              createdAt: '24 Mart 2026',
+              slug: 'vr-terapiyasinin-geleceyi',
+              metaTitle: 'VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma',
+              metaDescription:
+                'Psixoterapiyada Virtual Reallıq texnologiyası və ekspozisiya terapiyasının rəqəmsal təkamülü.',
+            });
+            setIsError(false);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -28,82 +87,134 @@ export const BlogDetailPage = () => {
     <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}>
       <LandingNavbar activePage="blog" />
 
-      {/* Page Main Content */}
-      <div className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[40px] sm:pt-[60px] pb-[80px] flex flex-col items-center gap-8">
-
-        {/* Left-Aligned Header Section & Breadcrumbs */}
-        <div className="w-full max-w-[1295px] text-left flex flex-col gap-3">
-          <h1 className="text-[36px] sm:text-[48px] font-bold text-white tracking-tight leading-tight">
-            Bloqlar
-          </h1>
-
-          {/* Breadcrumbs Trace */}
-          <div className="flex items-center gap-2 text-xs sm:text-sm text-white/70 font-medium select-none overflow-x-auto no-scrollbar whitespace-nowrap">
-            <Link to={PATHS.HOME} className="hover:text-white transition-colors">
-              Ana səhifə
-            </Link>
-            <ChevronRight size={14} className="text-white/40" />
-            <Link to={PATHS.BLOG} className="hover:text-white transition-colors">
-              Bloqlar
-            </Link>
-            <ChevronRight size={14} className="text-white/40" />
-            <span className="text-[#a072ff] font-bold">Vr simulyasiya və psixologiya</span>
+      {/* State 1: Loading */}
+      {isLoading && (
+        <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center gap-4 text-white/80">
+            <Loader2 className="w-10 h-10 animate-spin text-[#a072ff]" />
+            <p className="text-base font-medium">Bloq məlumatları yüklənir...</p>
           </div>
-        </div>
+        </main>
+      )}
 
-        {/* First Component: Hero Banner Card (width: 1295, height: 614, border-radius: 24px) */}
-        <div className="w-full max-w-[1295px] h-[380px] sm:h-[480px] lg:h-[614px] rounded-[24px] overflow-hidden relative flex flex-col justify-end p-6 sm:p-10 lg:p-12 shadow-2xl shrink-0 group opacity-100 border border-white/10">
-          {/* Cover Image */}
-          <img
-            src={vrConsultationImg}
-            alt="VR Terapiyasının Gələcəyi"
-            className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-700"
+      {/* State 2: Error / Not Found */}
+      {!isLoading && (isError || !blog) && (
+        <>
+          <SEO
+            metaTitle="Bloq tapılmadı | NexusMind"
+            metaDescription="Axtardığınız bloq yazısı tapılmadı və ya mövcud deyil."
+            contentType="blog"
+          />
+          <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
+            <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 flex flex-col items-center text-center gap-4 shadow-xl">
+              <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300">
+                <AlertCircle className="w-8 h-8" />
+              </div>
+              <h2 className="text-2xl font-bold text-white">Bloq tapılmadı</h2>
+              <p className="text-sm text-white/70">
+                Axtardığınız bloq yazısı silinmiş, ünvanı dəyişdirilmiş və ya mövcud olmaya bilər.
+              </p>
+              <button
+                onClick={() => navigate(PATHS.BLOG)}
+                className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-sm font-semibold transition-colors cursor-pointer border border-white/20"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Bloqlar siyahısına qayıt</span>
+              </button>
+            </div>
+          </main>
+        </>
+      )}
+
+      {/* State 3: Success */}
+      {!isLoading && !isError && blog && (
+        <>
+          <SEO
+            metaTitle={blog.metaTitle || blog.title}
+            metaDescription={blog.metaDescription || blog.shortDescription}
+            slug={blog.slug || blog.id}
+            schemaMarkup={blog.schemaMarkup}
+            metaKeywords={blog.metaKeywords}
+            contentType="blog"
+            image={blog.imageUrl || vrConsultationImg}
           />
 
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
+          {/* Page Main Content */}
+          <div className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[40px] sm:pt-[60px] pb-[80px] flex flex-col items-center gap-8">
 
-          {/* Top Right Action Buttons */}
-          <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
-            <button className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/35 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-lg border border-white/20 select-none">
-              <Share2 size={18} />
-            </button>
-            <button className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/35 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-lg border border-white/20 select-none">
-              <Bookmark size={18} />
-            </button>
-          </div>
+            {/* Left-Aligned Header Section & Breadcrumbs */}
+            <div className="w-full max-w-[1295px] text-left flex flex-col gap-3">
+              <h1 className="text-[36px] sm:text-[48px] font-bold text-white tracking-tight leading-tight">
+                Bloqlar
+              </h1>
 
-          {/* Bottom Details Container */}
-          <div className="relative z-20 text-left flex flex-col gap-4 max-w-[1000px]">
-
-            {/* Meta Details Row */}
-            <div className="flex flex-wrap items-center gap-4 text-white/95 text-xs font-semibold">
-              <span className="bg-[#3c2549]/80 backdrop-blur-md border border-white/20 text-white text-[10.5px] tracking-wider px-3.5 py-1.5 rounded-full uppercase font-bold select-none">
-                BLOQ
-              </span>
-              <span className="flex items-center gap-1.5 text-white/80 select-none">
-                <Calendar size={14} className="text-white/60" />
-                24 Mart 2026
-              </span>
-              <span className="flex items-center gap-1.5 text-white/80 select-none">
-                <Clock size={14} className="text-white/60" />
-                4 dəq oxu
-              </span>
-              <span className="flex items-center gap-1.5 text-white/80 select-none">
-                <Eye size={14} className="text-white/60" />
-                93 baxış
-              </span>
+              {/* Breadcrumbs Trace */}
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-white/70 font-medium select-none overflow-x-auto no-scrollbar whitespace-nowrap">
+                <Link to={PATHS.HOME} className="hover:text-white transition-colors">
+                  Ana səhifə
+                </Link>
+                <ChevronRight size={14} className="text-white/40" />
+                <Link to={PATHS.BLOG} className="hover:text-white transition-colors">
+                  Bloqlar
+                </Link>
+                <ChevronRight size={14} className="text-white/40" />
+                <span className="text-[#a072ff] font-bold">{blog.title || 'Vr simulyasiya və psixologiya'}</span>
+              </div>
             </div>
 
-            {/* Glass Box Overlay Title */}
-            <div>
-              <h2 className="text-[20px] sm:text-[30px] lg:text-[36px] font-bold leading-tight text-white bg-white/10 backdrop-blur-md px-5 sm:px-8 py-3.5 rounded-[12px] border border-white/20 inline-block shadow-lg">
-                VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma
-              </h2>
-            </div>
+            {/* First Component: Hero Banner Card (width: 1295, height: 614, border-radius: 24px) */}
+            <div className="w-full max-w-[1295px] h-[380px] sm:h-[480px] lg:h-[614px] rounded-[24px] overflow-hidden relative flex flex-col justify-end p-6 sm:p-10 lg:p-12 shadow-2xl shrink-0 group opacity-100 border border-white/10">
+              {/* Cover Image */}
+              <img
+                src={blog.imageUrl || vrConsultationImg}
+                alt={blog.title || "VR Terapiyasının Gələcəyi"}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-700"
+              />
 
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
+
+              {/* Top Right Action Buttons */}
+              <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
+                <button className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/35 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-lg border border-white/20 select-none">
+                  <Share2 size={18} />
+                </button>
+                <button className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/35 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-lg border border-white/20 select-none">
+                  <Bookmark size={18} />
+                </button>
+              </div>
+
+              {/* Bottom Details Container */}
+              <div className="relative z-20 text-left flex flex-col gap-4 max-w-[1000px]">
+
+                {/* Meta Details Row */}
+                <div className="flex flex-wrap items-center gap-4 text-white/95 text-xs font-semibold">
+                  <span className="bg-[#3c2549]/80 backdrop-blur-md border border-white/20 text-white text-[10.5px] tracking-wider px-3.5 py-1.5 rounded-full uppercase font-bold select-none">
+                    {blog.category || 'BLOQ'}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-white/80 select-none">
+                    <Calendar size={14} className="text-white/60" />
+                    {blog.createdAt ? (blog.createdAt.includes('T') ? new Date(blog.createdAt).toLocaleDateString('az-AZ', { day: 'numeric', month: 'long', year: 'numeric' }) : blog.createdAt) : '24 Mart 2026'}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-white/80 select-none">
+                    <Clock size={14} className="text-white/60" />
+                    4 dəq oxu
+                  </span>
+                  <span className="flex items-center gap-1.5 text-white/80 select-none">
+                    <Eye size={14} className="text-white/60" />
+                    93 baxış
+                  </span>
+                </div>
+
+                {/* Glass Box Overlay Title */}
+                <div>
+                  <h2 className="text-[20px] sm:text-[30px] lg:text-[36px] font-bold leading-tight text-white bg-white/10 backdrop-blur-md px-5 sm:px-8 py-3.5 rounded-[12px] border border-white/20 inline-block shadow-lg">
+                    {blog.title || 'VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma'}
+                  </h2>
+                </div>
+
+            </div>
           </div>
-        </div>
 
         {/* Content Section: Article Body & Right Sidebar Stack */}
         <div className="w-full max-w-[1295px] flex flex-col lg:flex-row gap-10 mt-6 items-start justify-between">
@@ -410,10 +521,11 @@ export const BlogDetailPage = () => {
             </div>
           </div>
         </div>
-
       </div>
+    </>
+  )}
 
-      <Footer />
-    </div>
-  );
+    <Footer />
+  </div>
+);
 };

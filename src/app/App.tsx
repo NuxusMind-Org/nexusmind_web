@@ -1,3 +1,4 @@
+import { HelmetProvider } from 'react-helmet-async';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
@@ -7,14 +8,14 @@ import '@/styles/globals.css';
 
 function App() {
   return (
-    <>
+    <HelmetProvider>
       <Providers>
         <AppRouter />
       </Providers>
 
       <Analytics />
       <SpeedInsights />
-    </>
+    </HelmetProvider>
   );
 }
 

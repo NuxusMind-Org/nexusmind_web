@@ -11,7 +11,7 @@ export const blogsApi = {
     return response.data;
   },
 
-  getById: async (id: number): Promise<BlogResponse> => {
+  getById: async (id: number | string): Promise<BlogResponse> => {
     const response = await apiClient.get<BlogResponse>(`/blog/${id}`);
     return response.data;
   },

@@ -1,14 +1,72 @@
-import { useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Share2, Bookmark, Calendar, Clock, ChevronRight, Quote, Mic, Play, ChevronLeft, Eye, Settings, Shield } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { useNavigate, Link, useParams } from 'react-router-dom';
+import { Share2, Bookmark, Calendar, Clock, ChevronRight, Quote, Mic, Play, ChevronLeft, Eye, Settings, Shield, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import vrConsultationImg from '@/assets/vr_consultation.png';
 import digitalBrainImg from '@/assets/digital_brain.png';
 import mountainSunsetImg from '@/assets/mountain_sunset_clouds.png';
+import { blogsApi } from '@/api/blogs.api';
+import type { BlogResponse } from '@/api/types';
+import { SEO } from '@/components';
 
 export const BlogDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [blog, setBlog] = useState<BlogResponse | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(Boolean(id));
+  const [isError, setIsError] = useState<boolean>(!id);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (!id) return;
+
+    blogsApi
+      .getById(id)
+      .then((data) => {
+        if (isMounted) {
+          if (data && (data.id || data.title)) {
+            setBlog(data);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.warn(`[WebappBlogDetailPage] Failed to fetch blog with id "${id}":`, err);
+        if (isMounted) {
+          const numericId = Number(id);
+          if (numericId === 1 || id === '1') {
+            setBlog({
+              id: 1,
+              title: 'VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma',
+              shortDescription:
+                "Psixoterapiya klassik 'şüuraltı söhbətlər' üzərində qurulub. Lakin bu gün Virtual Reallıq (VR) texnologiyası bu sahədə tamamilə yeni bir səhifə açır.",
+              introText:
+                "Psixoterapiya klassik 'şüuraltı söhbətlər' üzərində qurulub. Lakin bu gün Virtual Reallıq (VR) texnologiyası bu sahədə tamamilə yeni bir səhifə açır.",
+              imageUrl: vrConsultationImg,
+              category: 'BLOQ',
+              authorName: 'Dr. Leyla Rəhimova',
+              createdAt: '24 Mart 2026',
+              slug: 'vr-terapiyasinin-geleceyi',
+              metaTitle: 'VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma',
+              metaDescription:
+                'Psixoterapiyada Virtual Reallıq texnologiyası və ekspozisiya terapiyasının rəqəmsal təkamülü.',
+            });
+            setIsError(false);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -22,8 +80,57 @@ export const BlogDetailPage = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center min-h-[400px] py-20">
+        <Loader2 className="w-10 h-10 animate-spin text-[#4D2059]" />
+        <p className="mt-4 text-[#1E0A42]/70 font-['Lexend'] font-medium">Bloq yüklənir...</p>
+      </div>
+    );
+  }
+
+  if (isError || !blog) {
+    return (
+      <>
+        <SEO
+          metaTitle="Bloq tapılmadı | NexusMind"
+          metaDescription="Axtardığınız bloq yazısı tapılmadı və ya mövcud deyil."
+          contentType="blog"
+        />
+        <div className="w-full flex flex-col items-center justify-center min-h-[400px] py-16 px-4">
+          <div className="max-w-md w-full bg-white rounded-2xl shadow-lg border border-[#E5DFDF] p-8 text-center flex flex-col items-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+              <AlertCircle className="w-7 h-7" />
+            </div>
+            <h3 className="text-xl font-bold text-[#1E0A42] font-['Lexend']">Bloq tapılmadı</h3>
+            <p className="text-sm text-[#1E0A42]/70 font-['Lexend']">
+              Axtardığınız bloq yazısı silinmiş və ya mövcud olmaya bilər.
+            </p>
+            <button
+              onClick={() => navigate(PATHS.WEBAPP_BLOG)}
+              className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4D2059] text-white text-sm font-semibold hover:bg-[#4D2059]/90 transition-colors cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Bloqlar siyahısına qayıt</span>
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
-    <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
+    <>
+      <SEO
+        metaTitle={blog.metaTitle || blog.title}
+        metaDescription={blog.metaDescription || blog.shortDescription}
+        slug={blog.slug || blog.id}
+        schemaMarkup={blog.schemaMarkup}
+        metaKeywords={blog.metaKeywords}
+        contentType="blog"
+        image={blog.imageUrl || vrConsultationImg}
+      />
+      <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
       
       {/* Top Header Section (Card with Gradient) - Height 188px */}
       <div
@@ -430,8 +537,8 @@ export const BlogDetailPage = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
-  );
+  </>
+);
 };

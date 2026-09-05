@@ -48,8 +48,8 @@ export const Footer = () => {
                 </div>
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
                   <Phone size={18} className="shrink-0 text-white/90" />
-                  <a href="tel:+994124000000" className="hover:text-white transition-colors">
-                    +994 10 328 21 19
+                  <a href="tel:+994503956772" className="hover:text-white transition-colors">
+                    +994 50 395 67 72
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
@@ -160,7 +160,9 @@ export const Footer = () => {
 
                 {/* WhatsApp */}
                 <a
-                  href="#"
+                  href="https://wa.me/994503956772"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="WhatsApp"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center text-white"
                 >

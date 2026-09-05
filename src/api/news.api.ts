@@ -13,7 +13,7 @@ export const newsApi = {
     return response.data;
   },
 
-  getById: async (id: number): Promise<XeberResponseDto> => {
+  getById: async (id: number | string): Promise<XeberResponseDto> => {
     const response = await apiClient.get<XeberResponseDto>(`/xeber/${id}`);
     return response.data;
   },
