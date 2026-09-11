@@ -4,31 +4,57 @@ import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { Input } from '@/components/input';
 import { ArticlesGrid, ArticlesPagination, SubscriptionCard } from '../components/articles';
-import { ARTICLE_ITEMS } from '../constants/articles';
+import { ARTICLE_ITEMS, type ArticleItem } from '../constants/articles';
+import { articlesApi } from '@/api/articles.api';
+import { mapMeqaleToArticleItem } from '@/utils/contentMappers';
 
 export const ArticlesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [realArticles, setRealArticles] = useState<ArticleItem[]>([]);
   const itemsPerPage = 6;
+
+  useEffect(() => {
+    let isMounted = true;
+    articlesApi
+      .getAll()
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) {
+          const mapped = data.map(mapMeqaleToArticleItem);
+          setRealArticles(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn('[LandingArticlesPage] Failed to fetch articles from backend:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Reset pagination page to 1 when search query changes
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
 
+  const allArticles = useMemo(() => {
+    return [...realArticles, ...ARTICLE_ITEMS];
+  }, [realArticles]);
+
   // Filter articles based on search query
   const filteredArticles = useMemo(() => {
     const trimmedQuery = searchQuery.trim().toLowerCase();
-    if (!trimmedQuery) return ARTICLE_ITEMS;
+    if (!trimmedQuery) return allArticles;
 
-    return ARTICLE_ITEMS.filter(
+    return allArticles.filter(
       (item) =>
         item.title.toLowerCase().includes(trimmedQuery) ||
         item.description.toLowerCase().includes(trimmedQuery) ||
         item.categoryLabel.toLowerCase().includes(trimmedQuery) ||
         item.author.name.toLowerCase().includes(trimmedQuery)
     );
-  }, [searchQuery]);
+  }, [allArticles, searchQuery]);
 
   // Calculate total pages for pagination
   const totalPages = useMemo(() => {
@@ -42,10 +68,7 @@ export const ArticlesPage = () => {
   }, [filteredArticles, currentPage, itemsPerPage]);
 
   return (
-    <div
-      className="min-h-screen w-full flex flex-col font-sans text-white"
-      style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}
-    >
+    <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
       <LandingNavbar activePage="articles" />
 
       {/* Page Content */}

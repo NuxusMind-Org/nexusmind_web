@@ -8,6 +8,7 @@ import { articlesApi } from '@/api/articles.api';
 import type { MeqaleResponseDto } from '@/api/types';
 import { SEO } from '@/components';
 import { ARTICLE_ITEMS } from '@/features/landing/constants/articles';
+import { getLocalizedTitle } from '@/utils/multilingual';
 
 export const ArticleDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -116,10 +117,16 @@ export const ArticleDetailPage = () => {
     );
   }
 
+  const articleTitle = getLocalizedTitle(
+    meqale.title || meqale.titleDto,
+    'az',
+    'VR Terapiyasının Travma Müalicəsində Effektivliyi'
+  );
+
   return (
     <>
       <SEO
-        metaTitle={meqale.metaTitle || meqale.title}
+        metaTitle={meqale.metaTitle || articleTitle}
         metaDescription={meqale.metaDescription || meqale.shortDescription}
         slug={meqale.slug || meqale.id}
         schemaMarkup={meqale.schemaMarkup}
@@ -168,7 +175,7 @@ export const ArticleDetailPage = () => {
 
           {/* Heading Title */}
           <h1 className="text-2xl md:text-[38px] lg:text-[40px] font-bold leading-tight text-[#1E0A42] font-['Lexend'] text-left mt-5 max-w-[520px]">
-            {meqale.title || 'VR Terapiyasının Travma Müalicəsində Effektivliyi'}
+            {articleTitle}
           </h1>
 
           {/* Buttons Row */}
@@ -186,8 +193,8 @@ export const ArticleDetailPage = () => {
         <div className="w-full lg:w-[58%] rounded-[24px] overflow-hidden shadow-xl border border-white/10 shrink-0 relative aspect-[1.6]">
           <img
             src={meqale.imageUrl || newsBrainArtImg}
-            alt={meqale.title || "VR Terapiya Portalı"}
-            className="w-full h-full object-cover hover:scale-[1.01] transition-transform duration-700"
+            alt={articleTitle}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
         </div>
 

@@ -34,7 +34,7 @@
     @apply antialiased;
     font-family: "Lexend", sans-serif;
     color: var(--color-primary-text);
-    background: linear-gradient(260.37deg, #263151 -4.41%, #245D68 51.97%, #914899 100%);
+    background: linear-gradient(90deg, #914899 0%, #245D68 50%, #263151 100%);
     background-attachment: fixed;
     min-height: 100vh;
     /* Prevent tap-highlight flash on mobile */
@@ -65,6 +65,20 @@
 
   small {
     @apply text-[13px] font-normal leading-[1.5] sm:text-[14px];
+  }
+}
+
+@layer utilities {
+  .bg-landing-gradient {
+    background: linear-gradient(90deg, #914899 0%, #245D68 50%, #263151 100%);
+    background-attachment: fixed;
+  }
+
+  .navbar-glass {
+    background: rgba(140, 140, 140, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.10);
   }
 }
 

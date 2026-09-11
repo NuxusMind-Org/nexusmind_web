@@ -49,19 +49,11 @@ export const HeroSection = () => {
 
             <button
               onClick={() => navigate(PATHS.REGISTER)}
-              className="w-full max-w-[280px] bg-[#591b98] hover:bg-[#6c22b5] text-white py-3.5 rounded-lg text-[16px] sm:text-[18px] font-semibold transition-all duration-300 shadow-[0_0_20px_rgba(89,27,152,0.4)] hover:shadow-[0_0_30px_rgba(89,27,152,0.6)] hover:scale-[1.02] cursor-pointer"
+              className="w-[247px] h-[51px] bg-[#4A148F] hover:bg-[#5919ad] text-white p-[10px] gap-[10px] rounded-[100px] border border-[#8A38F5] text-[16px] sm:text-[18px] font-semibold flex items-center justify-center transition-all duration-300 ease-out shadow-[0_0_20px_rgba(74,20,143,0.4)] hover:shadow-[0_0_28px_rgba(138,56,245,0.6)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
             >
               İndi başla
             </button>
           </div>
-
-          <p className="text-white/50 text-[11px] sm:text-[12px] pb-2 px-12 sm:px-0 relative z-30">
-            Davam etməklə, siz bizim{' '}
-            <a href="#" className="text-white/70 hover:text-white transition-colors cursor-pointer pointer-events-auto">Xidmət Şərtləri</a>
-            {' '}və{' '}
-            <a href="#" className="text-white/70 hover:text-white transition-colors cursor-pointer pointer-events-auto">Məxfilik Siyasəti</a>
-            {' '}ilə razılaşırsınız.
-          </p>
         </div>
 
         {/* Bottom Feature Cards */}

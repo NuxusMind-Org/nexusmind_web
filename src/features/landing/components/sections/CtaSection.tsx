@@ -8,7 +8,7 @@ export const CtaSection = () => {
   return (
     <section
       id="cta"
-      className="relative w-full flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-10 md:pt-[112px] pb-10 md:pb-0 scroll-mt-20"
+      className="relative w-full flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-10 md:pt-[112px] pb-10 md:pb-[112px] scroll-mt-20"
     >
       <ScrollReveal className="relative w-full max-w-[1231px] min-h-[457px] md:h-[457px] mx-auto bg-[#052C39] rounded-[20px] pt-[18px] pb-[18px] px-6 sm:px-[32px] flex flex-col items-center justify-center text-center shadow-2xl border border-white/5 overflow-hidden">
         {/* Top-Left Quote Badge */}

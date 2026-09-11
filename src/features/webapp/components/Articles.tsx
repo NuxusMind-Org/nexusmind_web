@@ -1,6 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Clock, Calendar, Eye, User, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import vrConsultationImg from '@/assets/vr_consultation.png';
+import { PATHS } from '@/routes/paths';
+import { articlesApi } from '@/api/articles.api';
+import { mapMeqaleToArticleItem } from '@/utils/contentMappers';
 
 interface ArticleItem {
   id: number;
@@ -14,78 +18,125 @@ interface ArticleItem {
   readTime: string;
   views: string;
   summary: string;
+  image?: string;
 }
 
-export const Articles = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+const DEMO_ARTICLES: ArticleItem[] = [
+  {
+    id: 1,
+    title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
+    category: 'Psixologiya',
+    author: {
+      name: 'Dr. Leyla Rəhimova',
+      specialty: 'Klinik Psixoloq',
+    },
+    date: '24 Mart 2026',
+    readTime: '4 dəq oxu',
+    views: '93 baxış',
+    summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
+    image: vrConsultationImg,
+  },
+  {
+    id: 2,
+    title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
+    category: 'Psixologiya',
+    author: {
+      name: 'Dr. Leyla Rəhimova',
+      specialty: 'Klinik Psixoloq',
+    },
+    date: '24 Mart 2026',
+    readTime: '4 dəq oxu',
+    views: '93 baxış',
+    summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
+    image: vrConsultationImg,
+  },
+  {
+    id: 3,
+    title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
+    category: 'Psixologiya',
+    author: {
+      name: 'Dr. Leyla Rəhimova',
+      specialty: 'Klinik Psixoloq',
+    },
+    date: '24 Mart 2026',
+    readTime: '4 dəq oxu',
+    views: '93 baxış',
+    summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
+    image: vrConsultationImg,
+  },
+  {
+    id: 4,
+    title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
+    category: 'Psixologiya',
+    author: {
+      name: 'Dr. Leyla Rəhimova',
+      specialty: 'Klinik Psixoloq',
+    },
+    date: '24 Mart 2026',
+    readTime: '4 dəq oxu',
+    views: '93 baxış',
+    summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
+    image: vrConsultationImg,
+  },
+  {
+    id: 5,
+    title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
+    category: 'Psixologiya',
+    author: {
+      name: 'Dr. Leyla Rəhimova',
+      specialty: 'Klinik Psixoloq',
+    },
+    date: '24 Mart 2026',
+    readTime: '4 dəq oxu',
+    views: '93 baxış',
+    summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
+    image: vrConsultationImg,
+  },
+];
 
-  const articles: ArticleItem[] = [
-    {
-      id: 1,
-      title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
-      category: 'Psixologiya',
-      author: {
-        name: 'Dr. Leyla Rəhimova',
-        specialty: 'Klinik Psixoloq',
-      },
-      date: '24 Mart 2026',
-      readTime: '4 dəq oxu',
-      views: '93 baxış',
-      summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
-    },
-    {
-      id: 2,
-      title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
-      category: 'Psixologiya',
-      author: {
-        name: 'Dr. Leyla Rəhimova',
-        specialty: 'Klinik Psixoloq',
-      },
-      date: '24 Mart 2026',
-      readTime: '4 dəq oxu',
-      views: '93 baxış',
-      summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
-    },
-    {
-      id: 3,
-      title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
-      category: 'Psixologiya',
-      author: {
-        name: 'Dr. Leyla Rəhimova',
-        specialty: 'Klinik Psixoloq',
-      },
-      date: '24 Mart 2026',
-      readTime: '4 dəq oxu',
-      views: '93 baxış',
-      summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
-    },
-    {
-      id: 4,
-      title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
-      category: 'Psixologiya',
-      author: {
-        name: 'Dr. Leyla Rəhimova',
-        specialty: 'Klinik Psixoloq',
-      },
-      date: '24 Mart 2026',
-      readTime: '4 dəq oxu',
-      views: '93 baxış',
-      summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
-    },
-    {
-      id: 5,
-      title: 'VR Terapiyasının Travma Müalicəsində Effektivliyi',
-      category: 'Psixologiya',
-      author: {
-        name: 'Dr. Leyla Rəhimova',
-        specialty: 'Klinik Psixoloq',
-      },
-      date: '24 Mart 2026',
-      readTime: '4 dəq oxu',
-      views: '93 baxış',
-      summary: 'Virtual reallıq texnologiyalarının post-travmatik stress pozuntusu olan pasiyentlərin reabilitasiyasında tətbiqi...',
-    },
-  ];
+export const Articles = () => {
+  const navigate = useNavigate();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [realArticles, setRealArticles] = useState<ArticleItem[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    articlesApi
+      .getAll()
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) {
+          const mapped = data.map((dto) => {
+            const item = mapMeqaleToArticleItem(dto);
+            return {
+              id: item.id,
+              title: item.title,
+              category: item.categoryLabel,
+              author: {
+                name: item.author.name,
+                specialty: item.author.title,
+              },
+              date: item.date,
+              readTime: item.readTime,
+              views: `${item.views} baxış`,
+              summary: item.description,
+              image: item.image,
+            };
+          });
+          setRealArticles(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn('[ArticlesCarousel] Failed to fetch articles:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const articles = useMemo(() => {
+    return [...realArticles, ...DEMO_ARTICLES];
+  }, [realArticles]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -113,6 +164,7 @@ export const Articles = () => {
           Məqalələr
         </h2>
         <button
+          onClick={() => navigate(PATHS.WEBAPP_ARTICLE)}
           className="text-[#1E0A42]/60 hover:text-[#1E0A42] font-semibold text-xs sm:text-sm md:text-base cursor-pointer transition-colors bg-transparent border-none p-0 outline-none select-none"
         >
           Daha çox
@@ -137,6 +189,7 @@ export const Articles = () => {
           {articles.map((article) => (
             <div
               key={article.id}
+              onClick={() => navigate(PATHS.WEBAPP_ARTICLE_DETAIL.replace(':id', String(article.id)))}
               className="flex flex-col bg-[#4D2059] text-white shadow-xl shadow-purple-950/10 cursor-pointer overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border hover:scale-[1.02] hover:shadow-purple-900/20 select-none group w-[280px] sm:w-[340px] lg:w-[calc((100%-72px)/3.5)] rounded-[18px]"
               style={{
                 borderWidth: '1.11px',
@@ -148,7 +201,7 @@ export const Articles = () => {
               {/* Top Half: Cover Image */}
               <div className="w-full h-[240px] relative overflow-hidden flex-shrink-0">
                 <img
-                  src={vrConsultationImg}
+                  src={article.image || vrConsultationImg}
                   alt={article.title}
                   className="w-full h-full object-cover select-none pointer-events-none group-hover:scale-105 transition-transform duration-700"
                 />

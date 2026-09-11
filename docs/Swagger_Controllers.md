@@ -17,6 +17,7 @@
 - [chat-rest-controller](#chat-rest-controller)
 - [doctor-controller](#doctor-controller)
 - [doctor-profile-controller](#doctor-profile-controller)
+- [file-upload-controller](#file-upload-controller)
 - [gallery-controller](#gallery-controller)
 - [journal-controller](#journal-controller)
 - [news-controller](#news-controller)
@@ -128,6 +129,23 @@
 
 ---
 
+### `POST` /appointments/doctors/me/profile-image
+
+**Operation ID:** `uploadProfileImage`  
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `object`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `object` |
+
+---
+
 ### `PATCH` /appointments/{id}/status
 
 **Operation ID:** `updateStatus_1`  
@@ -169,7 +187,7 @@
 
 ---
 
-### `GET` /appointments/{id}
+### `GET` /appointments/{doctorId}
 
 **Operation ID:** `getById_4`  
 
@@ -177,19 +195,31 @@
 
 | Name | In | Required | Type | Description |
 | --- | --- | --- | --- | --- |
-| `id` | `path` | ✅ Yes | `integer` | - |
+| `doctorId` | `path` | ✅ Yes | `integer` | - |
 
 #### Responses
 
 | Status Code | Description | Schema |
 | --- | --- | --- |
-| `200` | OK | `AppointmentDto` |
+| `200` | OK | Array<`AppointmentDto`> |
 
 ---
 
 ### `GET` /appointments/stats
 
 **Operation ID:** `getStats`  
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `AppointmentStatsDto` |
+
+---
+
+### `GET` /appointments/doctor/stats
+
+**Operation ID:** `getDoctorStats`  
 
 #### Responses
 
@@ -482,6 +512,35 @@
 
 ---
 
+### `POST` /auth/refresh
+
+**Operation ID:** `refresh`  
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `RefreshTokenRequest`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `AuthResponse` |
+
+---
+
+### `POST` /auth/logout
+
+**Operation ID:** `logout`  
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `string` |
+
+---
+
 ### `POST` /auth/login
 
 **Operation ID:** `login`  
@@ -523,7 +582,7 @@
 #### Request Body
 
 - **Content-Type:** `application/json`
-- **Schema:** `AdminLoginRequest`
+- **Schema:** `DoctorLoginRequest`
 
 #### Responses
 
@@ -861,6 +920,31 @@
 | Status Code | Description | Schema |
 | --- | --- | --- |
 | `200` | OK | `DoctorDto` |
+
+---
+
+## file-upload-controller
+
+### `POST` /upload
+
+**Operation ID:** `uploadImage`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `folder` | `query` | ❌ No | `string` | - |
+
+#### Request Body
+
+- **Content-Type:** `multipart/form-data`
+- **Schema:** `object`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `FileUploadResponseDto` |
 
 ---
 
@@ -1711,33 +1795,26 @@
 
 ## working-hour-controller
 
-### `GET` /doctors/me/working-hours
+### `GET` /doctors/me/working-hours/template
 
-**Operation ID:** `getMySchedule`  
-
-#### Parameters
-
-| Name | In | Required | Type | Description |
-| --- | --- | --- | --- | --- |
-| `from` | `query` | ✅ Yes | `string` | - |
-| `to` | `query` | ✅ Yes | `string` | - |
+**Operation ID:** `getMyTemplate`  
 
 #### Responses
 
 | Status Code | Description | Schema |
 | --- | --- | --- |
-| `200` | OK | Array<`AvailableSlotDto`> |
+| `200` | OK | Array<`DayTemplate`> |
 
 ---
 
-### `POST` /doctors/me/working-hours
+### `POST` /doctors/me/working-hours/template
 
-**Operation ID:** `saveMySchedule`  
+**Operation ID:** `saveMyTemplate`  
 
 #### Request Body
 
 - **Content-Type:** `application/json`
-- **Schema:** `SaveScheduleRequest`
+- **Schema:** `SaveWeeklyTemplateRequest`
 
 #### Responses
 
@@ -1781,8 +1858,11 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
+| `patientId` | `integer` | `int64` | ❌ No |
 | `patientName` | `string` | - | ❌ No |
+| `doctorId` | `integer` | `int64` | ❌ No |
 | `doctorName` | `string` | - | ❌ No |
+| `doctorProfileImageUrl` | `string` | - | ❌ No |
 | `appointmentDate` | `string` | `date` | ❌ No |
 | `appointmentTime` | `LocalTime` | - | ❌ No |
 | `status` | `string` | `"SCHEDULED"` \| `"WAITING"` \| `"IN_PROGRESS"` \| `"COMPLETED"` \| `"CANCELLED"` | ❌ No |
@@ -1817,7 +1897,9 @@
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
+| `id` | `integer` | `int64` | ❌ No |
 | `token` | `string` | - | ❌ No |
+| `refreshToken` | `string` | - | ❌ No |
 
 ### AvailableSlotDto
 
@@ -1825,12 +1907,13 @@
 | --- | --- | --- | --- |
 | `date` | `string` | `date` | ❌ No |
 | `time` | `LocalTime` | - | ❌ No |
+| `booked` | `boolean` | - | ❌ No |
 
 ### BlogRequest
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ✅ Yes |
+| `title` | `TitleDto` | - | ✅ Yes |
 | `shortDescription` | `string` | - | ❌ No |
 | `introText` | `string` | - | ❌ No |
 | `sections` | `Array<BlogSectionRequest>` | Array<`BlogSectionRequest`> | ❌ No |
@@ -1848,7 +1931,7 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `shortDescription` | `string` | - | ❌ No |
 | `introText` | `string` | - | ❌ No |
 | `sections` | `Array<BlogSectionResponse>` | Array<`BlogSectionResponse`> | ❌ No |
@@ -1859,19 +1942,22 @@
 | `updatedAt` | `string` | `date-time` | ❌ No |
 | `schemaMarkup` | `string` | - | ❌ No |
 | `metaKeywords` | `Array<string>` | Array<`string`> | ❌ No |
+| `metaTitle` | `string` | - | ❌ No |
+| `metaDescription` | `string` | - | ❌ No |
+| `slug` | `string` | - | ❌ No |
 
 ### BlogSectionRequest
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ✅ Yes |
+| `title` | `TitleDto` | - | ✅ Yes |
 | `text` | `string` | - | ✅ Yes |
 
 ### BlogSectionResponse
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `text` | `string` | - | ❌ No |
 | `order` | `integer` | `int32` | ❌ No |
 
@@ -1912,12 +1998,12 @@
 | `assessment` | `string` | - | ✅ Yes |
 | `plan` | `string` | - | ✅ Yes |
 
-### DaySchedule
+### DayTemplate
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `date` | `string` | `date` | ❌ No |
-| `times` | `Array<LocalTime>` | Array<`LocalTime`> | ❌ No |
+| `dayOfWeek` | `string` | `"MONDAY"` \| `"TUESDAY"` \| `"WEDNESDAY"` \| `"THURSDAY"` \| `"FRIDAY"` \| `"SATURDAY"` \| `"SUNDAY"` | ❌ No |
+| `hours` | `Array<integer>` | Array<`int32`> | ❌ No |
 
 ### DoctorDto
 
@@ -1953,6 +2039,7 @@
 | `price` | `number` | `double` | ❌ No |
 | `age` | `integer` | `int32` | ❌ No |
 | `experienceYear` | `integer` | `int32` | ❌ No |
+| `profileImageUrl` | `string` | - | ❌ No |
 | `email` | `string` | - | ❌ No |
 | `password` | `string` | - | ❌ No |
 | `title` | `string` | - | ❌ No |
@@ -1962,7 +2049,13 @@
 | `education` | `Array<string>` | Array<`string`> | ❌ No |
 | `certificates` | `Array<string>` | Array<`string`> | ❌ No |
 | `specializations` | `Array<string>` | Array<`string`> | ❌ No |
-| `appointments` | `Array<AppointmentEntity>` | Array<`AppointmentEntity`> | ❌ No |
+
+### DoctorLoginRequest
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `email` | `string` | - | ❌ No |
+| `password` | `string` | - | ❌ No |
 
 ### DoctorRegisterDto
 
@@ -1987,6 +2080,12 @@
 | `phone` | `string` | - | ❌ No |
 | `cvUrl` | `string` | - | ❌ No |
 
+### FileUploadResponseDto
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `imageUrl` | `string` | - | ❌ No |
+
 ### ForgotPasswordRequest
 
 | Property | Type | Format / Ref | Required |
@@ -2002,6 +2101,7 @@
 | `mediaUrl` | `string` | - | ❌ No |
 | `mediaType` | `string` | `"IMAGE"` \| `"VIDEO"` | ✅ Yes |
 | `category` | `string` | `"TERAPIYALAR"` \| `"OTAQLAR"` \| `"TELIMLER"` | ✅ Yes |
+| `altText` | `string` | - | ❌ No |
 
 ### GalleryItemResponse
 
@@ -2013,6 +2113,7 @@
 | `mediaUrl` | `string` | - | ❌ No |
 | `mediaType` | `string` | - | ❌ No |
 | `category` | `string` | - | ❌ No |
+| `altText` | `string` | - | ❌ No |
 | `categoryLabel` | `string` | - | ❌ No |
 | `popularityScore` | `integer` | `int64` | ❌ No |
 | `createdAt` | `string` | `date-time` | ❌ No |
@@ -2074,7 +2175,7 @@
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ✅ Yes |
 | `shortDescription` | `string` | - | ❌ No |
 | `introText` | `string` | - | ❌ No |
 | `sections` | `Array<MeqaleSectionRequestDto>` | Array<`MeqaleSectionRequestDto`> | ❌ No |
@@ -2086,13 +2187,16 @@
 | `status` | `string` | `"DRAFT"` \| `"PUBLISHED"` \| `"ARCHIVED"` | ❌ No |
 | `schemaMarkup` | `string` | - | ❌ No |
 | `metaKeywords` | `Array<string>` | Array<`string`> | ❌ No |
+| `metaTitle` | `string` | - | ❌ No |
+| `metaDescription` | `string` | - | ❌ No |
+| `slug` | `string` | - | ❌ No |
 
 ### MeqaleResponseDto
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
-| `title` | `string` | - | ❌ No |
+| `titleDto` | `TitleDto` | - | ❌ No |
 | `shortDescription` | `string` | - | ❌ No |
 | `introText` | `string` | - | ❌ No |
 | `sections` | `Array<MeqaleSectionResponseDto>` | Array<`MeqaleSectionResponseDto`> | ❌ No |
@@ -2106,19 +2210,22 @@
 | `updatedAt` | `string` | `date-time` | ❌ No |
 | `schemaMarkup` | `string` | - | ❌ No |
 | `metaKeywords` | `Array<string>` | Array<`string`> | ❌ No |
+| `metaTitle` | `string` | - | ❌ No |
+| `metaDescription` | `string` | - | ❌ No |
+| `slug` | `string` | - | ❌ No |
 
 ### MeqaleSectionRequestDto
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `text` | `string` | - | ❌ No |
 
 ### MeqaleSectionResponseDto
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `text` | `string` | - | ❌ No |
 | `sectionOrder` | `integer` | `int32` | ❌ No |
 
@@ -2269,6 +2376,7 @@
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
+| `id` | `integer` | `int64` | ❌ No |
 | `name` | `string` | - | ✅ Yes |
 | `surname` | `string` | - | ✅ Yes |
 | `age` | `integer` | `int32` | ❌ No |
@@ -2310,6 +2418,12 @@
 | `language` | `string` | `"AZ"` \| `"EN"` \| `"RU"` | ❌ No |
 | `twoFactorEnabled` | `boolean` | - | ❌ No |
 
+### RefreshTokenRequest
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `refreshToken` | `string` | - | ❌ No |
+
 ### ResetPasswordWithOtpRequest
 
 | Property | Type | Format / Ref | Required |
@@ -2319,11 +2433,11 @@
 | `newPassword` | `string` | - | ✅ Yes |
 | `confirmPassword` | `string` | - | ✅ Yes |
 
-### SaveScheduleRequest
+### SaveWeeklyTemplateRequest
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `days` | `Array<DaySchedule>` | Array<`DaySchedule`> | ❌ No |
+| `days` | `Array<DayTemplate>` | Array<`DayTemplate`> | ❌ No |
 
 ### SessionNote
 
@@ -2364,6 +2478,14 @@
 | `sorted` | `boolean` | - | ❌ No |
 | `empty` | `boolean` | - | ❌ No |
 | `unsorted` | `boolean` | - | ❌ No |
+
+### TitleDto
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `az` | `string` | - | ✅ Yes |
+| `en` | `string` | - | ✅ Yes |
+| `ru` | `string` | - | ✅ Yes |
 
 ### TrainingRequest
 
@@ -2445,7 +2567,7 @@
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ✅ Yes |
 | `shortDescription` | `string` | - | ❌ No |
 | `introText` | `string` | - | ❌ No |
 | `sections` | `Array<XeberSectionRequestDto>` | Array<`XeberSectionRequestDto`> | ❌ No |
@@ -2466,7 +2588,7 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `shortDescription` | `string` | - | ❌ No |
 | `introText` | `string` | - | ❌ No |
 | `sections` | `Array<XeberSectionResponseDto>` | Array<`XeberSectionResponseDto`> | ❌ No |
@@ -2489,13 +2611,13 @@
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `text` | `string` | - | ❌ No |
 
 ### XeberSectionResponseDto
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `text` | `string` | - | ❌ No |
 | `sectionOrder` | `integer` | `int32` | ❌ No |

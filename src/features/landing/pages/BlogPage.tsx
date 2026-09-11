@@ -1,82 +1,55 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, Search, Calendar, ChevronLeft, ChevronRight, Mic, ChevronRight as ChevronRightIcon } from 'lucide-react';
+import { blogsApi } from '@/api/blogs.api';
+import { mapBlogToSimilarBlogCard } from '@/utils/contentMappers';
+import { SIMILAR_BLOGS, POPULAR_TOPICS, type SimilarBlogCard } from '../constants/blog';
 import { PATHS } from '@/routes/paths';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import vrConsultation from '@/assets/vr_consultation.png';
-import newsBrainArt from '@/assets/news/news_brain_art.png';
-import newsLakeDock from '@/assets/news/news_lake_dock.png';
-import newsTherapyRoom from '@/assets/news/news_therapy_room.png';
-import newsAnnouncement from '@/assets/news/news_announcement.png';
-
-interface SimilarBlogCard {
-  id: number;
-  badge: string;
-  image: string;
-  title: string;
-  description: string;
-  date: string;
-}
-
-const SIMILAR_BLOGS: SimilarBlogCard[] = [
-  {
-    id: 1,
-    badge: 'Psixologiya',
-    image: newsBrainArt,
-    title: 'İmmersiyanın Elmi: Niyə VR Beyni İnanır?',
-    description: 'Virtual mühitin sinir sistemimizə təsiri və beynin rəqəmsal stimullara qarşı verdiyi reaksiyaların dərin analizi.',
-    date: '12 Okt, 2024',
-  },
-  {
-    id: 2,
-    badge: 'Sağlamlıq',
-    image: newsLakeDock,
-    title: 'VR Meditasiya Texnikaları: Daxili Sükut',
-    description: 'Müasir dünyada stresslə mübarizə üçün virtual mühitlərin təqdim etdiyi əən effektiv meditasiya üsulları.',
-    date: '10 Okt, 2024',
-  },
-  {
-    id: 3,
-    badge: 'Simulyasiya',
-    image: newsTherapyRoom,
-    title: 'Fobiyaların VR ilə Aradan Qaldırılması',
-    description: 'Ekspozisiya terapiyasının virtual məkanda tətbiqi: Qorxularınızla təhlükəsiz şəkildə üzləşin.',
-    date: '08 Okt, 2024',
-  },
-  {
-    id: 4,
-    badge: 'İnnovasiya',
-    image: newsAnnouncement,
-    title: 'Rəqəmsal Etika və Virtual Terapiya',
-    description: 'Virtual dünyalarda aparılan müalicə seanslarının gizliliyi və etik standartlarının gələcəyi haqqında düşüncələr.',
-    date: '05 Okt, 2024',
-  },
-];
-
-const POPULAR_TOPICS = [
-  '#BeyinElmi',
-  '#VRMetaverse',
-  '#Terapevtikİnnovasiya',
-  '#RəqəmsalDetoks',
-  '#GələcəkPsixologiyası',
-];
 
 export const BlogPage = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [realBlogs, setRealBlogs] = useState<SimilarBlogCard[]>([]);
 
-  const filteredBlogs = SIMILAR_BLOGS.filter(
-    (blog) =>
-      blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      blog.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      blog.badge.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    let isMounted = true;
+    blogsApi
+      .getAll()
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) {
+          const mapped = data.map(mapBlogToSimilarBlogCard);
+          setRealBlogs(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn('[LandingBlogPage] Failed to fetch blogs from backend:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const allBlogs = useMemo(() => {
+    return [...realBlogs, ...SIMILAR_BLOGS];
+  }, [realBlogs]);
+
+  const filteredBlogs = useMemo(() => {
+    return allBlogs.filter(
+      (blog) =>
+        blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        blog.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        blog.badge.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [allBlogs, searchQuery]);
 
   return (
-    <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}>
+    <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
       <LandingNavbar activePage="blog" />
 
       {/* Page Content */}

@@ -1,6 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
-import { GALLERY_ITEMS } from '@/features/landing/constants/gallery';
+import { GALLERY_ITEMS, type GalleryItem } from '@/features/landing/constants/gallery';
+import { galleryApi } from '@/api/gallery.api';
+import { mapGalleryToGalleryItem } from '@/utils/contentMappers';
 
 type CategoryFilter = 'all' | 'terapiyalar' | 'otaqlar' | 'telimler';
 type SortOption = 'popularity' | 'date-desc' | 'date-asc';
@@ -11,6 +13,26 @@ export const GalleryPage = () => {
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [realGallery, setRealGallery] = useState<GalleryItem[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    galleryApi
+      .getItems({ size: 100 })
+      .then((res) => {
+        if (isMounted && res && Array.isArray(res.content)) {
+          const mapped = res.content.map(mapGalleryToGalleryItem);
+          setRealGallery(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn('[WebappGalleryPage] Failed to fetch gallery items from backend:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const categories = [
     { id: 'all', label: 'Hamısı' },
@@ -27,7 +49,7 @@ export const GalleryPage = () => {
 
   const currentSortLabel = sortOptions.find((opt) => opt.id === activeSort)?.label || 'Populyarlığa görə';
 
-  // Multiply mock data to populate pages 2 and 3 dynamically
+  // Multiply mock data to populate pages 2 and 3 dynamically, prepended with real items
   const extendedGalleryItems = useMemo(() => {
     const page1 = GALLERY_ITEMS.map(item => ({ ...item, id: item.id }));
     const page2 = GALLERY_ITEMS.map(item => ({
@@ -43,8 +65,8 @@ export const GalleryPage = () => {
       popularity: Math.max(item.popularity - 12, 40),
       date: new Date(new Date(item.date).getTime() - 24 * 60 * 60 * 1000 * 14).toISOString().split('T')[0]
     }));
-    return [...page1, ...page2, ...page3];
-  }, []);
+    return [...realGallery, ...page1, ...page2, ...page3];
+  }, [realGallery]);
 
   // Reactive filtering and sorting
   const processedItems = useMemo(() => {

@@ -1,8 +1,10 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SlidersHorizontal, ChevronDown } from 'lucide-react';
-import { NEWS_ITEMS } from '@/features/landing/constants/news';
+import { NEWS_ITEMS, type NewsItem } from '@/features/landing/constants/news';
 import { PATHS } from '@/routes/paths';
+import { newsApi } from '@/api/news.api';
+import { mapXeberToNewsItem } from '@/utils/contentMappers';
 
 type CategoryFilter = 'all' | 'terapiyalar' | 'otaqlar' | 'telimler';
 type SortOption = 'popularity' | 'date-desc' | 'date-asc';
@@ -13,6 +15,26 @@ export const NewsPage = () => {
   const [activeSort, setActiveSort] = useState<SortOption>('popularity');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [realNews, setRealNews] = useState<NewsItem[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    newsApi
+      .getAll()
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) {
+          const mapped = data.map(mapXeberToNewsItem);
+          setRealNews(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn('[WebappNewsPage] Failed to fetch news from backend:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const categories = [
     { id: 'all', label: 'Hamısı' },
@@ -29,9 +51,13 @@ export const NewsPage = () => {
 
   const currentSortLabel = sortOptions.find((opt) => opt.id === activeSort)?.label || 'Populyarlığa görə';
 
+  const allNewsItems = useMemo(() => {
+    return [...realNews, ...NEWS_ITEMS];
+  }, [realNews]);
+
   // Process data filtering and sorting
   const processedItems = useMemo(() => {
-    let items = [...NEWS_ITEMS];
+    let items = [...allNewsItems];
 
     // Map categories logically to match news constants
     if (activeCategory === 'terapiyalar') {
@@ -53,7 +79,7 @@ export const NewsPage = () => {
     });
 
     return items;
-  }, [activeCategory, activeSort]);
+  }, [allNewsItems, activeCategory, activeSort]);
 
   return (
     <div className="w-full flex flex-col rounded-t-[20px] md:rounded-t-[38.93px] rounded-b-[20px] md:rounded-b-[38.93px] overflow-hidden shadow-2xl bg-white animate-fade-in min-h-[calc(100vh-64px)] pb-20 opacity-100">
@@ -294,7 +320,7 @@ export const NewsPage = () => {
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[20.35px] w-full max-w-[1235.6px] mx-auto">
-          {NEWS_ITEMS.slice(1, 4).map((item) => (
+          {allNewsItems.slice(1, 4).map((item) => (
             <div
               key={item.id}
               className="bg-[#F8F9FA] rounded-[18px] overflow-hidden border border-[#E5DFDF] flex flex-col p-4 shadow-sm hover:shadow-md transition-shadow duration-300 w-full max-w-[398.3px] h-[439px] mx-auto"

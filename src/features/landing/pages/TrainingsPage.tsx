@@ -32,10 +32,7 @@ export const TrainingsPage = () => {
   };
 
   return (
-    <div
-      className="min-h-screen w-full flex flex-col font-sans text-white"
-      style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}
-    >
+    <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
       {/* Navbar */}
       <LandingNavbar activePage="trainings" />
 

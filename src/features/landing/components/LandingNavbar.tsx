@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
-import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
+import nexusLogo from '@/assets/svg/UpdatedNexusMindNavbarLogo.svg';
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 
 type ActivePage = 'landing' | 'journal' | 'psychologist' | 'blog' | 'articles' | 'news' | 'gallery' | 'trainings';
@@ -18,6 +18,19 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const [headerBottom, setHeaderBottom] = useState(73);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Track window scroll position to toggle navbar transparency
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   // Callback ref to measure real header height for portal positioning
   const headerRef = useCallback((node: HTMLElement | null) => {
@@ -211,12 +224,15 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     document.body
   );
 
+  const isSolid = isScrolled || isMobileMenuOpen;
+
   return (
     <>
       <header
         ref={headerRef}
-        className="w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 border-b border-white/10 shrink-0 sticky top-0"
-        style={{ background: 'linear-gradient(90deg, #476388 0%, #314B6B 50%, #1F3347 100%)' }}
+        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 border-b border-white/10 shrink-0 sticky top-0 transition-all duration-300 ease-in-out ${
+          isSolid ? 'bg-[#253D57] shadow-lg' : 'navbar-glass'
+        }`}
       >
         <div
           onClick={() => {

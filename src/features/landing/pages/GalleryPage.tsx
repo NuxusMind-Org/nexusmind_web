@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import {
@@ -8,17 +8,43 @@ import {
   type CategoryFilter,
   type SortOption,
 } from '../components/gallery';
-import { GALLERY_ITEMS } from '../constants/gallery';
+import { GALLERY_ITEMS, type GalleryItem } from '../constants/gallery';
+import { galleryApi } from '@/api/gallery.api';
+import { mapGalleryToGalleryItem } from '@/utils/contentMappers';
 
 export const GalleryPage = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
   const [activeSort, setActiveSort] = useState<SortOption>('popularity');
   const [visibleLimit, setVisibleLimit] = useState(4);
+  const [realGallery, setRealGallery] = useState<GalleryItem[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    galleryApi
+      .getItems({ size: 100 })
+      .then((res) => {
+        if (isMounted && res && Array.isArray(res.content)) {
+          const mapped = res.content.map(mapGalleryToGalleryItem);
+          setRealGallery(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn('[LandingGalleryPage] Failed to fetch gallery items from backend:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const allGalleryItems = useMemo(() => {
+    return [...realGallery, ...GALLERY_ITEMS];
+  }, [realGallery]);
 
   // Filter and sort items dynamically based on reactive selection
   const processedItems = useMemo(() => {
     // 1. Category Filter
-    let items = [...GALLERY_ITEMS];
+    let items = [...allGalleryItems];
     if (activeCategory !== 'all') {
       items = items.filter((item) => item.category === activeCategory);
     }
@@ -38,7 +64,7 @@ export const GalleryPage = () => {
     });
 
     return items;
-  }, [activeCategory, activeSort]);
+  }, [allGalleryItems, activeCategory, activeSort]);
 
   // Retrieve only items up to current pagination index
   const paginatedItems = useMemo(() => {
@@ -62,7 +88,7 @@ export const GalleryPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}>
+    <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
       <LandingNavbar activePage="gallery" />
 
       {/* Page Content */}

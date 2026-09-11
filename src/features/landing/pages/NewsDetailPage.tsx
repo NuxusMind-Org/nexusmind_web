@@ -17,6 +17,7 @@ import { newsApi } from '@/api/news.api';
 import type { XeberResponseDto } from '@/api/types';
 import { SEO } from '@/components';
 import { PATHS } from '@/routes/paths';
+import { getLocalizedTitle } from '@/utils/multilingual';
 
 export const NewsDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -96,7 +97,7 @@ export const NewsDetailPage = () => {
       category: (news.category?.toLowerCase() || 'tedbirler') as 'elanlar' | 'tecrube' | 'tedbirler',
       categoryLabel: news.category || 'Psixoloji Sağlamlıq',
       date: formattedDate,
-      title: news.title || 'Bakı Psixologiya Mərkəzində: 3 Aylıq Mentorluq Proqramı',
+      title: getLocalizedTitle(news.title || news.titleDto, 'az', 'Bakı Psixologiya Mərkəzində: 3 Aylıq Mentorluq Proqramı'),
       description:
         news.shortDescription ||
         news.introText ||
@@ -106,12 +107,7 @@ export const NewsDetailPage = () => {
   }, [news, id]);
 
   return (
-    <div
-      className="min-h-screen w-full flex flex-col font-sans text-white"
-      style={{
-        background: 'linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)',
-      }}
-    >
+    <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
       <LandingNavbar activePage="news" />
 
       {/* State 1: Loading */}
@@ -157,7 +153,7 @@ export const NewsDetailPage = () => {
       {!isLoading && !isError && article && news && (
         <>
           <SEO
-            metaTitle={news.metaTitle || news.title}
+            metaTitle={news.metaTitle || article.title}
             metaDescription={news.metaDescription || news.shortDescription}
             slug={news.slug || news.id}
             schemaMarkup={news.schemaMarkup}

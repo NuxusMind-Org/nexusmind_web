@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import {
@@ -9,16 +9,42 @@ import {
   type NewsCategoryFilter,
   type NewsSortOption,
 } from '../components/news';
-import { NEWS_ITEMS } from '../constants/news';
+import { NEWS_ITEMS, type NewsItem } from '../constants/news';
+import { newsApi } from '@/api/news.api';
+import { mapXeberToNewsItem } from '@/utils/contentMappers';
 
 export const NewsPage = () => {
   const [activeCategory, setActiveCategory] = useState<NewsCategoryFilter>('all');
   const [activeSort, setActiveSort] = useState<NewsSortOption>('popularity');
   const [visibleLimit, setVisibleLimit] = useState(3);
+  const [realNews, setRealNews] = useState<NewsItem[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    newsApi
+      .getAll()
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) {
+          const mapped = data.map(mapXeberToNewsItem);
+          setRealNews(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn('[LandingNewsPage] Failed to fetch news from backend:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const allNewsItems = useMemo(() => {
+    return [...realNews, ...NEWS_ITEMS];
+  }, [realNews]);
 
   // Filter and sort items dynamically
   const processedItems = useMemo(() => {
-    let items = [...NEWS_ITEMS];
+    let items = [...allNewsItems];
 
     // 1. Category Filter
     if (activeCategory !== 'all') {
@@ -40,13 +66,13 @@ export const NewsPage = () => {
     });
 
     return items;
-  }, [activeCategory, activeSort]);
+  }, [allNewsItems, activeCategory, activeSort]);
 
   // Extract featured item if we are on 'all' view and it exists
   const featuredItem = useMemo(() => {
     if (activeCategory !== 'all') return null;
-    return NEWS_ITEMS.find((item) => item.isFeatured) || null;
-  }, [activeCategory]);
+    return allNewsItems.find((item) => item.isFeatured) || null;
+  }, [activeCategory, allNewsItems]);
 
   // Grid items: if featured item is displayed on top, exclude it from the grid below
   const gridItems = useMemo(() => {
@@ -79,7 +105,7 @@ export const NewsPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}>
+    <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
       <LandingNavbar activePage="news" />
 
       {/* Page Content */}

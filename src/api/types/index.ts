@@ -36,6 +36,12 @@ export interface PaginatedResponse<T> {
   empty?: boolean;
 }
 
+export interface TitleDto {
+  az?: string;
+  en?: string;
+  ru?: string;
+}
+
 // --- Auth DTOs ---
 export type Role = 'SUPER_ADMIN' | 'BPM' | 'DOCTOR' | 'PATIENT';
 export type PatientMood = 'SAD' | 'HAPPY' | 'TIRED' | 'CALM' | 'NORMAL';
@@ -173,7 +179,8 @@ export interface XeberRequestDto {
 
 export interface XeberResponseDto {
   id?: number;
-  title?: string;
+  title?: string | TitleDto;
+  titleDto?: TitleDto;
   shortDescription?: string;
   introText?: string;
   sections?: XeberSectionResponseDto[];
@@ -289,7 +296,8 @@ export interface MeqaleRequestDto {
 
 export interface MeqaleResponseDto {
   id?: number;
-  title?: string;
+  title?: string | TitleDto;
+  titleDto?: TitleDto;
   shortDescription?: string;
   introText?: string;
   sections?: MeqaleSectionResponseDto[];
@@ -341,7 +349,8 @@ export interface BlogRequest {
 
 export interface BlogResponse {
   id?: number;
-  title?: string;
+  title?: string | TitleDto;
+  titleDto?: TitleDto;
   shortDescription?: string;
   introText?: string;
   sections?: BlogSectionResponse[];
@@ -380,6 +389,7 @@ export interface GalleryItemResponse {
   category?: GalleryCategory;
   categoryLabel?: string;
   popularityScore?: number;
+  altText?: string;
   createdAt?: string;
 }
 

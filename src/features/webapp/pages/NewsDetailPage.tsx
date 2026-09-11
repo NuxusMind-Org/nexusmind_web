@@ -10,6 +10,7 @@ import newsLakeDock from '@/assets/news/news_lake_dock.png';
 import { newsApi } from '@/api/news.api';
 import type { XeberResponseDto } from '@/api/types';
 import { SEO } from '@/components';
+import { getLocalizedTitle } from '@/utils/multilingual';
 
 export const NewsDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -86,7 +87,7 @@ export const NewsDetailPage = () => {
       image: news.imageUrl || defaultItem.image,
       categoryLabel: news.category || defaultItem.categoryLabel,
       date: news.createdAt || defaultItem.date,
-      title: news.title || defaultItem.title,
+      title: getLocalizedTitle(news.title || news.titleDto, 'az', defaultItem.title),
       description: news.shortDescription || news.introText || defaultItem.description,
     };
   }, [news, id]);
@@ -133,7 +134,7 @@ export const NewsDetailPage = () => {
   return (
     <>
       <SEO
-        metaTitle={news.metaTitle || news.title}
+        metaTitle={news.metaTitle || article.title}
         metaDescription={news.metaDescription || news.shortDescription}
         slug={news.slug || news.id}
         schemaMarkup={news.schemaMarkup}

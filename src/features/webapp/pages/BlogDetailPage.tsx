@@ -8,6 +8,7 @@ import mountainSunsetImg from '@/assets/mountain_sunset_clouds.png';
 import { blogsApi } from '@/api/blogs.api';
 import type { BlogResponse } from '@/api/types';
 import { SEO } from '@/components';
+import { getLocalizedTitle } from '@/utils/multilingual';
 
 export const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -119,10 +120,16 @@ export const BlogDetailPage = () => {
     );
   }
 
+  const blogTitle = getLocalizedTitle(
+    blog.title || blog.titleDto,
+    'az',
+    'VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma'
+  );
+
   return (
     <>
       <SEO
-        metaTitle={blog.metaTitle || blog.title}
+        metaTitle={blog.metaTitle || blogTitle}
         metaDescription={blog.metaDescription || blog.shortDescription}
         slug={blog.slug || blog.id}
         schemaMarkup={blog.schemaMarkup}
@@ -164,8 +171,8 @@ export const BlogDetailPage = () => {
         <div className="w-full rounded-[16px] sm:rounded-[22.75px] overflow-hidden relative min-h-[300px] sm:min-h-[420px] md:h-[582px] flex flex-col justify-end p-5 sm:p-8 md:p-12 shadow-xl shrink-0 group">
           {/* Background image cover */}
           <img
-            src={vrConsultationImg}
-            alt="VR Terapiyasının Gələcəyi"
+            src={blog.imageUrl || vrConsultationImg}
+            alt={blogTitle}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-700"
           />
           {/* Black gradient overlay */}
@@ -204,7 +211,7 @@ export const BlogDetailPage = () => {
 
             {/* Main title */}
             <h2 className="text-2xl md:text-[36px] font-bold leading-tight text-white font-['Lexend'] mt-2">
-              VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma
+              {blogTitle}
             </h2>
           </div>
         </div>

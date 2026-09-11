@@ -10,6 +10,7 @@ import mountainSunsetImg from '@/assets/mountain_sunset_clouds.png';
 import { blogsApi } from '@/api/blogs.api';
 import type { BlogResponse } from '@/api/types';
 import { SEO } from '@/components';
+import { getLocalizedTitle } from '@/utils/multilingual';
 
 export const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -83,8 +84,16 @@ export const BlogDetailPage = () => {
     }
   };
 
+  const blogTitle = blog
+    ? getLocalizedTitle(
+        blog.title || blog.titleDto,
+        'az',
+        'VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma'
+      )
+    : '';
+
   return (
-    <div className="min-h-screen w-full flex flex-col font-sans text-white" style={{ background: "linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)" }}>
+    <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
       <LandingNavbar activePage="blog" />
 
       {/* State 1: Loading */}
@@ -130,7 +139,7 @@ export const BlogDetailPage = () => {
       {!isLoading && !isError && blog && (
         <>
           <SEO
-            metaTitle={blog.metaTitle || blog.title}
+            metaTitle={blog.metaTitle || blogTitle}
             metaDescription={blog.metaDescription || blog.shortDescription}
             slug={blog.slug || blog.id}
             schemaMarkup={blog.schemaMarkup}
@@ -158,7 +167,7 @@ export const BlogDetailPage = () => {
                   Bloqlar
                 </Link>
                 <ChevronRight size={14} className="text-white/40" />
-                <span className="text-[#a072ff] font-bold">{blog.title || 'Vr simulyasiya və psixologiya'}</span>
+                <span className="text-[#a072ff] font-bold">{blogTitle}</span>
               </div>
             </div>
 
@@ -167,7 +176,7 @@ export const BlogDetailPage = () => {
               {/* Cover Image */}
               <img
                 src={blog.imageUrl || vrConsultationImg}
-                alt={blog.title || "VR Terapiyasının Gələcəyi"}
+                alt={blogTitle}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-700"
               />
 
@@ -208,8 +217,8 @@ export const BlogDetailPage = () => {
 
                 {/* Glass Box Overlay Title */}
                 <div>
-                  <h2 className="text-[20px] sm:text-[30px] lg:text-[36px] font-bold leading-tight text-white bg-white/10 backdrop-blur-md px-5 sm:px-8 py-3.5 rounded-[12px] border border-white/20 inline-block shadow-lg">
-                    {blog.title || 'VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma'}
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug bg-white/10 backdrop-blur-md px-5 sm:px-8 py-3.5 rounded-[12px] border border-white/20 inline-block shadow-lg">
+                    {blogTitle}
                   </h2>
                 </div>
 

@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
 import { psychologists } from '../../data/psychologists';
-import { Footer } from '../Footer';
 import { ScrollReveal } from '../ScrollReveal';
 
 export const ExpertsSection = () => {
@@ -21,14 +20,14 @@ export const ExpertsSection = () => {
           <p className="text-[15px] sm:text-[20px] md:text-[24px] text-white/90 mb-3">
             Psixoloqlar, Həyat bələdçiləri, Mindfulness terapistləri və s.
           </p>
-          <p className="text-[14px] sm:text-[18px] text-[#00f2ff]/80">
+          <p className="text-[14px] sm:text-[18px] text-white/90">
             Sən də bizimlə həyatdan yenidən zövq almağı öyrən !
           </p>
         </div>
 
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8">
           {psychologists.map((psych) => (
-            <div key={psych.id} className="bg-white/5 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:bg-white/10 transition-colors">
+            <div key={psych.id} className="bg-white/5 backdrop-blur-md rounded-[20px] p-6 border border-white/10 hover:bg-white/10 transition-colors">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex gap-4 items-center">
                   <img src={psych.image} alt={psych.name} className="w-[70px] h-[70px] rounded-full object-cover border-2 border-white/20" />
@@ -49,7 +48,7 @@ export const ExpertsSection = () => {
 
               <div className="flex flex-wrap gap-2 mb-3">
                 {psych.languages.map((lang) => (
-                  <span key={lang} className="px-3 py-1 rounded-lg border border-[#a88bff]/50 text-white/80 text-[12px]">{lang}</span>
+                  <span key={lang} className="px-3 py-1 rounded-full border border-[#a88bff]/50 bg-[#7E5DA8] text-white/80 text-[12px]">{lang}</span>
                 ))}
               </div>
 
@@ -61,7 +60,7 @@ export const ExpertsSection = () => {
 
               <button
                 onClick={() => navigate(PATHS.PSYCHOLOGIST.replace(':id', String(psych.id)))}
-                className="w-full bg-[#a88bff] hover:bg-[#9773fc] text-white font-semibold py-3 rounded-lg transition-colors cursor-pointer z-50 relative"
+                className="w-full bg-[#8A38F5] hover:bg-[#9773fc] text-white font-semibold py-3 rounded-[16px] transition-colors cursor-pointer z-50 relative"
               >
                 Başlayaq
               </button>
@@ -77,7 +76,6 @@ export const ExpertsSection = () => {
         </button>
 
       </ScrollReveal>
-      <Footer />
     </section>
   );
 };

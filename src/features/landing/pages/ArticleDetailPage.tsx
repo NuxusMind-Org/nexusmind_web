@@ -14,6 +14,7 @@ import { articlesApi } from '@/api/articles.api';
 import type { MeqaleResponseDto } from '@/api/types';
 import { SEO } from '@/components';
 import { PATHS } from '@/routes/paths';
+import { getLocalizedTitle } from '@/utils/multilingual';
 
 export const ArticleDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -81,17 +82,14 @@ export const ArticleDetailPage = () => {
       date: meqale.createdAt || defaultItem.date,
       readTime: meqale.readTimeMinutes ? `${meqale.readTimeMinutes} dəq oxu` : defaultItem.readTime,
       views: defaultItem.views,
-      title: meqale.title || defaultItem.title,
+      title: getLocalizedTitle(meqale.title || meqale.titleDto, 'az', defaultItem.title),
       description: meqale.shortDescription || meqale.introText || defaultItem.description,
       author: defaultItem.author,
     };
   }, [meqale, id]);
 
   return (
-    <div
-      className="min-h-screen w-full flex flex-col font-sans text-white"
-      style={{ background: 'linear-gradient(180deg, #263151 5%, #245D68 45%, #914899 95%)' }}
-    >
+    <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
       <LandingNavbar activePage="articles" />
 
       {/* State 1: Loading */}
@@ -137,7 +135,7 @@ export const ArticleDetailPage = () => {
       {!isLoading && !isError && article && meqale && (
         <>
           <SEO
-            metaTitle={meqale.metaTitle || meqale.title}
+            metaTitle={meqale.metaTitle || article.title}
             metaDescription={meqale.metaDescription || meqale.shortDescription}
             slug={meqale.slug || meqale.id}
             schemaMarkup={meqale.schemaMarkup}

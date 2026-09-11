@@ -1,6 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import digitalBrainImg from '@/assets/digital_brain.png';
+import { PATHS } from '@/routes/paths';
+import { blogsApi } from '@/api/blogs.api';
+import { mapBlogToSimilarBlogCard } from '@/utils/contentMappers';
 
 interface BlogItem {
   id: number;
@@ -8,48 +12,89 @@ interface BlogItem {
   category: string;
   date: string;
   summary: string;
+  image?: string;
 }
 
-export const Blogs = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+const DEMO_BLOGS: BlogItem[] = [
+  {
+    id: 1,
+    title: 'İmmersiyanın Elmi: Niyə VR Beyni İnanır?',
+    category: 'Psixologiya',
+    date: '12 Okt, 2024',
+    summary: 'Virtual mühitin sinir sistemimizə təsiri və beynin rəqəmsal stimullara qarşı verdiyi reaksiyaların dərin analizi.',
+    image: digitalBrainImg,
+  },
+  {
+    id: 2,
+    title: 'VR Meditasiya Texnikaları: Daxili Sükut',
+    category: 'Sağlamlıq',
+    date: '10 Okt, 2024',
+    summary: 'Müasir dünyada stresslə mübarizə üçün virtual mühitlərin təqdim etdiyi ən effektiv meditasiya üsulları.',
+    image: digitalBrainImg,
+  },
+  {
+    id: 3,
+    title: 'Fobiyaların VR ilə Aradan Qaldırılması',
+    category: 'Simulyasiya',
+    date: '08 Okt, 2024',
+    summary: 'Ekspozisiya terapiyasının virtual məkanda tətbiqi: Qorxularınızla təhlükəsiz şəkildə üzləşin.',
+    image: digitalBrainImg,
+  },
+  {
+    id: 4,
+    title: 'Rəqəmsal Etika və Virtual Terapiya',
+    category: 'İnnovasiya',
+    date: '05 Okt, 2024',
+    summary: 'Virtual dünyalarda aparılan müalicə seanslarının gizliliyi və etik standartlarının gələcəyi haqqında düşüncələr.',
+    image: digitalBrainImg,
+  },
+  {
+    id: 5,
+    title: 'Gələcəyin Neyroterapiya Trendləri',
+    category: 'Psixologiya',
+    date: '01 Okt, 2024',
+    summary: 'Süni intellekt və bio-əks-əlaqə sensorlarının inteqrasiyası ilə psixoterapiyanın növbəti mərhələsi.',
+    image: digitalBrainImg,
+  },
+];
 
-  const blogs: BlogItem[] = [
-    {
-      id: 1,
-      title: 'İmmersiyanın Elmi: Niyə VR Beyni İnanır?',
-      category: 'Psixologiya',
-      date: '12 Okt, 2024',
-      summary: 'Virtual mühitin sinir sistemimizə təsiri və beynin rəqəmsal stimullara qarşı verdiyi reaksiyaların dərin analizi.',
-    },
-    {
-      id: 2,
-      title: 'İmmersiyanın Elmi: Niyə VR Beyni İnanır?',
-      category: 'Psixologiya',
-      date: '12 Okt, 2024',
-      summary: 'Virtual mühitin sinir sistemimizə təsiri və beynin rəqəmsal stimullara qarşı verdiyi reaksiyaların dərin analizi.',
-    },
-    {
-      id: 3,
-      title: 'İmmersiyanın Elmi: Niyə VR Beyni İnanır?',
-      category: 'Psixologiya',
-      date: '12 Okt, 2024',
-      summary: 'Virtual mühitin sinir sistemimizə təsiri və beynin rəqəmsal stimullara qarşı verdiyi reaksiyaların dərin analizi.',
-    },
-    {
-      id: 4,
-      title: 'İmmersiyanın Elmi: Niyə VR Beyni İnanır?',
-      category: 'Psixologiya',
-      date: '12 Okt, 2024',
-      summary: 'Virtual mühitin sinir sistemimizə təsiri və beynin rəqəmsal stimullara qarşı verdiyi reaksiyaların dərin analizi.',
-    },
-    {
-      id: 5,
-      title: 'İmmersiyanın Elmi: Niyə VR Beyni İnanır?',
-      category: 'Psixologiya',
-      date: '12 Okt, 2024',
-      summary: 'Virtual mühitin sinir sistemimizə təsiri və beynin rəqəmsal stimullara qarşı verdiyi reaksiyaların dərin analizi.',
-    },
-  ];
+export const Blogs = () => {
+  const navigate = useNavigate();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [realBlogs, setRealBlogs] = useState<BlogItem[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    blogsApi
+      .getAll()
+      .then((data) => {
+        if (isMounted && Array.isArray(data)) {
+          const mapped = data.map((dto) => {
+            const item = mapBlogToSimilarBlogCard(dto);
+            return {
+              id: item.id,
+              title: item.title,
+              category: item.badge,
+              date: item.date,
+              summary: item.description,
+              image: item.image,
+            };
+          });
+          setRealBlogs(mapped);
+        }
+      })
+      .catch((err) => {
+        console.warn('[BlogsCarousel] Failed to fetch blogs:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const blogs = useMemo(() => {
+    return [...realBlogs, ...DEMO_BLOGS];
+  }, [realBlogs]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -77,6 +122,7 @@ export const Blogs = () => {
           Bloqlar
         </h2>
         <button
+          onClick={() => navigate(PATHS.WEBAPP_BLOG)}
           className="text-[#1E0A42]/60 hover:text-[#1E0A42] font-semibold text-xs sm:text-sm md:text-base cursor-pointer transition-colors bg-transparent border-none p-0 outline-none select-none"
         >
           Daha çox
@@ -101,6 +147,7 @@ export const Blogs = () => {
           {blogs.map((blog) => (
             <div
               key={blog.id}
+              onClick={() => navigate(PATHS.WEBAPP_BLOG_DETAIL.replace(':id', String(blog.id)))}
               className="flex flex-col bg-[#F6EFFF] text-[#1E0A42] overflow-hidden flex-shrink-0 snap-start transition-all duration-300 border border-purple-100/50 hover:scale-[1.02] cursor-pointer group w-[280px] sm:w-[340px] lg:w-[calc((100%-72px)/3.5)] rounded-[16px]"
               style={{
                 boxShadow: '1.95px 1.95px 1.95px rgba(119, 67, 188, 0.59)',
@@ -109,7 +156,7 @@ export const Blogs = () => {
               {/* Top: Cover Image Area */}
               <div className="w-full h-[200px] relative overflow-hidden flex-shrink-0">
                 <img
-                  src={digitalBrainImg}
+                  src={blog.image || digitalBrainImg}
                   alt={blog.title}
                   className="w-full h-full object-cover select-none pointer-events-none group-hover:scale-105 transition-transform duration-700"
                 />
@@ -143,7 +190,7 @@ export const Blogs = () => {
 
                   {/* CTA link */}
                   <div className="flex items-center gap-1.5 text-xs md:text-sm font-bold text-[#7743BC] hover:text-[#5E38A0] transition-colors cursor-pointer group/link">
-                    <span>Daha çox oxu</span>
+                    <span>Davamını oxu</span>
                     <ArrowRight size={16} className="transition-transform group-hover/link:translate-x-1" />
                   </div>
                 </div>
