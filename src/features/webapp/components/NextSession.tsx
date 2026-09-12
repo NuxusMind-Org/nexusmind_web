@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Calendar, Clock, Plus, Loader2 } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import presentingNexie from '@/assets/svg/presenting_nexie.svg';
@@ -12,6 +13,7 @@ import {
 } from '@/features/webapp/utils/sessionFilters';
 
 export const NextSession = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(() => new Date());
   const { sessions, loading, fetchSessions } = useSessionStore();
@@ -31,9 +33,17 @@ export const NextSession = () => {
 
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return '';
-    const [, month, day] = dateStr.split('-').map(Number);
-    const months = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'İyn', 'İyl', 'Avq', 'Sen', 'Okt', 'Noy', 'Dek'];
-    return `${day} ${months[month - 1]} ${dateStr.split('-')[0]}`;
+    try {
+      const [year, month, day] = dateStr.split('-').map(Number);
+      const date = new Date(year, month - 1, day);
+      return date.toLocaleDateString(i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    } catch {
+      return dateStr;
+    }
   };
 
   const formatTime = (timeStr?: string) => {
@@ -43,10 +53,10 @@ export const NextSession = () => {
 
   const getModeLabel = (mode?: string) => {
     switch (mode) {
-      case 'VIDEO_CALL': return 'Video Seans';
-      case 'VR': return 'VR Seans';
-      case 'APP': return 'App Seans';
-      default: return 'Video Seans';
+      case 'VIDEO_CALL': return t('webapp.sessions.videoSession');
+      case 'VR': return t('webapp.sessions.vrSession');
+      case 'APP': return t('webapp.sessions.appSession');
+      default: return t('webapp.sessions.videoSession');
     }
   };
 
@@ -75,20 +85,20 @@ export const NextSession = () => {
           maxWidth: '1251.75px',
         }}
       >
-        Növbəti seansın
+        {t('webapp.sessions.nextSession')}
       </h2>
 
       {/* 2. Loading State */}
       {loading && !nextSession ? (
         <div className="w-full bg-[#FAFAFA] rounded-[24px] border border-gray-100 p-12 flex flex-col items-center justify-center min-h-[220px]">
           <Loader2 className="w-8 h-8 text-[#4B2E83] animate-spin mb-3" />
-          <p className="text-sm font-medium text-[#7A7570] font-['Lexend']">Seans məlumatları yüklənir...</p>
+          <p className="text-sm font-medium text-[#7A7570] font-['Lexend']">{t('webapp.sessions.loading')}</p>
         </div>
       ) : !nextSession ? (
         /* 3. Empty State (Identical to SessionsPage) */
         <div className="w-full bg-[#FAFAFA] rounded-[24px] border border-gray-100/80 p-8 sm:p-12 flex flex-col items-center justify-center text-center animate-fade-in">
           <h3 className="text-[26px] sm:text-[32px] md:text-[36px] font-light text-[#7A7570] font-['Lexend'] text-center">
-            Hələki seans yoxdur .
+            {t('webapp.sessions.noSessions')}
           </h3>
 
           <div className="relative w-full max-w-[460px] h-[210px] sm:h-[260px] mt-4 mx-auto">
@@ -102,7 +112,7 @@ export const NextSession = () => {
               className="absolute top-[28%] sm:top-[35%] left-[59%] -translate-x-[15%] translate-y-[-50%] bg-[#4B2E83] hover:bg-[#3C2475] text-white rounded-full px-5 sm:px-6 py-3 sm:py-3.5 font-semibold font-['Lexend'] flex items-center justify-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] text-xs sm:text-sm border-0 cursor-pointer uppercase tracking-wide whitespace-nowrap z-10"
             >
               <Plus strokeWidth={2.5} className="w-4 h-4 sm:w-5 sm:h-5" />
-              seans təyin et
+              {t('webapp.sessions.bookSession')}
             </button>
           </div>
         </div>
@@ -128,7 +138,7 @@ export const NextSession = () => {
                 {matchedDoctor?.image ? (
                   <img
                     src={matchedDoctor.image}
-                    alt={nextSession.doctorName || 'Həkim'}
+                    alt={nextSession.doctorName || t('webapp.sessions.doctor')}
                     className="w-full h-full rounded-[14px] sm:rounded-[22px] md:rounded-[24px] object-cover"
                   />
                 ) : (
@@ -146,10 +156,10 @@ export const NextSession = () => {
             {/* Doctor text information */}
             <div className="flex flex-col text-left justify-center font-['Lexend']">
               <span className="text-[10px] sm:text-xs md:text-sm text-white/70 font-semibold uppercase tracking-wider">
-                {matchedDoctor?.title || 'Klinik Psixoloq'}
+                {matchedDoctor?.title || t('webapp.sessions.clinicalPsychologist')}
               </span>
               <h3 className="text-[18px] sm:text-[22px] md:text-[28px] font-bold text-white leading-tight mt-0.5 tracking-tight">
-                {nextSession.doctorName || 'Həkim'}
+                {nextSession.doctorName || t('webapp.sessions.doctor')}
               </h3>
 
               {/* Time & Date details */}
@@ -170,7 +180,7 @@ export const NextSession = () => {
                   {getModeLabel(nextSession.mode)}
                 </span>
                 <span className="px-3 sm:px-5 py-1.5 sm:py-2 bg-white/10 border border-white/10 text-white text-[10px] sm:text-xs md:text-[13px] font-semibold rounded-full backdrop-blur-sm shadow-sm">
-                  45 dəqiqə
+                  {t('webapp.sessions.duration45')}
                 </span>
               </div>
             </div>
@@ -187,13 +197,13 @@ export const NextSession = () => {
                   : 'bg-white/40 text-[#3B2068]/60 cursor-not-allowed'
               }`}
             >
-              {isJoinable ? 'Qoşul' : 'Gözlənilir'}
+              {isJoinable ? t('webapp.sessions.join') : t('webapp.sessions.pending')}
             </button>
             <button
               onClick={() => navigate(PATHS.WEBAPP_SESSIONS)}
               className="flex-1 md:flex-initial md:w-[200px] py-3 sm:py-3.5 border border-white/30 bg-white/5 hover:bg-white/10 text-white font-bold text-xs md:text-sm rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer uppercase tracking-wider text-center"
             >
-              Vaxtı dəyiş
+              {t('webapp.sessions.reschedule')}
             </button>
           </div>
         </div>

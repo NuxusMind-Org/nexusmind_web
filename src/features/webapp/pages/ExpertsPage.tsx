@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Search, SlidersHorizontal, ChevronDown, Star } from 'lucide-react';
 import { psychologists as mockPsychologists } from '@/features/landing/data/psychologists';
 import { PATHS } from '@/routes/paths';
@@ -12,6 +13,7 @@ type CategoryFilter = 'all' | 'child' | 'teen' | 'family';
 type SortOption = 'popularity' | 'price-asc' | 'price-desc';
 
 export const ExpertsPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
@@ -34,20 +36,20 @@ export const ExpertsPage = () => {
     fetchDoctors();
   }, []);
 
-  const categories = [
-    { id: 'all', label: 'Hamısı' },
-    { id: 'child', label: 'Uşaq Psixoloqları' },
-    { id: 'teen', label: 'Yeniyetmə psixoloqları' },
-    { id: 'family', label: 'Ailə psixoloqları' },
-  ] as const;
+  const categories = useMemo(() => [
+    { id: 'all' as const, label: t('webapp.experts.categories.all') },
+    { id: 'child' as const, label: t('webapp.experts.categories.child') },
+    { id: 'teen' as const, label: t('webapp.experts.categories.teen') },
+    { id: 'family' as const, label: t('webapp.experts.categories.family') },
+  ], [t]);
 
-  const sortOptions = [
-    { id: 'popularity', label: 'Populyarlığa görə' },
-    { id: 'price-asc', label: 'Qiymət: Ucuzdan bahaya' },
-    { id: 'price-desc', label: 'Qiymət: Bahadan ucuza' },
-  ] as const;
+  const sortOptions = useMemo(() => [
+    { id: 'popularity' as const, label: t('webapp.experts.sort.popularity') },
+    { id: 'price-asc' as const, label: t('webapp.experts.sort.priceAsc') },
+    { id: 'price-desc' as const, label: t('webapp.experts.sort.priceDesc') },
+  ], [t]);
 
-  const currentSortLabel = sortOptions.find((opt) => opt.id === activeSort)?.label || 'Populyarlığa görə';
+  const currentSortLabel = sortOptions.find((opt) => opt.id === activeSort)?.label || sortOptions[0].label;
 
   // Process data filtering and sorting
   const processedExperts = useMemo(() => {
@@ -107,7 +109,7 @@ export const ExpertsPage = () => {
         }}
       >
         <h2 className="text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] text-center max-w-[1041.5px] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-1">
-          Mütəxəssislərimiz ilə tanış olun!
+          {t('webapp.experts.title')}
         </h2>
 
         {/* Centered Search Bar */}
@@ -119,7 +121,7 @@ export const ExpertsPage = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Hər şeyi axtarın..."
+            placeholder={t('webapp.experts.searchPlaceholder')}
             className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-['Lexend'] transition-all shadow-sm"
           />
         </div>
@@ -149,7 +151,7 @@ export const ExpertsPage = () => {
 
             {/* Mobile Sort Dropdown */}
             <div className="flex items-center justify-between gap-3 w-full">
-              <span className="text-xs sm:text-sm font-medium text-[#1E0A42]/70 font-['Lexend'] whitespace-nowrap">Sıralama :</span>
+              <span className="text-xs sm:text-sm font-medium text-[#1E0A42]/70 font-['Lexend'] whitespace-nowrap">{t('webapp.experts.sortBy')}</span>
               <div className="relative flex-1 max-w-[240px]">
                 <button
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
@@ -194,7 +196,7 @@ export const ExpertsPage = () => {
                 }`}
             >
               <SlidersHorizontal size={16} className="group-hover:scale-105 transition-transform duration-300" />
-              <span>Filter</span>
+              <span>{t('webapp.experts.filter')}</span>
             </button>
 
             <div
@@ -223,7 +225,7 @@ export const ExpertsPage = () => {
           {/* Desktop Sort controls dropdown */}
           <div className="hidden lg:flex relative w-auto justify-end">
             <div className="flex items-center gap-3 w-auto justify-start">
-              <span className="text-sm font-semibold text-[#1E0A42]/65 font-['Lexend'] whitespace-nowrap">Sıralama :</span>
+              <span className="text-sm font-semibold text-[#1E0A42]/65 font-['Lexend'] whitespace-nowrap">{t('webapp.experts.sortBy')}</span>
               <div className="relative">
                 <button
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
@@ -304,7 +306,7 @@ export const ExpertsPage = () => {
 
                   {/* Pricing text */}
                   <span className="text-[20px] md:text-[22px] font-bold text-white tracking-tight flex-shrink-0 font-['Lexend']">
-                    ${expert.price}<span className="text-xs font-normal text-white/70">/seans</span>
+                    ${expert.price}<span className="text-xs font-normal text-white/70">{t('webapp.sessions.perSession')}</span>
                   </span>
                 </div>
 
@@ -339,7 +341,7 @@ export const ExpertsPage = () => {
 
                 {/* CTA Booking Button */}
                 <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-2.5 shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-['Lexend'] border-0">
-                  Başlayaq
+                  {t('webapp.sessions.start')}
                 </button>
               </div>
             ))}
@@ -347,7 +349,7 @@ export const ExpertsPage = () => {
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center w-full">
             <span className="text-[#1E0A42]/50 text-base font-medium font-['Lexend']">
-              Axtarışınıza uyğun mütəxəssis tapılmadı.
+              {t('webapp.experts.noExpertsFound')}
             </span>
           </div>
         )}

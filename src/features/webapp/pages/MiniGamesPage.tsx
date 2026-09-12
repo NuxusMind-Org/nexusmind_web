@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import { TechniqueCard } from '../components/TechniqueCard';
@@ -10,55 +11,41 @@ import miniGame04 from '@/assets/svg/miniGame04.svg';
 
 export const MiniGamesPage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const naturalSteps = t('webapp.miniGames.techniques.naturalSteps', { returnObjects: true }) as string[];
+  const boxSteps = t('webapp.miniGames.techniques.boxSteps', { returnObjects: true }) as string[];
+  const pranayamaSteps = t('webapp.miniGames.techniques.pranayamaSteps', { returnObjects: true }) as string[];
+  const ujjayiSteps = t('webapp.miniGames.techniques.ujjayiSteps', { returnObjects: true }) as string[];
 
   const techniques = [
     {
       id: 'natural-breathing',
-      tag: 'STANDART',
-      title: 'Təbii Nəfəs',
+      tag: t('webapp.miniGames.techniques.standard'),
+      title: t('webapp.miniGames.techniques.naturalBreathing'),
       imageSrc: miniGame01,
-      steps: [
-        { number: 1, text: 'Rahat vəziyyətdə oturun və ya uzanın.' },
-        { number: 2, text: 'Burundan yavaş və dərin nəfəs alın.' },
-        { number: 3, text: 'Ağızdan yavaşca nəfəs verin.' },
-        { number: 4, text: 'Bu ritmi təbii şəkildə təkrarlaın.' },
-      ],
+      steps: (Array.isArray(naturalSteps) ? naturalSteps : []).map((text, idx) => ({ number: idx + 1, text })),
     },
     {
       id: 'box-breathing',
-      tag: 'KVADRAT',
-      title: 'Kvadrat Nəfəsi (4-4-4-4)',
+      tag: t('webapp.miniGames.techniques.box'),
+      title: t('webapp.miniGames.techniques.boxBreathing'),
       imageSrc: miniGame02,
-      steps: [
-        { number: 1, text: '4 saniyə nəfəs alın.' },
-        { number: 2, text: '4 saniyə nəfəsinizi saxlayın.' },
-        { number: 3, text: '4 saniyə nəfəs verin.' },
-        { number: 4, text: '4 saniyə nəfəsinizi saxlayın.' },
-      ],
+      steps: (Array.isArray(boxSteps) ? boxSteps : []).map((text, idx) => ({ number: idx + 1, text })),
     },
     {
       id: 'alternate-nostril',
-      tag: 'PRANAYAMA',
-      title: 'Burun Dəliyi Dəyişdirilməsi',
+      tag: t('webapp.miniGames.techniques.pranayama'),
+      title: t('webapp.miniGames.techniques.alternateNostril'),
       imageSrc: miniGame03,
-      steps: [
-        { number: 1, text: 'Sağ burun dəliyini bağlayın, soldan nəfəs alın.' },
-        { number: 2, text: 'Nəfəsi hər iki tərəf bağlı halda qısa saxlayın.' },
-        { number: 3, text: 'Solu bağlayın və sağdan nəfəs verin.' },
-        { number: 4, text: 'Ardıcıllığı əks tərəf üçün təkrarlaın.' },
-      ],
+      steps: (Array.isArray(pranayamaSteps) ? pranayamaSteps : []).map((text, idx) => ({ number: idx + 1, text })),
     },
     {
       id: 'ocean-sound',
-      tag: 'UJJAYI',
-      title: 'Okean Səsi',
+      tag: t('webapp.miniGames.techniques.ujjayi'),
+      title: t('webapp.miniGames.techniques.oceanSound'),
       imageSrc: miniGame04,
-      steps: [
-        { number: 1, text: 'Boğazınızı yüngülcə daraldın, burundan nəfəs alın.' },
-        { number: 2, text: 'Boğazı dar saxlayaraq yavaşca nəfəs verin.' },
-        { number: 3, text: 'Yumşaq "okean dalğası" səsinə fokuslanın.' },
-        { number: 4, text: 'Ritmi sakit və bərabər saxlayın.' },
-      ],
+      steps: (Array.isArray(ujjayiSteps) ? ujjayiSteps : []).map((text, idx) => ({ number: idx + 1, text })),
     },
   ];
 
@@ -75,19 +62,19 @@ export const MiniGamesPage = () => {
         <button
           onClick={() => navigate(PATHS.DASHBOARD)}
           className="absolute top-5 right-5 sm:top-8 sm:right-8 text-[#1E0A42]/70 hover:text-[#1E0A42] hover:bg-black/5 p-2 rounded-full transition-colors cursor-pointer z-10"
-          aria-label="Kapat"
+          aria-label={t('webapp.miniGames.close')}
         >
           <X size={24} />
         </button>
 
         {/* Centered Main Title */}
         <h1 className="text-[26px] sm:text-[36px] md:text-[44px] font-normal text-[#1E0A42] tracking-[-0.96px] leading-tight font-['Lexend',_sans-serif] max-w-[900px]">
-          İstədiyin texnikanı seç və başla !
+          {t('webapp.miniGames.headerTitle')}
         </h1>
 
         {/* Subtitle */}
         <p className="text-sm sm:text-base md:text-lg font-semibold text-[#7B2CBF] mt-2 font-['Lexend',_sans-serif]">
-          İlkin olaraq texnikanı öyrənməyi unutma
+          {t('webapp.miniGames.headerSubtitle')}
         </p>
       </div>
 

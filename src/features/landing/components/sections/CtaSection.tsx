@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import { ScrollReveal } from '../ScrollReveal';
 
 export const CtaSection = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
@@ -58,10 +60,10 @@ export const CtaSection = () => {
         {/* Main Content */}
         <div className="w-full flex flex-col items-center">
           <h2 className="text-[32px] sm:text-[42px] md:text-[48px] font-bold text-white tracking-tight leading-tight">
-            İndi qoşul !
+            {t('cta.title', 'İndi qoşul !')}
           </h2>
           <p className="text-[14px] sm:text-[16px] md:text-[18px] text-white/90 max-w-[700px] mt-2 sm:mt-3 mb-7 sm:mb-9 font-normal">
-            Email-ini göndər sənə ilkin ödənişsiz planı göndərək.
+            {t('cta.subtitle', 'Email-ini göndər sənə ilkin ödənişsiz planı göndərək.')}
           </p>
 
           <form
@@ -74,14 +76,14 @@ export const CtaSection = () => {
             <input
               type="email"
               required
-              placeholder="E-poçt ünvanınız"
+              placeholder={t('cta.placeholder', 'E-poçt ünvanınız')}
               className="w-full h-[54px] sm:h-[62px] bg-[#3E5B65] text-white placeholder-white/60 px-6 sm:px-8 rounded-full border border-[#4A6D79] focus:outline-none focus:ring-2 focus:ring-[#711574]/60 text-[15px] sm:text-[17px] shadow-inner transition-colors"
             />
             <button
               type="submit"
               className="w-full h-[54px] sm:h-[62px] bg-[#711574] hover:bg-[#861A8A] text-white font-bold text-[16px] sm:text-[18px] rounded-full transition-all duration-300 shadow-[0_4px_16px_rgba(113,21,116,0.4)] hover:shadow-[0_6px_24px_rgba(134,26,138,0.6)] cursor-pointer flex items-center justify-center active:scale-[0.99]"
             >
-              Göndər
+              {t('cta.button', 'Göndər')}
             </button>
           </form>
         </div>

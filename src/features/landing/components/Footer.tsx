@@ -8,8 +8,10 @@ import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
 import qrCodeDemo from '@/assets/svg/qrCodeDemo.svg';
 import appInterface from '@/assets/nexusmindAppInterface.jpeg';
 import { PATHS } from '@/routes/paths';
+import { useTranslation } from 'react-i18next';
 
 export const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="w-full bg-[#4E1070] text-white relative mt-24 z-20 rounded-t-[40px] sm:rounded-t-[64px] shadow-2xl overflow-visible">
       <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-12 md:px-16 pt-12 md:pt-16 pb-8 relative overflow-visible">
@@ -27,24 +29,28 @@ export const Footer = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 mb-12">
               {/* Column 1: Quick Links */}
               <div className="flex flex-col gap-3">
-                <h4 className="font-bold text-[16px] sm:text-[17px] mb-2 tracking-wide">Cəld Keçidlər</h4>
+                <h4 className="font-bold text-[16px] sm:text-[17px] mb-2 tracking-wide">
+                  {t('footer.quickLinks', 'Cəld Keçidlər')}
+                </h4>
                 <Link to="#faq" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px]">
-                  FAQ
+                  {t('footer.faq', 'FAQ')}
                 </Link>
                 <Link to={PATHS.HOME} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px]">
-                  Haqqımızda
+                  {t('footer.about', 'Haqqımızda')}
                 </Link>
                 <Link to="#experts" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px]">
-                  Mütəxəssislər
+                  {t('footer.experts', 'Mütəxəssislər')}
                 </Link>
               </div>
 
               {/* Column 2: Contact Info */}
               <div className="flex flex-col gap-4">
-                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide">Əlaqə</h4>
+                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide">
+                  {t('footer.contact', 'Əlaqə')}
+                </h4>
                 <div className="flex items-start gap-3 text-white/80 text-[14px] sm:text-[15px] leading-snug">
                   <MapPin size={18} className="shrink-0 mt-0.5 text-white/90" />
-                  <span>Bakı şəhəri, Neftçilər prospekti 123, AZ1000</span>
+                  <span>{t('footer.address', 'Bakı şəhəri, Neftçilər prospekti 123, AZ1000')}</span>
                 </div>
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
                   <Phone size={18} className="shrink-0 text-white/90" />
@@ -62,7 +68,9 @@ export const Footer = () => {
 
               {/* Column 3: Download App & QR Code */}
               <div className="flex flex-col gap-3">
-                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide">Tətbiqi yükləyin</h4>
+                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide">
+                  {t('footer.downloadApp', 'Tətbiqi yükləyin')}
+                </h4>
 
                 <div className="flex items-start gap-3">
                   {/* QR Code Container */}
@@ -106,7 +114,9 @@ export const Footer = () => {
 
             {/* Social Media Links ("Bizi izləyin") */}
             <div className="flex flex-col gap-3 mb-10">
-              <h4 className="font-bold text-[16px] sm:text-[17px] tracking-wide">Bizi izləyin</h4>
+              <h4 className="font-bold text-[16px] sm:text-[17px] tracking-wide">
+                {t('footer.followUs', 'Bizi izləyin')}
+              </h4>
               <div className="flex items-center gap-3">
                 {/* Instagram */}
                 <a
@@ -193,7 +203,7 @@ export const Footer = () => {
         {/* Copyright Footer Bar */}
         <div className="w-full flex items-center justify-start relative z-10">
           <p className="text-white/70 text-[13px] sm:text-[14px]">
-            © 2026 NexusMind | Bütün hüquqlar qorunur
+            {t('footer.copyright', '© 2026 NexusMind | Bütün hüquqlar qorunur')}
           </p>
         </div>
       </div>

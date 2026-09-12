@@ -9,6 +9,7 @@ export interface CurrentUser extends PasientRegisterDto {
   status?: string;
   language?: string;
   twoFactorEnabled?: boolean;
+  mood?: string;
 }
 
 export const useCurrentUser = () => {

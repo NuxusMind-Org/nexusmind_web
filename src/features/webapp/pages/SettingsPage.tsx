@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Globe,
   Bell,
@@ -20,19 +21,32 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { PATHS } from '@/routes/paths';
+import type { LanguageCode } from '@/libs/i18n';
 
 export const SettingsPage = () => {
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
+  const { t, i18n } = useTranslation();
 
   // Settings State
-  const [language, setLanguage] = useState('English');
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [dailyReminders, setDailyReminders] = useState(true);
   const [sessionNotifications, setSessionNotifications] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('light');
 
-  const languageOptions = ['English', 'Azərbaycan dili', 'Türkçe', 'Русский'];
+  const languageOptions = [
+    { code: 'az' as LanguageCode, label: 'Azərbaycan dili' },
+    { code: 'en' as LanguageCode, label: 'English' },
+    { code: 'ru' as LanguageCode, label: 'Русский' },
+  ];
+
+  const currentLangCode = (i18n.resolvedLanguage || i18n.language || 'az').slice(0, 2) as LanguageCode;
+  const currentLang = languageOptions.find((l) => l.code === currentLangCode) || languageOptions[0];
+
+  const handleLanguageChange = (code: LanguageCode) => {
+    i18n.changeLanguage(code);
+    setIsLanguageOpen(false);
+  };
 
   const handleLogout = () => {
     logout();
@@ -61,7 +75,7 @@ export const SettingsPage = () => {
         <h1
           className="relative z-10 text-[#1E0A42] font-normal text-[28px] sm:text-[36px] md:text-[46.72px] leading-[36px] sm:leading-[48px] md:leading-[59.84px] text-center tracking-[-0.96px] font-['Lexend',_sans-serif]"
         >
-          Ayarlar
+          {t('webapp.settings.title')}
         </h1>
       </div>
 
@@ -72,7 +86,7 @@ export const SettingsPage = () => {
         <div className="flex flex-col w-full">
           {/* Section Header Label */}
           <span className="text-xs font-bold text-gray-400 tracking-[0.12em] uppercase mb-4 font-['Lexend',_sans-serif]">
-            TƏTBİQ TƏNZİMLƏMƏLƏRİ
+            {t('webapp.settings.appSettings')}
           </span>
 
           {/* Settings Card Wrapper */}
@@ -86,10 +100,10 @@ export const SettingsPage = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                    Dil
+                    {t('webapp.settings.language')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
-                    Tətbiqin dilini seçin
+                    {t('webapp.settings.languageDesc')}
                   </span>
                 </div>
               </div>
@@ -101,7 +115,7 @@ export const SettingsPage = () => {
                   onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                   className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-sm font-semibold text-[#1E0A42] transition-colors cursor-pointer"
                 >
-                  <span>{language}</span>
+                  <span>{currentLang.label}</span>
                   <ChevronDown
                     size={16}
                     className={`text-gray-500 transition-transform duration-200 ${
@@ -114,19 +128,16 @@ export const SettingsPage = () => {
                   <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-100 rounded-2xl shadow-xl z-20 overflow-hidden py-1">
                     {languageOptions.map((opt) => (
                       <div
-                        key={opt}
-                        onClick={() => {
-                          setLanguage(opt);
-                          setIsLanguageOpen(false);
-                        }}
+                        key={opt.code}
+                        onClick={() => handleLanguageChange(opt.code)}
                         className={`px-4 py-2.5 text-sm font-medium cursor-pointer transition-colors flex items-center justify-between ${
-                          language === opt
+                          currentLangCode === opt.code
                             ? 'bg-[#38166D]/10 text-[#38166D] font-semibold'
                             : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
-                        <span>{opt}</span>
-                        {language === opt && <Check size={14} className="text-[#38166D]" />}
+                        <span>{opt.label}</span>
+                        {currentLangCode === opt.code && <Check size={14} className="text-[#38166D]" />}
                       </div>
                     ))}
                   </div>
@@ -142,10 +153,10 @@ export const SettingsPage = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                    Gündəlik Xatırlatmalar
+                    {t('webapp.settings.dailyReminders')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
-                    Məşğələləriniz üçün kiçik bildirişlər
+                    {t('webapp.settings.dailyRemindersDesc')}
                   </span>
                 </div>
               </div>
@@ -174,10 +185,10 @@ export const SettingsPage = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                    Seans Bildirişləri
+                    {t('webapp.settings.sessionNotifications')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
-                    Yeni sağlamlıq yolları haqqında yeniləmələr
+                    {t('webapp.settings.sessionNotificationsDesc')}
                   </span>
                 </div>
               </div>
@@ -205,7 +216,7 @@ export const SettingsPage = () => {
                   <Palette size={18} />
                 </div>
                 <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                  Görünüş
+                  {t('webapp.settings.appearance')}
                 </span>
               </div>
 
@@ -222,7 +233,7 @@ export const SettingsPage = () => {
                   }`}
                 >
                   <Sun size={18} />
-                  <span className="text-xs">Açıq</span>
+                  <span className="text-xs">{t('webapp.settings.light')}</span>
                 </button>
 
                 {/* Dark Theme Button */}
@@ -236,7 +247,7 @@ export const SettingsPage = () => {
                   }`}
                 >
                   <Moon size={18} />
-                  <span className="text-xs">Tünd</span>
+                  <span className="text-xs">{t('webapp.settings.dark')}</span>
                 </button>
 
                 {/* System Theme Button */}
@@ -250,7 +261,7 @@ export const SettingsPage = () => {
                   }`}
                 >
                   <Monitor size={18} />
-                  <span className="text-xs">Sistem</span>
+                  <span className="text-xs">{t('webapp.settings.system')}</span>
                 </button>
               </div>
             </div>
@@ -262,7 +273,7 @@ export const SettingsPage = () => {
         <div className="flex flex-col w-full">
           {/* Section Header Label */}
           <span className="text-xs font-bold text-gray-400 tracking-[0.12em] uppercase mb-4 font-['Lexend',_sans-serif]">
-            MƏXFİLİK VƏ TƏHLÜKƏSİZLİK
+            {t('webapp.settings.privacySecurity')}
           </span>
 
           {/* Settings Card Wrapper */}
@@ -279,10 +290,10 @@ export const SettingsPage = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] group-hover:text-[#482476] transition-colors">
-                    Şifrəni Dəyişdir
+                    {t('webapp.settings.changePassword')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
-                    Hesab şifrənizi yeniləyin
+                    {t('webapp.settings.changePasswordDesc')}
                   </span>
                 </div>
               </div>
@@ -298,10 +309,10 @@ export const SettingsPage = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] group-hover:text-[#482476] transition-colors">
-                    Məlumat Məxfiliyi Tənzimləmələri
+                    {t('webapp.settings.dataPrivacy')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
-                    Məlumatlarınızın necə istifadə edildiyini idarə edin
+                    {t('webapp.settings.dataPrivacyDesc')}
                   </span>
                 </div>
               </div>
@@ -316,7 +327,7 @@ export const SettingsPage = () => {
         <div className="flex flex-col w-full">
           {/* Section Header Label */}
           <span className="text-xs font-bold text-gray-400 tracking-[0.12em] uppercase mb-4 font-['Lexend',_sans-serif]">
-            DƏSTƏK
+            {t('webapp.settings.support')}
           </span>
 
           {/* Settings Card Wrapper */}
@@ -330,10 +341,10 @@ export const SettingsPage = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] group-hover:text-[#482476] transition-colors">
-                    Yardım Mərkəzi
+                    {t('webapp.settings.helpCenter')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
-                    Suallarınıza cavab tapın və ya təlimatları oxuyun
+                    {t('webapp.settings.helpCenterDesc')}
                   </span>
                 </div>
               </div>
@@ -349,10 +360,10 @@ export const SettingsPage = () => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] group-hover:text-[#482476] transition-colors">
-                    Bizimlə Əlaqə
+                    {t('webapp.settings.contactUs')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
-                    Dəstək komandamızla birbaşa əlaqə saxlayın
+                    {t('webapp.settings.contactUsDesc')}
                   </span>
                 </div>
               </div>
@@ -367,17 +378,17 @@ export const SettingsPage = () => {
         <div className="p-6 sm:p-8 bg-white border border-gray-100/80 rounded-[28px] shadow-[0_4px_24px_rgba(0,0,0,0.03)] flex items-center justify-between gap-4">
           <div className="flex flex-col">
             <h3 className="text-base sm:text-lg font-bold text-[#1E0A42] font-['Lexend',_sans-serif]">
-              Hesabdan çıx
+              {t('webapp.settings.logout')}
             </h3>
             <p className="text-xs text-gray-500 font-normal mt-1">
-              Hesabdan çıxdıqdan sonra yenidən məlumatları daxil edib hesaba daxil ola bilərsiz.
+              {t('webapp.settings.logoutDesc')}
             </p>
           </div>
 
           <button
             onClick={handleLogout}
             className="w-12 h-12 rounded-2xl bg-gray-50 hover:bg-red-50 text-[#1E0A42] hover:text-red-600 flex items-center justify-center transition-colors cursor-pointer shrink-0 border border-gray-100"
-            title="Hesabdan çıx"
+            title={t('webapp.settings.logout')}
           >
             <LogOut size={22} />
           </button>
@@ -387,22 +398,22 @@ export const SettingsPage = () => {
         <div className="p-6 sm:p-8 bg-[#FDF6F6]/50 border border-red-100 rounded-[28px] shadow-sm flex items-center justify-between gap-4">
           <div className="flex flex-col">
             <h3 className="text-base sm:text-lg font-bold text-red-600 font-['Lexend',_sans-serif]">
-              Hesabı Sil
+              {t('webapp.settings.deleteAccount')}
             </h3>
             <p className="text-xs text-gray-500 font-normal mt-1">
-              Hesabınızı sildikdə bütün məlumatlarınız daimi olaraq silinəcək.
+              {t('webapp.settings.deleteAccountDesc')}
             </p>
           </div>
 
           <button
             onClick={() => {
-              if (window.confirm('Hesabınızı silmək istədiyinizdən əminsiniz? Bu əməliyyat geri qaytarıla bilməz.')) {
+              if (window.confirm(t('webapp.settings.deleteAccountConfirm'))) {
                 handleLogout();
               }
             }}
             className="px-5 py-2 rounded-xl border border-red-500 text-red-600 hover:bg-red-600 hover:text-white text-sm font-semibold transition-colors cursor-pointer shrink-0 shadow-sm"
           >
-            Hesabı sil
+            {t('webapp.settings.deleteAccountBtn')}
           </button>
         </div>
 

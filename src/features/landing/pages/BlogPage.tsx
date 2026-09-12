@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, Search, Calendar, ChevronLeft, ChevronRight, Mic, ChevronRight as ChevronRightIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { blogsApi } from '@/api/blogs.api';
 import { mapBlogToSimilarBlogCard } from '@/utils/contentMappers';
 import { SIMILAR_BLOGS, POPULAR_TOPICS, type SimilarBlogCard } from '../constants/blog';
@@ -11,6 +12,7 @@ import vrConsultation from '@/assets/vr_consultation.png';
 
 export const BlogPage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,10 +60,10 @@ export const BlogPage = () => {
         {/* Left-Aligned Header Section */}
         <div className="w-full max-w-[1295px] text-left">
           <h1 className="text-[42px] sm:text-[56px] font-sans font-light text-white mb-2 leading-tight tracking-tight">
-            Bloqlar
+            {t('blog.title')}
           </h1>
           <p className="text-white/60 text-[15px] sm:text-[16px] font-light mt-2">
-            Psixologiya ilə bağlı bloqlar
+            {t('blog.subtitle')}
           </p>
         </div>
 
@@ -85,7 +87,7 @@ export const BlogPage = () => {
             {/* Header Row */}
             <div className="flex items-center justify-between w-full">
               <span className="text-white text-[11px] font-semibold tracking-wider bg-[#4C5975] px-3.5 py-1 rounded-full uppercase select-none">
-                BLOQLAR
+                {t('blog.title').toUpperCase()}
               </span>
               <span className="text-white/50 text-[13px] font-light">
                 24 Mart 2026
@@ -106,10 +108,10 @@ export const BlogPage = () => {
             <div className="flex items-center justify-between w-full mt-4">
               <div className="flex items-center gap-2 text-white/50 text-[14px] font-light select-none">
                 <Eye className="w-4 h-4" />
-                <span>130 baxış</span>
+                <span>130 {t('blog.views')}</span>
               </div>
               <button className="bg-[#5c16c5] hover:bg-[#6f25db] text-white text-[14px] font-semibold px-6 py-2.5 rounded-full cursor-pointer transition-all duration-300 select-none">
-                Davamını oxu
+                {t('blog.readMore')}
               </button>
             </div>
           </div>
@@ -121,7 +123,7 @@ export const BlogPage = () => {
           {/* Section Header */}
           <div className="w-full text-left">
             <h2 className="text-[28px] sm:text-[36px] font-bold text-white tracking-tight">
-              Bənzər bloqlar
+              {t('blog.similarBlogs')}
             </h2>
           </div>
 
@@ -131,7 +133,7 @@ export const BlogPage = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Blogda axtar..."
+              placeholder={t('blog.searchPlaceholder')}
               className="w-full h-[54px] bg-[#1a2847]/70 backdrop-blur-md border border-white/15 rounded-[14px] sm:rounded-full pl-6 pr-14 text-[15px] text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition-all shadow-inner"
             />
             <Search className="absolute right-5 top-1/2 -translate-y-1/2 text-white/50 w-5 h-5 pointer-events-none" />
@@ -178,7 +180,7 @@ export const BlogPage = () => {
                         <span>{blog.date}</span>
                       </div>
                       <span className="text-white/80 font-medium group-hover:text-white flex items-center gap-1 transition-colors select-none">
-                        Dəvamını oxu <ChevronRightIcon className="w-3.5 h-3.5" />
+                        {t('blog.readMore')} <ChevronRightIcon className="w-3.5 h-3.5" />
                       </span>
                     </div>
                   </div>
@@ -192,30 +194,30 @@ export const BlogPage = () => {
               {/* Widget 1: Newsletter Subscription */}
               <div className="bg-[#121c3b]/90 backdrop-blur-md border border-white/10 rounded-[20px] p-6 flex flex-col gap-4 text-left shadow-xl">
                 <h3 className="text-white text-[20px] sm:text-[22px] font-bold tracking-tight">
-                  Bloqlardan xəbərdar ol
+                  {t('blog.stayUpdated')}
                 </h3>
                 <p className="text-white/70 text-[13.5px] leading-relaxed font-light">
-                  Ən son VR texnologiyaları və psixoloji araşdırmalar haqqında məlumatları birbaşa elektron poçtunuza alın.
+                  {t('blog.stayUpdatedDesc')}
                 </p>
                 <input
                   type="email"
                   value={emailInput}
                   onChange={(e) => setEmailInput(e.target.value)}
-                  placeholder="E-poçt ünvanınız"
+                  placeholder={t('newsletter.placeholder')}
                   className="w-full h-[46px] bg-[#1a284b] border border-white/15 rounded-xl px-4 text-[14px] text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition-all"
                 />
                 <button className="w-full h-[46px] bg-gradient-to-r from-[#7048ea] to-[#2c6df2] text-white font-semibold text-[14.5px] rounded-xl cursor-pointer hover:opacity-95 transition-opacity shadow-lg select-none">
-                  Abunə Ol
+                  {t('blog.subscribe')}
                 </button>
                 <span className="text-white/40 text-[11.5px] text-center font-light select-none">
-                  İstənilən vaxt abunəliyi ləğv edə bilərsiniz.
+                  {t('blog.unsubscribeAnytime')}
                 </span>
               </div>
 
               {/* Widget 2: Popular Topics */}
               <div className="bg-[#cdd5de]/95 backdrop-blur-md rounded-[20px] p-6 flex flex-col gap-4 text-left shadow-xl border border-white/20">
                 <h3 className="text-[#190938] text-[18px] font-bold pb-3 border-b border-black/15">
-                  Populyar Mövzular
+                  {t('blog.popularTopics')}
                 </h3>
                 <div className="flex flex-wrap gap-2 pt-1">
                   {POPULAR_TOPICS.map((topic, index) => (
@@ -237,18 +239,18 @@ export const BlogPage = () => {
                   </div>
                   <div className="flex flex-col">
                     <h4 className="text-white text-[16.5px] font-bold leading-tight">
-                      Sanctuary Podkast
+                      {t('blog.podcastTitle')}
                     </h4>
                     <span className="text-white/50 text-[12px] font-light">
-                      Həftəlik buraxılış
+                      {t('blog.weeklyRelease')}
                     </span>
                   </div>
                 </div>
                 <p className="text-white/75 text-[13px] leading-relaxed font-light italic">
-                  &ldquo;Rəqəmsal Dünyada İnsan Olmaq&rdquo; - Bu həftəlik qonağımız Dr. Leyla Əliyeva ilə maraqlı söhbəti dinləyin.
+                  {t('blog.podcastDesc')}
                 </p>
                 <button className="w-full h-[46px] border border-white/30 hover:bg-white/10 text-white font-medium text-[14px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all select-none">
-                  <span>▶</span> İndi Dinlə
+                  <span>▶</span> {t('blog.listenNow')}
                 </button>
               </div>
 

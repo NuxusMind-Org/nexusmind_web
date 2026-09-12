@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Home,
   BookOpen,
@@ -24,6 +25,7 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
+  const { t } = useTranslation();
   const { data: user } = useCurrentUser();
   const userInitial = user?.name ? user.name.trim().charAt(0).toUpperCase() : 'U';
 
@@ -36,13 +38,13 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
   const location = useLocation();
 
   const navItems = [
-    { name: 'Ana səhifə', path: PATHS.DASHBOARD, icon: Home },
-    { name: 'Qeydlərim', path: PATHS.WEBAPP_JOURNAL, icon: BookOpen },
-    { name: 'Seanslarım', path: PATHS.WEBAPP_SESSIONS, icon: Video },
-    { name: 'Mütəxəssislər', path: PATHS.WEBAPP_EXPERTS, icon: Users },
-    { name: 'Media', path: PATHS.WEBAPP_MEDIA, icon: Image },
-    { name: 'Maariflənmə', path: PATHS.WEBAPP_ENLIGHTENMENT, icon: Book },
-    { name: 'Tənzimləmələr', path: PATHS.WEBAPP_SETTINGS, icon: Settings },
+    { name: t('webapp.sidebar.home'), path: PATHS.DASHBOARD, icon: Home },
+    { name: t('webapp.sidebar.journal'), path: PATHS.WEBAPP_JOURNAL, icon: BookOpen },
+    { name: t('webapp.sidebar.sessions'), path: PATHS.WEBAPP_SESSIONS, icon: Video },
+    { name: t('webapp.sidebar.experts'), path: PATHS.WEBAPP_EXPERTS, icon: Users },
+    { name: t('webapp.sidebar.media'), path: PATHS.WEBAPP_MEDIA, icon: Image },
+    { name: t('webapp.sidebar.enlightenment'), path: PATHS.WEBAPP_ENLIGHTENMENT, icon: Book },
+    { name: t('webapp.sidebar.settings'), path: PATHS.WEBAPP_SETTINGS, icon: Settings },
   ];
 
   const recentSearches = [
@@ -159,11 +161,11 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
                   >
                     <div className="flex flex-col gap-[21px] py-[14px] px-4">
                       {[
-                        {name: 'Məqalələr', path: PATHS.WEBAPP_ARTICLE, icon: BookOpen},
-                        {name: 'Bloqlar', path: PATHS.WEBAPP_BLOG, icon: FileText},
-                        {name: 'Təlimlər', path: PATHS.WEBAPP_TRAININGS, icon: null},
-                      ].map((sub) => {
-                        const isCustomIcon = sub.name === 'Təlimlər';
+                        {name: t('webapp.sidebar.articles'), path: PATHS.WEBAPP_ARTICLE, icon: BookOpen},
+                        {name: t('webapp.sidebar.blogs'), path: PATHS.WEBAPP_BLOG, icon: FileText},
+                        {name: t('webapp.sidebar.trainings'), path: PATHS.WEBAPP_TRAININGS, icon: null},
+                      ].map((sub, sIdx) => {
+                        const isCustomIcon = sIdx === 2;
                         return (
                           <NavLink
                             key={sub.path}
@@ -235,10 +237,10 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
                   >
                     <div className="flex flex-col gap-[21px] py-[14px] px-4">
                       {[
-                        { name: 'Qalereya', path: PATHS.WEBAPP_GALLERY, icon: Image },
-                        { name: 'Xəbərlər', path: PATHS.WEBAPP_NEWS, icon: null },
-                      ].map((sub) => {
-                        const isCustomIcon = sub.name === 'Xəbərlər';
+                        { name: t('webapp.sidebar.gallery'), path: PATHS.WEBAPP_GALLERY, icon: Image },
+                        { name: t('webapp.sidebar.news'), path: PATHS.WEBAPP_NEWS, icon: null },
+                      ].map((sub, sIdx) => {
+                        const isCustomIcon = sIdx === 1;
                         return (
                           <NavLink
                             key={sub.path}
@@ -343,7 +345,7 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
         {/* Son axtarılanlar Panel */}
         <div className="flex flex-col flex-1 mt-4">
           <span className="text-[11px] font-bold text-white/50 uppercase tracking-wider mb-4 block">
-            Son axtarılanlar :
+            {t('webapp.sidebar.recentSearches')}
           </span>
 
           <div className="flex flex-col gap-4">

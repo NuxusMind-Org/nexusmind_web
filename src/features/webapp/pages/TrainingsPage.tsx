@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Search, List, Clock, MapPin, Video, ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 import galleryConsultationImg from '@/assets/gallery/gallery_consultation.png';
 import singlePersonImg from '@/assets/single_person.png';
@@ -57,21 +58,24 @@ const trainingsData = [
   },
 ];
 
-// Months in Azerbaijani language
-const azMonths = [
-  'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun',
-  'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
-];
-
-// Weekdays in Azerbaijani language starting Monday
-const azWeekdays = ['B.ER', 'Ç.AX', 'ÇƏR', 'C.AX', 'CÜM', 'ŞƏN', 'BAZ'];
-
 export const TrainingsPage = () => {
+  const { t, i18n } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'list' | 'calendar'>('list');
   
   // Calendar month/year navigation state - Default is June 2024 to match mockup
   const [currentDate, setCurrentDate] = useState<Date>(new Date(2024, 5, 1));
+  
+  const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+
+  const weekdays = useMemo(() => {
+    const base = new Date(2023, 0, 2); // Monday
+    return Array.from({ length: 7 }).map((_, i) => {
+      const d = new Date(base);
+      d.setDate(base.getDate() + i);
+      return d.toLocaleDateString(locale, { weekday: 'short' }).toUpperCase();
+    });
+  }, [locale]);
   
   // Filter checkboxes state
   const [filters, setFilters] = useState({
@@ -222,7 +226,7 @@ export const TrainingsPage = () => {
       >
         {/* Centered Heading */}
         <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-1">
-          Təlimlərlə inkişaf et!
+          {t('webapp.trainings.title')}
         </h2>
 
         {/* View Selection Toggle Switch Pill */}
@@ -236,7 +240,7 @@ export const TrainingsPage = () => {
             }`}
           >
             <List size={14} />
-            <span>Siyahı</span>
+            <span>{t('webapp.trainings.list')}</span>
           </button>
 
           <button
@@ -248,7 +252,7 @@ export const TrainingsPage = () => {
             }`}
           >
             <CalendarIcon size={14} className="opacity-70" />
-            <span>Təqvim</span>
+            <span>{t('webapp.trainings.calendar')}</span>
           </button>
         </div>
 
@@ -261,7 +265,7 @@ export const TrainingsPage = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Hər şeyi axtarın..."
+            placeholder={t('webapp.trainings.searchPlaceholder')}
             className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-['Lexend'] transition-all shadow-sm"
           />
         </div>
@@ -284,11 +288,11 @@ export const TrainingsPage = () => {
               <div className="flex items-center">
                 <span className="w-1 h-6 bg-[#D946EF] rounded-full mr-2.5" />
                 <h3 className="text-[#1E0A42] text-2xl font-bold font-['Lexend']">
-                  Əyani Təlimlər
+                  {t('webapp.trainings.inPerson')}
                 </h3>
               </div>
               <button className="text-[#4D2059]/70 hover:text-[#4D2059] text-sm font-semibold transition-colors duration-200 cursor-pointer font-['Lexend'] bg-transparent border-0 outline-none">
-                Hamısına bax →
+                {t('webapp.trainings.viewAll')}
               </button>
             </div>
 
@@ -302,7 +306,7 @@ export const TrainingsPage = () => {
                       className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-500"
                     />
                     <span className="absolute top-3.5 right-3.5 bg-[#0B093C]/60 text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] uppercase font-['Lexend'] select-none">
-                      29 İyun
+                      {new Date(item.date).toLocaleDateString(locale, { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
 
@@ -338,7 +342,7 @@ export const TrainingsPage = () => {
                         {item.price}
                       </span>
                       <button className="bg-white hover:bg-white/95 text-[#4B2E83] text-xs font-bold px-6 py-2.5 rounded-full transition-colors cursor-pointer border-0 outline-none select-none font-['Lexend']">
-                        Qeydiyyatdan keç
+                        {t('webapp.trainings.register')}
                       </button>
                     </div>
                   </div>
@@ -346,7 +350,7 @@ export const TrainingsPage = () => {
               ))}
             </div>
             {inPersonList.length === 0 && (
-              <p className="text-[#1E0A42]/60 text-sm font-['Lexend'] py-8 text-left">Hazırda bu kateqoriyada təlim tapılmadı.</p>
+              <p className="text-[#1E0A42]/60 text-sm font-['Lexend'] py-8 text-left">{t('webapp.trainings.noTrainings')}</p>
             )}
           </div>
 
@@ -356,7 +360,7 @@ export const TrainingsPage = () => {
               <div className="flex items-center">
                 <span className="w-1 h-6 bg-[#3B82F6] rounded-full mr-2.5" />
                 <h3 className="text-[#1E0A42] text-2xl font-bold font-['Lexend']">
-                  Onlayn Təlimlər
+                  {t('webapp.trainings.online')}
                 </h3>
               </div>
               <div className="flex items-center gap-2 select-none">
@@ -379,12 +383,12 @@ export const TrainingsPage = () => {
                       className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-500"
                     />
                     <span className="absolute top-3.5 right-3.5 bg-[#0B093C]/60 text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] uppercase font-['Lexend'] select-none">
-                      {item.id === 3 ? "18 İyun" : "5 İyul"}
+                      {new Date(item.date).toLocaleDateString(locale, { day: 'numeric', month: 'short' })}
                     </span>
                     {item.isLive && (
                       <span className="absolute bottom-3.5 left-3.5 bg-black/40 text-white text-[10px] font-bold px-3 py-1 rounded-[5px] flex items-center gap-1.5 font-['Lexend'] backdrop-blur-sm select-none">
                         <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                        CANLI
+                        {t('webapp.trainings.live')}
                       </span>
                     )}
                   </div>
@@ -421,7 +425,7 @@ export const TrainingsPage = () => {
                         {item.price}
                       </span>
                       <button className="bg-white hover:bg-white/95 text-[#4B2E83] text-xs font-bold px-6 py-2.5 rounded-full transition-colors cursor-pointer border-0 outline-none select-none font-['Lexend']">
-                        Qeydiyyatdan keç
+                        {t('webapp.trainings.register')}
                       </button>
                     </div>
                   </div>
@@ -429,7 +433,7 @@ export const TrainingsPage = () => {
               ))}
             </div>
             {onlineList.length === 0 && (
-              <p className="text-[#1E0A42]/60 text-sm font-['Lexend'] py-8 text-left">Hazırda bu kateqoriyada təlim tapılmadı.</p>
+              <p className="text-[#1E0A42]/60 text-sm font-['Lexend'] py-8 text-left">{t('webapp.trainings.noTrainings')}</p>
             )}
           </div>
         </div>
@@ -449,7 +453,7 @@ export const TrainingsPage = () => {
               
               {/* Card 1: Filters */}
               <div className="w-full bg-[#462985] rounded-[24px] p-6 text-white flex flex-col gap-6 shadow-xl border border-white/10">
-                <h4 className="text-lg font-bold font-['Lexend'] text-white text-left">Filtrlər</h4>
+                <h4 className="text-lg font-bold font-['Lexend'] text-white text-left">{t('webapp.trainings.filters')}</h4>
                 
                 <div className="flex flex-col gap-4">
                   {/* Bütün təlimlər */}
@@ -473,7 +477,7 @@ export const TrainingsPage = () => {
                         )}
                       </div>
                     </div>
-                    <span className="text-sm font-medium text-white/95">Bütün təlimlər</span>
+                    <span className="text-sm font-medium text-white/95">{t('webapp.trainings.allTrainings')}</span>
                   </label>
 
                   <div className="h-[1px] bg-white/15 my-1" />
@@ -500,7 +504,7 @@ export const TrainingsPage = () => {
                       </div>
                       <span className="text-sm font-medium text-white/95 flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#D946EF]" />
-                        Online
+                        {t('webapp.trainings.onlineFilter')}
                       </span>
                     </div>
                     <span className="text-xs text-white/60 font-semibold bg-white/10 px-2.5 py-0.5 rounded-full">12</span>
@@ -528,7 +532,7 @@ export const TrainingsPage = () => {
                       </div>
                       <span className="text-sm font-medium text-white/95 flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#7C3AED]" />
-                        Canlı (In-person)
+                        {t('webapp.trainings.inPersonFilter')}
                       </span>
                     </div>
                     <span className="text-xs text-white/60 font-semibold bg-white/10 px-2.5 py-0.5 rounded-full">5</span>
@@ -556,26 +560,26 @@ export const TrainingsPage = () => {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-2 max-w-[85%]">
-                  <h4 className="text-[17px] font-bold font-['Lexend'] text-[#1E0A42]">Dəstək lazımdır?</h4>
+                  <h4 className="text-[17px] font-bold font-['Lexend'] text-[#1E0A42]">{t('webapp.trainings.needSupport')}</h4>
                   <p className="text-xs text-[#1E0A42]/75 font-['Lexend'] leading-relaxed">
-                    Mütəxəssislərimiz sizə kömək etməyə hazırdır.
+                    {t('webapp.trainings.supportDesc')}
                   </p>
                 </div>
                 <button className="w-full bg-[#201046] hover:bg-[#341b70] text-white text-xs font-bold py-3 px-6 rounded-full transition-colors cursor-pointer border-0 outline-none mt-2 font-['Lexend'] shadow-md">
-                  Məsləhət Alın
+                  {t('webapp.trainings.getConsultation')}
                 </button>
               </div>
 
               {/* Card 3: Popular topics */}
               <div className="w-full flex flex-col gap-3.5 text-left">
-                <h4 className="text-[15px] font-bold font-['Lexend'] text-[#1E0A42] px-1">Populyar Mövzular</h4>
+                <h4 className="text-[15px] font-bold font-['Lexend'] text-[#1E0A42] px-1">{t('webapp.trainings.popularTopics')}</h4>
                 <div className="flex flex-wrap gap-2.5">
-                  {["Meditasiya", "Təşviş", "Yuxu", "Özünü Tanıma", "Uşaq Psixologiyası"].map((topic) => (
+                  {(['meditation', 'anxiety', 'sleep', 'selfDiscovery', 'childPsychology'] as const).map((topicKey) => (
                     <span
-                      key={topic}
+                      key={topicKey}
                       className="bg-[#EAE4FF] hover:bg-[#DDD4F8] text-[#4D2059] text-xs font-semibold px-4 py-2.5 rounded-full cursor-pointer transition-colors duration-200 font-['Lexend'] shadow-sm"
                     >
-                      {topic}
+                      {t(`webapp.trainings.topics.${topicKey}`)}
                     </span>
                   ))}
                 </div>
@@ -597,8 +601,8 @@ export const TrainingsPage = () => {
                   >
                     <ChevronLeft size={18} />
                   </button>
-                  <h3 className="text-xl font-bold font-['Lexend'] min-w-[130px] text-center select-none">
-                    {azMonths[month]} {year}
+                  <h3 className="text-xl font-bold font-['Lexend'] min-w-[130px] text-center select-none capitalize">
+                    {new Date(year, month, 1).toLocaleDateString(locale, { month: 'long', year: 'numeric' })}
                   </h3>
                   <button
                     onClick={handleNextMonth}
@@ -613,7 +617,7 @@ export const TrainingsPage = () => {
                   onClick={handleToday}
                   className="border border-white/20 px-5 py-2 rounded-full text-[10px] font-bold tracking-wider hover:bg-white/10 transition-all cursor-pointer bg-transparent uppercase select-none outline-none font-['Lexend']"
                 >
-                  BU GÜN
+                  {t('webapp.trainings.today')}
                 </button>
               </div>
 
@@ -621,7 +625,7 @@ export const TrainingsPage = () => {
               <div className="grid grid-cols-7 border-t border-l border-white/10 rounded-[12px] overflow-hidden bg-white/[0.01] min-w-[640px]">
                 
                 {/* Weekday titles */}
-                {azWeekdays.map((day) => (
+                {weekdays.map((day) => (
                   <div
                     key={day}
                     className="text-center py-4 text-xs font-bold text-white/50 uppercase tracking-wider bg-white/[0.02] border-r border-b border-white/10 font-['Lexend']"

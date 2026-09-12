@@ -8,3 +8,6 @@ export { ScrollToTop } from './ScrollToTop';
 
 export { SEO } from './SEO';
 export type { SEOProps } from './SEO';
+
+export { LanguageSelector } from './LanguageSelector';
+

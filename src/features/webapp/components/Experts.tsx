@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import salviAvatar from '@/assets/female_avatar.png';
 import { PATHS } from '@/routes/paths';
@@ -16,6 +17,7 @@ interface ExpertItem {
 }
 
 export const Experts = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -85,13 +87,13 @@ export const Experts = () => {
             letterSpacing: '-0.96px',
           }}
         >
-          Mütəxəssislər
+          {t('webapp.dashboard.experts')}
         </h2>
         <button
           onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
           className="text-[#1E0A42]/60 hover:text-[#1E0A42] font-semibold text-xs sm:text-sm md:text-base cursor-pointer transition-colors bg-transparent border-none p-0 outline-none select-none"
         >
-          Daha çox
+          {t('webapp.dashboard.more')}
         </button>
       </div>
 
@@ -180,7 +182,7 @@ export const Experts = () => {
 
               {/* CTA Booking Button */}
               <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-6 shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider">
-                Başlayaq
+                {t('webapp.sessions.start')}
               </button>
             </div>
           ))}

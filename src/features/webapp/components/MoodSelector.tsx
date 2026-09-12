@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Check, Loader2, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import { useUpdateMood } from '@/features/auth/hooks/useUpdateMood';
 import type { PatientMood, JournalMood } from '@/api/types';
@@ -139,55 +140,64 @@ const REVERSE_MOOD_MAP: Record<PatientMood, { id: string; position: number }> = 
   HAPPY: { id: 'excellent', position: 100 },
 };
 
-const REVERSE_JOURNAL_MOOD_MAP: Record<JournalMood, { id: string; position: number }> = {
-  VERY_LOW: { id: 'very_bad', position: 0 },
-  LOW: { id: 'bad', position: 25 },
-  NEUTRAL: { id: 'normal', position: 50 },
-  GOOD: { id: 'good', position: 75 },
-  VERY_GOOD: { id: 'excellent', position: 100 },
-};
-
-export const MoodSelector = ({
+export const MoodSelector: React.FC<MoodSelectorProps> = ({
   showTitle = true,
-  className = "w-full bg-white px-4 sm:px-6 md:px-[48px] py-8 sm:py-12 flex flex-col justify-start select-none",
-  titlePl = "pl-[20px] md:pl-[40px] mb-6",
+  className = "w-full py-8 md:py-12 border-b border-black/5 flex flex-col justify-center",
+  titlePl = "px-6 md:px-12 mb-8 md:mb-12",
   initialJournalMood,
   autoSubmit = true,
   onMoodChange,
-}: MoodSelectorProps) => {
+}) => {
+  const { t } = useTranslation();
   const { data: user } = useCurrentUser();
   const updateMoodMutation = useUpdateMood();
 
-  const [activeMoodId, setActiveMoodId] = useState<string>('normal');
+  const getMoodLabel = (id: string) => {
+    switch (id) {
+      case 'very_bad': return t('webapp.mood.veryBad');
+      case 'bad': return t('webapp.mood.bad');
+      case 'normal': return t('webapp.mood.normal');
+      case 'good': return t('webapp.mood.good');
+      case 'excellent': return t('webapp.mood.excellent');
+      default: return '';
+    }
+  };
+
   const [sliderValue, setSliderValue] = useState<number>(50);
+  const [activeMoodId, setActiveMoodId] = useState<string>('normal');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'pending' | 'saving' | 'saved' | 'error'>('idle');
 
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hideStatusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasUserInteracted = useRef(false);
 
-  // Sync initial mood from journal or backend when user profile loads
+  // Sync with initialJournalMood if passed
   useEffect(() => {
-    if (!hasUserInteracted.current) {
-      if (initialJournalMood && REVERSE_JOURNAL_MOOD_MAP[initialJournalMood]) {
-        const moodConfig = REVERSE_JOURNAL_MOOD_MAP[initialJournalMood];
-        setActiveMoodId(moodConfig.id);
-        setSliderValue(moodConfig.position);
-      } else if (user && 'mood' in user && user.mood) {
-        const moodConfig = REVERSE_MOOD_MAP[user.mood as PatientMood];
-        if (moodConfig) {
-          setActiveMoodId(moodConfig.id);
-          setSliderValue(moodConfig.position);
-        }
+    if (initialJournalMood && !hasUserInteracted.current) {
+      const match = MOODS.find(m => m.journalMood === initialJournalMood);
+      if (match) {
+        setSliderValue(match.position);
+        setActiveMoodId(match.id);
       }
     }
-  }, [user, initialJournalMood]);
+  }, [initialJournalMood]);
 
-  // Clean up timer on unmount
+  // Sync with backend mood from user profile if not passed initialJournalMood
+  useEffect(() => {
+    if (!initialJournalMood && user?.mood && !hasUserInteracted.current) {
+      const mapped = REVERSE_MOOD_MAP[user.mood as PatientMood];
+      if (mapped) {
+        setSliderValue(mapped.position);
+        setActiveMoodId(mapped.id);
+      }
+    }
+  }, [user?.mood, initialJournalMood]);
+
+  // Clean up timers
   useEffect(() => {
     return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+      if (hideStatusTimerRef.current) clearTimeout(hideStatusTimerRef.current);
     };
   }, []);
 
@@ -198,43 +208,43 @@ export const MoodSelector = ({
   };
 
   const scheduleMoodSubmission = (moodId: string) => {
-    if (!autoSubmit) return;
-    hasUserInteracted.current = true;
-    const moodItem = MOODS.find((m) => m.id === moodId);
-    if (!moodItem) return;
-
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    if (hideStatusTimerRef.current) clearTimeout(hideStatusTimerRef.current);
 
     setSaveStatus('pending');
 
-    // Automatically submit in 5 seconds after picking / sliding
-    timerRef.current = setTimeout(async () => {
-      if (!user?.id) {
+    debounceTimerRef.current = setTimeout(() => {
+      const targetMood = MOODS.find((m) => m.id === moodId);
+      if (!targetMood || !user?.id) {
         setSaveStatus('idle');
         return;
       }
 
       setSaveStatus('saving');
-      try {
-        await updateMoodMutation.mutateAsync({
-          patientId: user.id,
-          mood: moodItem.backendMood,
-        });
-        setSaveStatus('saved');
-        setTimeout(() => setSaveStatus('idle'), 3000);
-      } catch {
-        setSaveStatus('error');
-        setTimeout(() => setSaveStatus('idle'), 3000);
-      }
+      updateMoodMutation.mutate(
+        { patientId: user.id, mood: targetMood.backendMood },
+        {
+          onSuccess: () => {
+            setSaveStatus('saved');
+            hideStatusTimerRef.current = setTimeout(() => {
+              setSaveStatus('idle');
+            }, 3000);
+          },
+          onError: () => {
+            setSaveStatus('error');
+            hideStatusTimerRef.current = setTimeout(() => {
+              setSaveStatus('idle');
+            }, 4000);
+          },
+        }
+      );
     }, 5000);
   };
 
   const handleSelectMood = (mood: Mood) => {
     hasUserInteracted.current = true;
-    setActiveMoodId(mood.id);
     setSliderValue(mood.position);
+    setActiveMoodId(mood.id);
     if (autoSubmit) {
       scheduleMoodSubmission(mood.id);
     }
@@ -243,8 +253,9 @@ export const MoodSelector = ({
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     hasUserInteracted.current = true;
-    const val = parseInt(e.target.value, 10);
+    const val = Number(e.target.value);
     setSliderValue(val);
+
     const nearest = getNearestMood(val);
     if (nearest.id !== activeMoodId) {
       setActiveMoodId(nearest.id);
@@ -272,7 +283,7 @@ export const MoodSelector = ({
       {showTitle && (
         <div className={`text-left w-full ${titlePl}`}>
           <h2 className="text-[22px] md:text-[31.15px] font-normal text-[#1E0A42] tracking-[-0.96px] leading-[32px] md:leading-[59.84px]">
-            Bu gün necə hiss edirsən
+            {t('webapp.dashboard.howAreYouFeeling')}
           </h2>
         </div>
       )}
@@ -295,7 +306,7 @@ export const MoodSelector = ({
                     isActive ? mood.color : 'text-[#2A2B42]/50 group-hover:text-[#2A2B42]'
                   }`}
                 >
-                  {mood.label}
+                  {getMoodLabel(mood.id)}
                 </span>
               </div>
             );
@@ -346,23 +357,23 @@ export const MoodSelector = ({
               {saveStatus === 'pending' && (
                 <>
                   <Clock size={13} className="animate-pulse" />
-                  <span>5 saniyə sonra yadda saxlanılacaq...</span>
+                  <span>{t('webapp.mood.pendingSave')}</span>
                 </>
               )}
               {saveStatus === 'saving' && (
                 <>
                   <Loader2 size={13} className="animate-spin" />
-                  <span>Əhvalınız yadda saxlanılır...</span>
+                  <span>{t('webapp.mood.saving')}</span>
                 </>
               )}
               {saveStatus === 'saved' && (
                 <>
                   <Check size={13} className="text-emerald-600" />
-                  <span>Əhvalınız qeydə alındı</span>
+                  <span>{t('webapp.mood.saved')}</span>
                 </>
               )}
               {saveStatus === 'error' && (
-                <span>Əhvalı yadda saxlamaq mümkün olmadı.</span>
+                <span>{t('webapp.mood.error')}</span>
               )}
             </div>
           </div>
@@ -371,4 +382,3 @@ export const MoodSelector = ({
     </div>
   );
 };
-

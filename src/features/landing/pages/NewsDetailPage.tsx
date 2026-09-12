@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Loader2, ArrowLeft, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import {
@@ -22,6 +23,7 @@ import { getLocalizedTitle } from '@/utils/multilingual';
 export const NewsDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const [news, setNews] = useState<XeberResponseDto | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(Boolean(id));
@@ -81,9 +83,10 @@ export const NewsDetailPage = () => {
   const article = useMemo(() => {
     if (!news) return null;
 
+    const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
     const formattedDate = news.createdAt
       ? news.createdAt.includes('T')
-        ? new Date(news.createdAt).toLocaleDateString('az-AZ', {
+        ? new Date(news.createdAt).toLocaleDateString(locale, {
             day: 'numeric',
             month: 'short',
             year: 'numeric',
@@ -97,14 +100,14 @@ export const NewsDetailPage = () => {
       category: (news.category?.toLowerCase() || 'tedbirler') as 'elanlar' | 'tecrube' | 'tedbirler',
       categoryLabel: news.category || 'Psixoloji Sağlamlıq',
       date: formattedDate,
-      title: getLocalizedTitle(news.title || news.titleDto, 'az', 'Bakı Psixologiya Mərkəzində: 3 Aylıq Mentorluq Proqramı'),
+      title: getLocalizedTitle(news.title || news.titleDto, i18n.language as 'az' | 'en' | 'ru', 'Bakı Psixologiya Mərkəzində: 3 Aylıq Mentorluq Proqramı'),
       description:
         news.shortDescription ||
         news.introText ||
         'Yanvarın 15-də Bakı Psixologiya Mərkəzi Mentorluq proqramına başlayıb.',
       views: 120,
     };
-  }, [news, id]);
+  }, [news, id, i18n.language]);
 
   return (
     <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
@@ -115,7 +118,7 @@ export const NewsDetailPage = () => {
         <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
           <div className="flex flex-col items-center gap-4 text-white/80">
             <Loader2 className="w-10 h-10 animate-spin text-[#2dd4bf]" />
-            <p className="text-base font-medium">Xəbər məlumatları yüklənir...</p>
+            <p className="text-base font-medium">{t('news.loading')}</p>
           </div>
         </main>
       )}
@@ -124,8 +127,8 @@ export const NewsDetailPage = () => {
       {!isLoading && (isError || !article || !news) && (
         <>
           <SEO
-            metaTitle="Xəbər tapılmadı | NexusMind"
-            metaDescription="Axtardığınız xəbər tapılmadı və ya mövcud deyil."
+            metaTitle={`${t('news.notFoundTitle')} | NexusMind`}
+            metaDescription={t('news.notFoundDesc')}
             contentType="news"
           />
           <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
@@ -133,16 +136,16 @@ export const NewsDetailPage = () => {
               <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300">
                 <AlertCircle className="w-8 h-8" />
               </div>
-              <h2 className="text-2xl font-bold text-white">Xəbər tapılmadı</h2>
+              <h2 className="text-2xl font-bold text-white">{t('news.notFoundTitle')}</h2>
               <p className="text-sm text-white/70">
-                Axtardığınız xəbər silinmiş, ünvanı dəyişdirilmiş və ya mövcud olmaya bilər.
+                {t('news.notFoundDesc')}
               </p>
               <button
                 onClick={() => navigate(PATHS.NEWS)}
                 className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-sm font-semibold transition-colors cursor-pointer border border-white/20"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Xəbərlər siyahısına qayıt</span>
+                <span>{t('news.backToList')}</span>
               </button>
             </div>
           </main>

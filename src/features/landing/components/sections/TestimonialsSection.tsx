@@ -1,7 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import { TESTIMONIALS } from '../../constants/testimonials';
 import { ScrollReveal } from '../ScrollReveal';
 
 export const TestimonialsSection = () => {
+  const { t } = useTranslation();
+
   return (
     <section
       id="testimonials"
@@ -11,7 +14,7 @@ export const TestimonialsSection = () => {
         {/* Header */}
         <div className="text-center mb-14">
           <h2 className="text-[30px] sm:text-[44px] font-bold text-white mb-3 tracking-tight">
-            Real həyat hekayələri
+            {t('testimonials.title', 'Real həyat hekayələri')}
           </h2>
         </div>
 
@@ -23,7 +26,7 @@ export const TestimonialsSection = () => {
               className="bg-white rounded-[8px] p-6 sm:p-10 flex flex-col shadow-xl border border-transparent min-h-[300px]"
             >
               <p className="text-[#155a6d] text-[14px] sm:text-[16px] leading-relaxed mb-8 flex-1 font-medium">
-                {testimonial.text}
+                {t(`testimonials.t${testimonial.id}Text`, testimonial.text)}
               </p>
               <div className="flex items-center gap-4">
                 <img
@@ -33,7 +36,9 @@ export const TestimonialsSection = () => {
                 />
                 <div className="flex flex-col">
                   <span className="text-[#1a2b3c] font-bold text-[15px]">{testimonial.author}</span>
-                  <span className="text-[#667085] text-[13px]">{testimonial.profession}</span>
+                  <span className="text-[#667085] text-[13px]">
+                    {t(`testimonials.t${testimonial.id}Role`, testimonial.profession)}
+                  </span>
                 </div>
               </div>
             </div>

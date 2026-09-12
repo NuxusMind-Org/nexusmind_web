@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import { List, Calendar } from 'lucide-react';
 
@@ -8,6 +9,7 @@ interface TrainingsFiltersProps {
 }
 
 export const TrainingsFilters = ({ activeView, onViewChange }: TrainingsFiltersProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleConsultationClick = () => {
@@ -21,7 +23,7 @@ export const TrainingsFilters = ({ activeView, onViewChange }: TrainingsFiltersP
         onClick={handleConsultationClick}
         className="px-6 py-2.5 rounded-lg text-white text-[14px] font-medium bg-[#581c87]/80 hover:bg-[#581c87] hover:shadow-[0_0_15px_rgba(88,28,135,0.4)] border-0 cursor-pointer transition-all duration-300 select-none outline-none block text-center"
       >
-        Fərdi məsləhət al
+        {t('trainings.individualConsultation', 'Fərdi məsləhət al')}
       </button>
 
       {/* Right side: View switcher (List vs Calendar) */}
@@ -35,7 +37,7 @@ export const TrainingsFilters = ({ activeView, onViewChange }: TrainingsFiltersP
           }`}
         >
           <List size={16} />
-          <span>Siyahı</span>
+          <span>{t('trainings.listView', 'Siyahı')}</span>
         </button>
         <button
           onClick={() => onViewChange('calendar')}
@@ -46,7 +48,7 @@ export const TrainingsFilters = ({ activeView, onViewChange }: TrainingsFiltersP
           }`}
         >
           <Calendar size={16} />
-          <span>Təqvimə bax</span>
+          <span>{t('trainings.calendarView', 'Təqvimə bax')}</span>
         </button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Star, GraduationCap, Award, Video, Clock, Lock, CheckCircle2, ChevronRight, Loader2 } from 'lucide-react';
 import { psychologists } from '@/features/landing/data/psychologists';
 import { PATHS } from '@/routes/paths';
@@ -12,11 +13,6 @@ import type { Psychologist } from '@/features/landing/types/psychologist.types';
 import type { AvailableSlotDto } from '@/api/types';
 import defaultAvatar from '@/assets/avatar1.png';
 
-const AZ_MONTHS = [
-  'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun',
-  'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
-];
-
 const formatISODate = (date: Date) => {
   const yyyy = date.getFullYear();
   const mm = String(date.getMonth() + 1).padStart(2, '0');
@@ -25,6 +21,7 @@ const formatISODate = (date: Date) => {
 };
 
 export const ExpertDetailPage = () => {
+  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const bookSession = useSessionStore(state => state.bookSession);
@@ -132,20 +129,19 @@ export const ExpertDetailPage = () => {
 
     let datePrefix = '';
     if (isToday) {
-      datePrefix = 'Bu gün';
+      datePrefix = t('webapp.experts.today');
     } else if (isTomorrow) {
-      datePrefix = 'Sabah';
+      datePrefix = t('webapp.experts.tomorrow');
     } else {
-      const day = dateTime.getDate();
-      const monthName = AZ_MONTHS[dateTime.getMonth()];
-      datePrefix = `${day} ${monthName}`;
+      const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+      datePrefix = dateTime.toLocaleDateString(locale, { day: 'numeric', month: 'long' });
     }
 
     return {
       formatted: `${datePrefix}, ${timeRange}`,
       slot: earliest.original,
     };
-  }, [slots]);
+  }, [slots, t, i18n.language]);
 
   const [showCalendar, setShowCalendar] = useState(false);
   const [booking, setBooking] = useState(false);
@@ -163,26 +159,26 @@ export const ExpertDetailPage = () => {
       >
         {/* Centered Heading */}
         <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-2">
-          Son məlumatlardan xəbərdar ol!
+          {t('webapp.experts.stayInformed')}
         </h2>
 
         {/* Breadcrumb row - Aligned left at the bottom */}
         <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] select-none overflow-x-auto no-scrollbar whitespace-nowrap">
           <Link to={PATHS.DASHBOARD} className="hover:text-[#4D2059] transition-colors">
-            Ana səhifə
+            {t('webapp.bottomNav.home')}
           </Link>
           <ChevronRight size={14} className="text-[#1E0A42]/50" />
           <Link to={PATHS.WEBAPP_EXPERTS} className="hover:text-[#4D2059] transition-colors">
-            Mütəxəssislər
+            {t('webapp.sidebar.experts')}
           </Link>
           <ChevronRight size={14} className="text-[#1E0A42]/50" />
-          <span className="text-[#4D2059] font-bold">Psixoloji Sağlamlıq</span>
+          <span className="text-[#4D2059] font-bold">{t('webapp.experts.mentalHealth')}</span>
         </div>
       </div>
 
       {isLoading || !psych ? (
         <div className="w-full flex items-center justify-center py-20 text-[#1E0A42]/50">
-          Yüklənir...
+          {t('webapp.experts.loading')}
         </div>
       ) : (
         <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col items-center">
@@ -220,7 +216,7 @@ export const ExpertDetailPage = () => {
                         </p>
                       </div>
                       <div className="text-[#03C6B2] font-bold text-[22px] sm:text-[24px] font-['Lexend'] shrink-0">
-                        ${psych.price}<span className="text-[12px] text-white/60 font-normal">/seans</span>
+                        ${psych.price}<span className="text-[12px] text-white/60 font-normal">{t('webapp.sessions.perSession')}</span>
                       </div>
                     </div>
 
@@ -248,7 +244,7 @@ export const ExpertDetailPage = () => {
                   {/* Təhsil Card */}
                   <div className="flex-1 bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
                     <h3 className="text-white text-base font-bold flex items-center gap-2 mb-6 font-['Lexend']">
-                      <GraduationCap className="text-white/70" size={18} /> Təhsil
+                      <GraduationCap className="text-white/70" size={18} /> {t('webapp.experts.education')}
                     </h3>
                     <div className="flex flex-col gap-5">
                       {psych.education.map((edu, i) => (
@@ -263,7 +259,7 @@ export const ExpertDetailPage = () => {
                   {/* Sertifikatlar Card */}
                   <div className="flex-1 bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
                     <h3 className="text-white text-base font-bold flex items-center gap-2 mb-6 font-['Lexend']">
-                      <Award className="text-white/70" size={18} /> İştirak Etdiyi Təlimlər
+                      <Award className="text-white/70" size={18} /> {t('webapp.experts.certifications')}
                     </h3>
                     <div className="flex flex-col gap-3">
                       {psych.certifications.map((cert, i) => (
@@ -279,7 +275,7 @@ export const ExpertDetailPage = () => {
 
                 {/* Card 3: Specialties */}
                 <div className="bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
-                  <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">Fəaliyyət İstiqamətləri</h3>
+                  <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">{t('webapp.experts.directions')}</h3>
                   <div className="flex flex-wrap gap-2.5">
                     {psych.tags.map((tag) => (
                       <span
@@ -293,7 +289,7 @@ export const ExpertDetailPage = () => {
                 </div>
 
                 <div className="bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
-                  <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">Terapiya Metodları</h3>
+                  <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">{t('webapp.experts.methods')}</h3>
                   <div className="flex flex-wrap gap-2.5">
                     {psych.tags.map((tag) => (
                       <span
@@ -314,35 +310,35 @@ export const ExpertDetailPage = () => {
                 {/* Booking Widget Box */}
                 <div className="bg-[#3C2475] rounded-[24px] sm:rounded-[38.93px] p-6 sm:p-[38.93px] text-white shadow-xl flex flex-col text-left gap-5 sm:gap-[28px] w-full">
                   <h3 className="text-white text-[28px] font-medium font-['Lexend'] leading-normal">
-                    Məsləhət Təyin Edin
+                    {t('webapp.experts.bookConsultation')}
                   </h3>
 
                   {/* Next availability container */}
                   <div className="bg-[#25134F] border border-white/10 rounded-[20px] p-[24px]">
                     <div className="flex justify-between items-center mb-[14px]">
                       <span className="text-white/70 text-[16px] font-['Lexend'] font-light">
-                        Növbəti mövcud vaxt:
+                        {t('webapp.experts.nextAvailableTime')}
                       </span>
                       {isSlotsLoading ? (
                         <span className="bg-white/10 text-white/50 text-[10px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-wider font-['Lexend'] select-none flex items-center gap-1">
-                          <Loader2 size={10} className="animate-spin" /> YÜKLƏNİR
+                          <Loader2 size={10} className="animate-spin" /> {t('webapp.experts.loading').toUpperCase()}
                         </span>
                       ) : closestAvailableSlot ? (
                         <span className="bg-[#03C6B2]/15 text-[#03C6B2] text-[10px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-wider font-['Lexend'] select-none">
-                          TEZLİKLƏ
+                          {t('webapp.experts.soon')}
                         </span>
                       ) : (
                         <span className="bg-white/10 text-white/50 text-[10px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-wider font-['Lexend'] select-none">
-                          MÖVCUD DEYİL
+                          {t('webapp.experts.unavailable')}
                         </span>
                       )}
                     </div>
                     <p className="text-white font-bold text-[20px] font-['Lexend'] leading-snug">
                       {isSlotsLoading
-                        ? 'Yoxlanılır...'
+                        ? t('webapp.experts.checking')
                         : closestAvailableSlot
                           ? closestAvailableSlot.formatted
-                          : 'Mövcud seans vaxtı yoxdur'}
+                          : t('webapp.experts.noSlots')}
                     </p>
                   </div>
 
@@ -350,15 +346,15 @@ export const ExpertDetailPage = () => {
                   <div className="flex flex-col gap-[20px]">
                     <div className="flex items-center gap-[16px]">
                       <Video size={24} className="text-white shrink-0" strokeWidth={1.5} />
-                      <span className="text-white text-[18px] font-['Lexend'] font-normal">Onlayn Video Seans</span>
+                      <span className="text-white text-[18px] font-['Lexend'] font-normal">{t('webapp.experts.onlineVideoSession')}</span>
                     </div>
                     <div className="flex items-center gap-[16px]">
                       <Clock size={24} className="text-white shrink-0" strokeWidth={1.5} />
-                      <span className="text-white text-[18px] font-['Lexend'] font-normal">45 dəqiqəlik görüş</span>
+                      <span className="text-white text-[18px] font-['Lexend'] font-normal">{t('webapp.experts.duration45')}</span>
                     </div>
                     <div className="flex items-center gap-[16px]">
                       <Lock size={24} className="text-white shrink-0" strokeWidth={1.5} />
-                      <span className="text-white text-[18px] font-['Lexend'] font-normal">Məxfi və Təhlükəsiz</span>
+                      <span className="text-white text-[18px] font-['Lexend'] font-normal">{t('webapp.experts.confidential')}</span>
                     </div>
                   </div>
 
@@ -368,7 +364,7 @@ export const ExpertDetailPage = () => {
                       onClick={() => setShowCalendar(true)}
                       className="w-full h-[59.05px] bg-gradient-to-r from-[#DDB7FF] to-[#B76DFF] text-[#1E0A42] font-bold text-[18px] rounded-[15.53px] shadow-[0_8px_20px_rgba(183,109,255,0.25)] hover:shadow-[0_8px_24px_rgba(183,109,255,0.4)] hover:opacity-95 active:scale-[0.98] transition-all duration-200 cursor-pointer border-0 outline-none flex items-center justify-center font-['Lexend']"
                     >
-                      Seans Təyin Et
+                      {t('webapp.experts.setSession')}
                     </button>
                   </div>
                 </div>
@@ -382,10 +378,10 @@ export const ExpertDetailPage = () => {
                   />
                   <div className="absolute bottom-[24px] left-[24px] right-[24px] bg-[#5C4533]/60 backdrop-blur-md border border-white/20 rounded-[20px] p-[20px] text-left">
                     <h4 className="text-[18px] font-bold text-white mb-2 font-['Lexend'] tracking-wider">
-                      VR KONSULTASİYA
+                      {t('webapp.experts.vrTitle')}
                     </h4>
                     <p className="text-[13px] text-white/90 font-['Lexend'] leading-relaxed font-light">
-                      Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.
+                      {t('webapp.experts.vrDesc')}
                     </p>
                   </div>
                 </div>
@@ -414,7 +410,7 @@ export const ExpertDetailPage = () => {
                     console.error('Booking error response:', err?.response?.data || err);
                     setBookingError(
                       err?.response?.data?.message ||
-                      'Seansı təyin etmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.'
+                      t('webapp.experts.bookingError')
                     );
                   } finally {
                     setBooking(false);
@@ -428,7 +424,7 @@ export const ExpertDetailPage = () => {
               )}
               {booking && (
                 <div className="w-full max-w-[900px] mx-auto mt-4 p-4 bg-[#4B2E83]/10 border border-[#4B2E83]/20 rounded-xl text-[#4B2E83] text-sm font-['Lexend'] text-center animate-pulse">
-                  Seans təyin olunur...
+                  {t('webapp.experts.bookingInProgress')}
                 </div>
               )}
             </>

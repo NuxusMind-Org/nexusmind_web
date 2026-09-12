@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 import coverImg from '@/assets/mountain_sunset_clouds.png';
 
@@ -11,6 +12,7 @@ interface SpecialSessionItem {
 }
 
 export const SpecialSessions = () => {
+  const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const sessions: SpecialSessionItem[] = [
@@ -95,12 +97,12 @@ export const SpecialSessions = () => {
             letterSpacing: '-0.96px',
           }}
         >
-          Özəl seanslar
+          {t('webapp.dashboard.specialSessions')}
         </h2>
         <button
           className="text-[#1E0A42]/60 hover:text-[#1E0A42] font-semibold text-xs sm:text-sm md:text-base cursor-pointer transition-colors bg-transparent border-none p-0 outline-none select-none"
         >
-          Daha çox
+          {t('webapp.dashboard.more')}
         </button>
       </div>
 
@@ -159,7 +161,7 @@ export const SpecialSessions = () => {
                         : 'bg-[#4A247A] hover:bg-[#3B2068] shadow-purple-950/15'
                     }`}
                   >
-                    İndi Başla
+                    {t('webapp.dashboard.startNow')}
                   </button>
                 </div>
               </div>

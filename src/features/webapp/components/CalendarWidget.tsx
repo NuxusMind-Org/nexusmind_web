@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock, User } from 'lucide-react';
 import { doctorsApi } from '@/api/doctors.api';
 import type { AvailableSlotDto, AppointmentMode } from '@/api/types';
@@ -17,12 +18,8 @@ const formatISODate = (date: Date) => {
   return `${yyyy}-${mm}-${dd}`;
 };
 
-const monthNames = [
-  'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun',
-  'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
-];
-
 export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onConfirm }: CalendarWidgetProps) => {
+  const { t, i18n } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -30,7 +27,17 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
   const [slots, setSlots] = useState<AvailableSlotDto[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const days = ['B.e', 'Ç.a', 'Ç', 'C.a', 'C', 'Ş', 'B'];
+  const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+
+  const days = useMemo(() => {
+    // Mon-Sun
+    const base = new Date(2023, 0, 2); // A Monday
+    return Array.from({ length: 7 }).map((_, i) => {
+      const d = new Date(base);
+      d.setDate(base.getDate() + i);
+      return d.toLocaleDateString(locale, { weekday: 'short' });
+    });
+  }, [locale]);
 
   useEffect(() => {
     const fetchSlots = async () => {
@@ -138,11 +145,11 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
           className="flex items-center gap-2 text-[#4B2E83] hover:text-[#3C2475] font-semibold transition-colors cursor-pointer border-0 bg-transparent text-sm sm:text-base font-['Lexend'] w-fit"
         >
           <ChevronLeft size={20} />
-          Geri qayıt
+          {t('webapp.calendar.back')}
         </button>
         <div className="flex flex-col items-center">
           <h3 className="text-xl sm:text-2xl font-bold text-[#1E0A42] font-['Lexend']">
-            Seans Təyin Et
+            {t('webapp.calendar.setSession')}
           </h3>
           <div className="flex items-center gap-1.5 mt-1 text-[#7A7570] font-['Lexend'] text-sm">
             <User size={14} />
@@ -154,7 +161,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
 
       {isLoading ? (
         <div className="w-full flex items-center justify-center py-20 text-[#1E0A42]/50 font-['Lexend']">
-          Təqvim yüklənir...
+          {t('webapp.calendar.loading')}
         </div>
       ) : (
         <div className="flex flex-col md:flex-row gap-10">
@@ -163,13 +170,13 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
             <div className="flex items-center justify-between">
               <h4 className="text-lg font-bold text-[#1E0A42] flex items-center gap-2 font-['Lexend']">
                 <CalendarIcon size={20} className="text-[#4B2E83]" />
-                Tarix seçin
+                {t('webapp.calendar.selectDate')}
               </h4>
               <div className="flex items-center gap-4 text-[#1E0A42] font-semibold">
                 <button onClick={handlePrevMonth} className="p-1 hover:bg-gray-100 rounded-full cursor-pointer border-0 bg-transparent transition-colors">
                   <ChevronLeft size={18} />
                 </button>
-                <span className="w-32 text-center">{monthNames[month]} {year}</span>
+                <span className="w-36 text-center capitalize">{new Date(year, month, 1).toLocaleDateString(locale, { month: 'long', year: 'numeric' })}</span>
                 <button onClick={handleNextMonth} className="p-1 hover:bg-gray-100 rounded-full cursor-pointer border-0 bg-transparent transition-colors">
                   <ChevronRight size={18} />
                 </button>
@@ -220,7 +227,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
           <div className="w-full md:w-[300px] flex flex-col gap-6 border-t md:border-t-0 md:border-l border-gray-100 pt-6 md:pt-0 md:pl-10">
             <h4 className="text-lg font-bold text-[#1E0A42] flex items-center gap-2 font-['Lexend']">
               <Clock size={20} className="text-[#4B2E83]" />
-              Saat seçin
+              {t('webapp.calendar.selectTime')}
             </h4>
             
             {selectedDate ? (
@@ -245,7 +252,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
                   {/* Mode Selection */}
                   <div className="flex flex-col gap-3">
                     <h4 className="text-lg font-bold text-[#1E0A42] flex items-center gap-2 font-['Lexend']">
-                      Seans növünü seçin
+                      {t('webapp.calendar.selectMode')}
                     </h4>
                     <div className="grid grid-cols-2 gap-3 font-['Lexend']">
                       <button
@@ -256,7 +263,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
                             : 'border-gray-200 bg-white text-[#7A7570] hover:border-[#03C6B2] hover:text-[#03C6B2]'
                         }`}
                       >
-                        VR Mühiti
+                        {t('webapp.calendar.vrMode')}
                       </button>
                       <button
                         onClick={() => setSelectedMode('VIDEO_CALL')}
@@ -266,19 +273,19 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
                             : 'border-gray-200 bg-white text-[#7A7570] hover:border-[#03C6B2] hover:text-[#03C6B2]'
                         }`}
                       >
-                        Video Zəng
+                        {t('webapp.calendar.videoMode')}
                       </button>
                     </div>
                   </div>
                 </>
               ) : (
                 <div className="text-sm text-gray-500 font-['Lexend'] text-center mt-10">
-                  Bu tarixdə boş saat yoxdur.
+                  {t('webapp.calendar.noSlotsForDate')}
                 </div>
               )
             ) : (
               <div className="text-sm text-gray-500 font-['Lexend'] text-center mt-10">
-                Görmək üçün əvvəlcə tarix seçin.
+                {t('webapp.calendar.selectDatePrompt')}
               </div>
             )}
           </div>
@@ -292,7 +299,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
           onClick={handleConfirm}
           className="bg-[#4B2E83] hover:bg-[#3C2475] disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-[14px] px-8 py-3.5 font-bold font-['Lexend'] flex items-center justify-center transition-all duration-300 shadow-md border-0 cursor-pointer uppercase tracking-wider w-full sm:w-auto"
         >
-          Təsdiqlə
+          {t('webapp.calendar.confirm')}
         </button>
       </div>
     </div>

@@ -1,9 +1,11 @@
 import { Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 
 export const WelcomeHeader = () => {
+  const { t } = useTranslation();
   const { data: user } = useCurrentUser();
-  const displayName = user?.name ? user.name.trim().split(' ')[0] : 'Dost';
+  const displayName = user?.name ? user.name.trim().split(' ')[0] : t('webapp.dashboard.defaultName');
 
   return (
     <div
@@ -20,7 +22,7 @@ export const WelcomeHeader = () => {
           maxWidth: '1041.5px',
         }}
       >
-        Salam {displayName}! Bugünkü səyahətimizə hazırsan?
+        {t('webapp.dashboard.greeting', { name: displayName })}
       </h1>
 
       {/* 2. Rounded Search Bar */}
@@ -31,7 +33,7 @@ export const WelcomeHeader = () => {
         />
         <input
           type="text"
-          placeholder="Hər şeyi axtarın..."
+          placeholder={t('webapp.dashboard.searchPlaceholder')}
           className="w-full bg-white border border-[#C5D0D4] focus:border-[#4A247A]/30 text-gray-800 placeholder-[#9C97B3] pl-14 pr-6 py-3 sm:py-4 rounded-full text-sm outline-none transition-all font-medium shadow-sm"
         />
       </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Wind } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import { WelcomeHeader } from '../components/WelcomeHeader';
@@ -12,6 +13,7 @@ import { Blogs } from '../components/Blogs';
 import { Experts } from '../components/Experts';
 
 export const HomePage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [showBreathingCard, setShowBreathingCard] = useState(true);
   const [showMeditationCard, setShowMeditationCard] = useState(true);
@@ -24,8 +26,8 @@ export const HomePage = () => {
       <SpecialSessions />
       {showBreathingCard && (
         <MiniGameCard
-          title="5 dəqiqə sakitləşdirici nəfəs məşqi et"
-          description="Dərin nəfəs almaq stress hormonlarını azaldır və ağlını sabitləşdirir. Bunu indi cəhd et!"
+          title={t('webapp.dashboard.calmingBreathTitle')}
+          description={t('webapp.dashboard.calmingBreathDesc')}
           icon={<Wind size={64} className="text-white" />}
           bgGradient="linear-gradient(135deg, #06976B 0%, #38A06F 50%, #0E4D2D 100%)"
           onAction={() => navigate(PATHS.WEBAPP_MINI_GAMES)}
@@ -36,9 +38,9 @@ export const HomePage = () => {
       <Blogs />
       {showMeditationCard && (
         <MiniGameCard
-          title="Özünə bir neçə dəqiqə vaxt ayır"
-          description="Bu gün cəmi 5 dəqiqə meditasiya etməyə nə deyirsən? Kiçik addımlar böyük dəyişikliklərə gətirib çıxarır."
-          actionText="Meditasiyaya başla"
+          title={t('webapp.dashboard.meditationTitle')}
+          description={t('webapp.dashboard.meditationDesc')}
+          actionText={t('webapp.dashboard.meditationAction')}
           icon={
             <svg
               viewBox="0 0 24 24"

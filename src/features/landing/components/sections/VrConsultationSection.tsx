@@ -1,7 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import vrConsultation from '@/assets/vr_consultation.png';
 import { ScrollReveal } from '../ScrollReveal';
 
 export const VrConsultationSection = () => {
+  const { t } = useTranslation();
+
   return (
     <section
       id="vr"
@@ -19,10 +22,10 @@ export const VrConsultationSection = () => {
         <div className="absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 md:right-10 bg-[#eeb3b3]/30 backdrop-blur-2xl border border-white/40 rounded-lg p-4 sm:p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
           <div className="flex-1 text-center md:text-left">
             <h2 className="text-[22px] md:text-[36px] font-bold text-white mb-2 md:mb-3 tracking-wide">
-              VR KONSULTASİYA
+              {t('vr.title', 'VR KONSULTASİYA')}
             </h2>
             <p className="text-[13px] sm:text-[15px] md:text-[20px] text-white/95 leading-relaxed font-semibold">
-              Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.
+              {t('vr.description', 'Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.')}
             </p>
           </div>
           <a
@@ -31,7 +34,7 @@ export const VrConsultationSection = () => {
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center whitespace-nowrap bg-[#a88bff] hover:bg-[#9773fc] text-[#1a2b3c] font-bold text-[14px] md:text-[18px] rounded-lg px-6 py-2.5 md:px-10 md:py-4 transition-all duration-300 shadow-[0_4px_14px_rgba(168,139,255,0.4)] hover:shadow-[0_6px_20px_rgba(168,139,255,0.6)] cursor-pointer select-none"
           >
-            Demo-nu İzlə
+            {t('vr.watchDemo', 'Demo-nu İzlə')}
           </a>
         </div>
       </ScrollReveal>

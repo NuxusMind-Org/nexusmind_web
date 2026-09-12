@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Clock, MapPin } from 'lucide-react';
 import type { Training } from '../../constants/trainings';
 
@@ -7,6 +8,7 @@ interface TrainingCardProps {
 }
 
 export const TrainingCard = ({ training, onRegister }: TrainingCardProps) => {
+  const { t } = useTranslation();
   const getTagStyles = (tag: string) => {
     const purpleTags = ['Meditasiya', 'Texnika', 'Terapiya', 'Şüuraltı'];
     if (purpleTags.includes(tag)) {
@@ -76,7 +78,7 @@ export const TrainingCard = ({ training, onRegister }: TrainingCardProps) => {
             onClick={() => onRegister(training)}
             className="px-6 py-2.5 bg-[#c084fc] hover:bg-[#b573f9] hover:shadow-[0_0_18px_rgba(192,132,252,0.4)] text-[#0D1117] font-semibold text-[14px] rounded-lg transition-all duration-300 border-0 cursor-pointer outline-none select-none"
           >
-            Qeydiyyatdan keç
+            {t('trainings.register', 'Qeydiyyatdan keç')}
           </button>
         </div>
       </div>

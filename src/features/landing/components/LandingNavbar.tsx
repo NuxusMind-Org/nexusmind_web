@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
 import nexusLogo from '@/assets/svg/UpdatedNexusMindNavbarLogo.svg';
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from '@/components';
 
 type ActivePage = 'landing' | 'journal' | 'psychologist' | 'blog' | 'articles' | 'news' | 'gallery' | 'trainings';
 
@@ -14,6 +16,7 @@ interface LandingNavbarProps {
 }
 
 export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: LandingNavbarProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
@@ -144,29 +147,29 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
   }, [isMobileMenuOpen]);
 
   const navItems = [
-    { id: 'hero', label: 'Əsas səhifə', type: 'scroll', index: 0 },
-    { id: 'experts', label: 'Mütəxəssislər', type: 'scroll', index: 9 },
+    { id: 'hero', label: t('nav.home', 'Əsas səhifə'), type: 'scroll', index: 0 },
+    { id: 'experts', label: t('nav.experts', 'Mütəxəssislər'), type: 'scroll', index: 9 },
     {
       id: 'media',
-      label: 'Media',
+      label: t('nav.media', 'Media'),
       type: 'dropdown',
       items: [
-        { label: 'Xəbərlər', path: PATHS.NEWS, page: 'news' as const },
-        { label: 'Qalereya', path: PATHS.GALLERY, page: 'gallery' as const },
+        { label: t('nav.news', 'Xəbərlər'), path: PATHS.NEWS, page: 'news' as const },
+        { label: t('nav.gallery', 'Qalereya'), path: PATHS.GALLERY, page: 'gallery' as const },
       ]
     },
     {
       id: 'pillars',
-      label: 'Maariflənmə',
+      label: t('nav.education', 'Maariflənmə'),
       type: 'dropdown',
       items: [
-        { label: 'Blog', path: PATHS.BLOG, page: 'blog' as const },
-        { label: 'Məqalələr', path: PATHS.ARTICLE, page: 'articles' as const },
-        { label: 'Təlimlər', path: PATHS.TRAININGS, page: 'trainings' as const },
+        { label: t('nav.blog', 'Blog'), path: PATHS.BLOG, page: 'blog' as const },
+        { label: t('nav.articles', 'Məqalələr'), path: PATHS.ARTICLE, page: 'articles' as const },
+        { label: t('nav.trainings', 'Təlimlər'), path: PATHS.TRAININGS, page: 'trainings' as const },
       ]
     },
-    { id: 'journal', label: 'Qeydlərim', type: 'navigate' },
-    { id: 'vr', label: 'Vr konsultasiya', type: 'scroll', index: 7 },
+    { id: 'journal', label: t('nav.journal', 'Qeydlərim'), type: 'navigate' },
+    { id: 'vr', label: t('nav.vrConsultation', 'Vr konsultasiya'), type: 'scroll', index: 7 },
   ] as const;
 
   const handleItemClick = (item: typeof navItems[number]) => {
@@ -305,7 +308,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           transitionDelay: isMobileMenuOpen ? `${navItems.length * 60 + 80}ms` : '0ms',
         }}
       >
-        Giriş et
+        {t('nav.login', 'Giriş et')}
       </button>
     </div>,
     document.body
@@ -385,86 +388,95 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           })}
         </nav>
 
-        {/* Desktop Login Button */}
-        <div className="hidden md:block relative group z-50">
-          <button
-            ref={loginBtnRef}
-            onClick={() => navigate(PATHS.LOGIN)}
-            onMouseMove={handleLoginMouseMove}
-            onMouseEnter={handleLoginMouseEnter}
-            onMouseLeave={handleLoginMouseLeave}
-            className="relative w-[162.18px] h-[38.78px] rounded-[20.53px] flex items-center justify-center text-white text-[15px] font-medium transition-all duration-300 hover:opacity-90 cursor-pointer pointer-events-auto"
-            style={{
-              background: 'linear-gradient(180deg, rgba(104, 1, 254, 0.06) 0%, rgba(217, 217, 217, 0.06) 100%)',
-              boxShadow: '0 9.13px 36.5px 0 rgba(104, 1, 255, 0.12)',
-            }}
-          >
-            {/* Outer Angular Gradient Border (Idle base) */}
-            <div
-              className="absolute -inset-[1.14px] rounded-[21.67px] pointer-events-none transition-opacity duration-500 ease-out"
+        {/* Desktop Actions: Language Selector + Login Button */}
+        <div className="hidden md:flex items-center gap-4 z-50">
+          <LanguageSelector direction="down" />
+
+          <div className="relative group">
+            <button
+              ref={loginBtnRef}
+              onClick={() => navigate(PATHS.LOGIN)}
+              onMouseMove={handleLoginMouseMove}
+              onMouseEnter={handleLoginMouseEnter}
+              onMouseLeave={handleLoginMouseLeave}
+              className="relative w-[162.18px] h-[38.78px] rounded-[20.53px] flex items-center justify-center text-white text-[15px] font-medium transition-all duration-300 hover:opacity-90 cursor-pointer pointer-events-auto"
               style={{
-                padding: '1.14px',
-                background:
-                  'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
-                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                WebkitMaskComposite: 'xor',
-                maskComposite: 'exclude',
+                background: 'linear-gradient(180deg, rgba(104, 1, 254, 0.06) 0%, rgba(217, 217, 217, 0.06) 100%)',
+                boxShadow: '0 9.13px 36.5px 0 rgba(104, 1, 255, 0.12)',
               }}
-            />
+            >
+              {/* Outer Angular Gradient Border (Idle base) */}
+              <div
+                className="absolute -inset-[1.14px] rounded-[21.67px] pointer-events-none transition-opacity duration-500 ease-out"
+                style={{
+                  padding: '1.14px',
+                  background:
+                    'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                }}
+              />
 
-            {/* Glowing Spotlight Border (Cursor-Tracking from Purple to Blue) */}
-            <div
-              className="absolute -inset-[1.14px] rounded-[21.67px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out bg-[radial-gradient(120px_circle_at_var(--mouse-x)_var(--mouse-y),var(--spotlight-color,#a855f7)_0%,var(--spotlight-color-end,#6366f1)_50%,transparent_100%)]"
-              style={{
-                padding: '1.14px',
-                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                WebkitMaskComposite: 'xor',
-                maskComposite: 'exclude',
-              }}
-            />
+              {/* Glowing Spotlight Border (Cursor-Tracking from Purple to Blue) */}
+              <div
+                className="absolute -inset-[1.14px] rounded-[21.67px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out bg-[radial-gradient(120px_circle_at_var(--mouse-x)_var(--mouse-y),var(--spotlight-color,#a855f7)_0%,var(--spotlight-color-end,#6366f1)_50%,transparent_100%)]"
+                style={{
+                  padding: '1.14px',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                }}
+              />
 
-            {/* Subtle Fill Reflection (Cursor-Tracking from Purple to Blue) */}
-            <div
-              className="absolute inset-0 rounded-[20.53px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out bg-[radial-gradient(140px_circle_at_var(--mouse-x)_var(--mouse-y),var(--spotlight-fill,rgba(168,85,247,0.15)),transparent_70%)]"
-            />
+              {/* Subtle Fill Reflection (Cursor-Tracking from Purple to Blue) */}
+              <div
+                className="absolute inset-0 rounded-[20.53px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out bg-[radial-gradient(140px_circle_at_var(--mouse-x)_var(--mouse-y),var(--spotlight-fill,rgba(168,85,247,0.15)),transparent_70%)]"
+              />
 
-            <span className="relative z-10">Giriş et</span>
-          </button>
+              <span className="relative z-10">{t('nav.login', 'Giriş et')}</span>
+            </button>
+          </div>
         </div>
 
-        <button
-          onClick={() => {
-            const nextOpen = !isMobileMenuOpen;
-            setIsMobileMenuOpen(nextOpen);
-            if (!nextOpen) {
-              setOpenDropdownId(null);
-            }
-          }}
-          className="md:hidden z-50 p-2 text-white hover:text-[#00f2ff] transition-colors cursor-pointer relative w-10 h-10 flex items-center justify-center"
-        >
-          <div className="relative w-6 h-6 flex items-center justify-center">
-            {/* Hamburger Icon */}
-            <div
-              className="absolute transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
-              style={{
-                transform: isMobileMenuOpen ? 'rotate(-90deg) scale(0.5)' : 'rotate(0) scale(1)',
-                opacity: isMobileMenuOpen ? 0 : 1,
-              }}
-            >
-              <Menu size={24} />
+        {/* Mobile Header Actions (Language Selector + Hamburger) */}
+        <div className="flex md:hidden items-center gap-1 z-50">
+          <LanguageSelector direction="down" />
+
+          <button
+            onClick={() => {
+              const nextOpen = !isMobileMenuOpen;
+              setIsMobileMenuOpen(nextOpen);
+              if (!nextOpen) {
+                setOpenDropdownId(null);
+              }
+            }}
+            className="p-2 text-white hover:text-[#00f2ff] transition-colors cursor-pointer relative w-10 h-10 flex items-center justify-center"
+          >
+            <div className="relative w-6 h-6 flex items-center justify-center">
+              {/* Hamburger Icon */}
+              <div
+                className="absolute transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                style={{
+                  transform: isMobileMenuOpen ? 'rotate(-90deg) scale(0.5)' : 'rotate(0) scale(1)',
+                  opacity: isMobileMenuOpen ? 0 : 1,
+                }}
+              >
+                <Menu size={24} />
+              </div>
+              {/* Close Icon */}
+              <div
+                className="absolute transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                style={{
+                  transform: isMobileMenuOpen ? 'rotate(0) scale(1)' : 'rotate(90deg) scale(0.5)',
+                  opacity: isMobileMenuOpen ? 1 : 0,
+                }}
+              >
+                <X size={24} />
+              </div>
             </div>
-            {/* Close Icon */}
-            <div
-              className="absolute transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
-              style={{
-                transform: isMobileMenuOpen ? 'rotate(0) scale(1)' : 'rotate(90deg) scale(0.5)',
-                opacity: isMobileMenuOpen ? 1 : 0,
-              }}
-            >
-              <X size={24} />
-            </div>
-          </div>
-        </button>
+          </button>
+        </div>
       </header>
 
       {/* Mobile drawer rendered into document.body via Portal */}

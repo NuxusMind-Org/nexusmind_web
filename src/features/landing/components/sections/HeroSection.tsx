@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import nexie from '@/assets/svg/Nexie.svg';
 import nexieCloud from '@/assets/svg/NexieCloud.svg';
@@ -7,14 +8,15 @@ import hi0102 from '@/assets/hi0102.png';
 import hi0103 from '@/assets/hi0103.png';
 import { ScrollReveal } from '../ScrollReveal';
 
-const FEATURE_CARDS = [
-  { img: hi0101, text: 'Mütəxəssislər köməyilə çətinliklərdən azad ol!' },
-  { img: hi0102, text: 'Vr konsultasiya ilə evdən çıxmağa belə ehtiyac yoxdur!' },
-  { img: hi0103, text: 'Günlük notlar qeyd edərək səndə öz inkişafını gör!' },
-];
-
 export const HeroSection = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const featureCards = [
+    { img: hi0101, text: t('hero.feature1', 'Mütəxəssislər köməyilə çətinliklərdən azad ol!') },
+    { img: hi0102, text: t('hero.feature2', 'Vr konsultasiya ilə evdən çıxmağa belə ehtiyac yoxdur!') },
+    { img: hi0103, text: t('hero.feature3', 'Günlük notlar qeyd edərək səndə öz inkişafını gör!') },
+  ];
 
   return (
     <section
@@ -39,11 +41,10 @@ export const HeroSection = () => {
           <div className="flex-1 flex flex-col justify-center gap-6 py-2 w-full items-center">
             <div className="flex flex-col gap-3">
               <h1 className="text-[28px] sm:text-[40px] md:text-[48px] font-bold text-white tracking-tight leading-tight">
-                Özünü kəşf etməyə hazırsan?
+                {t('hero.title', 'Özünü kəşf etməyə hazırsan?')}
               </h1>
-              <p className="text-[16px] sm:text-[22px] md:text-[24px] text-white/80 max-w-[800px] mx-auto leading-relaxed">
-                Sıxıntıdan qurtul, rahat nəfəs al,<br />
-                və həyatdan zövq al!
+              <p className="text-[16px] sm:text-[22px] md:text-[24px] text-white/80 max-w-[800px] mx-auto leading-relaxed whitespace-pre-line">
+                {t('hero.subtitle', 'Sıxıntıdan qurtul, rahat nəfəs al,\nvə həyatdan zövq al!')}
               </p>
             </div>
 
@@ -51,14 +52,14 @@ export const HeroSection = () => {
               onClick={() => navigate(PATHS.REGISTER)}
               className="w-[247px] h-[51px] bg-[#4A148F] hover:bg-[#5919ad] text-white p-[10px] gap-[10px] rounded-[100px] border border-[#8A38F5] text-[16px] sm:text-[18px] font-semibold flex items-center justify-center transition-all duration-300 ease-out shadow-[0_0_20px_rgba(74,20,143,0.4)] hover:shadow-[0_0_28px_rgba(138,56,245,0.6)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
             >
-              İndi başla
+              {t('hero.cta', 'İndi başla')}
             </button>
           </div>
         </div>
 
         {/* Bottom Feature Cards */}
         <div className="w-full mt-[64px] flex flex-wrap justify-evenly gap-6 px-4 sm:px-6 xl:px-[58px]">
-          {FEATURE_CARDS.map((card, i) => (
+          {featureCards.map((card, i) => (
             <div
               key={i}
               className="flex items-center justify-center gap-3.5 w-full max-w-[326px] min-h-[80px] bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-[12px] hover:bg-white/15 transition-colors"

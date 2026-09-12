@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Eye } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import type { NewsItem } from '../../constants/news';
 
@@ -8,6 +9,7 @@ interface NewsCardProps {
 }
 
 export const NewsCard = ({ item }: NewsCardProps) => {
+  const { t } = useTranslation();
   const detailPath = PATHS.NEWS_DETAIL.replace(':id', String(item.id));
 
   return (
@@ -52,12 +54,12 @@ export const NewsCard = ({ item }: NewsCardProps) => {
           {/* View Counter */}
           <div className="flex items-center gap-1.5 text-white/50 text-[12px] font-medium">
             <Eye size={14} className="text-white/30" />
-            <span>{item.views} baxış</span>
+            <span>{item.views} {t('news.views')}</span>
           </div>
 
           {/* Text link trigger */}
           <Link to={detailPath} className="text-[#00f2ff] hover:underline text-[13px] font-semibold select-none">
-            Davamını oxu →
+            {t('news.readMore')} →
           </Link>
         </div>
       </div>

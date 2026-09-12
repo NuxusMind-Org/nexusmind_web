@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Home,
   BookOpen,
@@ -15,44 +16,43 @@ import {
 } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 
-/** Primary tabs shown directly in the bottom bar (max 5). */
-const PRIMARY_TABS = [
-  { name: 'Ana səhifə', path: PATHS.DASHBOARD, icon: Home },
-  { name: 'Qeydlər', path: PATHS.WEBAPP_JOURNAL, icon: BookOpen },
-  { name: 'Seanslar', path: PATHS.WEBAPP_SESSIONS, icon: Video },
-  { name: 'Ekspertlər', path: PATHS.WEBAPP_EXPERTS, icon: Users },
-] as const;
-
-/** Items inside the "More" bottom sheet. */
-const MORE_ITEMS = [
-  {
-    group: 'Media',
-    items: [
-      { name: 'Qalereya', path: PATHS.WEBAPP_GALLERY, icon: Image },
-      { name: 'Xəbərlər', path: PATHS.WEBAPP_NEWS, icon: FileText },
-    ],
-  },
-  {
-    group: 'Maariflənmə',
-    items: [
-      { name: 'Məqalələr', path: PATHS.WEBAPP_ARTICLE, icon: BookOpen },
-      { name: 'Bloqlar', path: PATHS.WEBAPP_BLOG, icon: FileText },
-      { name: 'Təlimlər', path: PATHS.WEBAPP_TRAININGS, icon: Users },
-    ],
-  },
-  {
-    group: 'Digər',
-    items: [
-      { name: 'Bildirişlər', path: PATHS.WEBAPP_NOTIFICATIONS, icon: Bell },
-      { name: 'Tənzimləmələr', path: PATHS.WEBAPP_SETTINGS, icon: Settings },
-    ],
-  },
-] as const;
-
 export const BottomNavigation = () => {
+  const { t } = useTranslation();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+
+  const primaryTabs = useMemo(() => [
+    { name: t('webapp.bottomNav.home'), path: PATHS.DASHBOARD, icon: Home },
+    { name: t('webapp.bottomNav.journal'), path: PATHS.WEBAPP_JOURNAL, icon: BookOpen },
+    { name: t('webapp.bottomNav.sessions'), path: PATHS.WEBAPP_SESSIONS, icon: Video },
+    { name: t('webapp.bottomNav.experts'), path: PATHS.WEBAPP_EXPERTS, icon: Users },
+  ], [t]);
+
+  const moreItems = useMemo(() => [
+    {
+      group: t('webapp.bottomNav.media'),
+      items: [
+        { name: t('webapp.sidebar.gallery'), path: PATHS.WEBAPP_GALLERY, icon: Image },
+        { name: t('webapp.sidebar.news'), path: PATHS.WEBAPP_NEWS, icon: FileText },
+      ],
+    },
+    {
+      group: t('webapp.bottomNav.enlightenment'),
+      items: [
+        { name: t('webapp.sidebar.articles'), path: PATHS.WEBAPP_ARTICLE, icon: BookOpen },
+        { name: t('webapp.sidebar.blogs'), path: PATHS.WEBAPP_BLOG, icon: FileText },
+        { name: t('webapp.sidebar.trainings'), path: PATHS.WEBAPP_TRAININGS, icon: Users },
+      ],
+    },
+    {
+      group: t('webapp.bottomNav.other'),
+      items: [
+        { name: t('webapp.bottomNav.notifications'), path: PATHS.WEBAPP_NOTIFICATIONS, icon: Bell },
+        { name: t('webapp.bottomNav.settings'), path: PATHS.WEBAPP_SETTINGS, icon: Settings },
+      ],
+    },
+  ], [t]);
 
   // Close sheet on route change
   useEffect(() => {
@@ -84,7 +84,7 @@ export const BottomNavigation = () => {
   }, [isSheetOpen]);
 
   // Check if any "More" path is active
-  const isMoreActive = MORE_ITEMS.some((group) =>
+  const isMoreActive = moreItems.some((group) =>
     group.items.some((item) => location.pathname.startsWith(item.path.split('/:')[0]))
   );
 
@@ -96,7 +96,7 @@ export const BottomNavigation = () => {
         style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       >
         <div className="flex items-center justify-around h-[64px] bg-[#2D1544]/95 backdrop-blur-xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.3)]">
-          {PRIMARY_TABS.map((tab) => {
+          {primaryTabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <NavLink
@@ -137,7 +137,7 @@ export const BottomNavigation = () => {
             }`}
           >
             <MoreHorizontal size={22} />
-            <span className="text-[10px] font-medium">Əlavə</span>
+            <span className="text-[10px] font-medium">{t('webapp.bottomNav.more')}</span>
           </button>
         </div>
       </nav>
@@ -176,7 +176,7 @@ export const BottomNavigation = () => {
 
           {/* Sheet Content */}
           <div className="px-5 pb-4 flex flex-col gap-5 max-h-[60vh] overflow-y-auto">
-            {MORE_ITEMS.map((group) => (
+            {moreItems.map((group) => (
               <div key={group.group}>
                 <span className="text-[11px] font-bold text-white/40 uppercase tracking-wider mb-2 block px-1">
                   {group.group}

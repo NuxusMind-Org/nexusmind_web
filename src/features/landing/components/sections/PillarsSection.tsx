@@ -1,11 +1,19 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
 import pillarsImage from '@/assets/pillars_image.png';
 import { PILLARS } from '../../constants/pillars';
 import { ScrollReveal } from '../ScrollReveal';
 
 export const PillarsSection = () => {
+  const { t } = useTranslation();
   const [openAccordion, setOpenAccordion] = useState<number | null>(1);
+
+  const localizedPillars = PILLARS.map((item) => ({
+    id: item.id,
+    title: t(`pillars.p${item.id}Title`, item.title),
+    content: t(`pillars.p${item.id}Content`, item.content),
+  }));
 
   return (
     <section
@@ -26,11 +34,11 @@ export const PillarsSection = () => {
         {/* Right Accordion */}
         <div className="w-full lg:w-[45%] xl:w-[50%] flex flex-col">
           <h2 className="text-[28px] sm:text-[32px] lg:text-[40px] font-bold text-white mb-8 lg:mb-10 tracking-tight leading-tight">
-            Psixoloji sağlamlığının 6 əsas sütunu
+            {t('pillars.title', 'Psixoloji sağlamlığının 6 əsas sütunu')}
           </h2>
 
           <div className="flex flex-col gap-4">
-            {PILLARS.map((item) => {
+            {localizedPillars.map((item) => {
               const isOpen = openAccordion === item.id;
               const contentId = `pillar-content-${item.id}`;
 

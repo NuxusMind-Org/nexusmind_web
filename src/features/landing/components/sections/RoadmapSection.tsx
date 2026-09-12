@@ -1,4 +1,5 @@
 import { Sparkles, Users, BookOpen } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import nexieSittingClassic from '@/assets/svg/NexieSittingClassic.svg';
 import nexieSittingPurple from '@/assets/svg/NexieSittingPurple.svg';
 import { ScrollReveal } from '../ScrollReveal';
@@ -9,6 +10,7 @@ const PARTNER_REPEAT_COUNT = Math.max(1, Math.ceil(8 / PARTNER_NAMES.length));
 const PARTNER_ITEMS = Array.from({ length: PARTNER_REPEAT_COUNT }, () => PARTNER_NAMES).flat();
 
 export const RoadmapSection = () => {
+  const { t } = useTranslation();
   const {
     roadmapRef,
     card1Ref,
@@ -30,10 +32,10 @@ export const RoadmapSection = () => {
         <ScrollReveal className="w-full flex flex-col">
           <div className="text-center mb-10 md:mb-24">
             <h2 className="text-[30px] sm:text-[44px] font-bold text-white mb-3 tracking-tight">
-              Necə istifadə edəcəksən:
+              {t('roadmap.title', 'Necə istifadə edəcəksən:')}
             </h2>
             <p className="text-[15px] sm:text-[19px] text-white/80">
-              Sən də bizimlə həyatdan yenidən zövq almağı öyrən
+              {t('roadmap.subtitle', 'Sən də bizimlə həyatdan yenidən zövq almağı öyrən')}
             </p>
           </div>
         </ScrollReveal>
@@ -69,10 +71,10 @@ export const RoadmapSection = () => {
             </div>
             <div className="w-full h-full bg-[#155567] rounded-[8px] p-5 sm:p-8 md:p-10 relative shadow-2xl flex flex-col justify-center">
               <h3 className="text-white text-[22px] sm:text-[26px] font-bold mb-4 flex items-center gap-4">
-                <Sparkles size={28} className="text-white" /> Özünü tanı
+                <Sparkles size={28} className="text-white" /> {t('roadmap.step1Title', 'Özünü tanı')}
               </h3>
               <p className="text-white/85 text-[14px] sm:text-[16px] leading-relaxed">
-                İlk mərhələdə istifadəçi qısa testlər və gündəlik qeydlərlə emosional vəziyyətini analiz edir. Sistem onun stress, narahatlıq və emosional vəziyyətini müəyyənləşdirərək fərdi tövsiyələr təqdim edir.
+                {t('roadmap.step1Desc', 'İlk mərhələdə istifadəçi qısa testlər və gündəlik qeydlərlə emosional vəziyyətini analiz edir. Sistem onun stress, narahatlıq və emosional vəziyyətini müəyyənləşdirərək fərdi tövsiyələr təqdim edir.')}
               </p>
             </div>
           </ScrollReveal>
@@ -89,10 +91,10 @@ export const RoadmapSection = () => {
             </div>
             <div className="w-full h-full bg-[#7B4B8B] rounded-[8px] p-5 sm:p-8 md:p-10 relative shadow-2xl flex flex-col justify-center">
               <h3 className="text-white text-[22px] sm:text-[26px] font-bold mb-4 flex items-center gap-4">
-                <Users size={28} className="text-white" /> Ekspertlə əlaqə
+                <Users size={28} className="text-white" /> {t('roadmap.step2Title', 'Ekspertlə əlaqə')}
               </h3>
               <p className="text-white/85 text-[14px] sm:text-[16px] leading-relaxed">
-                İstifadəçi peşəkar psixoloqlarla təhlükəsiz və rahat şəkildə əlaqə qura bilir. Online konsultasiya və fərdi dəstək sayəsində problemlərə daha düzgün yanaşma formalaşır.
+                {t('roadmap.step2Desc', 'İstifadəçi peşəkar psixoloqlarla təhlükəsiz və rahat şəkildə əlaqə qura bilir. Online konsultasiya və fərdi dəstək sayəsində problemlərə daha düzgün yanaşma formalaşır.')}
               </p>
             </div>
           </ScrollReveal>
@@ -109,10 +111,10 @@ export const RoadmapSection = () => {
             </div>
             <div className="w-full h-full bg-[#155567] rounded-[8px] p-5 sm:p-8 md:p-10 relative shadow-2xl flex flex-col justify-center">
               <h3 className="text-white text-[22px] sm:text-[26px] font-bold mb-4 flex items-center gap-4">
-                <BookOpen size={28} className="text-white" /> İnkişaf Et
+                <BookOpen size={28} className="text-white" /> {t('roadmap.step3Title', 'İnkişaf Et')}
               </h3>
               <p className="text-white/85 text-[14px] sm:text-[16px] leading-relaxed">
-                Platformadakı meditasiya, nəfəs məşqləri və şəxsi inkişaf tapşırıqları ilə istifadəçi özünü daha balanslı və güvənli hiss etməyə başlayır. Məqsəd uzunmüddətli daxili rahatlıq və sağlam düşüncə formalaşdırmaqdır.
+                {t('roadmap.step3Desc', 'Platformadakı meditasiya, nəfəs məşqləri və şəxsi inkişaf tapşırıqları ilə istifadəçi özünü daha balanslı və güvənli hiss etməyə başlayır. Məqsəd uzunmüddətli daxili rahatlıq və sağlam düşüncə formalaşdırmaqdır.')}
               </p>
             </div>
           </ScrollReveal>

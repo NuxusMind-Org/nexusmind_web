@@ -1,36 +1,28 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import vrConsultation from '@/assets/vr_consultation.png';
 import { PATHS } from '@/routes/paths';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 
-const AZ_MONTHS = [
-  'Yanvar',
-  'Fevral',
-  'Mart',
-  'Aprel',
-  'May',
-  'İyun',
-  'İyul',
-  'Avqust',
-  'Sentyabr',
-  'Oktyabr',
-  'Noyabr',
-  'Dekabr',
-];
-
 export const JournalPage = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const [selectedMood, setSelectedMood] = useState<number | null>(null);
 
   const today = new Date();
-  const currentDateFormatted = `${today.getDate()} ${AZ_MONTHS[today.getMonth()]}, ${today.getFullYear()}`;
+  const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+  const currentDateFormatted = today.toLocaleDateString(locale, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 
   const moods = [
     {
       id: 1,
-      label: 'XOŞBƏXT',
+      label: t('journal.happy'),
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="10" />
@@ -42,7 +34,7 @@ export const JournalPage = () => {
     },
     {
       id: 2,
-      label: 'SAKİT',
+      label: t('journal.calm'),
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="10" />
@@ -54,7 +46,7 @@ export const JournalPage = () => {
     },
     {
       id: 3,
-      label: 'NORMAL',
+      label: t('journal.normal'),
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="10" />
@@ -66,7 +58,7 @@ export const JournalPage = () => {
     },
     {
       id: 4,
-      label: 'YORĞUN',
+      label: t('journal.tired'),
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="10" />
@@ -78,7 +70,7 @@ export const JournalPage = () => {
     },
     {
       id: 5,
-      label: 'KƏDƏRLİ',
+      label: t('journal.sad'),
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="10" />
@@ -99,13 +91,13 @@ export const JournalPage = () => {
         {/* Left Column */}
         <div className="flex-1 flex flex-col gap-6 w-full">
           <div>
-            <h1 className="text-[42px] sm:text-[56px] font-serif font-light text-white mb-2 leading-tight">Duyğu <span className="text-[#c39ffd] font-light">Gündəliyi</span></h1>
-            <p className="text-white/80 text-[16px] sm:text-[18px]">Səssiz bir məkan. Özünlə dialoq üçün təhlükəsiz və səmimi bir guşə.</p>
+            <h1 className="text-[42px] sm:text-[56px] font-serif font-light text-white mb-2 leading-tight">{t('journal.title')} <span className="text-[#c39ffd] font-light">{t('journal.titleHighlight')}</span></h1>
+            <p className="text-white/80 text-[16px] sm:text-[18px]">{t('journal.subtitle')}</p>
           </div>
 
           {/* Mood Selector */}
           <div className="bg-white/10 backdrop-blur-md rounded-lg px-3 py-6 sm:p-8 border border-white/10 shadow-xl">
-            <h3 className="text-white text-[16px] sm:text-[18px] mb-6 sm:mb-8 font-medium text-left">Bu gün özünüzü necə hiss edirsiniz?</h3>
+            <h3 className="text-white text-[16px] sm:text-[18px] mb-6 sm:mb-8 font-medium text-left">{t('journal.moodQuestion')}</h3>
             <div className="grid grid-cols-5 gap-1 sm:gap-4 items-center justify-items-center w-full">
               {moods.map(mood => (
                 <div key={mood.id} className="flex flex-col items-center gap-2 sm:gap-3 cursor-pointer group" onClick={() => setSelectedMood(mood.id)}>
@@ -126,15 +118,15 @@ export const JournalPage = () => {
 
             <div className="flex justify-between items-end mb-6 relative z-10 pl-6 sm:pl-8">
               <div>
-                <h4 className="text-white/50 text-[11px] tracking-[0.2em] uppercase font-light mb-2">GÜNÜN DÜŞÜNCƏLƏRİ</h4>
-                <h3 className="text-white text-[24px] sm:text-[28px] italic font-serif">Nə barədə düşünürsünüz?</h3>
+                <h4 className="text-white/50 text-[11px] tracking-[0.2em] uppercase font-light mb-2">{t('journal.todayThoughts')}</h4>
+                <h3 className="text-white text-[24px] sm:text-[28px] italic font-serif">{t('journal.whatThinking')}</h3>
               </div>
               <span className="text-white/60 text-[13px] font-medium hidden sm:block">{currentDateFormatted}</span>
             </div>
 
             <textarea
               className="w-full flex-1 bg-transparent text-white text-[18px] resize-none outline-none placeholder:text-white/80 leading-[32px] relative z-10 pl-6 sm:pl-8"
-              placeholder="Səhifə sənindir..."
+              placeholder={t('journal.placeholder')}
               style={{
                 backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, rgba(255, 255, 255, 0.1) 31px, rgba(255, 255, 255, 0.1) 32px)',
                 backgroundAttachment: 'local',
@@ -148,7 +140,7 @@ export const JournalPage = () => {
                 onClick={() => navigate(PATHS.LOGIN)}
                 className="w-full sm:w-auto px-7 py-3 bg-[#d8b4fe] text-[#2D1B44] font-semibold rounded-lg hover:bg-[#c084fc] transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(216,180,254,0.4)] whitespace-nowrap text-center cursor-pointer outline-none"
               >
-                Saxla
+                {t('journal.save')}
               </button>
 
               {/* Psixoloqa göndər Button - Stroke / Outlined (Secondary) */}
@@ -156,7 +148,7 @@ export const JournalPage = () => {
                 onClick={() => navigate(PATHS.LOGIN)}
                 className="w-full sm:w-auto px-7 py-3 bg-transparent border-2 border-[#d8b4fe] text-[#d8b4fe] hover:text-white font-semibold rounded-lg hover:bg-[#d8b4fe]/15 hover:border-[#c084fc] transition-all duration-300 whitespace-nowrap text-center cursor-pointer outline-none"
               >
-                Psixoloqa göndər
+                {t('journal.sendToPsychologist')}
               </button>
             </div>
           </div>
@@ -168,7 +160,7 @@ export const JournalPage = () => {
           <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
             <h3 className="text-white/80 text-[16px] mb-8 flex items-center gap-2 font-medium">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              Keçmiş Qeydlər
+              {t('journal.pastNotes')}
             </h3>
 
             <div className="flex flex-col gap-8">
@@ -198,7 +190,7 @@ export const JournalPage = () => {
               onClick={() => navigate(PATHS.LOGIN)}
               className="w-full mt-10 py-3.5 border border-white/20 rounded-lg text-white text-[12px] font-light tracking-widest hover:bg-white/10 transition-colors cursor-pointer"
             >
-              HAMISINI GÖR
+              {t('journal.seeAll')}
             </button>
           </div>
 
@@ -206,8 +198,8 @@ export const JournalPage = () => {
           <div className="w-full h-[180px] rounded-lg overflow-hidden relative group cursor-pointer shadow-xl border border-white/10 hidden sm:block">
             <img src={vrConsultation} alt="VR Consultation" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110" />
             <div className="absolute bottom-4 left-4 right-4 bg-[#eeb3b3]/30 backdrop-blur-xl border border-white/20 rounded-lg p-4">
-              <h4 className="text-[14px] font-light text-[#111] mb-1">VR KONSULTASİYA</h4>
-              <p className="text-[9px] text-[#222] font-light line-clamp-2">Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.</p>
+              <h4 className="text-[14px] font-light text-[#111] mb-1">{t('vr.title')}</h4>
+              <p className="text-[9px] text-[#222] font-light line-clamp-2">{t('vr.description')}</p>
             </div>
           </div>
         </div>

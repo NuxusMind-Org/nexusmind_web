@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { NewsItem } from '../../constants/news';
 import { NewsCard } from './NewsCard';
 import { ScrollReveal } from '../ScrollReveal';
@@ -9,11 +10,13 @@ interface NewsGridProps {
 }
 
 export const NewsGrid = ({ items, hasMore, onLoadMore }: NewsGridProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className="w-full flex flex-col items-center">
       {items.length === 0 ? (
         <div className="text-center py-20 text-white/50 text-[16px] md:text-[18px] font-medium">
-          Müvafiq kateqoriyada xəbər tapılmadı.
+          {t('news.noNewsFound')}
         </div>
       ) : (
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -31,7 +34,7 @@ export const NewsGrid = ({ items, hasMore, onLoadMore }: NewsGridProps) => {
           onClick={onLoadMore}
           className="mt-12 md:mt-16 text-white hover:text-[#00f2ff] transition-colors duration-300 flex items-center gap-2 text-[16px] md:text-[18px] font-medium bg-transparent border-0 outline-none cursor-pointer group select-none py-2"
         >
-          <span>Daha çox</span>
+          <span>{t('news.loadMore')}</span>
           <span className="transform translate-x-0 group-hover:translate-x-1.5 transition-transform duration-300">→</span>
         </button>
       )}

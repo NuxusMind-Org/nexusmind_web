@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const SubscriptionCard = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -21,10 +23,10 @@ export const SubscriptionCard = () => {
       {/* Content */}
       <div className="flex flex-col gap-3">
         <h2 className="text-[26px] sm:text-[32px] font-semibold text-white tracking-tight leading-snug">
-          Elmi yeniliklərdən xəbərdar olun
+          {t('newsletter.title')}
         </h2>
         <p className="text-white/80 text-[14px] sm:text-[16px] max-w-[650px] mx-auto font-light leading-relaxed">
-          Ən son tədqiqatlaq və mərkəzimizin xəbər bülteni üçün qeydiyyatdan keçin.
+          {t('newsletter.subtitle')}
         </p>
       </div>
 
@@ -33,7 +35,7 @@ export const SubscriptionCard = () => {
         <input
           type="email"
           required
-          placeholder="E-poçt ünvanınız"
+          placeholder={t('newsletter.placeholder')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="flex-1 h-12 w-full px-6 bg-[#0b2430]/75 border border-white/10 rounded-full text-[14px] text-white placeholder-white/40 focus:outline-none focus:border-[#00f2ff] focus:ring-1 focus:ring-[#00f2ff] transition-all"
@@ -42,7 +44,7 @@ export const SubscriptionCard = () => {
           type="submit"
           className="h-12 whitespace-nowrap bg-gradient-to-r from-[#9f5bff] to-[#a88bff] text-[#1a2b3c] font-bold text-[14px] sm:text-[15px] rounded-full px-8 hover:opacity-95 transition-all duration-300 shadow-[0_4px_14px_rgba(168,139,255,0.4)] hover:shadow-[0_6px_20px_rgba(168,139,255,0.6)] cursor-pointer"
         >
-          {submitted ? 'Qeydiyyatdan keçildi' : 'Göndər'}
+          {submitted ? t('newsletter.success') : t('newsletter.submit')}
         </button>
       </form>
     </div>

@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { Input } from '@/components/input';
@@ -9,6 +10,7 @@ import { articlesApi } from '@/api/articles.api';
 import { mapMeqaleToArticleItem } from '@/utils/contentMappers';
 
 export const ArticlesPage = () => {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [realArticles, setRealArticles] = useState<ArticleItem[]>([]);
@@ -32,11 +34,6 @@ export const ArticlesPage = () => {
       isMounted = false;
     };
   }, []);
-
-  // Reset pagination page to 1 when search query changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery]);
 
   const allArticles = useMemo(() => {
     return [...realArticles, ...ARTICLE_ITEMS];
@@ -77,10 +74,10 @@ export const ArticlesPage = () => {
           {/* Header */}
           <div className="w-full flex flex-col items-start">
             <h1 className="text-[42px] sm:text-[56px] font-sans font-light text-white mb-2 leading-tight tracking-tight">
-              Məqalələr
+              {t('articles.title')}
             </h1>
             <p className="text-white/80 text-[15px] sm:text-[17px] font-light">
-              Psixoloqlarımızın məqalələri
+              {t('articles.subtitle')}
             </p>
           </div>
 
@@ -88,9 +85,12 @@ export const ArticlesPage = () => {
           <div className="w-full">
             <Input
               type="text"
-              placeholder="Blogda axtar..."
+              placeholder={t('articles.searchPlaceholder')}
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
               rightElement={<Search size={18} className="text-white/40" />}
               className="bg-white/5 border-white/10 hover:border-white/20 focus:border-brand focus:ring-1 focus:ring-brand text-[14px] text-white placeholder-white/30 h-12"
             />

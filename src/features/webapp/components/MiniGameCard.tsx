@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
 
 interface MiniGameCardProps {
@@ -16,10 +17,12 @@ export const MiniGameCard: React.FC<MiniGameCardProps> = ({
   description,
   bgGradient = 'linear-gradient(135deg, #06976B 0%, #38A06F 50%, #0E4D2D 100%)',
   icon,
-  actionText = 'indi başla',
+  actionText,
   onAction,
   onClose,
 }) => {
+  const { t } = useTranslation();
+  const effectiveActionText = actionText || t('webapp.dashboard.startNow');
   return (
     <div className="w-full bg-white px-4 sm:px-6 pb-10 sm:pb-16 lg:px-10 flex flex-col justify-start select-none">
       {/* Container wrapper for the mini-game card with custom gradient and rounding */}
@@ -73,7 +76,7 @@ export const MiniGameCard: React.FC<MiniGameCardProps> = ({
               minHeight: '55.29px',
             }}
           >
-            {actionText}
+            {effectiveActionText}
           </button>
         </div>
       </div>

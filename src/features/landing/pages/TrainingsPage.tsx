@@ -18,7 +18,10 @@ export const TrainingsPage = () => {
   const [animateEntry, setAnimateEntry] = useState(false);
 
   useEffect(() => {
-    setAnimateEntry(true);
+    const frameId = requestAnimationFrame(() => {
+      setAnimateEntry(true);
+    });
+    return () => cancelAnimationFrame(frameId);
   }, []);
 
   const handleOpenRegistration = (training: Training) => {

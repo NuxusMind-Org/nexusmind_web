@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import { psychologists } from '../../data/psychologists';
 import { ScrollReveal } from '../ScrollReveal';
 
 export const ExpertsSection = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
@@ -15,13 +17,13 @@ export const ExpertsSection = () => {
 
         <div className="text-center mb-6 sm:mb-10">
           <h2 className="text-[26px] sm:text-[36px] md:text-[44px] font-bold text-white mb-2 tracking-tight">
-            Mütəxəssislərimiz :
+            {t('experts.title', 'Mütəxəssislərimiz :')}
           </h2>
           <p className="text-[15px] sm:text-[20px] md:text-[24px] text-white/90 mb-3">
-            Psixoloqlar, Həyat bələdçiləri, Mindfulness terapistləri və s.
+            {t('experts.subtitle1', 'Psixoloqlar, Həyat bələdçiləri, Mindfulness terapistləri və s.')}
           </p>
           <p className="text-[14px] sm:text-[18px] text-white/90">
-            Sən də bizimlə həyatdan yenidən zövq almağı öyrən !
+            {t('experts.subtitle2', 'Sən də bizimlə həyatdan yenidən zövq almağı öyrən !')}
           </p>
         </div>
 
@@ -38,7 +40,7 @@ export const ExpertsSection = () => {
                   </div>
                 </div>
                 <div className="text-[#a88bff] font-bold text-[20px]">
-                  ${psych.price}<span className="text-[16px] font-normal">/seans</span>
+                  ${psych.price}<span className="text-[16px] font-normal">{t('experts.perSession', '/seans')}</span>
                 </div>
               </div>
 
@@ -62,7 +64,7 @@ export const ExpertsSection = () => {
                 onClick={() => navigate(PATHS.PSYCHOLOGIST.replace(':id', String(psych.id)))}
                 className="w-full bg-[#8A38F5] hover:bg-[#9773fc] text-white font-semibold py-3 rounded-[16px] transition-colors cursor-pointer z-50 relative"
               >
-                Başlayaq
+                {t('experts.getStarted', 'Başlayaq')}
               </button>
             </div>
           ))}
@@ -72,7 +74,7 @@ export const ExpertsSection = () => {
           onClick={() => navigate(PATHS.LOGIN)}
           className="text-white hover:text-[#a88bff] transition-colors flex items-center gap-2 text-[18px] cursor-pointer"
         >
-          Daha çox <span>→</span>
+          {t('experts.more', 'Daha çox')} <span>→</span>
         </button>
 
       </ScrollReveal>

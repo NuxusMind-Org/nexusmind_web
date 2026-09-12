@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { History, Check, Loader2, Trash2, X, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
 import { MoodSelector } from '../components/MoodSelector';
 import {
@@ -9,20 +10,8 @@ import {
 } from '../hooks/useJournal';
 import type { JournalEntryResponse, JournalMood } from '@/api/types';
 
-const AZ_MONTHS = [
-  'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun',
-  'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
-];
-
-const MOOD_COLORS: Record<string, { bg: string; dot: string; label: string }> = {
-  VERY_LOW: { bg: 'bg-[#ea4335]/15 text-[#ea4335]', dot: 'bg-[#ea4335] shadow-[0_0_8px_#ea4335]', label: 'Çox Pis' },
-  LOW: { bg: 'bg-[#fbbc05]/15 text-[#fbbc05]', dot: 'bg-[#fbbc05] shadow-[0_0_8px_#fbbc05]', label: 'Pis' },
-  NEUTRAL: { bg: 'bg-[#34a853]/15 text-[#34a853]', dot: 'bg-[#34a853] shadow-[0_0_8px_#34a853]', label: 'Normal' },
-  GOOD: { bg: 'bg-[#46bdc6]/15 text-[#46bdc6]', dot: 'bg-[#46bdc6] shadow-[0_0_8px_#46bdc6]', label: 'Yaxşı' },
-  VERY_GOOD: { bg: 'bg-[#4285f4]/15 text-[#4285f4]', dot: 'bg-[#4285f4] shadow-[0_0_8px_#4285f4]', label: 'Əla' },
-};
-
 export const JournalPage = () => {
+  const { t, i18n } = useTranslation();
   const [noteText, setNoteText] = useState<string>('');
   const [currentMood, setCurrentMood] = useState<JournalMood>('NEUTRAL');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
@@ -31,6 +20,14 @@ export const JournalPage = () => {
   const [historyPage, setHistoryPage] = useState<number>(0);
 
   const hasInitializedText = useRef<boolean>(false);
+
+  const moodColors: Record<string, { bg: string; dot: string; label: string }> = useMemo(() => ({
+    VERY_LOW: { bg: 'bg-[#ea4335]/15 text-[#ea4335]', dot: 'bg-[#ea4335] shadow-[0_0_8px_#ea4335]', label: t('webapp.mood.veryBad') },
+    LOW: { bg: 'bg-[#fbbc05]/15 text-[#fbbc05]', dot: 'bg-[#fbbc05] shadow-[0_0_8px_#fbbc05]', label: t('webapp.mood.bad') },
+    NEUTRAL: { bg: 'bg-[#34a853]/15 text-[#34a853]', dot: 'bg-[#34a853] shadow-[0_0_8px_#34a853]', label: t('webapp.mood.normal') },
+    GOOD: { bg: 'bg-[#46bdc6]/15 text-[#46bdc6]', dot: 'bg-[#46bdc6] shadow-[0_0_8px_#46bdc6]', label: t('webapp.mood.good') },
+    VERY_GOOD: { bg: 'bg-[#4285f4]/15 text-[#4285f4]', dot: 'bg-[#4285f4] shadow-[0_0_8px_#4285f4]', label: t('webapp.mood.excellent') },
+  }), [t]);
 
   // 1. Fetch Today's Journal Entry
   const { data: todayEntry, isLoading: isTodayLoading } = useTodayJournal();
@@ -60,19 +57,21 @@ export const JournalPage = () => {
 
   const todayFormatted = useMemo(() => {
     const now = new Date();
-    const day = now.getDate();
-    const month = AZ_MONTHS[now.getMonth()];
-    const year = now.getFullYear();
-    return `${day} ${month}, ${year}`;
-  }, []);
+    const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+    return now.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+  }, [i18n.language]);
 
   const formatNoteDate = (dateStr?: string) => {
     if (!dateStr) return '';
-    const parts = dateStr.split('-').map(Number);
-    if (parts.length === 3) {
-      const day = parts[2];
-      const month = AZ_MONTHS[parts[1] - 1]?.toUpperCase() || '';
-      return `${day} ${month}`;
+    try {
+      const parts = dateStr.split('-').map(Number);
+      if (parts.length === 3) {
+        const d = new Date(parts[0], parts[1] - 1, parts[2]);
+        const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+        return d.toLocaleDateString(locale, { day: 'numeric', month: 'short' }).toUpperCase();
+      }
+    } catch {
+      // fallback
     }
     return dateStr;
   };
@@ -99,7 +98,7 @@ export const JournalPage = () => {
 
   const handleDeleteNote = async (id?: number) => {
     if (!id) return;
-    if (window.confirm('Bu qeydi silmək istədiyinizə əminsiniz?')) {
+    if (window.confirm(t('webapp.journal.deleteConfirm'))) {
       try {
         await deleteJournalMutation.mutateAsync(id);
         setSelectedNote(null);
@@ -120,7 +119,7 @@ export const JournalPage = () => {
       >
         {/* Main Centered Header */}
         <h1 className="text-[24px] sm:text-[32px] md:text-[46.72px] font-normal text-[#1E0A42] text-center tracking-[-0.96px] leading-[32px] sm:leading-[42px] md:leading-[59.84px] w-full">
-          Çəkinmədən bütün qeydlərini et.
+          {t('webapp.journal.headerTitle')}
         </h1>
 
         {/* Bottom half containing question, emojis and slider (Auto-submit disabled on journal page) */}
@@ -143,10 +142,10 @@ export const JournalPage = () => {
         <div className="flex justify-between items-end mb-6 w-full max-w-[880px]">
           <div>
             <h3 className="text-[22px] md:text-[31.15px] font-normal text-[#1E0A42] tracking-[-0.96px] leading-[32px] md:leading-[59.84px] font-['Lexend']">
-              Günün düşüncələri
+              {t('webapp.journal.todayThoughts')}
             </h3>
             <p className="text-[15px] md:text-[16px] font-normal text-[#9633D8] tracking-[0px] leading-[30px] md:leading-[36px] font-['Kite_One',_sans-serif]">
-              Nə barədə düşünürsünüz?
+              {t('webapp.journal.whatAreYouThinking')}
             </p>
           </div>
           
@@ -156,17 +155,17 @@ export const JournalPage = () => {
               <div className="text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-medium transition-all font-['Lexend']">
                 {saveStatus === 'saving' && (
                   <span className="text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full flex items-center gap-1">
-                    <Loader2 size={12} className="animate-spin" /> Yadda saxlanılır...
+                    <Loader2 size={12} className="animate-spin" /> {t('webapp.journal.saving')}
                   </span>
                 )}
                 {saveStatus === 'saved' && (
                   <span className="text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full flex items-center gap-1">
-                    <Check size={12} /> Qeyd saxlanıldı
+                    <Check size={12} /> {t('webapp.journal.saved')}
                   </span>
                 )}
                 {saveStatus === 'error' && (
                   <span className="text-red-600 bg-red-50 px-2.5 py-1 rounded-full">
-                    Xəta baş verdi
+                    {t('webapp.journal.error')}
                   </span>
                 )}
               </div>
@@ -188,7 +187,7 @@ export const JournalPage = () => {
             <textarea
               value={noteText}
               onChange={handleTextChange}
-              placeholder={isTodayLoading ? "Qeydlər yüklənir..." : "Səhifə sənindir..."}
+              placeholder={isTodayLoading ? t('webapp.journal.loading') : t('webapp.journal.placeholder')}
               className="w-full h-full bg-transparent text-gray-800 placeholder-gray-400 text-base font-normal resize-none focus:outline-none font-['Lexend'] leading-[32px] z-10 relative"
               style={{
                 backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, rgba(0, 0, 0, 0.08) 31px, rgba(0, 0, 0, 0.08) 32px)',
@@ -209,7 +208,7 @@ export const JournalPage = () => {
                 ) : (
                   <Check size={14} />
                 )}
-                <span>Yadda saxla</span>
+                <span>{t('webapp.journal.save')}</span>
               </button>
             </div>
           </div>
@@ -220,7 +219,7 @@ export const JournalPage = () => {
             <div className="flex items-center gap-3">
               <History size={20} className="text-white/80" />
               <h4 className="text-lg font-medium text-white tracking-wide font-['Lexend']">
-                Keçmiş Qeydlər
+                {t('webapp.journal.pastNotes')}
               </h4>
             </div>
 
@@ -229,16 +228,16 @@ export const JournalPage = () => {
               {isHistoryLoading ? (
                 <div className="flex flex-col items-center justify-center py-10 text-white/50 gap-2">
                   <Loader2 size={24} className="animate-spin" />
-                  <span className="text-xs font-['Lexend']">Qeydlər yüklənir...</span>
+                  <span className="text-xs font-['Lexend']">{t('webapp.journal.loading')}</span>
                 </div>
               ) : !recentHistory?.content || recentHistory.content.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center text-white/50">
                   <BookOpen size={32} className="opacity-40 mb-2" />
-                  <p className="text-xs font-['Lexend']">Hələki keçmiş qeyd yoxdur.</p>
+                  <p className="text-xs font-['Lexend']">{t('webapp.journal.noPastNotes')}</p>
                 </div>
               ) : (
                 recentHistory.content.map((note) => {
-                  const moodConfig = note.mood ? MOOD_COLORS[note.mood] : MOOD_COLORS.NEUTRAL;
+                  const moodConfig = note.mood ? moodColors[note.mood] : moodColors.NEUTRAL;
                   return (
                     <div
                       key={note.id}
@@ -253,7 +252,7 @@ export const JournalPage = () => {
                           {note.thoughts?.split('\n')[0] || 'Düşüncələr...'}
                         </h5>
                         <p className="text-[11px] text-white/70 mt-1 leading-normal line-clamp-2 font-['Lexend']">
-                          {note.thoughts || 'Qeyd mətni yoxdur.'}
+                          {note.thoughts || t('webapp.journal.noNoteText')}
                         </p>
                       </div>
                       <div
@@ -274,7 +273,7 @@ export const JournalPage = () => {
               }}
               className="w-full bg-white text-[#482476] py-3.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white/90 transition-colors shadow-md cursor-pointer font-['Lexend']"
             >
-              HAMISINI GÖR
+              {t('webapp.journal.seeAll')}
             </button>
           </div>
         </div>
@@ -291,7 +290,7 @@ export const JournalPage = () => {
                   {formatNoteDate(selectedNote.entryDate)}
                 </span>
                 <h3 className="text-xl font-bold text-[#1E0A42] font-['Lexend'] mt-0.5">
-                  Günün qeydi
+                  {t('webapp.journal.todayNote')}
                 </h3>
               </div>
               <button
@@ -305,8 +304,8 @@ export const JournalPage = () => {
             {/* Mood Tag */}
             {selectedNote.mood && (
               <div className="flex items-center gap-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${MOOD_COLORS[selectedNote.mood]?.bg || 'bg-gray-100 text-gray-700'}`}>
-                  Əhval: {MOOD_COLORS[selectedNote.mood]?.label || selectedNote.mood}
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${moodColors[selectedNote.mood]?.bg || 'bg-gray-100 text-gray-700'}`}>
+                  {t('webapp.journal.moodLabel')} {moodColors[selectedNote.mood]?.label || selectedNote.mood}
                 </span>
               </div>
             )}
@@ -314,7 +313,7 @@ export const JournalPage = () => {
             {/* Note Content */}
             <div className="bg-[#F9FAFC] rounded-2xl p-5 border border-gray-100 max-h-[300px] overflow-y-auto">
               <p className="text-gray-800 text-sm sm:text-base font-normal leading-relaxed whitespace-pre-wrap font-['Lexend']">
-                {selectedNote.thoughts || 'Bu gün üçün mətn qeyd edilməyib.'}
+                {selectedNote.thoughts || t('webapp.journal.emptyNote')}
               </p>
             </div>
 
@@ -326,13 +325,13 @@ export const JournalPage = () => {
                 className="flex items-center gap-1.5 text-red-500 hover:text-red-600 text-xs font-semibold px-3 py-2 rounded-xl hover:bg-red-50 transition-colors cursor-pointer"
               >
                 <Trash2 size={15} />
-                <span>Qeydi sil</span>
+                <span>{t('webapp.journal.deleteNote')}</span>
               </button>
               <button
                 onClick={() => setSelectedNote(null)}
                 className="px-6 py-2.5 rounded-xl bg-[#482476] text-white text-xs font-semibold hover:bg-[#38166D] transition-colors cursor-pointer"
               >
-                Bağla
+                {t('webapp.journal.close')}
               </button>
             </div>
           </div>
@@ -348,7 +347,7 @@ export const JournalPage = () => {
               <div className="flex items-center gap-2.5">
                 <History size={22} className="text-[#482476]" />
                 <h3 className="text-xl font-bold text-[#1E0A42] font-['Lexend']">
-                  Bütün Keçmiş Qeydlər
+                  {t('webapp.journal.allPastNotes')}
                 </h3>
               </div>
               <button
@@ -363,11 +362,11 @@ export const JournalPage = () => {
             <div className="flex flex-col gap-3 overflow-y-auto flex-1 pr-1">
               {!modalHistory?.content || modalHistory.content.length === 0 ? (
                 <div className="py-16 text-center text-gray-400 font-['Lexend']">
-                  Keçmiş qeyd tapılmadı.
+                  {t('webapp.journal.noNotesFound')}
                 </div>
               ) : (
                 modalHistory.content.map((note) => {
-                  const moodConfig = note.mood ? MOOD_COLORS[note.mood] : MOOD_COLORS.NEUTRAL;
+                  const moodConfig = note.mood ? moodColors[note.mood] : moodColors.NEUTRAL;
                   return (
                     <div
                       key={note.id}
@@ -381,7 +380,7 @@ export const JournalPage = () => {
                           {formatNoteDate(note.entryDate)}
                         </span>
                         <p className="text-sm font-semibold text-[#1E0A42] font-['Lexend'] mt-0.5 line-clamp-1">
-                          {note.thoughts || 'Qeyd mətni yoxdur.'}
+                          {note.thoughts || t('webapp.journal.noNoteText')}
                         </p>
                       </div>
                       <div className="flex items-center gap-3">
@@ -413,17 +412,17 @@ export const JournalPage = () => {
                   disabled={historyPage === 0}
                   className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-semibold disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
                 >
-                  <ChevronLeft size={14} /> Əvvəlki
+                  <ChevronLeft size={14} /> {t('webapp.journal.previous')}
                 </button>
                 <span className="text-xs text-gray-500 font-medium">
-                  Səhifə {historyPage + 1} / {modalHistory.totalPages}
+                  {t('webapp.journal.page')} {historyPage + 1} / {modalHistory.totalPages}
                 </span>
                 <button
                   onClick={() => setHistoryPage((p) => Math.min((modalHistory.totalPages || 1) - 1, p + 1))}
                   disabled={historyPage >= (modalHistory.totalPages || 1) - 1}
                   className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-gray-200 text-xs font-semibold disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
                 >
-                  Növbəti <ChevronRight size={14} />
+                  {t('webapp.journal.next')} <ChevronRight size={14} />
                 </button>
               </div>
             )}

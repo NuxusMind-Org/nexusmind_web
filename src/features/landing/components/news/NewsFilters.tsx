@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export type NewsCategoryFilter = 'all' | 'elanlar' | 'tecrube' | 'tedbirler';
 export type NewsSortOption = 'popularity' | 'date-desc' | 'date-asc';
@@ -11,21 +12,22 @@ interface NewsFiltersProps {
   onSortChange: (sort: NewsSortOption) => void;
 }
 
-const SORT_LABELS: Record<NewsSortOption, string> = {
-  'popularity': 'Populyarlığa görə',
-  'date-desc': 'Tarix: Yenidən köhnəyə',
-  'date-asc': 'Tarix: Köhnədən yeniyə',
-};
-
 export const NewsFilters = ({
   activeCategory,
   onCategoryChange,
   activeSort,
   onSortChange,
 }: NewsFiltersProps) => {
+  const { t } = useTranslation();
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const sortLabels: Record<NewsSortOption, string> = {
+    'popularity': t('news.sortByPopularity'),
+    'date-desc': t('news.sortDateDesc'),
+    'date-asc': t('news.sortDateAsc'),
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -39,10 +41,10 @@ export const NewsFilters = ({
   }, []);
 
   const categories: { value: NewsCategoryFilter; label: string }[] = [
-    { value: 'all', label: 'Hamısı' },
-    { value: 'elanlar', label: 'Elanlar' },
-    { value: 'tecrube', label: 'Təcrübə proqramları' },
-    { value: 'tedbirler', label: 'Tədbirlər' },
+    { value: 'all', label: t('news.all') },
+    { value: 'elanlar', label: t('news.announcements') },
+    { value: 'tecrube', label: t('news.internships') },
+    { value: 'tedbirler', label: t('news.events') },
   ];
 
   return (
@@ -74,13 +76,13 @@ export const NewsFilters = ({
 
         {/* Mobile Sort Dropdown */}
         <div className="flex items-center justify-between gap-3 w-full" ref={dropdownRef}>
-          <span className="text-white/60 text-[13px] font-medium font-['Lexend'] whitespace-nowrap">Sıralama :</span>
+          <span className="text-white/60 text-[13px] font-medium font-['Lexend'] whitespace-nowrap">{t('news.sortBy')}</span>
           <div className="relative flex-1 max-w-[240px]">
             <button
               onClick={() => setIsSortOpen(!isSortOpen)}
               className="w-full min-h-[44px] bg-[#1e293b]/70 backdrop-blur-md border border-white/15 rounded-xl px-4 py-2.5 text-[13px] font-medium text-white flex items-center justify-between gap-2 cursor-pointer hover:bg-white/10 transition-all shadow-md outline-none"
             >
-              <span className="truncate">{SORT_LABELS[activeSort]}</span>
+              <span className="truncate">{sortLabels[activeSort]}</span>
               <ChevronDown size={16} className={`text-white/60 shrink-0 transition-transform duration-300 ${isSortOpen ? 'rotate-180 text-white' : ''}`} />
             </button>
 
@@ -93,7 +95,7 @@ export const NewsFilters = ({
               }`}
             >
               <div className="rounded-xl p-2 flex flex-col gap-1 shadow-[0_12px_40px_rgba(0,0,0,0.6)] border border-white/15 bg-[#152434]/95 backdrop-blur-xl">
-                {(Object.keys(SORT_LABELS) as NewsSortOption[]).map((option) => (
+                {(Object.keys(sortLabels) as NewsSortOption[]).map((option) => (
                   <button
                     key={option}
                     onClick={() => {
@@ -106,7 +108,7 @@ export const NewsFilters = ({
                         : 'text-white/80 hover:text-white hover:bg-white/5'
                     }`}
                   >
-                    {SORT_LABELS[option]}
+                    {sortLabels[option]}
                   </button>
                 ))}
               </div>
@@ -125,7 +127,7 @@ export const NewsFilters = ({
           }`}
         >
           <SlidersHorizontal size={15} className="group-hover:scale-105 transition-transform duration-300" />
-          <span>Filter</span>
+          <span>{t('news.filter')}</span>
         </button>
 
         {/* Category Pills with smooth horizontal slide animation */}
@@ -159,13 +161,13 @@ export const NewsFilters = ({
 
       {/* Desktop Sorting Select Dropdown */}
       <div className="hidden md:flex items-center gap-3 self-end md:self-auto" ref={dropdownRef}>
-        <span className="text-white/60 text-[14px] font-medium">Sıralama :</span>
+        <span className="text-white/60 text-[14px] font-medium">{t('news.sortBy')}</span>
         <div className="relative">
           <button
             onClick={() => setIsSortOpen(!isSortOpen)}
             className="bg-[#1e293b]/60 backdrop-blur-md border border-white/10 rounded-lg px-5 py-2.5 text-[14px] font-medium text-white flex items-center justify-between gap-3 min-w-[200px] cursor-pointer hover:bg-white/5 hover:border-white/20 transition-all shadow-lg"
           >
-            <span>{SORT_LABELS[activeSort]}</span>
+            <span>{sortLabels[activeSort]}</span>
             <ChevronDown size={16} className={`text-white/60 transition-transform duration-300 ${isSortOpen ? 'rotate-180 text-white' : ''}`} />
           </button>
 
@@ -178,7 +180,7 @@ export const NewsFilters = ({
             }`}
           >
             <div className="rounded-lg p-2 flex flex-col gap-0.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] border border-white/15 bg-[#152434]/95 backdrop-blur-xl">
-              {(Object.keys(SORT_LABELS) as NewsSortOption[]).map((option) => (
+              {(Object.keys(sortLabels) as NewsSortOption[]).map((option) => (
                 <button
                   key={option}
                   onClick={() => {
@@ -191,7 +193,7 @@ export const NewsFilters = ({
                       : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  {SORT_LABELS[option]}
+                  {sortLabels[option]}
                 </button>
               ))}
             </div>

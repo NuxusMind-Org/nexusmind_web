@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Play } from 'lucide-react';
 
 export interface TechniqueStep {
@@ -21,6 +22,8 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
   imageSrc,
   onStart,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className="w-full max-w-[552px] bg-white rounded-[32px] border border-[#CBC4D2]/20 p-6 sm:p-8 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.05)] transition-all duration-300 hover:shadow-lg min-h-[600px] sm:min-h-[657px]"
@@ -67,7 +70,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
         className="w-full py-3.5 bg-[#38166D] hover:bg-[#2c1157] active:scale-[0.99] text-white font-semibold text-sm sm:text-base rounded-[18px] transition-all duration-200 shadow-md flex items-center justify-center gap-2.5 cursor-pointer mt-2"
       >
         <Play size={18} fill="currentColor" className="text-white ml-0.5" />
-        <span>Başla</span>
+        <span>{t('webapp.miniGames.start')}</span>
       </button>
     </div>
   );

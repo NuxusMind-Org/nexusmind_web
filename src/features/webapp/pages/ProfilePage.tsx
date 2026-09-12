@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { User, Lock, Camera, Trash2, ChevronDown, Check, Eye, EyeOff, ShieldCheck, Loader2 } from 'lucide-react';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import { useUpdateUser } from '@/features/auth/hooks/useUpdateUser';
 import { authApi } from '@/features/auth/api/auth.api';
 
 export const ProfilePage = () => {
+  const { t, i18n } = useTranslation();
   const { data: user } = useCurrentUser();
   const updateUserMutation = useUpdateUser();
 
@@ -19,10 +21,9 @@ export const ProfilePage = () => {
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [tempEmail, setTempEmail] = useState('');
 
-  const [status, setStatus] = useState('Tələbə');
+  const [status, setStatus] = useState('student');
   const [isStatusOpen, setIsStatusOpen] = useState(false);
 
-  const [language, setLanguage] = useState('Azərbaycan dili');
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -45,8 +46,17 @@ export const ProfilePage = () => {
   const [passwordStatus, setPasswordStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
 
-  const statusOptions = ['Tələbə', 'Məzun', 'İşləyən', 'Digər'];
-  const languageOptions = ['Azərbaycan dili', 'English', 'Türkçe', 'Русский'];
+  const statusOptions = [
+    { key: 'student', label: t('webapp.profile.statusStudent') },
+    { key: 'graduate', label: t('webapp.profile.statusGraduate') },
+    { key: 'working', label: t('webapp.profile.statusWorking') },
+    { key: 'other', label: t('webapp.profile.statusOther') },
+  ];
+  const languageOptions = [
+    { code: 'az', name: 'Azərbaycan dili' },
+    { code: 'en', name: 'English' },
+    { code: 'ru', name: 'Русский' },
+  ];
 
   // Initialize and sync form with fetched user data
   useEffect(() => {
@@ -61,11 +71,11 @@ export const ProfilePage = () => {
       setTempEmail(initialEmail);
 
       if (user.status) setStatus(user.status);
-      if (user.language) setLanguage(user.language);
+      if (user.language && ['az', 'en', 'ru'].includes(user.language)) i18n.changeLanguage(user.language);
       if (user.profileImageUrl) setProfileImage(user.profileImageUrl);
       if (typeof user.twoFactorEnabled === 'boolean') setIs2FAEnabled(user.twoFactorEnabled);
     }
-  }, [user]);
+  }, [user, i18n]);
 
   const userInitial = user?.name ? user.name.trim().charAt(0).toUpperCase() : 'U';
 
@@ -106,7 +116,7 @@ export const ProfilePage = () => {
 
   const handleSaveAllChanges = async () => {
     if (!user?.id) {
-      setSaveFeedback('Dəyişikliklər qeydə alındı.');
+      setSaveFeedback(t('webapp.profile.changesSaved'));
       setTimeout(() => setSaveFeedback(null), 3000);
       return;
     }
@@ -132,10 +142,10 @@ export const ProfilePage = () => {
       });
       setIsEditingName(false);
       setIsEditingEmail(false);
-      setSaveFeedback('Məlumatlarınız uğurla yeniləndi.');
+      setSaveFeedback(t('webapp.profile.changesSaved'));
       setTimeout(() => setSaveFeedback(null), 3000);
     } catch {
-      setSaveError('Məlumatları yeniləyərkən xəta baş verdi.');
+      setSaveError(t('webapp.profile.passwordError'));
       setTimeout(() => setSaveError(null), 3000);
     }
   };
@@ -151,15 +161,15 @@ export const ProfilePage = () => {
     setPasswordStatus(null);
 
     if (!currentPassword) {
-      setPasswordStatus({ type: 'error', message: 'Hazırkı şifrəni daxil edin.' });
+      setPasswordStatus({ type: 'error', message: t('webapp.profile.errorCurrentReq') });
       return;
     }
     if (newPassword.length < 8) {
-      setPasswordStatus({ type: 'error', message: 'Yeni şifrə ən az 8 simvol olmalıdır.' });
+      setPasswordStatus({ type: 'error', message: t('webapp.profile.errorMinLength') });
       return;
     }
     if (newPassword !== confirmPassword) {
-      setPasswordStatus({ type: 'error', message: 'Yeni şifrələr uyğun gəlmir.' });
+      setPasswordStatus({ type: 'error', message: t('webapp.profile.errorMismatch') });
       return;
     }
 
@@ -170,11 +180,11 @@ export const ProfilePage = () => {
         newPassword,
         confirmPassword,
       });
-      setPasswordStatus({ type: 'success', message: 'Şifrəniz uğurla yeniləndi!' });
+      setPasswordStatus({ type: 'success', message: t('webapp.profile.passwordSuccess') });
       handleCancelPasswordChange();
       setTimeout(() => setPasswordStatus(null), 4000);
     } catch {
-      setPasswordStatus({ type: 'error', message: 'Şifrəni dəyişmək mümkün olmadı. Hazırkı şifrənizi yoxlayın.' });
+      setPasswordStatus({ type: 'error', message: t('webapp.profile.passwordError') });
     } finally {
       setIsChangingPassword(false);
     }
@@ -202,7 +212,7 @@ export const ProfilePage = () => {
         <h1
           className="relative z-10 text-[#1E0A42] font-normal text-[28px] sm:text-[36px] md:text-[46.72px] leading-[36px] sm:leading-[48px] md:leading-[59.84px] text-center tracking-[-0.96px] font-['Lexend',_sans-serif]"
         >
-          Sənin profilin
+          {t('webapp.profile.title')}
         </h1>
       </div>
 
@@ -220,7 +230,7 @@ export const ProfilePage = () => {
               }`}
             >
               <User size={18} className={activeTab === 'account' ? 'text-[#38166D]' : 'text-gray-400'} />
-              <span>Hesabınız</span>
+              <span>{t('webapp.profile.account')}</span>
               {activeTab === 'account' && (
                 <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#38166D] rounded-full" />
               )}
@@ -235,7 +245,7 @@ export const ProfilePage = () => {
               }`}
             >
               <Lock size={18} className={activeTab === 'security' ? 'text-[#38166D]' : 'text-gray-400'} />
-              <span>Təhlükəsizlik</span>
+              <span>{t('webapp.profile.security')}</span>
               {activeTab === 'security' && (
                 <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#38166D] rounded-full" />
               )}
@@ -250,7 +260,7 @@ export const ProfilePage = () => {
             <div className="p-6 sm:p-10 flex flex-col gap-8">
               {/* Card Title */}
               <h2 className="text-[22px] sm:text-[26px] font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                Hesab Məlumatları
+                {t('webapp.profile.accountDetails')}
               </h2>
 
               {/* 1. Profile Picture Row */}
@@ -269,7 +279,7 @@ export const ProfilePage = () => {
                     <button
                       onClick={() => fileInputRef.current?.click()}
                       className="absolute bottom-0 right-0 w-7 h-7 bg-white rounded-full shadow-md border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
-                      title="Şəkli dəyiş"
+                      title={t('webapp.profile.changePicture')}
                     >
                       <Camera size={14} className="text-[#38166D]" />
                     </button>
@@ -285,10 +295,10 @@ export const ProfilePage = () => {
                   {/* Info Text */}
                   <div className="flex flex-col">
                     <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                      Profil Şəkli
+                      {t('webapp.profile.profilePicture')}
                     </span>
                     <span className="text-xs text-gray-400 font-normal mt-0.5">
-                      PNG və ya JPG, maksimum 5MB
+                      {t('webapp.profile.pictureLimit')}
                     </span>
                   </div>
                 </div>
@@ -299,14 +309,14 @@ export const ProfilePage = () => {
                   className="flex items-center gap-2 text-red-500 hover:text-red-600 text-sm font-semibold transition-colors cursor-pointer self-start sm:self-center"
                 >
                   <Trash2 size={16} className="text-red-500" />
-                  <span>Şəkli sil</span>
+                  <span>{t('webapp.profile.deletePicture')}</span>
                 </button>
               </div>
 
               {/* 2. Ad (Name) Row */}
               <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col flex-1">
-                  <span className="text-xs text-gray-400 font-medium mb-1">Ad</span>
+                  <span className="text-xs text-gray-400 font-medium mb-1">{t('webapp.profile.name')}</span>
                   {isEditingName ? (
                     <div className="flex items-center gap-3 max-w-[400px]">
                       <input
@@ -319,7 +329,7 @@ export const ProfilePage = () => {
                       <button
                         onClick={handleSaveName}
                         className="p-2 bg-[#38166D] text-white rounded-xl hover:bg-[#2c1157] transition-colors cursor-pointer"
-                        title="Yadda saxla"
+                        title={t('webapp.profile.save')}
                       >
                         <Check size={16} />
                       </button>
@@ -339,7 +349,7 @@ export const ProfilePage = () => {
                     }}
                     className="px-5 py-2.5 rounded-xl border border-[#38166D]/30 text-[#38166D] hover:bg-[#38166D]/5 text-sm font-semibold transition-all cursor-pointer shrink-0"
                   >
-                    Redaktə et
+                    {t('webapp.profile.edit')}
                   </button>
                 )}
               </div>
@@ -347,7 +357,7 @@ export const ProfilePage = () => {
               {/* 3. E-poçt ünvanı (Email) Row */}
               <div className="flex items-center justify-between gap-4">
                 <div className="flex flex-col flex-1">
-                  <span className="text-xs text-gray-400 font-medium mb-1">E-poçt ünvanı</span>
+                  <span className="text-xs text-gray-400 font-medium mb-1">{t('webapp.profile.email')}</span>
                   {isEditingEmail ? (
                     <div className="flex items-center gap-3 max-w-[400px]">
                       <input
@@ -360,7 +370,7 @@ export const ProfilePage = () => {
                       <button
                         onClick={handleSaveEmail}
                         className="p-2 bg-[#38166D] text-white rounded-xl hover:bg-[#2c1157] transition-colors cursor-pointer"
-                        title="Yadda saxla"
+                        title={t('webapp.profile.save')}
                       >
                         <Check size={16} />
                       </button>
@@ -380,20 +390,20 @@ export const ProfilePage = () => {
                     }}
                     className="px-5 py-2.5 rounded-xl border border-[#38166D]/30 text-[#38166D] hover:bg-[#38166D]/5 text-sm font-semibold transition-all cursor-pointer shrink-0"
                   >
-                    Redaktə et
+                    {t('webapp.profile.edit')}
                   </button>
                 )}
               </div>
 
               {/* 4. Statusunuz (Status Dropdown) */}
               <div className="flex flex-col max-w-[420px] relative">
-                <label className="text-xs text-gray-400 font-medium mb-1.5">Statusunuz</label>
+                <label className="text-xs text-gray-400 font-medium mb-1.5">{t('webapp.profile.status')}</label>
                 <div
                   onClick={() => setIsStatusOpen(!isStatusOpen)}
                   className="w-full bg-[#F3F5FA] hover:bg-[#EEF1F8] border border-transparent focus-within:border-[#38166D]/30 rounded-2xl px-4 py-3.5 flex items-center justify-between cursor-pointer transition-colors"
                 >
                   <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                    {status}
+                    {statusOptions.find(s => s.key === status)?.label || status}
                   </span>
                   <ChevronDown
                     size={18}
@@ -407,19 +417,19 @@ export const ProfilePage = () => {
                   <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-2xl shadow-xl z-20 overflow-hidden py-1">
                     {statusOptions.map((opt) => (
                       <div
-                        key={opt}
+                        key={opt.key}
                         onClick={() => {
-                          setStatus(opt);
+                          setStatus(opt.key);
                           setIsStatusOpen(false);
                         }}
                         className={`px-4 py-3 text-sm font-medium cursor-pointer transition-colors flex items-center justify-between ${
-                          status === opt
+                          status === opt.key
                             ? 'bg-[#38166D]/10 text-[#38166D] font-semibold'
                             : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
-                        <span>{opt}</span>
-                        {status === opt && <Check size={16} className="text-[#38166D]" />}
+                        <span>{opt.label}</span>
+                        {status === opt.key && <Check size={16} className="text-[#38166D]" />}
                       </div>
                     ))}
                   </div>
@@ -428,13 +438,13 @@ export const ProfilePage = () => {
 
               {/* 5. Dil (Language Dropdown) */}
               <div className="flex flex-col max-w-[420px] relative">
-                <label className="text-xs text-gray-400 font-medium mb-1.5">Dil</label>
+                <label className="text-xs text-gray-400 font-medium mb-1.5">{t('webapp.profile.language')}</label>
                 <div
                   onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                   className="w-full bg-[#F3F5FA] hover:bg-[#EEF1F8] border border-transparent focus-within:border-[#38166D]/30 rounded-2xl px-4 py-3.5 flex items-center justify-between cursor-pointer transition-colors"
                 >
                   <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                    {language}
+                    {languageOptions.find(l => l.code === i18n.language)?.name || 'Azərbaycan dili'}
                   </span>
                   <ChevronDown
                     size={18}
@@ -448,19 +458,19 @@ export const ProfilePage = () => {
                   <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-2xl shadow-xl z-20 overflow-hidden py-1">
                     {languageOptions.map((opt) => (
                       <div
-                        key={opt}
+                        key={opt.code}
                         onClick={() => {
-                          setLanguage(opt);
+                          i18n.changeLanguage(opt.code);
                           setIsLanguageOpen(false);
                         }}
                         className={`px-4 py-3 text-sm font-medium cursor-pointer transition-colors flex items-center justify-between ${
-                          language === opt
+                          i18n.language === opt.code
                             ? 'bg-[#38166D]/10 text-[#38166D] font-semibold'
                             : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
-                        <span>{opt}</span>
-                        {language === opt && <Check size={16} className="text-[#38166D]" />}
+                        <span>{opt.name}</span>
+                        {i18n.language === opt.code && <Check size={16} className="text-[#38166D]" />}
                       </div>
                     ))}
                   </div>
@@ -486,7 +496,7 @@ export const ProfilePage = () => {
                 onClick={handleCancelAll}
                 className="px-6 py-3 rounded-2xl border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 text-sm font-semibold transition-colors shadow-sm cursor-pointer"
               >
-                Ləğv et
+                {t('webapp.profile.cancel')}
               </button>
               <button
                 onClick={handleSaveAllChanges}
@@ -494,7 +504,7 @@ export const ProfilePage = () => {
                 className="px-6 py-3 rounded-2xl bg-[#351465] text-white hover:bg-[#290f50] text-sm font-semibold transition-colors shadow-md cursor-pointer flex items-center gap-2"
               >
                 {updateUserMutation.isPending && <Loader2 size={16} className="animate-spin" />}
-                <span>Dəyişiklikləri yadda saxla</span>
+                <span>{t('webapp.profile.saveChanges')}</span>
               </button>
             </div>
           </div>
@@ -511,7 +521,7 @@ export const ProfilePage = () => {
                   {/* Hazırkı şifrə */}
                   <div>
                     <label className="text-sm font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] mb-2 block">
-                      Hazırkı şifrə
+                      {t('webapp.profile.currentPassword')}
                     </label>
                     <div className="w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 flex items-center justify-between focus-within:border-[#38166D] transition-colors">
                       <input
@@ -536,12 +546,12 @@ export const ProfilePage = () => {
                   {/* Yeni şifrə */}
                   <div>
                     <label className="text-sm font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] mb-2 block">
-                      Yeni şifrə
+                      {t('webapp.profile.newPassword')}
                     </label>
                     <div className="w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 flex items-center justify-between focus-within:border-[#38166D] transition-colors">
                       <input
                         type={showNewPassword ? 'text' : 'password'}
-                        placeholder="Yeni şifrəni daxil edin"
+                        placeholder={t('webapp.profile.newPasswordPlaceholder')}
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         className="w-full outline-none text-[#1E0A42] font-medium placeholder-gray-400 text-sm sm:text-base"
@@ -559,12 +569,12 @@ export const ProfilePage = () => {
                   {/* Yeni şifrənin təsdiqi */}
                   <div>
                     <label className="text-sm font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] mb-2 block">
-                      Yeni şifrənin təsdiqi
+                      {t('webapp.profile.confirmNewPassword')}
                     </label>
                     <div className="w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 flex items-center justify-between focus-within:border-[#38166D] transition-colors">
                       <input
                         type={showConfirmPassword ? 'text' : 'password'}
-                        placeholder="Şifrəni yenidən daxil edin"
+                        placeholder={t('webapp.profile.confirmNewPasswordPlaceholder')}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         className="w-full outline-none text-[#1E0A42] font-medium placeholder-gray-400 text-sm sm:text-base"
@@ -599,7 +609,7 @@ export const ProfilePage = () => {
                     onClick={handleCancelPasswordChange}
                     className="px-5 py-2.5 rounded-xl text-[#1E0A42] font-semibold hover:bg-gray-100/80 transition-colors text-sm cursor-pointer"
                   >
-                    Ləğv et
+                    {t('webapp.profile.cancel')}
                   </button>
                   <button
                     onClick={handleSavePasswordChange}
@@ -607,7 +617,7 @@ export const ProfilePage = () => {
                     className="px-6 py-3 rounded-2xl bg-[#351465] text-white font-semibold text-sm hover:bg-[#280f4f] transition-all shadow-md cursor-pointer flex items-center gap-2"
                   >
                     {isChangingPassword && <Loader2 size={16} className="animate-spin" />}
-                    <span>Şifrəni yenilə</span>
+                    <span>{t('webapp.profile.updatePassword')}</span>
                   </button>
                 </div>
               </div>
@@ -618,25 +628,25 @@ export const ProfilePage = () => {
                 <div className="bg-[#F6EFFF] rounded-[28px] p-6 sm:p-7 text-left flex flex-col gap-4">
                   <div className="flex items-center gap-2.5 text-[#1E0A42] font-semibold text-base font-['Lexend',_sans-serif]">
                     <ShieldCheck size={18} className="text-[#1E0A42]" />
-                    <span>Təhlükəsizlik qaydaları</span>
+                    <span>{t('webapp.profile.securityRules')}</span>
                   </div>
 
                   <ul className="flex flex-col gap-3 text-sm text-[#1E0A42]/80 font-medium">
                     <li className="flex items-start gap-2.5">
                       <Check size={16} className="text-[#1E0A42] mt-0.5 shrink-0" />
-                      <span>Minimum 8 simvol olmalıdır</span>
+                      <span>{t('webapp.profile.rule1')}</span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check size={16} className="text-[#1E0A42] mt-0.5 shrink-0" />
-                      <span>Böyük və kiçik hərflərdən istifadə edin</span>
+                      <span>{t('webapp.profile.rule2')}</span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check size={16} className="text-[#1E0A42] mt-0.5 shrink-0" />
-                      <span>Rəqəm və simvollar əlavə edin (!@#$)</span>
+                      <span>{t('webapp.profile.rule3')}</span>
                     </li>
                     <li className="flex items-start gap-2.5">
                       <Check size={16} className="text-[#1E0A42] mt-0.5 shrink-0" />
-                      <span>Digər platformalardakı şifrələri təkraralamayın</span>
+                      <span>{t('webapp.profile.rule4')}</span>
                     </li>
                   </ul>
                 </div>
@@ -644,10 +654,10 @@ export const ProfilePage = () => {
                 {/* 2. Məxfilik məlumatı Card */}
                 <div className="bg-[#EBF3FF] rounded-[28px] p-6 sm:p-7 text-left flex flex-col gap-3">
                   <h3 className="text-[#1E0A42] font-semibold text-base font-['Lexend',_sans-serif]">
-                    Məxfilik məlumatı
+                    {t('webapp.profile.privacyInfo')}
                   </h3>
                   <p className="text-sm text-[#1E0A42]/80 font-normal leading-relaxed">
-                    NexusMind sizin məlumatlarınızın məxfiliyini qoruyur. Şifrənizi heç kimlə paylaşmayın. Texniki dəstək komandası sizdən heç vaxt şifrə tələb etməyəcək.
+                    {t('webapp.profile.privacyDesc')}
                   </p>
                 </div>
               </div>
@@ -657,10 +667,10 @@ export const ProfilePage = () => {
             <div className="w-full bg-white border border-gray-100/80 rounded-[28px] p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.03)] flex items-center justify-between gap-4">
               <div className="flex flex-col">
                 <h3 className="text-lg font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
-                  İki-mərhələli Təsdiqləmə
+                  {t('webapp.profile.twoFactor')}
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-500 font-normal mt-1">
-                  Hesabınızın təhlükəsizliyini artırmaq üçün giriş zamanı əlavə kod tələb olunsun.
+                  {t('webapp.profile.twoFactorDesc')}
                 </p>
               </div>
 

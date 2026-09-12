@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, CheckCircle } from 'lucide-react';
 import { Input } from '@/components/input';
 import { Button } from '@/components/button';
@@ -11,6 +12,7 @@ interface RegistrationModalProps {
 }
 
 export const RegistrationModal = ({ training, isOpen, onClose }: RegistrationModalProps) => {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
@@ -25,18 +27,18 @@ export const RegistrationModal = ({ training, isOpen, onClose }: RegistrationMod
   const validate = () => {
     const tempErrors: { [key: string]: string } = {};
 
-    if (!name.trim()) tempErrors.name = 'Adınızı daxil edin';
-    else if (name.trim().length < 2) tempErrors.name = 'Ad ən azı 2 hərfdən ibarət olmalıdır';
+    if (!name.trim()) tempErrors.name = t('trainings.errName', 'Adınızı daxil edin');
+    else if (name.trim().length < 2) tempErrors.name = t('trainings.errNameLength', 'Ad ən azı 2 hərfdən ibarət olmalıdır');
 
-    if (!surname.trim()) tempErrors.surname = 'Soyadınızı daxil edin';
-    else if (surname.trim().length < 2) tempErrors.surname = 'Soyad ən azı 2 hərfdən ibarət olmalıdır';
+    if (!surname.trim()) tempErrors.surname = t('trainings.errSurname', 'Soyadınızı daxil edin');
+    else if (surname.trim().length < 2) tempErrors.surname = t('trainings.errSurnameLength', 'Soyad ən azı 2 hərfdən ibarət olmalıdır');
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.trim()) tempErrors.email = 'E-poçt ünvanınızı daxil edin';
-    else if (!emailRegex.test(email)) tempErrors.email = 'Düzgün e-poçt ünvanı daxil edin';
+    if (!email.trim()) tempErrors.email = t('trainings.errEmail', 'E-poçt ünvanınızı daxil edin');
+    else if (!emailRegex.test(email)) tempErrors.email = t('trainings.errEmailInvalid', 'Düzgün e-poçt ünvanı daxil edin');
 
-    if (!phone.trim()) tempErrors.phone = 'Telefon nömrənizi daxil edin';
-    else if (phone.trim().length < 6) tempErrors.phone = 'Telefon nömrəsi düzgün deyil';
+    if (!phone.trim()) tempErrors.phone = t('trainings.errPhone', 'Telefon nömrənizi daxil edin');
+    else if (phone.trim().length < 6) tempErrors.phone = t('trainings.errPhoneLength', 'Telefon nömrəsi düzgün deyil');
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
@@ -84,13 +86,13 @@ export const RegistrationModal = ({ training, isOpen, onClose }: RegistrationMod
               <CheckCircle size={40} />
             </div>
             <h3 className="text-[20px] font-bold text-white tracking-tight">
-              Uğurla Qeydiyyatdan Keçdiniz!
+              {t('trainings.successTitle', 'Uğurla Qeydiyyatdan Keçdiniz!')}
             </h3>
             <p className="text-white/70 text-[14px] leading-relaxed max-w-[340px]">
-              <strong>"{training.title}"</strong> təliminə qeydiyyatınız təsdiqləndi. Məlumatlar e-poçt ünvanınıza göndərildi.
+              <strong>"{training.title}"</strong> {t('trainings.successDesc', 'təliminə qeydiyyatınız təsdiqləndi. Məlumatlar e-poçt ünvanınıza göndərildi.')}
             </p>
             <Button onClick={handleClose} variant="primary" size="md" className="mt-4">
-              Bağla
+              {t('trainings.close', 'Bağla')}
             </Button>
           </div>
         ) : (
@@ -98,25 +100,25 @@ export const RegistrationModal = ({ training, isOpen, onClose }: RegistrationMod
           <>
             <div className="flex flex-col gap-1.5">
               <h3 className="text-[22px] font-bold text-white tracking-tight leading-tight">
-                Təlimə Qeydiyyat
+                {t('trainings.modalTitle', 'Təlimə Qeydiyyat')}
               </h3>
               <p className="text-white/60 text-[13px] leading-relaxed">
-                Təlim: <strong className="text-[#00f2ff]">{training.title}</strong>
+                {t('trainings.modalTraining', 'Təlim:')} <strong className="text-[#00f2ff]">{training.title}</strong>
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="flex flex-col sm:flex-row gap-4">
                 <Input
-                  label="Ad"
-                  placeholder="Adınız"
+                  label={t('trainings.name', 'Ad')}
+                  placeholder={t('trainings.namePlaceholder', 'Adınız')}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   error={errors.name}
                 />
                 <Input
-                  label="Soyad"
-                  placeholder="Soyadınız"
+                  label={t('trainings.surname', 'Soyad')}
+                  placeholder={t('trainings.surnamePlaceholder', 'Soyadınız')}
                   value={surname}
                   onChange={(e) => setSurname(e.target.value)}
                   error={errors.surname}
@@ -124,17 +126,17 @@ export const RegistrationModal = ({ training, isOpen, onClose }: RegistrationMod
               </div>
 
               <Input
-                label="E-poçt"
+                label={t('trainings.email', 'E-poçt')}
                 type="email"
-                placeholder="nümunə@mail.com"
+                placeholder={t('trainings.emailPlaceholder', 'nümunə@mail.com')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 error={errors.email}
               />
 
               <Input
-                label="Telefon"
-                placeholder="+994 (50) 000-00-00"
+                label={t('trainings.phone', 'Telefon')}
+                placeholder={t('trainings.phonePlaceholder', '+994 (50) 000-00-00')}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 error={errors.phone}
@@ -148,7 +150,7 @@ export const RegistrationModal = ({ training, isOpen, onClose }: RegistrationMod
                   variant="ghost"
                   size="md"
                 >
-                  Ləğv et
+                  {t('trainings.cancel', 'Ləğv et')}
                 </Button>
                 <Button
                   type="submit"
@@ -156,7 +158,7 @@ export const RegistrationModal = ({ training, isOpen, onClose }: RegistrationMod
                   size="md"
                   isLoading={isSubmitting}
                 >
-                  Qeydiyyatdan keç
+                  {t('trainings.register', 'Qeydiyyatdan keç')}
                 </Button>
               </div>
             </form>

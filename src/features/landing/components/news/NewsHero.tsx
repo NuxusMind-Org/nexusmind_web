@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Eye } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import type { NewsItem } from '../../constants/news';
 
@@ -8,6 +9,7 @@ interface NewsHeroProps {
 }
 
 export const NewsHero = ({ item }: NewsHeroProps) => {
+  const { t } = useTranslation();
   const detailPath = PATHS.NEWS_DETAIL.replace(':id', String(item.id));
 
   return (
@@ -51,7 +53,7 @@ export const NewsHero = ({ item }: NewsHeroProps) => {
           {/* View counter */}
           <div className="flex items-center gap-2 text-white/60 text-[13px] font-medium">
             <Eye size={16} className="text-white/40" />
-            <span>{item.views} baxış</span>
+            <span>{item.views} {t('news.views')}</span>
           </div>
 
           {/* Davamını oxu action button */}
@@ -59,7 +61,7 @@ export const NewsHero = ({ item }: NewsHeroProps) => {
             to={detailPath}
             className="px-6 py-2.5 rounded-lg text-white text-[14px] font-medium bg-[#581c87]/80 hover:bg-[#581c87] hover:shadow-[0_0_15px_rgba(88,28,135,0.4)] border-0 cursor-pointer transition-all duration-300 select-none outline-none block text-center"
           >
-            Davamını oxu
+            {t('news.readMore')}
           </Link>
         </div>
       </div>

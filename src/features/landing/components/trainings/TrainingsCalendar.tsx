@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import type { Training } from '../../constants/trainings';
 import supportIcon from '@/assets/svg/supportIcon.svg';
@@ -12,6 +13,7 @@ interface TrainingsCalendarProps {
 
 export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarProps) => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   // Navigation states
   const [currentMonth, setCurrentMonth] = useState<number>(6); // June
@@ -21,13 +23,26 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
   const [selectedType, setSelectedType] = useState<'all' | 'online' | 'eyani'>('all');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
-  const monthNames = [
-    'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun',
-    'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
-  ];
+  const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+  const monthName = new Date(currentYear, currentMonth - 1, 1).toLocaleDateString(locale, {
+    month: 'long',
+    year: 'numeric',
+  });
 
-  const monthName = `${monthNames[currentMonth - 1]} ${currentYear}`;
-  const weekdays = ['B.ER', 'Ç.AX', 'ÇƏR', 'C.AX', 'CÜM', 'ŞƏN', 'BAZ'];
+  const weekdays =
+    i18n.language === 'az'
+      ? ['B.ER', 'Ç.AX', 'ÇƏR', 'C.AX', 'CÜM', 'ŞƏN', 'BAZ']
+      : i18n.language === 'ru'
+      ? ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
+      : ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+  const popularTopics = [
+    { key: 'Meditasiya', label: t('trainings.topicMeditation') },
+    { key: 'Təşviş', label: t('trainings.topicAnxiety') },
+    { key: 'Yuxu', label: t('trainings.topicSleep') },
+    { key: 'Özünü Tanıma', label: t('trainings.topicSelfKnowledge') },
+    { key: 'Uşaq Psixologiyası', label: t('trainings.topicChildPsychology') },
+  ];
 
   // Generate 42 calendar cells dynamically
   const getCalendarCells = (year: number, month: number) => {
@@ -114,13 +129,18 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
     }
   };
 
+  const getBadgeTypeLabel = (isOnline: boolean) => {
+    if (isOnline) return t('trainings.online').toUpperCase();
+    return i18n.language === 'az' ? 'CANLI' : i18n.language === 'ru' ? 'ОЧНО' : 'IN-PERSON';
+  };
+
   return (
     <div className="w-full flex flex-col lg:flex-row gap-8 items-start select-none">
       {/* 1. Left Sidebar Section */}
       <div className="flex flex-col gap-6 w-full lg:w-[280px] xl:w-[300px] shrink-0 font-sans">
         {/* Filters Card */}
         <div className="w-full bg-[#1E2E42]/85 backdrop-blur-xl border border-white/20 rounded-2xl p-5 flex flex-col gap-5 shadow-[0_12px_36px_rgba(0,0,0,0.25)]">
-          <h4 className="text-[17px] font-bold text-white tracking-wide font-sans">Filtrlər</h4>
+          <h4 className="text-[17px] font-bold text-white tracking-wide font-sans">{t('trainings.filters')}</h4>
           
           {/* Custom interactive checkbox */}
           <label className="flex items-center gap-3 cursor-pointer group select-none">
@@ -145,7 +165,7 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
               )}
             </div>
             <span className="text-[14px] text-white/90 group-hover:text-white transition-colors font-semibold">
-              Bütün təlimlər
+              {t('trainings.allTrainings')}
             </span>
           </label>
           
@@ -164,7 +184,7 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
             >
               <div className="flex items-center gap-3">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#00f2ff] shadow-[0_0_10px_rgba(0,242,255,0.9)]" />
-                <span className="text-[14px] font-medium">Online</span>
+                <span className="text-[14px] font-medium">{t('trainings.online')}</span>
               </div>
               <span className="text-[12px] font-bold text-white bg-black/30 px-2 py-0.5 rounded-md border border-white/15">
                 {trainings.filter((t) => t.type === 'online').length}
@@ -183,7 +203,7 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
             >
               <div className="flex items-center gap-3">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#A682FF] shadow-[0_0_10px_rgba(166,130,255,0.9)]" />
-                <span className="text-[14px] font-medium">Canlı (In-person)</span>
+                <span className="text-[14px] font-medium">{t('trainings.inPerson')}</span>
               </div>
               <span className="text-[12px] font-bold text-white bg-black/30 px-2 py-0.5 rounded-md border border-white/15">
                 {trainings.filter((t) => t.type === 'eyani').length}
@@ -202,11 +222,11 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
           />
 
           <h4 className="text-white text-[19px] font-bold tracking-tight leading-snug pr-12 z-10">
-            Dəstək lazımdır?
+            {t('trainings.needSupport')}
           </h4>
 
           <p className="text-white/85 text-[14px] leading-relaxed font-light z-10">
-            Mütəxəssislərimiz sizə kömək etməyə hazırdır.
+            {t('trainings.supportDesc')}
           </p>
 
           <div className="w-full z-10 mt-1">
@@ -214,22 +234,22 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
               onClick={() => navigate(`${PATHS.HOME}#experts`)}
               className="w-full py-3 rounded-[14px] text-white text-[14px] font-bold bg-gradient-to-r from-[#903BFF] to-[#6A16C5] hover:brightness-110 hover:shadow-[0_0_24px_rgba(144,59,255,0.6)] border border-white/30 cursor-pointer transition-all duration-300 select-none outline-none text-center shadow-md"
             >
-              Məsləhət Alın
+              {t('trainings.getConsultation')}
             </button>
           </div>
         </div>
 
         {/* Popular Topics Tags */}
         <div className="flex flex-col gap-3">
-          <h4 className="text-[14px] font-bold text-white/90 px-1 uppercase tracking-wider">Populyar Mövzular</h4>
+          <h4 className="text-[14px] font-bold text-white/90 px-1 uppercase tracking-wider">{t('trainings.popularTopics')}</h4>
           <div className="flex flex-wrap gap-2">
-            {['Meditasiya', 'Təşviş', 'Yuxu', 'Özünü Tanıma', 'Uşaq Psixologiyası'].map((tag) => {
-              const isSelected = selectedTag === tag;
+            {popularTopics.map(({ key, label }) => {
+              const isSelected = selectedTag === key;
               return (
                 <button
-                  key={tag}
+                  key={key}
                   onClick={() => {
-                    setSelectedTag((prev) => (prev === tag ? null : tag));
+                    setSelectedTag((prev) => (prev === key ? null : key));
                     setSelectedType('all'); // Clear type selection to let topic filter dominate
                   }}
                   className={`px-3.5 py-1.5 rounded-full text-[12px] font-semibold transition-all cursor-pointer border outline-none ${
@@ -238,7 +258,7 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
                       : 'bg-[#1E2E42]/80 border-white/20 text-white/80 hover:border-white/40 hover:text-white hover:bg-white/15'
                   }`}
                 >
-                  {tag}
+                  {label}
                 </button>
               );
             })}
@@ -274,7 +294,7 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
             onClick={handleGoToToday}
             className="px-4 py-2 rounded-full bg-gradient-to-r from-[#9f5bff]/35 to-[#00f2ff]/35 border border-[#00f2ff]/60 text-white hover:border-[#00f2ff] hover:shadow-[0_0_15px_rgba(0,242,255,0.4)] text-[12px] font-bold transition-all cursor-pointer outline-none uppercase tracking-wider"
           >
-            BU GÜN
+            {t('trainings.today')}
           </button>
         </div>
 
@@ -350,7 +370,7 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
                             <span className={`text-[9px] font-extrabold tracking-wider uppercase ${
                               isOnline ? 'text-[#00F2FF]' : 'text-[#A682FF]'
                             }`}>
-                              {training.time} • {isOnline ? 'ONLINE' : 'CANLI'}
+                              {training.time} • {getBadgeTypeLabel(isOnline)}
                             </span>
                             {/* Title */}
                             <span className="font-semibold leading-tight line-clamp-2 text-white">
@@ -370,7 +390,7 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
         {/* Upcoming events list view for small screens details */}
         <div className="block sm:hidden border-t border-white/15 pt-4">
           <h4 className="text-[13px] font-bold text-white uppercase tracking-widest mb-3">
-            Təlim cədvəli
+            {t('trainings.schedule')}
           </h4>
           <div className="flex flex-col gap-3">
             {trainings
@@ -396,7 +416,7 @@ export const TrainingsCalendar = ({ trainings, onRegister }: TrainingsCalendarPr
                       <span className={`text-[10px] font-bold ${
                         isOnline ? 'text-[#00F2FF]' : 'text-[#A682FF]'
                       }`}>
-                        {training.date} • {training.time} • {isOnline ? 'ONLINE' : 'CANLI'}
+                        {training.date} • {training.time} • {getBadgeTypeLabel(isOnline)}
                       </span>
                       <h5 className="text-[13px] font-semibold text-white">
                         {training.title}

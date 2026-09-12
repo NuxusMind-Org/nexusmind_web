@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { ARTICLE_ITEMS } from '../constants/articles';
@@ -19,6 +20,7 @@ import { getLocalizedTitle } from '@/utils/multilingual';
 export const ArticleDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const [meqale, setMeqale] = useState<MeqaleResponseDto | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(Boolean(id));
@@ -80,13 +82,13 @@ export const ArticleDetailPage = () => {
       category: (meqale.category?.toLowerCase() || defaultItem.category),
       categoryLabel: meqale.category || defaultItem.categoryLabel,
       date: meqale.createdAt || defaultItem.date,
-      readTime: meqale.readTimeMinutes ? `${meqale.readTimeMinutes} dəq oxu` : defaultItem.readTime,
+      readTime: meqale.readTimeMinutes ? `${meqale.readTimeMinutes} ${t('articles.readTime')}` : defaultItem.readTime,
       views: defaultItem.views,
-      title: getLocalizedTitle(meqale.title || meqale.titleDto, 'az', defaultItem.title),
+      title: getLocalizedTitle(meqale.title || meqale.titleDto, i18n.language as 'az' | 'en' | 'ru', defaultItem.title),
       description: meqale.shortDescription || meqale.introText || defaultItem.description,
       author: defaultItem.author,
     };
-  }, [meqale, id]);
+  }, [meqale, id, i18n.language, t]);
 
   return (
     <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
@@ -97,7 +99,7 @@ export const ArticleDetailPage = () => {
         <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
           <div className="flex flex-col items-center gap-4 text-white/80">
             <Loader2 className="w-10 h-10 animate-spin text-[#2dd4bf]" />
-            <p className="text-base font-medium">Məqalə məlumatları yüklənir...</p>
+            <p className="text-base font-medium">{t('articles.loading')}</p>
           </div>
         </main>
       )}
@@ -106,8 +108,8 @@ export const ArticleDetailPage = () => {
       {!isLoading && (isError || !article || !meqale) && (
         <>
           <SEO
-            metaTitle="Məqalə tapılmadı | NexusMind"
-            metaDescription="Axtardığınız məqalə tapılmadı və ya mövcud deyil."
+            metaTitle={`${t('articles.notFoundTitle')} | NexusMind`}
+            metaDescription={t('articles.notFoundDesc')}
             contentType="article"
           />
           <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
@@ -115,16 +117,16 @@ export const ArticleDetailPage = () => {
               <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300">
                 <AlertCircle className="w-8 h-8" />
               </div>
-              <h2 className="text-2xl font-bold text-white">Məqalə tapılmadı</h2>
+              <h2 className="text-2xl font-bold text-white">{t('articles.notFoundTitle')}</h2>
               <p className="text-sm text-white/70">
-                Axtardığınız elmi məqalə silinmiş, ünvanı dəyişdirilmiş və ya mövcud olmaya bilər.
+                {t('articles.notFoundDesc')}
               </p>
               <button
                 onClick={() => navigate(PATHS.ARTICLE)}
                 className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-sm font-semibold transition-colors cursor-pointer border border-white/20"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Məqalələr siyahısına qayıt</span>
+                <span>{t('articles.backToList')}</span>
               </button>
             </div>
           </main>
@@ -150,7 +152,7 @@ export const ArticleDetailPage = () => {
               {/* Main Top Header */}
               <div className="w-full text-left">
                 <h1 className="text-[32px] sm:text-[44px] font-sans font-light text-white leading-tight tracking-tight">
-                  Məqalələr
+                  {t('articles.title')}
                 </h1>
               </div>
 
