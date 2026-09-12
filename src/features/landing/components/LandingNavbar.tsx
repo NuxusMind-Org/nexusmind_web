@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
@@ -19,6 +19,97 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const [headerBottom, setHeaderBottom] = useState(73);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const loginBtnRef = useRef<HTMLButtonElement>(null);
+  const targetPos = useRef({ x: 81, y: 19 });
+  const currentPos = useRef({ x: 81, y: 19 });
+  const isHoveringBtn = useRef(false);
+  const animFrameId = useRef<number | null>(null);
+
+  const updateSpotlight = () => {
+    if (!loginBtnRef.current) return;
+
+    // Smooth trailing interpolation (0.12 factor provides a silky, slightly slowed-down response)
+    const dx = targetPos.current.x - currentPos.current.x;
+    const dy = targetPos.current.y - currentPos.current.y;
+
+    currentPos.current.x += dx * 0.12;
+    currentPos.current.y += dy * 0.12;
+
+    const x = currentPos.current.x;
+    const y = currentPos.current.y;
+    const rectWidth = 162.18;
+
+    const t = Math.max(0, Math.min(1, x / rectWidth));
+
+    // Color progression based on landing page gradient: #914899 (purple) -> #245D68 (teal) -> #263151 (blue)
+    let r: number, g: number, b: number;
+    let r2: number, g2: number, b2: number;
+
+    if (t < 0.5) {
+      const p = t * 2;
+      // Purple (168, 85, 247) to Cyan/Teal (0, 235, 255)
+      r = Math.round(168 + (0 - 168) * p);
+      g = Math.round(85 + (235 - 85) * p);
+      b = Math.round(247 + (255 - 247) * p);
+
+      // Secondary: #914899 (145, 72, 153) to #245D68 (36, 93, 104)
+      r2 = Math.round(145 + (36 - 145) * p);
+      g2 = Math.round(72 + (93 - 72) * p);
+      b2 = Math.round(153 + (104 - 153) * p);
+    } else {
+      const p = (t - 0.5) * 2;
+      // Cyan/Teal (0, 235, 255) to Blue (59, 130, 246)
+      r = Math.round(0 + (59 - 0) * p);
+      g = Math.round(235 + (130 - 235) * p);
+      b = Math.round(255 + (246 - 255) * p);
+
+      // Secondary: #245D68 (36, 93, 104) to #263151 (38, 49, 81)
+      r2 = Math.round(36 + (38 - 36) * p);
+      g2 = Math.round(93 + (49 - 93) * p);
+      b2 = Math.round(104 + (81 - 104) * p);
+    }
+
+    const el = loginBtnRef.current;
+    el.style.setProperty('--mouse-x', `${x.toFixed(2)}px`);
+    el.style.setProperty('--mouse-y', `${y.toFixed(2)}px`);
+    el.style.setProperty('--spotlight-color', `rgb(${r}, ${g}, ${b})`);
+    el.style.setProperty('--spotlight-color-end', `rgb(${r2}, ${g2}, ${b2})`);
+    el.style.setProperty('--spotlight-fill', `rgba(${r}, ${g}, ${b}, 0.16)`);
+
+    if (isHoveringBtn.current || Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+      animFrameId.current = requestAnimationFrame(updateSpotlight);
+    } else {
+      animFrameId.current = null;
+    }
+  };
+
+  const handleLoginMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    targetPos.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    if (!animFrameId.current) {
+      animFrameId.current = requestAnimationFrame(updateSpotlight);
+    }
+  };
+
+  const handleLoginMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    isHoveringBtn.current = true;
+    const rect = e.currentTarget.getBoundingClientRect();
+    targetPos.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    if (!animFrameId.current) {
+      animFrameId.current = requestAnimationFrame(updateSpotlight);
+    }
+  };
+
+  const handleLoginMouseLeave = () => {
+    isHoveringBtn.current = false;
+  };
+
+  useEffect(() => {
+    return () => {
+      if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
+    };
+  }, []);
 
   // Track window scroll position to toggle navbar transparency
   useEffect(() => {
@@ -123,9 +214,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
               <div key={item.id} className="w-full flex flex-col">
                 <button
                   onClick={() => handleItemClick(item)}
-                  className={`text-left py-4 px-4 flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-                    isDropdownActive ? 'text-[#00f2ff] font-semibold nav-active-glow' : 'text-white/80 hover:text-white'
-                  }`}
+                  className={`text-left py-4 px-4 flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isDropdownActive ? 'text-[#00f2ff] font-semibold nav-active-glow' : 'text-white/80 hover:text-white'
+                    }`}
                   style={{
                     background: 'none',
                     border: 'none',
@@ -143,11 +233,10 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                     className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180 text-[#00f2ff]' : 'text-white/60'}`}
                   />
                 </button>
-                
+
                 <div
-                  className={`transition-all duration-300 ease-in-out overflow-hidden flex flex-col bg-white/[0.02] ${
-                    isDropdownOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
-                  }`}
+                  className={`transition-all duration-300 ease-in-out overflow-hidden flex flex-col bg-white/[0.02] ${isDropdownOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+                    }`}
                   style={{
                     borderBottom: isDropdownOpen ? '1px solid rgba(255,255,255,0.08)' : 'none',
                   }}
@@ -160,9 +249,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         setOpenDropdownId(null);
                         navigate(subItem.path);
                       }}
-                      className={`text-left py-3 px-8 text-[14px] transition-colors flex items-center justify-between ${
-                        activePage === subItem.page ? 'text-[#00f2ff]' : 'text-white/60 hover:text-white'
-                      }`}
+                      className={`text-left py-3 px-8 text-[14px] transition-colors flex items-center justify-between ${activePage === subItem.page ? 'text-[#00f2ff]' : 'text-white/60 hover:text-white'
+                        }`}
                     >
                       <span>{subItem.label}</span>
                       <ChevronRight
@@ -184,9 +272,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
             <button
               key={item.id}
               onClick={() => handleItemClick(item)}
-              className={`text-left py-4 px-4 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-                isActive ? 'text-[#00f2ff] font-semibold nav-active-glow' : 'text-white/80 hover:text-white'
-              }`}
+              className={`text-left py-4 px-4 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'text-[#00f2ff] font-semibold nav-active-glow' : 'text-white/80 hover:text-white'
+                }`}
               style={{
                 background: 'none',
                 border: 'none',
@@ -230,9 +317,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     <>
       <header
         ref={headerRef}
-        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 border-b border-white/10 shrink-0 sticky top-0 transition-all duration-300 ease-in-out ${
-          isSolid ? 'bg-[#253D57] shadow-lg' : 'navbar-glass'
-        }`}
+        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 border-b border-white/10 shrink-0 sticky top-0 transition-all duration-300 ease-in-out ${isSolid ? 'bg-[#253D57] shadow-lg' : 'navbar-glass'
+          }`}
       >
         <div
           onClick={() => {
@@ -256,9 +342,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
               return (
                 <div key={item.id} className="relative group py-2">
                   <button
-                    className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto flex items-center gap-1.5 ${
-                      isDropdownActive ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'
-                    }`}
+                    className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto flex items-center gap-1.5 ${isDropdownActive ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'
+                      }`}
                   >
                     <span>{item.label}</span>
                     <ChevronDown size={14} className="transition-transform duration-300 group-hover:rotate-180" />
@@ -291,9 +376,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
               <button
                 key={item.id}
                 onClick={() => handleItemClick(item)}
-                className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto ${
-                  isActive ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'
-                }`}
+                className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto ${isActive ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'
+                  }`}
               >
                 {item.label}
               </button>
@@ -303,20 +387,48 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
 
         {/* Desktop Login Button */}
         <div className="hidden md:block relative group z-50">
-          <div
-            className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#9f5bff] via-[#00f2ff] to-white/90 pointer-events-none transition-opacity group-hover:opacity-100 opacity-60"
-            style={{
-              padding: '1.5px',
-              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-              WebkitMaskComposite: 'xor',
-              maskComposite: 'exclude',
-            }}
-          />
           <button
+            ref={loginBtnRef}
             onClick={() => navigate(PATHS.LOGIN)}
-            className="px-8 py-2.5 rounded-lg text-white text-[15px] font-medium bg-transparent hover:bg-white/5 transition-colors relative pointer-events-auto"
+            onMouseMove={handleLoginMouseMove}
+            onMouseEnter={handleLoginMouseEnter}
+            onMouseLeave={handleLoginMouseLeave}
+            className="relative w-[162.18px] h-[38.78px] rounded-[20.53px] flex items-center justify-center text-white text-[15px] font-medium transition-all duration-300 hover:opacity-90 cursor-pointer pointer-events-auto"
+            style={{
+              background: 'linear-gradient(180deg, rgba(104, 1, 254, 0.06) 0%, rgba(217, 217, 217, 0.06) 100%)',
+              boxShadow: '0 9.13px 36.5px 0 rgba(104, 1, 255, 0.12)',
+            }}
           >
-            Giriş et
+            {/* Outer Angular Gradient Border (Idle base) */}
+            <div
+              className="absolute -inset-[1.14px] rounded-[21.67px] pointer-events-none transition-opacity duration-500 ease-out"
+              style={{
+                padding: '1.14px',
+                background:
+                  'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                maskComposite: 'exclude',
+              }}
+            />
+
+            {/* Glowing Spotlight Border (Cursor-Tracking from Purple to Blue) */}
+            <div
+              className="absolute -inset-[1.14px] rounded-[21.67px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out bg-[radial-gradient(120px_circle_at_var(--mouse-x)_var(--mouse-y),var(--spotlight-color,#a855f7)_0%,var(--spotlight-color-end,#6366f1)_50%,transparent_100%)]"
+              style={{
+                padding: '1.14px',
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                maskComposite: 'exclude',
+              }}
+            />
+
+            {/* Subtle Fill Reflection (Cursor-Tracking from Purple to Blue) */}
+            <div
+              className="absolute inset-0 rounded-[20.53px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out bg-[radial-gradient(140px_circle_at_var(--mouse-x)_var(--mouse-y),var(--spotlight-fill,rgba(168,85,247,0.15)),transparent_70%)]"
+            />
+
+            <span className="relative z-10">Giriş et</span>
           </button>
         </div>
 
