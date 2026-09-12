@@ -82,7 +82,7 @@ export const PsychologistPage = () => {
               {/* Certifications */}
               <div className="flex-1 bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
                 <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
-                  <Award className="text-white/80" size={20} /> Sertifikatlar
+                  <Award className="text-white/80" size={20} /> İştirak Etdiyi Təlimlər
                 </h3>
                 <div className="flex flex-col gap-3">
                   {psych.certifications.map((cert, i) => (
@@ -98,7 +98,13 @@ export const PsychologistPage = () => {
 
             {/* Specializations */}
             <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
-              <h3 className="text-white text-[18px] font-light mb-6">İxtisaslaşdığı sahələr</h3>
+              <h3 className="text-white text-[18px] font-light mb-6">Fəaliyyət istiqamətləri</h3>
+              <div className="flex flex-wrap gap-3">
+                {psych.tags.map(tag => (
+                  <span key={tag} className="px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white/90 text-[14px]">{tag}</span>
+                ))}
+              </div>
+              <h3 className="text-white text-[18px] font-light mb-6 mt-8">Fəaliyyət istiqamətləri</h3>
               <div className="flex flex-wrap gap-3">
                 {psych.tags.map(tag => (
                   <span key={tag} className="px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white/90 text-[14px]">{tag}</span>
