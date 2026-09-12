@@ -263,7 +263,7 @@ export const ExpertDetailPage = () => {
                   {/* Sertifikatlar Card */}
                   <div className="flex-1 bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
                     <h3 className="text-white text-base font-bold flex items-center gap-2 mb-6 font-['Lexend']">
-                      <Award className="text-white/70" size={18} /> Sertifikatlar
+                      <Award className="text-white/70" size={18} /> İştirak Etdiyi Təlimlər
                     </h3>
                     <div className="flex flex-col gap-3">
                       {psych.certifications.map((cert, i) => (
@@ -279,7 +279,21 @@ export const ExpertDetailPage = () => {
 
                 {/* Card 3: Specialties */}
                 <div className="bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
-                  <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">İxtisaslaşdığı sahələr</h3>
+                  <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">Fəaliyyət İstiqamətləri</h3>
+                  <div className="flex flex-wrap gap-2.5">
+                    {psych.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="bg-white/10 text-white text-xs font-semibold px-4 py-2.5 rounded-xl border border-white/5 shadow-sm font-['Lexend']"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
+                  <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">Terapiya Metodları</h3>
                   <div className="flex flex-wrap gap-2.5">
                     {psych.tags.map((tag) => (
                       <span
