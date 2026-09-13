@@ -20,6 +20,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const headerElementRef = useRef<HTMLElement | null>(null);
   const [headerBottom, setHeaderBottom] = useState(73);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -126,12 +127,34 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     };
   }, []);
 
-  // Callback ref to measure real header height for portal positioning
+  // Measure the viewport-relative bottom of the sticky header and keep it
+  // updated whenever the header's size changes (e.g. on resize or font-load).
   const headerRef = useCallback((node: HTMLElement | null) => {
-    if (node !== null) {
-      const rect = node.getBoundingClientRect();
-      setHeaderBottom(rect.height);
-    }
+    headerElementRef.current = node;
+  }, []);
+
+  useEffect(() => {
+    const node = headerElementRef.current;
+    if (!node) return;
+
+    const measure = () => {
+      setHeaderBottom(node.getBoundingClientRect().bottom);
+    };
+
+    // Initial measurement
+    measure();
+
+    const ro = new ResizeObserver(measure);
+    ro.observe(node);
+
+    // Also update on scroll because `sticky` moves the bounding rect
+    window.addEventListener('scroll', measure, { passive: true });
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('scroll', measure);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Prevent body scroll when menu is open
@@ -196,14 +219,15 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
       className="transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
       style={{
         position: 'fixed',
-        inset: 0,
         top: `${headerBottom}px`,
+        left: 0,
+        right: 0,
+        bottom: 0,
         zIndex: 9999,
         backgroundColor: '#111827',
         display: 'flex',
         flexDirection: 'column',
         padding: '32px 24px calc(32px + env(safe-area-inset-bottom, 0px)) 24px',
-        transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-16px)',
         opacity: isMobileMenuOpen ? 1 : 0,
         pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
       }}
