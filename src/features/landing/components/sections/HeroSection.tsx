@@ -21,7 +21,7 @@ export const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-fit flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] sm:pt-[80px] pb-[80px] sm:pb-[100px] scroll-mt-20"
+      className="relative w-full min-h-fit flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] sm:pt-[80px] pb-8 sm:pb-14 scroll-mt-20"
     >
       <ScrollReveal className="w-full mx-auto flex flex-col items-center relative">
         <div className="relative w-full max-w-[1056px] h-auto min-h-[417px] md:h-[417px] bg-white/10 backdrop-blur-xl border border-white/10 rounded-[8px] pt-[24px] pb-[24px] pr-[16px] pl-[16px] sm:pr-[21px] sm:pl-[21px] gap-[8px] flex flex-col justify-between items-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
@@ -58,7 +58,7 @@ export const HeroSection = () => {
         </div>
 
         {/* Bottom Feature Cards */}
-        <div className="w-full mt-[64px] flex flex-wrap justify-evenly gap-6 px-4 sm:px-6 xl:px-[58px]">
+        <div className="w-full mt-10 sm:mt-14 flex flex-wrap justify-evenly gap-6 px-4 sm:px-6 xl:px-[58px]">
           {featureCards.map((card, i) => (
             <div
               key={i}

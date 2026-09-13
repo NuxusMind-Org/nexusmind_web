@@ -3,18 +3,27 @@ import { useEffect, useRef, useState, forwardRef } from 'react';
 interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
+  threshold?: number;
+  rootMargin?: string;
+  once?: boolean;
 }
 
 export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
-  ({ children, className = '' }, ref) => {
+  ({ children, className = '', threshold = 0.05, rootMargin = '0px 0px -20px 0px', once = false }, ref) => {
     const internalRef = useRef<HTMLDivElement | null>(null);
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
+      const currentElement = internalRef.current;
+      if (!currentElement) return;
+
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
+            if (once && currentElement) {
+              observer.unobserve(currentElement);
+            }
             return;
           }
 
@@ -22,28 +31,22 @@ export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
           const isAboveViewport = entry.boundingClientRect.top < (entry.rootBounds?.top ?? 0);
           if (isAboveViewport) {
             setIsVisible(true);
-          } else {
+          } else if (!once) {
             setIsVisible(false);
           }
         },
         {
-          threshold: 0.1, // Trigger as soon as 10% of the element is visible
-          rootMargin: '-5% 0px -5% 0px', // Shrink the trigger area slightly for a smoother transition
+          threshold,
+          rootMargin,
         }
       );
 
-      // Use the forwarded ref if provided, otherwise fall back to internal ref
-      const currentElement = internalRef.current;
-      if (currentElement) {
-        observer.observe(currentElement);
-      }
+      observer.observe(currentElement);
 
       return () => {
-        if (currentElement) {
-          observer.unobserve(currentElement);
-        }
+        observer.unobserve(currentElement);
       };
-    }, []);
+    }, [threshold, rootMargin, once]);
 
     // Combine forwarded ref and internal ref
     const setRefs = (node: HTMLDivElement | null) => {
@@ -61,7 +64,7 @@ export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
         className={`transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] ${
           isVisible 
             ? 'opacity-100 translate-y-0 scale-100' 
-            : 'opacity-0 translate-y-12 scale-95 pointer-events-none'
+            : 'opacity-0 translate-y-6 scale-95 pointer-events-none'
         } ${className}`}
       >
         {children}
