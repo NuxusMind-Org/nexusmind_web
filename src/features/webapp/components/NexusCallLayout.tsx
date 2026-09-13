@@ -12,7 +12,7 @@ import {
 import { isTrackReference } from '@livekit/components-core';
 import {
   Mic, MicOff, Video, VideoOff, PhoneOff,
-  Lock, Shield, FileText, X, ChevronDown, Save,
+  Lock, Shield, FileText, X, Save,
 } from 'lucide-react';
 
 interface NexusCallLayoutProps {
