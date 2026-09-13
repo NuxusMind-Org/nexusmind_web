@@ -109,14 +109,12 @@ export const BottomNavigation = () => {
                   <>
                     <Icon
                       size={22}
-                      className={`transition-colors duration-200 ${
-                        isActive ? 'text-[#00F2FF]' : 'text-white/50'
-                      }`}
+                      className={`transition-colors duration-200 ${isActive ? 'text-[#00F2FF]' : 'text-white/50'
+                        }`}
                     />
                     <span
-                      className={`text-[10px] font-medium transition-colors duration-200 ${
-                        isActive ? 'text-[#00F2FF]' : 'text-white/50'
-                      }`}
+                      className={`text-[10px] font-medium transition-colors duration-200 ${isActive ? 'text-[#00F2FF]' : 'text-white/50'
+                        }`}
                     >
                       {tab.name}
                     </span>
@@ -132,9 +130,8 @@ export const BottomNavigation = () => {
           {/* More Button */}
           <button
             onClick={() => setIsSheetOpen(!isSheetOpen)}
-            className={`flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] py-1 transition-colors cursor-pointer ${
-              isMoreActive || isSheetOpen ? 'text-[#00F2FF]' : 'text-white/50'
-            }`}
+            className={`flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] py-1 transition-colors cursor-pointer ${isMoreActive || isSheetOpen ? 'text-[#00F2FF]' : 'text-white/50'
+              }`}
           >
             <MoreHorizontal size={22} />
             <span className="text-[10px] font-medium">{t('webapp.bottomNav.more')}</span>
@@ -144,9 +141,8 @@ export const BottomNavigation = () => {
 
       {/* ── Bottom Sheet Overlay ──────────────────────────── */}
       <div
-        className={`fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${
-          isSheetOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${isSheetOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
       >
         {/* Backdrop */}
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
@@ -154,9 +150,8 @@ export const BottomNavigation = () => {
         {/* Sheet */}
         <div
           ref={sheetRef}
-          className={`absolute bottom-0 left-0 right-0 bg-[#1E0A42]/98 backdrop-blur-xl border-t border-white/15 rounded-t-[24px] shadow-[0_-8px_40px_rgba(0,0,0,0.4)] transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-            isSheetOpen ? 'translate-y-0' : 'translate-y-full'
-          }`}
+          className={`absolute bottom-0 left-0 right-0 bg-[#1E0A42]/98 backdrop-blur-xl border-t border-white/15 rounded-t-[24px] shadow-[0_-8px_40px_rgba(0,0,0,0.4)] transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${isSheetOpen ? 'translate-y-0' : 'translate-y-full'
+            }`}
           style={{ paddingBottom: 'calc(80px + env(safe-area-inset-bottom, 0px))' }}
         >
           {/* Sheet Handle */}
@@ -191,11 +186,10 @@ export const BottomNavigation = () => {
                       <NavLink
                         key={item.path}
                         to={item.path}
-                        className={`flex items-center justify-between px-4 py-3 rounded-xl transition-colors min-h-[48px] ${
-                          isActive
-                            ? 'bg-white/10 text-[#00F2FF]'
-                            : 'text-white/80 hover:bg-white/5'
-                        }`}
+                        className={`flex items-center justify-between px-4 py-3 rounded-xl transition-colors min-h-[48px] ${isActive
+                          ? 'bg-white/10 text-[#00F2FF]'
+                          : 'text-white/80 hover:bg-white/5'
+                          }`}
                       >
                         <div className="flex items-center gap-3">
                           <Icon size={20} className={isActive ? 'text-[#00F2FF]' : 'text-white/60'} />

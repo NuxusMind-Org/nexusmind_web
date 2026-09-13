@@ -71,13 +71,13 @@ export const ExpertsPage = () => {
     // 2. Category Filter
     if (activeCategory !== 'all') {
       if (activeCategory === 'child') {
-        items = items.filter((p) => p.tags.some((t) => t.toLowerCase().includes('uşaq')));
+        items = items.filter((p) => p.tags.some((t) => /uşaq|child|дет/i.test(t)) || /uşaq|child|дет/i.test(p.title));
       } else if (activeCategory === 'teen') {
         items = items.filter((p) =>
-          p.tags.some((t) => t.toLowerCase().includes('yeniyetmə') || t.toLowerCase().includes('gənclər'))
+          p.tags.some((t) => /yeniyetmə|gənclər|teen|adolescent|подрост/i.test(t)) || /yeniyetmə|gənclər|teen|подрост/i.test(p.title)
         );
       } else if (activeCategory === 'family') {
-        items = items.filter((p) => p.tags.some((t) => t.toLowerCase().includes('ailə')));
+        items = items.filter((p) => p.tags.some((t) => /ailə|family|сем/i.test(t)) || /ailə|family|сем/i.test(p.title));
       }
     }
 

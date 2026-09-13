@@ -127,7 +127,7 @@ export const ExpertDetailPage = () => {
       dateTime.getMonth() === tomorrow.getMonth() &&
       dateTime.getFullYear() === tomorrow.getFullYear();
 
-    let datePrefix = '';
+    let datePrefix: string;
     if (isToday) {
       datePrefix = t('webapp.experts.today');
     } else if (isTomorrow) {
@@ -181,7 +181,7 @@ export const ExpertDetailPage = () => {
           {t('webapp.experts.loading')}
         </div>
       ) : (
-        <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col items-center">
+        <div className={`w-full max-w-[1240px] mx-auto py-4 sm:py-10 flex flex-col items-center ${showCalendar ? 'px-2.5 sm:px-6' : 'px-4 sm:px-6'}`}>
           {!showCalendar ? (
             <div className="w-full flex flex-col lg:flex-row gap-6 sm:gap-8 items-start animate-fade-in">
               {/* Left Column (65% width) */}
@@ -406,10 +406,11 @@ export const ExpertDetailPage = () => {
                       mode: selectedMode,
                     });
                     navigate(PATHS.WEBAPP_SESSIONS);
-                  } catch (err: any) {
-                    console.error('Booking error response:', err?.response?.data || err);
+                  } catch (err: unknown) {
+                    const errorObj = err as { response?: { data?: { message?: string } } };
+                    console.error('Booking error response:', errorObj?.response?.data || err);
                     setBookingError(
-                      err?.response?.data?.message ||
+                      errorObj?.response?.data?.message ||
                       t('webapp.experts.bookingError')
                     );
                   } finally {
@@ -418,12 +419,12 @@ export const ExpertDetailPage = () => {
                 }}
               />
               {bookingError && (
-                <div className="w-full max-w-[900px] mx-auto mt-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-['Lexend'] text-center">
+                <div className="w-full max-w-[900px] mx-auto mt-3 sm:mt-4 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs sm:text-sm font-['Lexend'] text-center">
                   {bookingError}
                 </div>
               )}
               {booking && (
-                <div className="w-full max-w-[900px] mx-auto mt-4 p-4 bg-[#4B2E83]/10 border border-[#4B2E83]/20 rounded-xl text-[#4B2E83] text-sm font-['Lexend'] text-center animate-pulse">
+                <div className="w-full max-w-[900px] mx-auto mt-3 sm:mt-4 p-3 sm:p-4 bg-[#4B2E83]/10 border border-[#4B2E83]/20 rounded-xl text-[#4B2E83] text-xs sm:text-sm font-['Lexend'] text-center animate-pulse">
                   {t('webapp.experts.bookingInProgress')}
                 </div>
               )}

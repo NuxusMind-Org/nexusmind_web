@@ -17,7 +17,7 @@ export const AuthPageLayout = ({ children }: AuthPageLayoutProps) => {
       <div className="w-full max-w-[1100px] h-full min-h-[550px] md:min-h-[700px] glass-card rounded-lg flex flex-col md:flex-row overflow-hidden relative z-10">
 
         {/* Left Form Section */}
-        <div className="w-full md:w-[45%] flex-shrink-0 bg-ui-bg/40 relative">
+        <div className="w-full flex-1 flex flex-col md:flex-none md:w-[45%] bg-ui-bg/40 relative">
           {children}
         </div>
 

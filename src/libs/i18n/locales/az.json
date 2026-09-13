@@ -376,11 +376,23 @@
       "back": "Geri qayıt"
     },
     "experts": {
+      "title": "Mütəxəssislərimiz ilə tanış olun!",
       "meetExperts": "Mütəxəssislərimiz ilə tanış olun!",
       "stayInformed": "Son məlumatlardan xəbərdar ol!",
       "searchPlaceholder": "Hər şeyi axtarın...",
       "filter": "Filter",
-      "sortBy": "Sıralama :",
+      "sortBy": "Sıralama:",
+      "categories": {
+        "all": "Hamısı",
+        "child": "Uşaq Psixoloqları",
+        "teen": "Yeniyetmə psixoloqları",
+        "family": "Ailə psixoloqları"
+      },
+      "sort": {
+        "popularity": "Populyarlığa görə",
+        "priceAsc": "Qiymət: Ucuzdan bahaya",
+        "priceDesc": "Qiymət: Bahadan ucuza"
+      },
       "all": "Hamısı",
       "child": "Uşaq Psixoloqları",
       "teen": "Yeniyetmə psixoloqları",

@@ -376,11 +376,23 @@
       "back": "Go back"
     },
     "experts": {
+      "title": "Meet our Experts!",
       "meetExperts": "Meet our Experts!",
       "stayInformed": "Stay informed with recent updates!",
       "searchPlaceholder": "Search anything...",
       "filter": "Filter",
-      "sortBy": "Sort by :",
+      "sortBy": "Sort by:",
+      "categories": {
+        "all": "All",
+        "child": "Child Psychologists",
+        "teen": "Teen Psychologists",
+        "family": "Family Psychologists"
+      },
+      "sort": {
+        "popularity": "By Popularity",
+        "priceAsc": "Price: Low to High",
+        "priceDesc": "Price: High to Low"
+      },
       "all": "All",
       "child": "Child Psychologists",
       "teen": "Teen Psychologists",

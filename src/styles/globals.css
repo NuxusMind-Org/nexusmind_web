@@ -188,3 +188,7 @@
     animation: none;
   }
 }
+/* ── Call Screen Safe-Area Utilities ─────────────────────── */
+.call-panel-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+}
