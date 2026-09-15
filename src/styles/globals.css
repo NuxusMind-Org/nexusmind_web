@@ -4,8 +4,9 @@
   --color-primary-text: #E0E0E0;
   --color-accent: #A682FF;
   --color-brand: #00F2FF;
-  --color-gradient-start: #7B2CBF;
-  --color-gradient-end: #1B3A4B;
+  --color-gradient-start: oklch(52.4% 0.145 323.6);
+  --color-gradient-mid: oklch(44.6% 0.061 212.4);
+  --color-gradient-end: oklch(32% 0.059 268.5);
 
   --color-ui-bg: #0D1117;
   --color-ui-surface: rgba(255, 255, 255, 0.06);
@@ -34,7 +35,10 @@
     @apply antialiased;
     font-family: "Lexend", sans-serif;
     color: var(--color-primary-text);
+    /* Fallback for legacy browsers */
     background: linear-gradient(90deg, #914899 0%, #245D68 50%, #263151 100%);
+    /* Perceptually uniform OKLCH gradient interpolation */
+    background: linear-gradient(in oklch 90deg, oklch(52.4% 0.145 323.6) 0%, oklch(44.6% 0.061 212.4) 50%, oklch(32% 0.059 268.5) 100%);
     background-attachment: fixed;
     min-height: 100vh;
     /* Prevent tap-highlight flash on mobile */
@@ -70,7 +74,10 @@
 
 @layer utilities {
   .bg-landing-gradient {
+    /* Fallback for legacy browsers */
     background: linear-gradient(90deg, #914899 0%, #245D68 50%, #263151 100%);
+    /* Perceptually uniform OKLCH gradient interpolation */
+    background: linear-gradient(in oklch 90deg, oklch(52.4% 0.145 323.6) 0%, oklch(44.6% 0.061 212.4) 50%, oklch(32% 0.059 268.5) 100%);
     background-attachment: fixed;
   }
 
