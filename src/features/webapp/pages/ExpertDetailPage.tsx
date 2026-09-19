@@ -9,6 +9,7 @@ import { CalendarWidget } from '../components/CalendarWidget';
 import { useSessionStore } from '@/store/sessionStore';
 import { doctorsApi } from '@/api/doctors.api';
 import { mapDoctorToPsychologist } from '@/utils/mappers';
+import { getLocalizedTitle } from '@/utils/multilingual';
 import type { Psychologist } from '@/features/landing/types/psychologist.types';
 import type { AvailableSlotDto } from '@/api/types';
 import defaultAvatar from '@/assets/avatar1.png';
@@ -212,7 +213,7 @@ export const ExpertDetailPage = () => {
                           {psych.name}
                         </h3>
                         <p className="text-white/70 text-[13px] font-['Lexend'] mt-1.5">
-                          {psych.experience} • {psych.title}
+                          {psych.experience} • {getLocalizedTitle(psych.title as any, i18n.language as 'az' | 'en' | 'ru', '')}
                         </p>
                       </div>
                       <div className="text-[#03C6B2] font-bold text-[22px] sm:text-[24px] font-['Lexend'] shrink-0">
@@ -221,17 +222,17 @@ export const ExpertDetailPage = () => {
                     </div>
 
                     <p className="text-white/85 text-xs sm:text-sm leading-relaxed mt-4 mb-6 font-['Lexend'] font-light">
-                      {psych.description}
+                      {getLocalizedTitle(psych.description as any, i18n.language as 'az' | 'en' | 'ru', '')}
                     </p>
 
                     {/* Language badges */}
                     <div className="flex flex-wrap gap-2.5 mt-auto">
-                      {psych.languages.map((lang) => (
+                      {psych.languages.map((lang, idx) => (
                         <span
-                          key={lang}
+                          key={`lang-${idx}`}
                           className="bg-transparent text-[#44E2CD] text-[10px] font-semibold px-4 py-1.5 rounded-full border border-[#44E2CD] shadow-sm font-['Lexend'] uppercase"
                         >
-                          {lang}
+                          {getLocalizedTitle(lang as any, i18n.language as 'az' | 'en' | 'ru', '')}
                         </span>
                       ))}
                     </div>
@@ -277,12 +278,12 @@ export const ExpertDetailPage = () => {
                 <div className="bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
                   <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">{t('webapp.experts.directions')}</h3>
                   <div className="flex flex-wrap gap-2.5">
-                    {psych.tags.map((tag) => (
+                    {psych.tags.map((tag, idx) => (
                       <span
-                        key={tag}
+                        key={`tag-${idx}`}
                         className="bg-white/10 text-white text-xs font-semibold px-4 py-2.5 rounded-xl border border-white/5 shadow-sm font-['Lexend']"
                       >
-                        {tag}
+                        {getLocalizedTitle(tag as any, i18n.language as 'az' | 'en' | 'ru', '')}
                       </span>
                     ))}
                   </div>
@@ -291,12 +292,12 @@ export const ExpertDetailPage = () => {
                 <div className="bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
                   <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">{t('webapp.experts.methods')}</h3>
                   <div className="flex flex-wrap gap-2.5">
-                    {psych.tags.map((tag) => (
+                    {psych.tags.map((tag, idx) => (
                       <span
-                        key={tag}
+                        key={`tag-${idx}`}
                         className="bg-white/10 text-white text-xs font-semibold px-4 py-2.5 rounded-xl border border-white/5 shadow-sm font-['Lexend']"
                       >
-                        {tag}
+                        {getLocalizedTitle(tag as any, i18n.language as 'az' | 'en' | 'ru', '')}
                       </span>
                     ))}
                   </div>

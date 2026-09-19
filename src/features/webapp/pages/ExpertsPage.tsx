@@ -8,12 +8,13 @@ import { doctorsApi } from '@/api/doctors.api';
 import type { Psychologist } from '@/features/landing/types/psychologist.types';
 import defaultAvatar from '@/assets/avatar1.png';
 import { mapDoctorToPsychologist } from '@/utils/mappers';
+import { getLocalizedTitle } from '@/utils/multilingual';
 
 type CategoryFilter = 'all' | 'child' | 'teen' | 'family';
 type SortOption = 'popularity' | 'price-asc' | 'price-desc';
 
 export const ExpertsPage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
@@ -295,7 +296,7 @@ export const ExpertsPage = () => {
                         {expert.name}
                       </span>
                       <span className="text-xs text-white/70 mt-1 font-medium">
-                        {expert.experience} • {expert.title}
+                        {expert.experience} • {getLocalizedTitle(expert.title as any, i18n.language as 'az' | 'en' | 'ru', '')}
                       </span>
                       <div className="flex items-center gap-1 text-xs text-amber-400 mt-2 font-semibold">
                         <Star size={13} fill="currentColor" className="text-amber-400" />
@@ -312,29 +313,29 @@ export const ExpertsPage = () => {
 
                 {/* Bio description paragraph */}
                 <p className="text-xs md:text-sm text-white/80 leading-relaxed mt-5 text-left line-clamp-3 font-['Lexend']">
-                  {expert.description}
+                  {getLocalizedTitle(expert.description as any, i18n.language as 'az' | 'en' | 'ru', '')}
                 </p>
 
                 {/* Languages badges */}
                 <div className="flex flex-wrap gap-2.5 mt-5">
-                  {expert.languages.map((lang) => (
+                  {expert.languages.map((lang, idx) => (
                     <span
-                      key={lang}
+                      key={`lang-${idx}`}
                       className="bg-white text-[#0D0669] text-[10px] font-bold px-4 py-1.5 rounded-full border border-[#0D0669]/10 shadow-sm font-['Lexend'] uppercase"
                     >
-                      {lang}
+                      {getLocalizedTitle(lang as any, i18n.language as 'az' | 'en' | 'ru', '')}
                     </span>
                   ))}
                 </div>
 
                 {/* Specialties badges */}
                 <div className="flex flex-wrap gap-2.5 mt-2.5">
-                  {expert.tags.slice(0, 3).map((spec) => (
+                  {expert.tags.slice(0, 3).map((spec, idx) => (
                     <span
-                      key={spec}
+                      key={`spec-${idx}`}
                       className="bg-white/10 text-white text-[10px] font-bold px-4 py-1.5 rounded-full border border-white/5 shadow-sm font-['Lexend'] uppercase"
                     >
-                      {spec}
+                      {getLocalizedTitle(spec as any, i18n.language as 'az' | 'en' | 'ru', '')}
                     </span>
                   ))}
                 </div>
