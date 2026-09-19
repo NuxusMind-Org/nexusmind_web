@@ -25,7 +25,7 @@ export const PsychologistPage = () => {
           {t('psychologist.about', 'Psixoloq haqqında')}
         </h1>
 
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
 
           {/* Left Column */}
           <div className="flex-1 flex flex-col gap-6">
@@ -62,9 +62,9 @@ export const PsychologistPage = () => {
               </div>
             </div>
 
-            {/* Middle Row (Education & Certifications) */}
+            {/* Education and Fəaliyyət istiqamətləri */}
             <div className="flex flex-col md:flex-row gap-6">
-
+              
               {/* Education */}
               <div className="flex-1 bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
                 <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
@@ -80,12 +80,37 @@ export const PsychologistPage = () => {
                 </div>
               </div>
 
-              {/* Certifications */}
+              {/* Fəaliyyət istiqamətləri */}
               <div className="flex-1 bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
+                <h3 className="text-white text-[18px] font-light mb-6">{t('psychologist.directions', 'Fəaliyyət istiqamətləri')}</h3>
+                <div className="flex flex-wrap gap-3">
+                  {psych.tags.map(tag => (
+                    <span key={tag} className="px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white/90 text-[14px]">{tag}</span>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Terapiya metodları */}
+            <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
+              <h3 className="text-white text-[18px] font-light mb-6">{t('psychologist.methods', 'Terapiya metodları')}</h3>
+              <div className="flex flex-wrap gap-3">
+                {psych.tags.map(tag => (
+                  <span key={tag} className="px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white/90 text-[14px]">{tag}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* İştirak Etdiyi Təlimlər and Sertifikatlar - one column */}
+            <div className="flex flex-col gap-6">
+
+              {/* İştirak Etdiyi Təlimlər */}
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
                 <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
                   <Award className="text-white/80" size={20} /> {t('psychologist.certifications', 'İştirak Etdiyi Təlimlər')}
                 </h3>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 mb-4">
                   {psych.certifications.map((cert, i) => (
                     <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
                       <CheckCircle2 size={18} className="text-[#00f2ff]" />
@@ -93,32 +118,35 @@ export const PsychologistPage = () => {
                     </div>
                   ))}
                 </div>
+                <button className="mt-auto self-end bg-[#51237a] hover:bg-[#632a93] text-white px-5 py-2 rounded-lg text-[14px] font-medium transition-colors shadow-md cursor-pointer">
+                  {t('psychologist.readMore', 'Davamını oxu')}
+                </button>
               </div>
 
-            </div>
+              {/* Sertifikatlar */}
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
+                <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
+                  <Award className="text-white/80" size={20} /> {t('psychologist.certificates', 'Sertifikatlar')}
+                </h3>
+                <div className="flex flex-col gap-3 mb-4">
+                  {psych.certifications.map((cert, i) => (
+                    <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
+                      <CheckCircle2 size={18} className="text-[#c084fc]" />
+                      <span className="text-white/80 text-[13px]">{cert}</span>
+                    </div>
+                  ))}
+                </div>
+                <button className="mt-auto self-end bg-[#51237a] hover:bg-[#632a93] text-white px-5 py-2 rounded-lg text-[14px] font-medium transition-colors shadow-md cursor-pointer">
+                  {t('psychologist.readMore', 'Davamını oxu')}
+                </button>
+              </div>
 
-            {/* Specializations */}
-            <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
-              <h3 className="text-white text-[18px] font-light mb-6">{t('psychologist.directions', 'Fəaliyyət istiqamətləri')}</h3>
-              <div className="flex flex-wrap gap-3">
-                {psych.tags.map(tag => (
-                  <span key={tag} className="px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white/90 text-[14px]">{tag}</span>
-                ))}
-              </div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
-              <h3 className="text-white text-[18px] font-light mb-6 ">{t('psychologist.methods', 'Terapiya metodları')}</h3>
-              <div className="flex flex-wrap gap-3">
-                {psych.tags.map(tag => (
-                  <span key={tag} className="px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white/90 text-[14px]">{tag}</span>
-                ))}
-              </div>
             </div>
 
           </div>
 
           {/* Right Column */}
-          <div className="w-full lg:w-[350px] xl:w-[400px] flex flex-col gap-6">
+          <div className="w-full lg:w-[350px] xl:w-[400px] flex flex-col gap-6 sticky top-28">
 
             {/* Booking Box */}
             <div className="bg-[#2D3E50]/60 backdrop-blur-xl rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
