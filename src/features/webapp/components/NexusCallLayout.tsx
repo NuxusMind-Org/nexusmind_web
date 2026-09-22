@@ -202,6 +202,27 @@ export function NexusCallLayout({ roomName }: NexusCallLayoutProps) {
   const duration = useDuration();
   const [notesOpen, setNotesOpen] = useState(false);
 
+  // ── Responsive control-bar height tracking ───────────────────
+  // Measures the rendered height of the bottom control bar and exposes it
+  // as a CSS custom property (--ctrl-bar-h) on the root element so that
+  // the PiP preview and Notes FAB can always sit cleanly above it,
+  // regardless of screen size or safe-area insets.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const ctrlBarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const bar = ctrlBarRef.current;
+    const root = rootRef.current;
+    if (!bar || !root) return;
+    const ro = new ResizeObserver(() => {
+      root.style.setProperty('--ctrl-bar-h', `${bar.offsetHeight}px`);
+    });
+    ro.observe(bar);
+    // Set immediately so first render has the correct value
+    root.style.setProperty('--ctrl-bar-h', `${bar.offsetHeight}px`);
+    return () => ro.disconnect();
+  }, []);
+
   // Remote participant
   const remoteParticipants = useRemoteParticipants();
   const remoteParticipant = remoteParticipants[0] ?? null;
@@ -214,7 +235,7 @@ export function NexusCallLayout({ roomName }: NexusCallLayoutProps) {
   const localCameraTrack = allTracks.find(t => isTrackReference(t) && t.participant.isLocal);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-[#090a0f] font-['Lexend'] select-none">
+    <div ref={rootRef} className="relative w-full h-[100dvh] overflow-hidden bg-[#090a0f] font-['Lexend'] select-none">
 
       {/* ── Remote Video (full-screen background) ── */}
       <div className="absolute inset-0 w-full h-full">
@@ -230,7 +251,7 @@ export function NexusCallLayout({ roomName }: NexusCallLayoutProps) {
         {/* Gradient overlays: top + bottom for readability */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/60 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black/70 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-56 bg-gradient-to-t from-black/70 to-transparent" />
         </div>
       </div>
 
@@ -239,7 +260,7 @@ export function NexusCallLayout({ roomName }: NexusCallLayoutProps) {
         {/* Left: name + live status */}
         <div className="flex items-center gap-2.5 min-w-0">
           <div className="flex flex-col min-w-0">
-            <span className="text-white font-bold text-sm leading-tight drop-shadow-lg truncate max-w-[160px]">
+            <span className="text-white font-bold text-sm leading-tight drop-shadow-lg truncate max-w-[120px] sm:max-w-[160px]">
               {remoteName}
             </span>
             <div className="flex items-center gap-1.5 mt-0.5">
@@ -286,13 +307,17 @@ export function NexusCallLayout({ roomName }: NexusCallLayoutProps) {
       )}
 
       {/* ── Self PiP Preview ── */}
+      {/* Width/height use clamp() so the thumbnail scales proportionally on
+          narrow screens without overflowing. The bottom offset references
+          --ctrl-bar-h (set dynamically by ResizeObserver) so the PiP always
+          clears the control bar by 8 px, even when safe-area insets change. */}
       <div
         className="absolute z-20 rounded-xl overflow-hidden border-2 border-[#03C6B2]/60 shadow-2xl shadow-black/70 transition-all duration-200 hover:border-[#03C6B2]"
         style={{
-          width: 108,
-          height: 80,
-          bottom: 'calc(120px + env(safe-area-inset-bottom, 0px))',
-          right: 16,
+          width: 'clamp(80px, 22vw, 120px)',
+          height: 'clamp(60px, 16vw, 90px)',
+          bottom: 'calc(var(--ctrl-bar-h, 120px) + env(safe-area-inset-bottom, 0px) + 8px)',
+          right: 12,
         }}
         title="Your camera"
       >
@@ -314,20 +339,24 @@ export function NexusCallLayout({ roomName }: NexusCallLayoutProps) {
       </div>
 
       {/* ── Notes FAB ── */}
+      {/* Same bottom offset approach as PiP — always 8 px above the control bar */}
       <button
         onClick={() => setNotesOpen(true)}
         aria-label="Open session notes"
         className="absolute z-20 w-10 h-10 rounded-full bg-[#4B2E83]/80 hover:bg-[#4B2E83] active:scale-90 backdrop-blur-sm border border-[#4B2E83]/60 text-white flex items-center justify-center transition-all duration-200 cursor-pointer shadow-lg shadow-[#4B2E83]/20"
         style={{
-          bottom: 'calc(120px + env(safe-area-inset-bottom, 0px))',
-          left: 16,
+          bottom: 'calc(var(--ctrl-bar-h, 120px) + env(safe-area-inset-bottom, 0px) + 8px)',
+          left: 12,
         }}
       >
         <FileText className="w-4 h-4" />
       </button>
 
       {/* ── Docked Bottom Control Panel ── */}
+      {/* ctrlBarRef lets the ResizeObserver track this element's height
+          and update --ctrl-bar-h on the root for PiP & FAB positioning. */}
       <div
+        ref={ctrlBarRef}
         className="absolute left-0 right-0 z-20 bg-black/55 backdrop-blur-xl border-t border-white/10 rounded-t-3xl"
         style={{ bottom: 0 }}
       >
