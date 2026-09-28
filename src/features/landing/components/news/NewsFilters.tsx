@@ -76,7 +76,7 @@ export const NewsFilters = ({
 
         {/* Mobile Sort Dropdown */}
         <div className="flex items-center justify-between gap-3 w-full" ref={dropdownRef}>
-          <span className="text-white/60 text-[13px] font-medium font-['Lexend'] whitespace-nowrap">{t('news.sortBy')}</span>
+          <span className="text-white/60 text-[13px] font-medium font-sans whitespace-nowrap">{t('news.sortBy')}</span>
           <div className="relative flex-1 max-w-[240px]">
             <button
               onClick={() => setIsSortOpen(!isSortOpen)}

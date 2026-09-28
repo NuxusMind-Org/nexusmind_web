@@ -1,16 +1,66 @@
-import { Sparkles, Users, BookOpen } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import nexieSittingClassic from '@/assets/svg/NexieSittingClassic.svg';
-import nexieSittingPurple from '@/assets/svg/NexieSittingPurple.svg';
+import roadmap01 from '@/assets/roadmap01.png';
+import roadmap02 from '@/assets/roadmap02.png';
+import roadmap03 from '@/assets/roadmap03.png';
 import { ScrollReveal } from '../ScrollReveal';
 import { useRoadmapMascot } from '../../hooks/useRoadmapMascot';
 
-const PARTNER_NAMES = ['Bakı Psixologiya Mərkəzi', 'NexusMind'];
-const PARTNER_REPEAT_COUNT = Math.max(1, Math.ceil(8 / PARTNER_NAMES.length));
-const PARTNER_ITEMS = Array.from({ length: PARTNER_REPEAT_COUNT }, () => PARTNER_NAMES).flat();
+const CARD_GRADIENTS = {
+  1: 'linear-gradient(296.12deg, #0B4359 0%, #3D4A7A 28%, #6B64B0 68%, #7D76BC 100%)',
+  2: 'linear-gradient(133.35deg, #2A0D61 5.59%, #5F91A6 82.77%)',
+  3: 'linear-gradient(114.62deg, #7A6BB8 0%, #5C4A9E 38%, #3D1D72 68%, #301466 100%)',
+} as const;
+
+interface RoadmapCardProps {
+  image: string;
+  imageAlt: string;
+  gradient: string;
+  title: string;
+  ctaLabel: string;
+  onCta: () => void;
+}
+
+const RoadmapCard = ({ image, imageAlt, gradient, title, ctaLabel, onCta }: RoadmapCardProps) => (
+  <div
+    className="relative w-full h-auto min-h-[280px] sm:min-h-[320px] md:h-[356px] md:min-h-[356px] rounded-[20px] overflow-hidden pt-6 pr-7 pb-6 pl-7 flex flex-col gap-2"
+    style={{
+      backgroundColor: '#171717',
+      backgroundImage: gradient,
+    }}
+  >
+    <div className="relative z-10 flex flex-col gap-2 max-w-[58%] sm:max-w-[260px]">
+      <h3 className="text-white text-[18px] sm:text-[20px] md:text-[22px] font-medium leading-snug ponnala-nudge">
+        {title}
+      </h3>
+      <button
+        type="button"
+        onClick={onCta}
+        className="inline-flex items-center gap-2 text-white text-[14px] sm:text-[15px] self-start cursor-pointer group"
+      >
+        <span className="ponnala-nudge">{ctaLabel}</span>
+        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/80 group-hover:border-white transition-colors">
+          <ArrowRight size={14} />
+        </span>
+      </button>
+    </div>
+    <img
+      src={image}
+      alt={imageAlt}
+      className="absolute bottom-2 right-2 z-0 h-[72%] sm:h-[80%] md:h-[88%] w-auto max-w-[58%] object-contain object-right-bottom pointer-events-none select-none"
+      aria-hidden="true"
+    />
+  </div>
+);
+
+const scrollToVrSection = () => {
+  document.getElementById('vr')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
 
 export const RoadmapSection = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const {
     roadmapRef,
     card1Ref,
@@ -23,6 +73,10 @@ export const RoadmapSection = () => {
     arrow2Chevron,
   } = useRoadmapMascot();
 
+  const psychologistsTitle = t('roadmap.card1Title', 'Mütəxəssislər köməyilə çətinliklərdən azad ol !');
+  const psychologistsCta = t('roadmap.ctaPsychologists', 'Psixoloqlar');
+  const goToExperts = () => navigate('/experts');
+
   return (
     <section
       id="roadmap"
@@ -31,124 +85,95 @@ export const RoadmapSection = () => {
       <div className="w-full max-w-[1100px] mx-auto flex flex-col">
         <ScrollReveal className="w-full flex flex-col">
           <div className="text-center mb-10 md:mb-24">
-            <h2 className="text-[30px] sm:text-[44px] font-bold text-white mb-3 tracking-tight">
+            <h2 className="text-[30px] sm:text-[44px] font-bold text-white mb-3 tracking-tight ponnala-nudge">
               {t('roadmap.title', 'Necə istifadə edəcəksən:')}
             </h2>
-            <p className="text-[15px] sm:text-[19px] text-white/80">
+            <p className="text-[15px] sm:text-[19px] text-white/80 ponnala-nudge">
               {t('roadmap.subtitle', 'Sən də bizimlə həyatdan yenidən zövq almağı öyrən')}
             </p>
           </div>
         </ScrollReveal>
 
-        {/* Roadmap Cards */}
-        <div ref={roadmapRef} className="w-full max-w-[1100px] mx-auto relative flex flex-col gap-20 sm:gap-24 md:gap-[240px] pb-12 md:pb-[200px]">
-
-          {/* SVG Connector Lines */}
+        <div ref={roadmapRef} className="w-full max-w-[1100px] mx-auto relative flex flex-col gap-8 sm:gap-24 md:gap-[240px] pb-12 md:pb-[200px]">
           <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ overflow: 'visible' }}>
             {arrow1Path && (
               <g style={{ opacity: arrowsVisible.a1 ? 1 : 0, transition: 'opacity 0.5s ease-in-out' }}>
-                <path d={arrow1Path} fill="none" stroke="#a072ff" strokeWidth="3" strokeDasharray="8 8" />
-                <path d={arrow1Chevron} fill="none" stroke="#a072ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d={arrow1Path}
+                  fill="none"
+                  stroke="#C9E4EA"
+                  strokeWidth="1.75"
+                  strokeDasharray="5 7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d={arrow1Chevron}
+                  fill="none"
+                  stroke="#FFFFFF"
+                  strokeWidth="2.25"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </g>
             )}
             {arrow2Path && (
               <g style={{ opacity: arrowsVisible.a2 ? 1 : 0, transition: 'opacity 0.5s ease-in-out' }}>
-                <path d={arrow2Path} fill="none" stroke="#a072ff" strokeWidth="3" strokeDasharray="8 8" />
-                <path d={arrow2Chevron} fill="none" stroke="#a072ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d={arrow2Path}
+                  fill="none"
+                  stroke="#C9E4EA"
+                  strokeWidth="1.75"
+                  strokeDasharray="5 7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d={arrow2Chevron}
+                  fill="none"
+                  stroke="#FFFFFF"
+                  strokeWidth="2.25"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </g>
             )}
           </svg>
 
-          {/* Card 1 — Özünü tanı */}
-          <ScrollReveal ref={card1Ref} className="w-full max-w-[581px] h-auto min-h-0 md:h-[345px] md:min-h-[345px] relative self-center md:self-auto mt-8 md:mt-0">
-            {/* Dedicated Classic Nexie Mascot */}
-            <div className="absolute -top-[75px] sm:-top-[85px] right-4 sm:right-6 pointer-events-none z-20">
-              <img
-                src={nexieSittingClassic}
-                alt="Nexie Mascot Classic"
-                className="w-[125px] sm:w-[150px] object-contain drop-shadow-[0_15px_30px_rgba(0,242,255,0.3)]"
-              />
-            </div>
-            <div className="w-full h-full bg-[#155567] rounded-[8px] p-5 sm:p-8 md:p-10 relative shadow-2xl flex flex-col justify-center">
-              <h3 className="text-white text-[22px] sm:text-[26px] font-bold mb-4 flex items-center gap-4">
-                <Sparkles size={28} className="text-white" /> {t('roadmap.step1Title', 'Özünü tanı')}
-              </h3>
-              <p className="text-white/85 text-[14px] sm:text-[16px] leading-relaxed">
-                {t('roadmap.step1Desc', 'İlk mərhələdə istifadəçi qısa testlər və gündəlik qeydlərlə emosional vəziyyətini analiz edir. Sistem onun stress, narahatlıq və emosional vəziyyətini müəyyənləşdirərək fərdi tövsiyələr təqdim edir.')}
-              </p>
-            </div>
+          <ScrollReveal ref={card1Ref} className="w-full max-w-[530px] relative self-center md:self-auto">
+            <RoadmapCard
+              image={roadmap01}
+              imageAlt=""
+              gradient={CARD_GRADIENTS[1]}
+              title={psychologistsTitle}
+              ctaLabel={psychologistsCta}
+              onCta={goToExperts}
+            />
           </ScrollReveal>
 
-          {/* Card 2 — Ekspertlə əlaqə */}
-          <ScrollReveal ref={card2Ref} className="w-full max-w-[581px] h-auto min-h-0 md:h-[345px] md:min-h-[345px] self-center md:self-end relative md:mt-0">
-            {/* Dedicated Purple Nexie Mascot */}
-            <div className="absolute -top-[75px] sm:-top-[85px] right-4 sm:right-6 pointer-events-none z-20">
-              <img
-                src={nexieSittingPurple}
-                alt="Nexie Mascot Purple"
-                className="w-[125px] sm:w-[150px] object-contain drop-shadow-[0_15px_30px_rgba(123,75,139,0.5)]"
-              />
-            </div>
-            <div className="w-full h-full bg-[#7B4B8B] rounded-[8px] p-5 sm:p-8 md:p-10 relative shadow-2xl flex flex-col justify-center">
-              <h3 className="text-white text-[22px] sm:text-[26px] font-bold mb-4 flex items-center gap-4">
-                <Users size={28} className="text-white" /> {t('roadmap.step2Title', 'Ekspertlə əlaqə')}
-              </h3>
-              <p className="text-white/85 text-[14px] sm:text-[16px] leading-relaxed">
-                {t('roadmap.step2Desc', 'İstifadəçi peşəkar psixoloqlarla təhlükəsiz və rahat şəkildə əlaqə qura bilir. Online konsultasiya və fərdi dəstək sayəsində problemlərə daha düzgün yanaşma formalaşır.')}
-              </p>
-            </div>
+          <ScrollReveal ref={card2Ref} className="w-full max-w-[530px] relative self-center md:self-end">
+            <RoadmapCard
+              image={roadmap02}
+              imageAlt=""
+              gradient={CARD_GRADIENTS[2]}
+              title={t('roadmap.card2Title', 'Vr konsultasiya ilə evdən çıxmağa belə ehtiyac yoxur !')}
+              ctaLabel={t('roadmap.ctaVrTherapy', 'Vr terapiya')}
+              onCta={scrollToVrSection}
+            />
           </ScrollReveal>
 
-          {/* Card 3 — İnkişaf Et */}
-          <ScrollReveal ref={card3Ref} className="w-full max-w-[581px] h-auto min-h-0 md:h-[345px] md:min-h-[345px] relative self-center md:self-auto md:mt-0">
-            {/* Dedicated Classic Nexie Mascot */}
-            <div className="absolute -top-[75px] sm:-top-[85px] right-4 sm:right-6 pointer-events-none z-20">
-              <img
-                src={nexieSittingClassic}
-                alt="Nexie Mascot Classic"
-                className="w-[125px] sm:w-[150px] object-contain drop-shadow-[0_15px_30px_rgba(0,242,255,0.3)]"
-              />
-            </div>
-            <div className="w-full h-full bg-[#155567] rounded-[8px] p-5 sm:p-8 md:p-10 relative shadow-2xl flex flex-col justify-center">
-              <h3 className="text-white text-[22px] sm:text-[26px] font-bold mb-4 flex items-center gap-4">
-                <BookOpen size={28} className="text-white" /> {t('roadmap.step3Title', 'İnkişaf Et')}
-              </h3>
-              <p className="text-white/85 text-[14px] sm:text-[16px] leading-relaxed">
-                {t('roadmap.step3Desc', 'Platformadakı meditasiya, nəfəs məşqləri və şəxsi inkişaf tapşırıqları ilə istifadəçi özünü daha balanslı və güvənli hiss etməyə başlayır. Məqsəd uzunmüddətli daxili rahatlıq və sağlam düşüncə formalaşdırmaqdır.')}
-              </p>
-            </div>
+          <ScrollReveal ref={card3Ref} className="w-full max-w-[530px] relative self-center md:self-auto">
+            <RoadmapCard
+              image={roadmap03}
+              imageAlt=""
+              gradient={CARD_GRADIENTS[3]}
+              title={t('roadmap.card3Title', 'Mütəxəssislər köməyilə çətinliklərdən azad ol !')}
+              ctaLabel={psychologistsCta}
+              onCta={goToExperts}
+            />
           </ScrollReveal>
-
-        </div>
-      </div>
-
-      {/* Partner Ticker */}
-      <div className="group relative w-screen -mx-4 sm:-mx-8 md:-mx-12 lg:-mx-[72px] bg-white/5 py-4 md:py-8 border-y border-white/10 overflow-hidden select-none flex mt-10 md:mt-20 [mask-image:linear-gradient(to_right,transparent_0%,black_6%,black_94%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_6%,black_94%,transparent_100%)]">
-        {/* Track 1 */}
-        <div className="animate-ticker flex items-center gap-16 md:gap-24 pr-16 md:pr-24 shrink-0">
-          {PARTNER_ITEMS.map((name, i) => (
-            <span
-              key={`track1-${i}`}
-              className="text-[20px] sm:text-[24px] font-bold text-white/50 hover:text-white/80 transition-colors whitespace-nowrap cursor-default"
-            >
-              {name}
-            </span>
-          ))}
-        </div>
-
-        {/* Track 2 (Duplicate for infinite seamless loop) */}
-        <div className="animate-ticker flex items-center gap-16 md:gap-24 pr-16 md:pr-24 shrink-0" aria-hidden="true">
-          {PARTNER_ITEMS.map((name, i) => (
-            <span
-              key={`track2-${i}`}
-              className="text-[20px] sm:text-[24px] font-bold text-white/50 hover:text-white/80 transition-colors whitespace-nowrap cursor-default"
-            >
-              {name}
-            </span>
-          ))}
         </div>
       </div>
     </section>
   );
 };
-

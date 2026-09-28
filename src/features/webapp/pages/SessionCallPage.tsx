@@ -46,7 +46,7 @@ export const SessionCallPage = () => {
   // ── Loading Screen ──────────────────────────────────────────
   if (loading) {
     return (
-      <div className="w-full h-screen flex flex-col items-center justify-center bg-[#090a0f] font-['Lexend'] animate-fade-in">
+      <div className="w-full h-screen flex flex-col items-center justify-center bg-[#090a0f] font-sans animate-fade-in">
         {/* Animated rings */}
         <div className="relative w-20 h-20 mb-8">
           <div className="absolute inset-0 rounded-full border-2 border-[#4B2E83]/30 animate-ping" />
@@ -73,7 +73,7 @@ export const SessionCallPage = () => {
   // ── Error Screen ────────────────────────────────────────────
   if (error || !tokenInfo) {
     return (
-      <div className="w-full h-screen flex flex-col items-center justify-center bg-[#090a0f] px-4 font-['Lexend'] animate-fade-in">
+      <div className="w-full h-screen flex flex-col items-center justify-center bg-[#090a0f] px-4 font-sans animate-fade-in">
         <div className="relative w-full max-w-sm">
           {/* Glow effect */}
           <div className="absolute -inset-4 bg-red-500/10 rounded-3xl blur-2xl pointer-events-none" />

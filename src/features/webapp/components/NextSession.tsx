@@ -92,12 +92,12 @@ export const NextSession = () => {
       {loading && !nextSession ? (
         <div className="w-full bg-[#FAFAFA] rounded-[24px] border border-gray-100 p-12 flex flex-col items-center justify-center min-h-[220px]">
           <Loader2 className="w-8 h-8 text-[#4B2E83] animate-spin mb-3" />
-          <p className="text-sm font-medium text-[#7A7570] font-['Lexend']">{t('webapp.sessions.loading')}</p>
+          <p className="text-sm font-medium text-[#7A7570] font-sans">{t('webapp.sessions.loading')}</p>
         </div>
       ) : !nextSession ? (
         /* 3. Empty State (Identical to SessionsPage) */
         <div className="w-full bg-[#FAFAFA] rounded-[24px] border border-gray-100/80 p-8 sm:p-12 flex flex-col items-center justify-center text-center animate-fade-in">
-          <h3 className="text-[26px] sm:text-[32px] md:text-[36px] font-light text-[#7A7570] font-['Lexend'] text-center">
+          <h3 className="text-[26px] sm:text-[32px] md:text-[36px] font-light text-[#7A7570] font-sans text-center">
             {t('webapp.sessions.noSessions')}
           </h3>
 
@@ -109,7 +109,7 @@ export const NextSession = () => {
             />
             <button
               onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
-              className="absolute top-[28%] sm:top-[35%] left-[59%] -translate-x-[15%] translate-y-[-50%] bg-[#4B2E83] hover:bg-[#3C2475] text-white rounded-full px-5 sm:px-6 py-3 sm:py-3.5 font-semibold font-['Lexend'] flex items-center justify-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] text-xs sm:text-sm border-0 cursor-pointer uppercase tracking-wide whitespace-nowrap z-10"
+              className="absolute top-[28%] sm:top-[35%] left-[59%] -translate-x-[15%] translate-y-[-50%] bg-[#4B2E83] hover:bg-[#3C2475] text-white rounded-full px-5 sm:px-6 py-3 sm:py-3.5 font-semibold font-sans flex items-center justify-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] text-xs sm:text-sm border-0 cursor-pointer uppercase tracking-wide whitespace-nowrap z-10"
             >
               <Plus strokeWidth={2.5} className="w-4 h-4 sm:w-5 sm:h-5" />
               {t('webapp.sessions.bookSession')}
@@ -142,7 +142,7 @@ export const NextSession = () => {
                     className="w-full h-full rounded-[14px] sm:rounded-[22px] md:rounded-[24px] object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full rounded-[14px] sm:rounded-[22px] md:rounded-[24px] bg-white/10 flex items-center justify-center text-white/70 text-2xl sm:text-4xl font-bold font-['Lexend']">
+                  <div className="w-full h-full rounded-[14px] sm:rounded-[22px] md:rounded-[24px] bg-white/10 flex items-center justify-center text-white/70 text-2xl sm:text-4xl font-bold font-sans">
                     {(nextSession.doctorName || 'D').charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -154,7 +154,7 @@ export const NextSession = () => {
             </div>
 
             {/* Doctor text information */}
-            <div className="flex flex-col text-left justify-center font-['Lexend']">
+            <div className="flex flex-col text-left justify-center font-sans">
               <span className="text-[10px] sm:text-xs md:text-sm text-white/70 font-semibold uppercase tracking-wider">
                 {matchedDoctor?.title || t('webapp.sessions.clinicalPsychologist')}
               </span>
@@ -187,7 +187,7 @@ export const NextSession = () => {
           </div>
 
           {/* Right Side: Reschedule and Join Actions */}
-          <div className="flex flex-row md:flex-col gap-3 items-center md:items-end flex-shrink-0 relative z-10 w-full md:w-auto mt-4 md:mt-0 font-['Lexend']">
+          <div className="flex flex-row md:flex-col gap-3 items-center md:items-end flex-shrink-0 relative z-10 w-full md:w-auto mt-4 md:mt-0 font-sans">
             <button
               onClick={() => navigate(PATHS.WEBAPP_SESSION_CALL.replace(':id', String(nextSession.id)))}
               disabled={!isJoinable}

@@ -17,6 +17,7 @@
     "title": "Özünü kəşf etməyə hazırsan?",
     "subtitle": "Sıxıntıdan qurtul, rahat nəfəs al,\nvə həyatdan zövq al!",
     "cta": "İndi başla",
+    "secondary_cta": "Psixoloqlara bax",
     "feature1": "Mütəxəssislər köməyilə çətinliklərdən azad ol!",
     "feature2": "Vr konsultasiya ilə evdən çıxmağa belə ehtiyac yoxdur!",
     "feature3": "Günlük notlar qeyd edərək səndə öz inkişafını gör!"
@@ -27,22 +28,23 @@
     "subtitle2": "Sən də bizimlə həyatdan yenidən zövq almağı öyrən !",
     "perSession": "/seans",
     "getStarted": "Başlayaq",
-    "more": "Daha çox"
+    "more": "Daha çox",
+    "learnMore": "Ətraflı məlumat al"
   },
   "vr": {
-    "title": "VR KONSULTASİYA",
+    "title": "Vr konsultasiya",
     "description": "Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.",
+    "cta": "İndi başla",
     "watchDemo": "Demo-nu İzlə"
   },
   "roadmap": {
     "title": "Necə istifadə edəcəksən:",
     "subtitle": "Sən də bizimlə həyatdan yenidən zövq almağı öyrən",
-    "step1Title": "Özünü tanı",
-    "step1Desc": "İlk mərhələdə istifadəçi qısa testlər və gündəlik qeydlərlə emosional vəziyyətini analiz edir. Sistem onun stress, narahatlıq və emosional vəziyyətini müəyyənləşdirərək fərdi tövsiyələr təqdim edir.",
-    "step2Title": "Ekspertlə əlaqə",
-    "step2Desc": "İstifadəçi peşəkar psixoloqlarla təhlükəsiz və rahat şəkildə əlaqə qura bilir. Online konsultasiya və fərdi dəstək sayəsində problemlərə daha düzgün yanaşma formalaşır.",
-    "step3Title": "İnkişaf Et",
-    "step3Desc": "Platformadakı meditasiya, nəfəs məşqləri və şəxsi inkişaf tapşırıqları ilə istifadəçi özünü daha balanslı və güvənli hiss etməyə başlayır. Məqsəd uzunmüddətli daxili rahatlıq və sağlam düşüncə formalaşdırmaqdır."
+    "card1Title": "Mütəxəssislər köməyilə çətinliklərdən azad ol !",
+    "card2Title": "Vr konsultasiya ilə evdən çıxmağa belə ehtiyac yoxur !",
+    "card3Title": "Mütəxəssislər köməyilə çətinliklərdən azad ol !",
+    "ctaPsychologists": "Psixoloqlar",
+    "ctaVrTherapy": "Vr terapiya"
   },
   "features": {
     "title": "Daxili tarazlığı tap, özünü daha yaxşı anla.",

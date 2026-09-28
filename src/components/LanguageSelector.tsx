@@ -67,7 +67,7 @@ export const LanguageSelector = ({
         aria-expanded={isOpen}
         className="flex items-center gap-1.5 py-2 px-2 text-white/80 hover:text-white font-medium text-[15px] transition-colors cursor-pointer outline-none select-none"
       >
-        <span>{currentLang.shortLabel}</span>
+        <span className="ponnala-nudge">{currentLang.shortLabel}</span>
         <ChevronDown
           size={16}
           className={`transition-transform duration-300 text-white/80 ${
@@ -104,8 +104,8 @@ export const LanguageSelector = ({
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-[13px] opacity-75">{lang.shortLabel}</span>
-                    <span>{lang.label}</span>
+                    <span className="font-semibold text-[13px] opacity-75 ponnala-nudge">{lang.shortLabel}</span>
+                    <span className="ponnala-nudge">{lang.label}</span>
                   </div>
                   {isSelected && <Check size={14} className="text-[#00f2ff] shrink-0 ml-2" />}
                 </button>

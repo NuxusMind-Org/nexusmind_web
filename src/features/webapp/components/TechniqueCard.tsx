@@ -36,7 +36,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
         </div>
 
         {/* Card Title */}
-        <h3 className="text-xl sm:text-[24px] font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] mb-5 leading-tight text-left">
+        <h3 className="text-xl sm:text-[24px] font-semibold text-[#1E0A42] font-sans mb-5 leading-tight text-left">
           {title}
         </h3>
 

@@ -12,6 +12,19 @@ export interface RoadmapMascotState {
   arrow2Chevron: string;
 }
 
+const CORNER_R = 28;
+const CHEVRON = 9;
+
+const chevronPath = (cx: number, cy: number, dir: 'right' | 'left' | 'down') => {
+  if (dir === 'right') {
+    return `M ${cx - CHEVRON},${cy - CHEVRON} L ${cx + 3},${cy} L ${cx - CHEVRON},${cy + CHEVRON}`;
+  }
+  if (dir === 'left') {
+    return `M ${cx + CHEVRON},${cy - CHEVRON} L ${cx - 3},${cy} L ${cx + CHEVRON},${cy + CHEVRON}`;
+  }
+  return `M ${cx - CHEVRON},${cy - CHEVRON} L ${cx},${cy + 3} L ${cx + CHEVRON},${cy - CHEVRON}`;
+};
+
 /**
  * Manages refs for roadmap cards and computes SVG connector arrow paths
  * as the user scrolls through the section.
@@ -39,36 +52,54 @@ export const useRoadmapMascot = (): RoadmapMascotState => {
 
       if (!container || !card1 || !card2 || !card3) return;
 
-      const isMobile = window.innerWidth < 768 || Math.abs(card1.offsetLeft - card2.offsetLeft) < 100;
+      const r = CORNER_R;
+      const drop1x = card2.offsetLeft + 140;
+      const drop2x = card3.offsetLeft + card3.offsetWidth - 140;
+      const canZigzag =
+        window.innerWidth >= 768 &&
+        drop1x >= card1.offsetLeft + card1.offsetWidth + r * 2 &&
+        drop2x <= card2.offsetLeft - r * 2;
 
-      if (isMobile) {
+      if (!canZigzag) {
         const start1x = card1.offsetLeft + card1.offsetWidth / 2;
         const start1y = card1.offsetTop + card1.offsetHeight + 10;
         const end1x = card2.offsetLeft + card2.offsetWidth / 2;
-        const end1y = card2.offsetTop - 15;
-        setArrow1Path(`M ${start1x},${start1y} C ${start1x},${start1y + (end1y - start1y) * 0.5} ${end1x},${start1y + (end1y - start1y) * 0.5} ${end1x},${end1y}`);
-        setArrow1Chevron(`M ${end1x - 7},${end1y - 8} L ${end1x},${end1y} L ${end1x + 7},${end1y - 8}`);
+        const end1y = card2.offsetTop - 12;
+        const mid1y = (start1y + end1y) / 2;
+        setArrow1Path(`M ${start1x},${start1y} L ${end1x},${end1y}`);
+        setArrow1Chevron(chevronPath(start1x, mid1y, 'down'));
 
         const start2x = card2.offsetLeft + card2.offsetWidth / 2;
         const start2y = card2.offsetTop + card2.offsetHeight + 10;
         const end2x = card3.offsetLeft + card3.offsetWidth / 2;
-        const end2y = card3.offsetTop - 15;
-        setArrow2Path(`M ${start2x},${start2y} C ${start2x},${start2y + (end2y - start2y) * 0.5} ${end2x},${start2y + (end2y - start2y) * 0.5} ${end2x},${end2y}`);
-        setArrow2Chevron(`M ${end2x - 7},${end2y - 8} L ${end2x},${end2y} L ${end2x + 7},${end2y - 8}`);
+        const end2y = card3.offsetTop - 12;
+        const mid2y = (start2y + end2y) / 2;
+        setArrow2Path(`M ${start2x},${start2y} L ${end2x},${end2y}`);
+        setArrow2Chevron(chevronPath(start2x, mid2y, 'down'));
       } else {
-        const p1x = card1.offsetLeft + card1.offsetWidth;
-        const p1y = card1.offsetTop + 170;
-        const p2x = card2.offsetLeft + 150;
-        const p2y = card2.offsetTop;
-        setArrow1Path(`M ${p1x},${p1y} C ${p1x + 60},${p1y} ${p2x},${p2y - 60} ${p2x},${p2y}`);
-        setArrow1Chevron(`M ${p2x - 8},${p2y - 10} L ${p2x},${p2y} L ${p2x + 8},${p2y - 10}`);
+        const s1x = card1.offsetLeft + card1.offsetWidth;
+        const s1y = card1.offsetTop + card1.offsetHeight - 28;
+        const e1x = drop1x;
+        const e1y = card2.offsetTop;
+        const gap1 = e1y - (card1.offsetTop + card1.offsetHeight);
+        const mid1y = card1.offsetTop + card1.offsetHeight + Math.max(r + 8, gap1 * 0.28);
 
-        const p3x = card2.offsetLeft;
-        const p3y = card2.offsetTop + 170;
-        const p4x = card3.offsetLeft + card3.offsetWidth - 150;
-        const p4y = card3.offsetTop;
-        setArrow2Path(`M ${p3x},${p3y} C ${p3x - 60},${p3y} ${p4x},${p4y - 60} ${p4x},${p4y}`);
-        setArrow2Chevron(`M ${p4x - 8},${p4y - 10} L ${p4x},${p4y} L ${p4x + 8},${p4y - 10}`);
+        setArrow1Path(
+          `M ${s1x},${s1y} L ${s1x},${mid1y - r} Q ${s1x},${mid1y} ${s1x + r},${mid1y} L ${e1x - r},${mid1y} Q ${e1x},${mid1y} ${e1x},${mid1y + r} L ${e1x},${e1y}`
+        );
+        setArrow1Chevron(chevronPath((s1x + e1x) / 2, mid1y, 'right'));
+
+        const s2x = card2.offsetLeft;
+        const s2y = card2.offsetTop + card2.offsetHeight - 28;
+        const e2x = drop2x;
+        const e2y = card3.offsetTop;
+        const gap2 = e2y - (card2.offsetTop + card2.offsetHeight);
+        const mid2y = card2.offsetTop + card2.offsetHeight + Math.max(r + 8, gap2 * 0.28);
+
+        setArrow2Path(
+          `M ${s2x},${s2y} L ${s2x},${mid2y - r} Q ${s2x},${mid2y} ${s2x - r},${mid2y} L ${e2x + r},${mid2y} Q ${e2x},${mid2y} ${e2x},${mid2y + r} L ${e2x},${e2y}`
+        );
+        setArrow2Chevron(chevronPath((s2x + e2x) / 2, mid2y, 'left'));
       }
 
       const rect = container.getBoundingClientRect();
@@ -111,4 +142,3 @@ export const useRoadmapMascot = (): RoadmapMascotState => {
     arrow2Chevron,
   };
 };
-

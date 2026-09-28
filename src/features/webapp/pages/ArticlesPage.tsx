@@ -73,7 +73,7 @@ export const ArticlesPage = () => {
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
       >
-        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-1">
+        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-sans mt-1">
           Elmi məqalələrlə psixoloji biliklərinizi artırın !
         </h2>
 
@@ -87,7 +87,7 @@ export const ArticlesPage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Hər şeyi axtarın..."
-            className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-['Lexend'] transition-all shadow-sm"
+            className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-sans transition-all shadow-sm"
           />
         </div>
       </div>
@@ -111,7 +111,7 @@ export const ArticlesPage = () => {
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                   />
-                  <span className="absolute top-3 left-3 bg-[#0B093C] text-white text-[10px] font-bold tracking-widest px-3 py-1.5 rounded-full uppercase font-['Lexend']">
+                  <span className="absolute top-3 left-3 bg-[#0B093C] text-white text-[10px] font-bold tracking-widest px-3 py-1.5 rounded-full uppercase font-sans">
                     {item.categoryLabel}
                   </span>
                 </div>
@@ -127,14 +127,14 @@ export const ArticlesPage = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="flex flex-col text-left font-['Lexend']">
+                    <div className="flex flex-col text-left font-sans">
                       <span className="text-[#1E0A42] font-bold text-sm">{item.author.name}</span>
                       <span className="text-[#1E0A42]/60 text-xs mt-0.5">{item.author.title}</span>
                     </div>
                   </div>
 
                   {/* Meta indicators row */}
-                  <div className="flex justify-between items-center text-[#1E0A42]/70 text-xs font-semibold font-['Lexend'] border-t border-[#1E0A42]/5 pt-3">
+                  <div className="flex justify-between items-center text-[#1E0A42]/70 text-xs font-semibold font-sans border-t border-[#1E0A42]/5 pt-3">
                     <span className="flex items-center gap-1.5">
                       <Calendar size={14} className="text-[#1E0A42]/55" />
                       {item.date}
@@ -150,17 +150,17 @@ export const ArticlesPage = () => {
                   </div>
 
                   {/* Article Title */}
-                  <h3 className="text-[#1E0A42] text-lg font-bold font-['Lexend'] text-left leading-snug line-clamp-2 min-h-[48px] group-hover:text-[#4D2059] transition-colors mt-1">
+                  <h3 className="text-[#1E0A42] text-lg font-bold font-sans text-left leading-snug line-clamp-2 min-h-[48px] group-hover:text-[#4D2059] transition-colors mt-1">
                     {item.title}
                   </h3>
 
                   {/* Article Description */}
-                  <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 text-left font-['Lexend'] mt-1">
+                  <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 text-left font-sans mt-1">
                     {item.description}
                   </p>
 
                   {/* Footer CTA Link */}
-                  <div className="flex items-center gap-1.5 font-bold text-[#4D2059] group-hover:underline text-sm font-['Lexend'] mt-auto self-end cursor-pointer pt-2">
+                  <div className="flex items-center gap-1.5 font-bold text-[#4D2059] group-hover:underline text-sm font-sans mt-auto self-end cursor-pointer pt-2">
                     <span>Davamı oxu</span>
                     <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform duration-200" />
                   </div>
@@ -171,7 +171,7 @@ export const ArticlesPage = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center w-full">
-            <span className="text-[#1E0A42]/50 text-base font-medium font-['Lexend']">
+            <span className="text-[#1E0A42]/50 text-base font-medium font-sans">
               Axtarışa uyğun məqalə tapılmadı.
             </span>
           </div>

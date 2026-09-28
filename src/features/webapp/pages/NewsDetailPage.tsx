@@ -96,7 +96,7 @@ export const NewsDetailPage = () => {
     return (
       <div className="w-full flex flex-col items-center justify-center min-h-[400px] py-20">
         <Loader2 className="w-10 h-10 animate-spin text-[#4D2059]" />
-        <p className="mt-4 text-[#1E0A42]/70 font-['Lexend'] font-medium">Xəbər yüklənir...</p>
+        <p className="mt-4 text-[#1E0A42]/70 font-sans font-medium">Xəbər yüklənir...</p>
       </div>
     );
   }
@@ -114,8 +114,8 @@ export const NewsDetailPage = () => {
             <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center text-red-600">
               <AlertCircle className="w-7 h-7" />
             </div>
-            <h3 className="text-xl font-bold text-[#1E0A42] font-['Lexend']">Xəbər tapılmadı</h3>
-            <p className="text-sm text-[#1E0A42]/70 font-['Lexend']">
+            <h3 className="text-xl font-bold text-[#1E0A42] font-sans">Xəbər tapılmadı</h3>
+            <p className="text-sm text-[#1E0A42]/70 font-sans">
               Axtardığınız xəbər silinmiş və ya mövcud olmaya bilər.
             </p>
             <button
@@ -150,12 +150,12 @@ export const NewsDetailPage = () => {
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
       >
-        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-2">
+        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-sans mt-2">
           Son məlumatlardan xəbərdar ol!
         </h2>
 
         {/* Breadcrumbs navigation */}
-        <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] select-none overflow-x-auto no-scrollbar whitespace-nowrap">
+        <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-sans select-none overflow-x-auto no-scrollbar whitespace-nowrap">
           <Link to={PATHS.DASHBOARD} className="hover:text-[#4D2059] transition-colors">
             Ana səhifə
           </Link>
@@ -194,8 +194,8 @@ export const NewsDetailPage = () => {
           {/* Bottom text overlays */}
           <div className="relative z-20 text-left flex flex-col gap-4 max-w-[900px]">
             {/* Meta tags row */}
-            <div className="flex flex-wrap items-center gap-4 text-white/95 text-xs font-semibold font-['Lexend']">
-              <span className="bg-white/20 text-white text-[10px] tracking-widest px-3.5 py-1.5 rounded-full uppercase font-bold font-['Lexend'] flex items-center justify-center">
+            <div className="flex flex-wrap items-center gap-4 text-white/95 text-xs font-semibold font-sans">
+              <span className="bg-white/20 text-white text-[10px] tracking-widest px-3.5 py-1.5 rounded-full uppercase font-bold font-sans flex items-center justify-center">
                 {article.categoryLabel}
               </span>
               <span className="flex items-center gap-1.5 text-white/80">
@@ -209,7 +209,7 @@ export const NewsDetailPage = () => {
             </div>
 
             {/* Main title */}
-            <h2 className="text-2xl md:text-[36px] font-bold leading-tight text-white font-['Lexend'] mt-2">
+            <h2 className="text-2xl md:text-[36px] font-bold leading-tight text-white font-sans mt-2">
               {article.title}
             </h2>
           </div>
@@ -218,7 +218,7 @@ export const NewsDetailPage = () => {
         {/* Content body layout section */}
         <div className="w-full flex flex-col lg:flex-row gap-12 mt-6 items-start">
           {/* Left Column: Article Body Content (68%) */}
-          <div className="w-full lg:w-[68%] flex flex-col gap-6 text-left text-[#1E0A42]/90 leading-relaxed font-normal text-[15px] sm:text-[16px] font-['Lexend']">
+          <div className="w-full lg:w-[68%] flex flex-col gap-6 text-left text-[#1E0A42]/90 leading-relaxed font-normal text-[15px] sm:text-[16px] font-sans">
             {/* Intro paragraph */}
             <p className="text-base md:text-[17px] font-medium text-[#1E0A42] leading-relaxed">
               {article.description}
@@ -305,17 +305,17 @@ export const NewsDetailPage = () => {
               {/* Decorative circle glow */}
               <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/5 blur-xl group-hover:scale-110 transition-transform duration-500" />
               
-              <h4 className="text-white text-[20px] font-semibold tracking-tight leading-snug font-['Lexend']">
+              <h4 className="text-white text-[20px] font-semibold tracking-tight leading-snug font-sans">
                 Dəstək lazımdır?
               </h4>
 
-              <p className="text-white/80 text-[15px] leading-relaxed font-normal font-['Lexend'] pr-6">
+              <p className="text-white/80 text-[15px] leading-relaxed font-normal font-sans pr-6">
                 Mütəxəssislərimiz sizə kömək etməyə hazırdır.
               </p>
 
               <button
                 onClick={() => navigate(`${PATHS.HOME}#experts`)}
-                className="w-full py-3.5 bg-white text-[#482476] rounded-[16px] text-sm font-bold hover:bg-white/95 transition-all duration-300 cursor-pointer text-center font-['Lexend'] select-none outline-none hover:shadow-lg border-0"
+                className="w-full py-3.5 bg-white text-[#482476] rounded-[16px] text-sm font-bold hover:bg-white/95 transition-all duration-300 cursor-pointer text-center font-sans select-none outline-none hover:shadow-lg border-0"
               >
                 Məsləhət Alın
               </button>
@@ -323,7 +323,7 @@ export const NewsDetailPage = () => {
 
             {/* Widget 2: Popular Topics Tag Box */}
             <div className="flex flex-col gap-4 text-left">
-              <h4 className="text-[#1E0A42] text-[20px] font-semibold font-['Lexend']">
+              <h4 className="text-[#1E0A42] text-[20px] font-semibold font-sans">
                 Populyar Mövzular
               </h4>
               <div className="flex flex-wrap gap-2.5">
@@ -336,7 +336,7 @@ export const NewsDetailPage = () => {
                 ].map((topic, idx) => (
                   <button
                     key={idx}
-                    className="bg-[#4D2059]/10 rounded-full px-4 py-2 text-[12px] font-medium text-[#4D2059] hover:bg-[#4D2059]/15 transition-all duration-300 cursor-pointer outline-none select-none font-['Lexend'] border-0"
+                    className="bg-[#4D2059]/10 rounded-full px-4 py-2 text-[12px] font-medium text-[#4D2059] hover:bg-[#4D2059]/15 transition-all duration-300 cursor-pointer outline-none select-none font-sans border-0"
                   >
                     {topic}
                   </button>
@@ -352,22 +352,22 @@ export const NewsDetailPage = () => {
                   <Mic size={18} />
                 </span>
                 <div className="flex flex-col">
-                  <h5 className="text-white text-base font-semibold font-['Lexend']">
+                  <h5 className="text-white text-base font-semibold font-sans">
                     Sanctuary Podkast
                   </h5>
-                  <span className="text-white/50 text-[11px] font-medium tracking-wide uppercase font-['Lexend'] mt-0.5">
+                  <span className="text-white/50 text-[11px] font-medium tracking-wide uppercase font-sans mt-0.5">
                     Həftəlik buraxılış
                   </span>
                 </div>
               </div>
 
               {/* Text Description */}
-              <p className="text-white/80 text-xs md:text-sm leading-relaxed font-normal font-['Lexend'] line-clamp-3">
+              <p className="text-white/80 text-xs md:text-sm leading-relaxed font-normal font-sans line-clamp-3">
                 "Rəqəmsal Dünyada İnsan Olmaq" - Bu həftəlik qonağımız Dr. Leyla Əliyeva ilə maraqlı söhbəti dinləyin.
               </p>
 
               {/* Action Button */}
-              <button className="w-full py-3.5 border border-white/20 hover:border-white rounded-[16px] text-white text-sm font-semibold hover:bg-white/5 transition-all duration-300 cursor-pointer text-center font-['Lexend'] flex items-center justify-center gap-2 select-none outline-none">
+              <button className="w-full py-3.5 border border-white/20 hover:border-white rounded-[16px] text-white text-sm font-semibold hover:bg-white/5 transition-all duration-300 cursor-pointer text-center font-sans flex items-center justify-center gap-2 select-none outline-none">
                 <Play size={14} className="fill-white" />
                 <span>İndi Dinlə</span>
               </button>
@@ -379,12 +379,12 @@ export const NewsDetailPage = () => {
         <div className="w-full mt-16 border-t border-[#E5DFDF] pt-12 text-left select-none relative group/slider">
           {/* Header Row */}
           <div className="flex items-center justify-between mb-8">
-            <h3 className="text-[#1E0A42] text-[28px] font-semibold font-['Lexend']">
+            <h3 className="text-[#1E0A42] text-[28px] font-semibold font-sans">
               Oxşar Xəbərlər
             </h3>
             <Link
               to={PATHS.WEBAPP_NEWS}
-              className="text-[#4D2059]/60 hover:text-[#4D2059] text-sm font-semibold transition-colors flex items-center gap-1.5 group select-none font-['Lexend']"
+              className="text-[#4D2059]/60 hover:text-[#4D2059] text-sm font-semibold transition-colors flex items-center gap-1.5 group select-none font-sans"
             >
               <span>Hamısını gör</span>
               <span className="transform translate-x-0 group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -468,29 +468,29 @@ export const NewsDetailPage = () => {
                       alt={item.title}
                       className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                     />
-                    <span className="absolute top-3 left-3 bg-black/35 text-white text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase font-['Lexend']">
+                    <span className="absolute top-3 left-3 bg-black/35 text-white text-[10px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase font-sans">
                       {item.categoryLabel}
                     </span>
                   </div>
 
                   {/* Meta details row */}
-                  <div className="flex justify-between items-center text-[#1E0A42]/60 text-xs font-semibold font-['Lexend'] mt-1">
+                  <div className="flex justify-between items-center text-[#1E0A42]/60 text-xs font-semibold font-sans mt-1">
                     <span>{item.date}</span>
                     <span>5 dəq oxu</span>
                   </div>
 
                   {/* Title & Description details */}
                   <div className="flex flex-col flex-grow">
-                    <h4 className="text-[#1E0A42] font-bold text-base leading-snug mb-1 line-clamp-2 font-['Lexend'] min-h-[44px] group-hover:text-[#4D2059] transition-colors">
+                    <h4 className="text-[#1E0A42] font-bold text-base leading-snug mb-1 line-clamp-2 font-sans min-h-[44px] group-hover:text-[#4D2059] transition-colors">
                       {item.title}
                     </h4>
-                    <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 font-['Lexend']">
+                    <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 font-sans">
                       {item.description}
                     </p>
                   </div>
 
                   {/* Footer CTA link */}
-                  <div className="text-[#0D9488] font-bold text-sm tracking-wide flex items-center gap-1 hover:underline cursor-pointer font-['Lexend'] pt-1 mt-auto">
+                  <div className="text-[#0D9488] font-bold text-sm tracking-wide flex items-center gap-1 hover:underline cursor-pointer font-sans pt-1 mt-auto">
                     <span>Daha çox oxu</span>
                     <span>→</span>
                   </div>

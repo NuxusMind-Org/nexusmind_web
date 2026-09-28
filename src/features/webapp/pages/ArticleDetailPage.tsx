@@ -82,7 +82,7 @@ export const ArticleDetailPage = () => {
     return (
       <div className="w-full flex flex-col items-center justify-center min-h-[400px] py-20">
         <Loader2 className="w-10 h-10 animate-spin text-[#4D2059]" />
-        <p className="mt-4 text-[#1E0A42]/70 font-['Lexend'] font-medium">Məqalə yüklənir...</p>
+        <p className="mt-4 text-[#1E0A42]/70 font-sans font-medium">Məqalə yüklənir...</p>
       </div>
     );
   }
@@ -100,8 +100,8 @@ export const ArticleDetailPage = () => {
             <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center text-red-600">
               <AlertCircle className="w-7 h-7" />
             </div>
-            <h3 className="text-xl font-bold text-[#1E0A42] font-['Lexend']">Məqalə tapılmadı</h3>
-            <p className="text-sm text-[#1E0A42]/70 font-['Lexend']">
+            <h3 className="text-xl font-bold text-[#1E0A42] font-sans">Məqalə tapılmadı</h3>
+            <p className="text-sm text-[#1E0A42]/70 font-sans">
               Axtardığınız elmi məqalə silinmiş və ya mövcud olmaya bilər.
             </p>
             <button
@@ -144,12 +144,12 @@ export const ArticleDetailPage = () => {
         }}
       >
         {/* Centered Heading */}
-        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-1">
+        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-sans mt-1">
           Elmi məqalələrlə psixoloji biliklərinizi artırın !
         </h2>
 
         {/* Left-aligned Breadcrumbs at the bottom */}
-        <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] mt-auto select-none overflow-x-auto no-scrollbar whitespace-nowrap">
+        <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-sans mt-auto select-none overflow-x-auto no-scrollbar whitespace-nowrap">
           <Link to={PATHS.DASHBOARD} className="hover:text-[#4D2059] transition-colors">
             Ana səhifə
           </Link>
@@ -168,22 +168,22 @@ export const ArticleDetailPage = () => {
         {/* Left Column: Title, Category Badge, and Buttons */}
         <div className="w-full lg:w-[42%] flex flex-col items-start text-left">
           {/* Turquoise Category Tag Badge */}
-          <div className="bg-[#EBFBF7] text-[#0D9488] text-[11px] font-bold tracking-wider px-3.5 py-2 rounded-full uppercase font-['Lexend'] inline-flex items-center gap-1.5 self-start select-none">
+          <div className="bg-[#EBFBF7] text-[#0D9488] text-[11px] font-bold tracking-wider px-3.5 py-2 rounded-full uppercase font-sans inline-flex items-center gap-1.5 self-start select-none">
             <span className="w-1.5 h-1.5 rounded-full bg-[#0D9488]" />
             {meqale.category || 'KLİNİK ARAŞDIRMA'}
           </div>
 
           {/* Heading Title */}
-          <h1 className="text-2xl md:text-[38px] lg:text-[40px] font-bold leading-tight text-[#1E0A42] font-['Lexend'] text-left mt-5 max-w-[520px]">
+          <h1 className="text-2xl md:text-[38px] lg:text-[40px] font-bold leading-tight text-[#1E0A42] font-sans text-left mt-5 max-w-[520px]">
             {articleTitle}
           </h1>
 
           {/* Buttons Row */}
           <div className="flex items-center gap-4 mt-8 flex-wrap">
-            <button className="bg-[#482476] hover:bg-[#3b1d62] text-white text-sm font-semibold px-8 py-3.5 rounded-full transition-colors cursor-pointer border-0 outline-none select-none font-['Lexend'] shadow-sm">
+            <button className="bg-[#482476] hover:bg-[#3b1d62] text-white text-sm font-semibold px-8 py-3.5 rounded-full transition-colors cursor-pointer border-0 outline-none select-none font-sans shadow-sm">
               İndi yoxla
             </button>
-            <button className="border border-[#482476] text-[#482476] hover:bg-[#482476]/5 text-sm font-semibold px-8 py-3.5 rounded-full transition-colors cursor-pointer outline-none select-none font-['Lexend'] bg-transparent">
+            <button className="border border-[#482476] text-[#482476] hover:bg-[#482476]/5 text-sm font-semibold px-8 py-3.5 rounded-full transition-colors cursor-pointer outline-none select-none font-sans bg-transparent">
               Mütəxəssislə görüş
             </button>
           </div>
@@ -204,11 +204,11 @@ export const ArticleDetailPage = () => {
       <div className="px-4 sm:px-6 md:px-[48px] py-6 sm:py-12 w-full flex flex-col lg:flex-row gap-8 sm:gap-12 items-start justify-between max-w-[1232px] mx-auto">
         
         {/* Left Column: Article Content (68% width) */}
-        <div className="w-full lg:w-[68%] flex flex-col gap-6 text-left text-[#1E0A42]/90 leading-relaxed font-normal text-[15px] sm:text-[16px] font-['Lexend']">
+        <div className="w-full lg:w-[68%] flex flex-col gap-6 text-left text-[#1E0A42]/90 leading-relaxed font-normal text-[15px] sm:text-[16px] font-sans">
           
           {/* Paragraph with Drop Cap 'V' */}
           <p className="text-[#1E0A42]/80 leading-relaxed">
-            <span className="float-left text-5xl md:text-6xl font-bold pr-2 text-[#482476] leading-none mt-1.5 font-['Lexend']">V</span>
+            <span className="float-left text-5xl md:text-6xl font-bold pr-2 text-[#482476] leading-none mt-1.5 font-sans">V</span>
             irtual Reallıq (VR) texnologiyası müasir psixoterapiyada inqilabi bir alətə çevrilmişdir. Xüsusilə Post-Travmatik Stress Pozğunluğu (PTSP) və digər travma ilə əlaqəli vəziyyətlərin müalicəsində "Exposure Therapy" (Təsir Terapiyası) metodunu daha idarəolunan və təhlükəsiz mühitdə tətbiq etməyə imkan verir. Nexus Mind platforması bu kliniki yanaşmanı ən son VR innovasiyaları ilə birləşdirərək xəstələrin sağalma müddətini 40% sürətləndirir.
           </p>
 
@@ -228,7 +228,7 @@ export const ArticleDetailPage = () => {
             <div className="absolute left-0 -translate-x-1/2 top-[50%] -translate-y-1/2 w-8 h-8 rounded bg-[#482476] border border-[#A682FF]/30 flex items-center justify-center z-20 shadow-lg">
               <Quote className="text-white fill-white w-4.5 h-4.5" />
             </div>
-            <blockquote className="text-white text-[15px] sm:text-[16px] font-light italic leading-relaxed z-10 font-['Lexend'] text-left">
+            <blockquote className="text-white text-[15px] sm:text-[16px] font-light italic leading-relaxed z-10 font-sans text-left">
               "VR terapiyası beynin neyroplastikliyini stimullaşdıraraq, travmatik neyron yollarının yenidən formalaşmasına kömək edir. Bu, sadəcə texnologiya deyil, yeni bir nevroloji şəfa yoludur."
             </blockquote>
           </div>
@@ -246,17 +246,17 @@ export const ArticleDetailPage = () => {
           <div className="bg-[#482476] rounded-[24px] p-8 shadow-xl flex flex-col gap-4 font-sans text-left relative overflow-hidden group">
             <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/5 blur-xl group-hover:scale-110 transition-transform duration-500" />
             
-            <h4 className="text-white text-[20px] font-semibold tracking-tight leading-snug font-['Lexend']">
+            <h4 className="text-white text-[20px] font-semibold tracking-tight leading-snug font-sans">
               Dəstək lazımdır?
             </h4>
 
-            <p className="text-white/80 text-[15px] leading-relaxed font-normal font-['Lexend'] pr-6">
+            <p className="text-white/80 text-[15px] leading-relaxed font-normal font-sans pr-6">
               Mütəxəssislərimiz sizə kömək etməyə hazırdır.
             </p>
 
             <button
               onClick={() => navigate(`${PATHS.HOME}#experts`)}
-              className="w-full py-3.5 bg-white text-[#482476] rounded-[16px] text-sm font-bold hover:bg-white/95 transition-all duration-300 cursor-pointer text-center font-['Lexend'] select-none outline-none hover:shadow-lg border-0"
+              className="w-full py-3.5 bg-white text-[#482476] rounded-[16px] text-sm font-bold hover:bg-white/95 transition-all duration-300 cursor-pointer text-center font-sans select-none outline-none hover:shadow-lg border-0"
             >
               Məsləhət Alın
             </button>
@@ -264,7 +264,7 @@ export const ArticleDetailPage = () => {
 
           {/* Widget 2: Popular Topics Tag Box */}
           <div className="bg-white rounded-[24px] border border-[#E5DFDF] p-6 shadow-sm flex flex-col gap-4 text-left">
-            <h4 className="text-[#1E0A42] text-[20px] font-semibold font-['Lexend'] border-b border-[#E5DFDF]/50 pb-2">
+            <h4 className="text-[#1E0A42] text-[20px] font-semibold font-sans border-b border-[#E5DFDF]/50 pb-2">
               Populyar Mövzular
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -277,7 +277,7 @@ export const ArticleDetailPage = () => {
               ].map((topic, idx) => (
                 <button
                   key={idx}
-                  className="bg-[#7B7B93] text-white rounded-full px-4 py-2 text-[12px] font-medium hover:bg-[#7B7B93]/90 transition-all duration-300 cursor-pointer outline-none select-none font-['Lexend'] border-0"
+                  className="bg-[#7B7B93] text-white rounded-full px-4 py-2 text-[12px] font-medium hover:bg-[#7B7B93]/90 transition-all duration-300 cursor-pointer outline-none select-none font-sans border-0"
                 >
                   {topic}
                 </button>
@@ -293,22 +293,22 @@ export const ArticleDetailPage = () => {
                 <Mic size={18} />
               </span>
               <div className="flex flex-col">
-                <h5 className="text-white text-base font-semibold font-['Lexend']">
+                <h5 className="text-white text-base font-semibold font-sans">
                   Sanctuary Podkast
                 </h5>
-                <span className="text-white/50 text-[11px] font-medium tracking-wide uppercase font-['Lexend'] mt-0.5">
+                <span className="text-white/50 text-[11px] font-medium tracking-wide uppercase font-sans mt-0.5">
                   Həftəlik buraxılış
                 </span>
               </div>
             </div>
 
             {/* Text Description */}
-            <p className="text-white/80 text-xs md:text-sm leading-relaxed font-normal font-['Lexend'] line-clamp-3">
+            <p className="text-white/80 text-xs md:text-sm leading-relaxed font-normal font-sans line-clamp-3">
               "Rəqəmsal Dünyada İnsan Olmaq" - Bu həftəlik qonağımız Dr. Leyla Əliyeva ilə maraqlı söhbəti dinləyin.
             </p>
 
             {/* Action Button */}
-            <button className="w-full py-3.5 border border-white/20 hover:border-white rounded-[16px] text-white text-sm font-semibold hover:bg-white/5 transition-all duration-300 cursor-pointer text-center font-['Lexend'] flex items-center justify-center gap-2 select-none outline-none">
+            <button className="w-full py-3.5 border border-white/20 hover:border-white rounded-[16px] text-white text-sm font-semibold hover:bg-white/5 transition-all duration-300 cursor-pointer text-center font-sans flex items-center justify-center gap-2 select-none outline-none">
               <Play size={14} className="fill-white" />
               <span>İndi Dinlə</span>
             </button>
@@ -327,11 +327,11 @@ export const ArticleDetailPage = () => {
             <span className="w-11 h-11 rounded bg-white/10 flex items-center justify-center shrink-0">
               <Settings size={22} className="text-[#DDB7FF]" />
             </span>
-            <span className="text-[#E3DFFF] font-semibold text-[27.11px] leading-[37.96px] font-['Lexend'] tracking-tight">
+            <span className="text-[#E3DFFF] font-semibold text-[27.11px] leading-[37.96px] font-sans tracking-tight">
               Tam Nəzarət
             </span>
           </div>
-          <p className="text-white font-normal text-[21.16px] leading-[32.54px] font-['Lexend']">
+          <p className="text-white font-normal text-[21.16px] leading-[32.54px] font-sans">
             Terapevt virtual mühitdəki hər bir detalı — səsləri, vizual effektləri, günün saatını və hadisələrin intensivliyini pasientin dözümlülük səviyyəsinə uyğun tənzimləyir.
           </p>
         </div>
@@ -342,11 +342,11 @@ export const ArticleDetailPage = () => {
             <span className="w-11 h-11 rounded bg-white/10 flex items-center justify-center shrink-0">
               <Brain size={22} className="text-[#DDB7FF]" />
             </span>
-            <span className="text-[#E3DFFF] font-semibold text-[27.11px] leading-[37.96px] font-['Lexend'] tracking-tight">
+            <span className="text-[#E3DFFF] font-semibold text-[27.11px] leading-[37.96px] font-sans tracking-tight">
               Beynin Reaksiyası
             </span>
           </div>
-          <p className="text-white font-normal text-[21.16px] leading-[32.54px] font-['Lexend']">
+          <p className="text-white font-normal text-[21.16px] leading-[32.54px] font-sans">
             Virtual dünya süni olsa da, insan beyni oradakı təhlükəsizlik hissini real qəbul edir və travmatik xatirəyə qarşı dözümlülük (desensitizasiya) qazanır.
           </p>
         </div>
@@ -357,12 +357,12 @@ export const ArticleDetailPage = () => {
       <div className="w-full mt-8 sm:mt-12 border-t border-[#E5DFDF]/50 pt-8 sm:pt-12 text-left select-none relative group/slider px-4 sm:px-6 md:px-[48px] max-w-[1232px] mx-auto">
         {/* Header Row */}
         <div className="flex items-center justify-between mb-8">
-          <h3 className="text-[#1E0A42] text-[28px] font-semibold font-['Lexend']">
+          <h3 className="text-[#1E0A42] text-[28px] font-semibold font-sans">
             Oxşar bloqlar
           </h3>
           <Link
             to={PATHS.WEBAPP_BLOG}
-            className="text-[#4D2059]/60 hover:text-[#4D2059] text-sm font-semibold transition-colors flex items-center gap-1.5 group select-none font-['Lexend']"
+            className="text-[#4D2059]/60 hover:text-[#4D2059] text-sm font-semibold transition-colors flex items-center gap-1.5 group select-none font-sans"
           >
             <span>Hamısını gör</span>
             <span className="transform translate-x-0 group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -432,22 +432,22 @@ export const ArticleDetailPage = () => {
                 {/* Card content container with padding */}
                 <div className="p-5 pt-3 pb-[26.68px] flex flex-col gap-[7.62px] flex-grow text-left">
                   {/* Tag label */}
-                  <span className="text-[#0D9488] text-[10px] font-bold tracking-widest uppercase font-['Lexend'] text-left">
+                  <span className="text-[#0D9488] text-[10px] font-bold tracking-widest uppercase font-sans text-left">
                     {item.categoryLabel}
                   </span>
 
                   {/* Title & Description details */}
                   <div className="flex flex-col flex-grow">
-                    <h4 className="text-[#1E0A42] font-bold text-base leading-snug mb-1 line-clamp-2 font-['Lexend'] min-h-[44px] group-hover:text-[#4D2059] transition-colors text-left">
+                    <h4 className="text-[#1E0A42] font-bold text-base leading-snug mb-1 line-clamp-2 font-sans min-h-[44px] group-hover:text-[#4D2059] transition-colors text-left">
                       {item.title}
                     </h4>
-                    <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 font-['Lexend'] text-left">
+                    <p className="text-[#1E0A42]/70 text-xs leading-relaxed line-clamp-3 font-sans text-left">
                       {item.description}
                     </p>
                   </div>
 
                   {/* Footer CTA link */}
-                  <div className="text-[#0D9488] font-bold text-sm tracking-wide flex items-center gap-1 hover:underline cursor-pointer font-['Lexend'] pt-1 mt-auto">
+                  <div className="text-[#0D9488] font-bold text-sm tracking-wide flex items-center gap-1 hover:underline cursor-pointer font-sans pt-1 mt-auto">
                     <span>Daha çox oxu</span>
                     <span>→</span>
                   </div>
@@ -462,7 +462,7 @@ export const ArticleDetailPage = () => {
       <div className="px-4 sm:px-6 md:px-[48px] w-full max-w-[1232px] mx-auto text-left mt-8">
         <button
           onClick={() => navigate(PATHS.WEBAPP_ARTICLE)}
-          className="text-[#204F5E] hover:text-[#204F5E]/80 font-bold text-sm tracking-wide flex items-center gap-1.5 hover:underline cursor-pointer font-['Lexend'] border-0 bg-transparent outline-none"
+          className="text-[#204F5E] hover:text-[#204F5E]/80 font-bold text-sm tracking-wide flex items-center gap-1.5 hover:underline cursor-pointer font-sans border-0 bg-transparent outline-none"
         >
           <span>← Geri qayıt</span>
         </button>

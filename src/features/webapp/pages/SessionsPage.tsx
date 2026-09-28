@@ -92,7 +92,7 @@ export const SessionsPage = () => {
         }}
       >
         {/* Centered Heading */}
-        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-2">
+        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-sans mt-2">
           {t('webapp.sessions.readyToday')}
         </h2>
 
@@ -106,7 +106,7 @@ export const SessionsPage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t('webapp.sessions.searchPlaceholder')}
-            className="w-full pl-12 pr-6 py-4.5 bg-white border border-[#44E2CD]/40 focus:border-[#44E2CD] text-sm text-[#1E0A42] font-semibold rounded-full outline-none shadow-md placeholder-[#1E0A42]/40 transition-all font-['Lexend']"
+            className="w-full pl-12 pr-6 py-4.5 bg-white border border-[#44E2CD]/40 focus:border-[#44E2CD] text-sm text-[#1E0A42] font-semibold rounded-full outline-none shadow-md placeholder-[#1E0A42]/40 transition-all font-sans"
           />
         </div>
       </div>
@@ -116,11 +116,11 @@ export const SessionsPage = () => {
         {loading ? (
           <div className="flex flex-col items-center justify-center w-full py-20">
             <div className="w-10 h-10 border-4 border-[#4B2E83]/20 border-t-[#4B2E83] rounded-full animate-spin mb-4"></div>
-            <p className="text-[#7A7570] font-['Lexend']">{t('webapp.sessions.loading')}</p>
+            <p className="text-[#7A7570] font-sans">{t('webapp.sessions.loading')}</p>
           </div>
         ) : upcomingSessions.length === 0 ? (
           <div className="flex flex-col items-center justify-center w-full">
-            <h3 className="text-[32px] md:text-[42px] font-light text-[#7A7570] font-['Lexend'] text-center">
+            <h3 className="text-[32px] md:text-[42px] font-light text-[#7A7570] font-sans text-center">
               {t('webapp.sessions.noSessions')}
             </h3>
 
@@ -132,7 +132,7 @@ export const SessionsPage = () => {
               />
               <button 
                 onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
-                className="absolute top-[25%] sm:top-[32%] left-[59%] -translate-x-[15%] sm:-translate-x-[15%] translate-y-[-50%] bg-[#4B2E83] hover:bg-[#3C2475] text-white rounded-full px-4 sm:px-6 py-3 sm:py-4 font-semibold font-['Lexend'] flex items-center justify-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] text-[11px] sm:text-[15px] border-0 cursor-pointer uppercase tracking-wide whitespace-nowrap z-10"
+                className="absolute top-[25%] sm:top-[32%] left-[59%] -translate-x-[15%] sm:-translate-x-[15%] translate-y-[-50%] bg-[#4B2E83] hover:bg-[#3C2475] text-white rounded-full px-4 sm:px-6 py-3 sm:py-4 font-semibold font-sans flex items-center justify-center gap-2 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] text-[11px] sm:text-[15px] border-0 cursor-pointer uppercase tracking-wide whitespace-nowrap z-10"
               >
                 <Plus strokeWidth={2.5} className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px]" />
                 {t('webapp.sessions.bookSession')}
@@ -142,12 +142,12 @@ export const SessionsPage = () => {
         ) : (
           <div className="w-full flex flex-col gap-6 animate-fade-in mx-auto">
             <div className="flex justify-between items-center mb-2">
-               <h3 className="text-[24px] md:text-[28px] font-bold text-[#1E0A42] font-['Lexend']">
+               <h3 className="text-[24px] md:text-[28px] font-bold text-[#1E0A42] font-sans">
                  {t('webapp.sessions.upcomingSessions')}
                </h3>
                <button 
                  onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
-                 className="flex items-center gap-1.5 text-sm md:text-base font-semibold text-[#4B2E83] hover:text-[#3C2475] transition-colors bg-transparent border-0 cursor-pointer font-['Lexend']"
+                 className="flex items-center gap-1.5 text-sm md:text-base font-semibold text-[#4B2E83] hover:text-[#3C2475] transition-colors bg-transparent border-0 cursor-pointer font-sans"
                >
                  <Plus size={18} /> {t('webapp.sessions.newSession')}
                </button>
@@ -172,13 +172,13 @@ export const SessionsPage = () => {
                   <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 w-full relative z-10">
                     {/* Avatar placeholder */}
                     <div className="relative shrink-0">
-                      <div className="w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] rounded-[24px] bg-white/10 border-2 border-white/20 shadow-md flex items-center justify-center text-white/60 text-3xl font-bold font-['Lexend']">
+                      <div className="w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] rounded-[24px] bg-white/10 border-2 border-white/20 shadow-md flex items-center justify-center text-white/60 text-3xl font-bold font-sans">
                         {(session.doctorName || 'D').charAt(0)}
                       </div>
                     </div>
                     
                     {/* Text info */}
-                    <div className="flex flex-col text-center sm:text-left font-['Lexend']">
+                    <div className="flex flex-col text-center sm:text-left font-sans">
                       <span className="text-white/70 text-[13px] sm:text-sm font-medium">{t('webapp.sessions.psychologist')}</span>
                       <h4 className="text-[22px] sm:text-[28px] font-bold text-white mt-1 mb-3">{session.doctorName || t('webapp.sessions.doctor')}</h4>
                       
@@ -203,11 +203,11 @@ export const SessionsPage = () => {
                     <button 
                       onClick={() => navigate(PATHS.WEBAPP_SESSION_CALL.replace(':id', String(session.id)))}
                       disabled={!isJoinable}
-                      className={`w-full py-3.5 sm:py-4 rounded-[16px] font-bold font-['Lexend'] shadow-md transition-all border-0 text-[15px] sm:text-[16px] ${isJoinable ? "bg-white hover:bg-gray-50 text-[#3B2068] cursor-pointer active:scale-[0.98]" : "bg-white/40 text-[#3B2068]/50 cursor-not-allowed"}`}
+                      className={`w-full py-3.5 sm:py-4 rounded-[16px] font-bold font-sans shadow-md transition-all border-0 text-[15px] sm:text-[16px] ${isJoinable ? "bg-white hover:bg-gray-50 text-[#3B2068] cursor-pointer active:scale-[0.98]" : "bg-white/40 text-[#3B2068]/50 cursor-not-allowed"}`}
                     >
                       {isJoinable ? t('webapp.sessions.join') : t('webapp.sessions.pending')}
                     </button>
-                    <button className="w-full bg-white/10 hover:bg-white/20 text-white py-3.5 sm:py-4 rounded-[16px] font-bold font-['Lexend'] cursor-pointer transition-all active:scale-[0.98] border border-white/30 text-[15px] sm:text-[16px]">
+                    <button className="w-full bg-white/10 hover:bg-white/20 text-white py-3.5 sm:py-4 rounded-[16px] font-bold font-sans cursor-pointer transition-all active:scale-[0.98] border border-white/30 text-[15px] sm:text-[16px]">
                       {t('webapp.sessions.reschedule')}
                     </button>
                   </div>
@@ -220,7 +220,7 @@ export const SessionsPage = () => {
 
       {/* Section 3: Explore Experts Slider */}
       <div className="w-full bg-white px-4 sm:px-6 md:px-[48px] py-8 flex flex-col justify-start select-none relative border-t border-gray-100">
-        <h2 className="text-left text-[#1E0A42] font-semibold mb-6 font-['Lexend'] text-[28px]">
+        <h2 className="text-left text-[#1E0A42] font-semibold mb-6 font-sans text-[28px]">
           {t('webapp.sessions.exploreExperts')}
         </h2>
 
@@ -258,7 +258,7 @@ export const SessionsPage = () => {
                       alt={expert.name}
                       className="w-20 h-20 rounded-full border-2 border-white/20 object-cover shadow-sm flex-shrink-0"
                     />
-                    <div className="flex flex-col text-left font-['Lexend']">
+                    <div className="flex flex-col text-left font-sans">
                       <span className="text-lg md:text-xl font-bold text-white leading-tight">
                         {expert.name}
                       </span>
@@ -273,13 +273,13 @@ export const SessionsPage = () => {
                   </div>
 
                   {/* Pricing text */}
-                  <span className="text-[20px] md:text-[22px] font-bold text-white tracking-tight flex-shrink-0 font-['Lexend']">
+                  <span className="text-[20px] md:text-[22px] font-bold text-white tracking-tight flex-shrink-0 font-sans">
                     ${expert.price}<span className="text-xs font-normal text-white/70">{t('webapp.sessions.perSession')}</span>
                   </span>
                 </div>
 
                 {/* Bio description paragraph */}
-                <p className="text-xs md:text-sm text-white/80 leading-relaxed mt-5 text-left line-clamp-3 font-['Lexend']">
+                <p className="text-xs md:text-sm text-white/80 leading-relaxed mt-5 text-left line-clamp-3 font-sans">
                   {expert.description}
                 </p>
 
@@ -288,7 +288,7 @@ export const SessionsPage = () => {
                   {expert.languages.map((lang) => (
                     <span
                       key={lang}
-                      className="bg-white text-[#0D0669] text-[10px] font-bold px-4 py-1.5 rounded-full border border-[#0D0669]/10 shadow-sm font-['Lexend'] uppercase"
+                      className="bg-white text-[#0D0669] text-[10px] font-bold px-4 py-1.5 rounded-full border border-[#0D0669]/10 shadow-sm font-sans uppercase"
                     >
                       {lang}
                     </span>
@@ -300,7 +300,7 @@ export const SessionsPage = () => {
                   {expert.tags.slice(0, 3).map((spec) => (
                     <span
                       key={spec}
-                      className="bg-white/10 text-white text-[10px] font-bold px-4 py-1.5 rounded-full border border-white/5 shadow-sm font-['Lexend'] uppercase"
+                      className="bg-white/10 text-white text-[10px] font-bold px-4 py-1.5 rounded-full border border-white/5 shadow-sm font-sans uppercase"
                     >
                       {spec}
                     </span>
@@ -308,7 +308,7 @@ export const SessionsPage = () => {
                 </div>
 
                 {/* CTA Booking Button */}
-                <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-2.5 shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-['Lexend'] border-0">
+                <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-2.5 shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-sans border-0">
                   {t('webapp.sessions.start')}
                 </button>
               </div>
@@ -328,7 +328,7 @@ export const SessionsPage = () => {
         <div className="w-full flex justify-center mt-6">
           <button
             onClick={() => navigate(PATHS.WEBAPP_EXPERTS)}
-            className="text-[#4B2E83] hover:text-[#3C2475] transition-colors font-medium flex items-center gap-2 cursor-pointer border-0 bg-transparent text-[16px] font-['Lexend']"
+            className="text-[#4B2E83] hover:text-[#3C2475] transition-colors font-medium flex items-center gap-2 cursor-pointer border-0 bg-transparent text-[16px] font-sans"
           >
             {t('webapp.sessions.more')}
           </button>

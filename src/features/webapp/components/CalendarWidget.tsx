@@ -142,16 +142,16 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
       <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-100 pb-3.5 sm:pb-4 gap-3 sm:gap-4">
         <button 
           onClick={onBack}
-          className="flex items-center gap-1.5 sm:gap-2 text-[#4B2E83] hover:text-[#3C2475] font-semibold transition-colors cursor-pointer border-0 bg-transparent text-xs sm:text-sm md:text-base font-['Lexend'] w-fit py-1 px-1 -ml-1 rounded-lg hover:bg-[#4B2E83]/5"
+          className="flex items-center gap-1.5 sm:gap-2 text-[#4B2E83] hover:text-[#3C2475] font-semibold transition-colors cursor-pointer border-0 bg-transparent text-xs sm:text-sm md:text-base font-sans w-fit py-1 px-1 -ml-1 rounded-lg hover:bg-[#4B2E83]/5"
         >
           <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           {t('webapp.calendar.back')}
         </button>
         <div className="flex flex-col items-center text-center">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1E0A42] font-['Lexend'] leading-tight">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1E0A42] font-sans leading-tight">
             {t('webapp.calendar.setSession')}
           </h3>
-          <div className="flex items-center gap-1.5 mt-1 text-[#7A7570] font-['Lexend'] text-xs sm:text-sm">
+          <div className="flex items-center gap-1.5 mt-1 text-[#7A7570] font-sans text-xs sm:text-sm">
             <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#4B2E83]" />
             <span className="font-medium text-[#1E0A42]/80">{psychologistName}</span>
           </div>
@@ -160,7 +160,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
       </div>
 
       {isLoading ? (
-        <div className="w-full flex items-center justify-center py-16 sm:py-20 text-[#1E0A42]/50 font-['Lexend'] text-xs sm:text-sm">
+        <div className="w-full flex items-center justify-center py-16 sm:py-20 text-[#1E0A42]/50 font-sans text-xs sm:text-sm">
           {t('webapp.calendar.loading')}
         </div>
       ) : (
@@ -168,7 +168,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
           {/* Calendar Side */}
           <div className="flex-1 flex flex-col gap-4 sm:gap-6">
             <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2">
-              <h4 className="text-sm sm:text-base md:text-lg font-bold text-[#1E0A42] flex items-center gap-1.5 sm:gap-2 font-['Lexend']">
+              <h4 className="text-sm sm:text-base md:text-lg font-bold text-[#1E0A42] flex items-center gap-1.5 sm:gap-2 font-sans">
                 <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-[#4B2E83] shrink-0" />
                 <span>{t('webapp.calendar.selectDate')}</span>
               </h4>
@@ -193,7 +193,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
               </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-1 sm:gap-1.5 md:gap-2 text-center font-['Lexend'] select-none">
+            <div className="grid grid-cols-7 gap-1 sm:gap-1.5 md:gap-2 text-center font-sans select-none">
               {days.map(d => (
                 <div key={d} className="text-[10px] sm:text-xs font-bold text-[#7A7570] py-1 sm:py-2 uppercase tracking-wider">
                   {d}
@@ -238,7 +238,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
 
           {/* Time & Mode Side */}
           <div className="w-full md:w-[290px] lg:w-[320px] flex flex-col gap-4 sm:gap-6 border-t md:border-t-0 md:border-l border-gray-100 pt-4 sm:pt-6 md:pt-0 md:pl-6 lg:pl-8">
-            <h4 className="text-sm sm:text-base md:text-lg font-bold text-[#1E0A42] flex items-center gap-1.5 sm:gap-2 font-['Lexend']">
+            <h4 className="text-sm sm:text-base md:text-lg font-bold text-[#1E0A42] flex items-center gap-1.5 sm:gap-2 font-sans">
               <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-[#4B2E83] shrink-0" />
               <span>{t('webapp.calendar.selectTime')}</span>
             </h4>
@@ -246,7 +246,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
             {selectedDate ? (
               availableTimesForSelectedDate.length > 0 ? (
                 <>
-                  <div className="grid grid-cols-2 gap-2 sm:gap-2.5 font-['Lexend'] mb-2 sm:mb-4 max-h-[200px] sm:max-h-[250px] overflow-y-auto pr-1">
+                  <div className="grid grid-cols-2 gap-2 sm:gap-2.5 font-sans mb-2 sm:mb-4 max-h-[200px] sm:max-h-[250px] overflow-y-auto pr-1">
                     {availableTimesForSelectedDate.map(t => (
                       <button
                         key={t.formatted}
@@ -264,10 +264,10 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
                   
                   {/* Mode Selection */}
                   <div className="flex flex-col gap-2 sm:gap-3 mt-1 sm:mt-2">
-                    <h4 className="text-sm sm:text-base md:text-lg font-bold text-[#1E0A42] flex items-center gap-1.5 sm:gap-2 font-['Lexend']">
+                    <h4 className="text-sm sm:text-base md:text-lg font-bold text-[#1E0A42] flex items-center gap-1.5 sm:gap-2 font-sans">
                       <span>{t('webapp.calendar.selectMode')}</span>
                     </h4>
-                    <div className="grid grid-cols-2 gap-2 sm:gap-3 font-['Lexend']">
+                    <div className="grid grid-cols-2 gap-2 sm:gap-3 font-sans">
                       <button
                         onClick={() => setSelectedMode('VR')}
                         className={`py-2 sm:py-2.5 md:py-3 px-2 sm:px-3 rounded-xl text-xs sm:text-sm font-semibold sm:font-bold cursor-pointer transition-all border text-center ${
@@ -292,12 +292,12 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
                   </div>
                 </>
               ) : (
-                <div className="text-xs sm:text-sm text-gray-400 font-['Lexend'] text-center py-6 sm:py-10 bg-gray-50/70 rounded-xl border border-dashed border-gray-200 px-3">
+                <div className="text-xs sm:text-sm text-gray-400 font-sans text-center py-6 sm:py-10 bg-gray-50/70 rounded-xl border border-dashed border-gray-200 px-3">
                   {t('webapp.calendar.noSlotsForDate')}
                 </div>
               )
             ) : (
-              <div className="text-xs sm:text-sm text-gray-400 font-['Lexend'] text-center py-6 sm:py-10 bg-gray-50/70 rounded-xl border border-dashed border-gray-200 px-3">
+              <div className="text-xs sm:text-sm text-gray-400 font-sans text-center py-6 sm:py-10 bg-gray-50/70 rounded-xl border border-dashed border-gray-200 px-3">
                 {t('webapp.calendar.selectDatePrompt')}
               </div>
             )}
@@ -308,7 +308,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
       {/* Footer */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3.5 sm:pt-4 border-t border-gray-100 mt-auto">
         {selectedDate && selectedTime ? (
-          <div className="text-xs sm:text-sm text-[#1E0A42]/70 font-['Lexend'] flex items-center gap-1.5 self-start sm:self-center">
+          <div className="text-xs sm:text-sm text-[#1E0A42]/70 font-sans flex items-center gap-1.5 self-start sm:self-center">
             <span className="font-semibold text-[#4B2E83]">{selectedDate}</span>
             <span>•</span>
             <span className="font-semibold text-[#4B2E83]">{selectedTime}</span>
@@ -323,7 +323,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
         <button 
           disabled={!selectedDate || !selectedTime}
           onClick={handleConfirm}
-          className="bg-[#4B2E83] hover:bg-[#3C2475] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 text-white rounded-xl sm:rounded-[14px] px-6 sm:px-8 py-3 sm:py-3.5 font-bold font-['Lexend'] text-xs sm:text-sm md:text-base flex items-center justify-center transition-all duration-300 shadow-md border-0 cursor-pointer uppercase tracking-wider w-full sm:w-auto"
+          className="bg-[#4B2E83] hover:bg-[#3C2475] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 text-white rounded-xl sm:rounded-[14px] px-6 sm:px-8 py-3 sm:py-3.5 font-bold font-sans text-xs sm:text-sm md:text-base flex items-center justify-center transition-all duration-300 shadow-md border-0 cursor-pointer uppercase tracking-wider w-full sm:w-auto"
         >
           {t('webapp.calendar.confirm')}
         </button>

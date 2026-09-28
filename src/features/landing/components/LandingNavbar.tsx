@@ -227,6 +227,9 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
         backgroundColor: '#111827',
         display: 'flex',
         flexDirection: 'column',
+        overflowY: 'auto',
+        overscrollBehavior: 'contain',
+        WebkitOverflowScrolling: 'touch',
         padding: '32px 24px calc(32px + env(safe-area-inset-bottom, 0px)) 24px',
         opacity: isMobileMenuOpen ? 1 : 0,
         pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
@@ -254,7 +257,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                     transitionDelay: isMobileMenuOpen ? `${index * 60}ms` : '0ms',
                   }}
                 >
-                  <span>{item.label}</span>
+                  <span className="ponnala-nudge">{item.label}</span>
                   <ChevronDown
                     size={16}
                     className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180 text-[#00f2ff]' : 'text-white/60'}`}
@@ -279,7 +282,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                       className={`text-left py-3 px-8 text-[14px] transition-colors flex items-center justify-between ${activePage === subItem.page ? 'text-[#00f2ff]' : 'text-white/60 hover:text-white'
                         }`}
                     >
-                      <span>{subItem.label}</span>
+                      <span className="ponnala-nudge">{subItem.label}</span>
                       <ChevronRight
                         size={14}
                         className={activePage === subItem.page ? 'text-[#00f2ff]' : 'text-white/40'}
@@ -312,7 +315,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                 transitionDelay: isMobileMenuOpen ? `${index * 60}ms` : '0ms',
               }}
             >
-              {item.label}
+              <span className="inline-block ponnala-nudge">{item.label}</span>
             </button>
           );
         })}
@@ -332,7 +335,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           transitionDelay: isMobileMenuOpen ? `${navItems.length * 60 + 80}ms` : '0ms',
         }}
       >
-        {t('nav.login', 'Giriş et')}
+        <span className="inline-block ponnala-nudge">{t('nav.login', 'Giriş et')}</span>
       </button>
     </div>,
     document.body
@@ -344,7 +347,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     <>
       <header
         ref={headerRef}
-        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 border-b border-white/10 shrink-0 sticky top-0 transition-all duration-300 ease-in-out ${isSolid ? 'bg-[#253D57] shadow-lg' : 'navbar-glass'
+        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 shrink-0 sticky top-0 transition-all duration-300 ease-in-out ${isSolid ? 'bg-[#253D57] shadow-lg' : 'bg-transparent'
           }`}
       >
         <div
@@ -372,12 +375,12 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                     className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto flex items-center gap-1.5 ${isDropdownActive ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'
                       }`}
                   >
-                    <span>{item.label}</span>
+                    <span className="ponnala-nudge">{item.label}</span>
                     <ChevronDown size={14} className="transition-transform duration-300 group-hover:rotate-180" />
                   </button>
 
-                  {/* Dropdown Card */}
-                  <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-48 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                  {/* pt-2 is a hover bridge so the pointer never leaves the group between trigger and card */}
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-48 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto transition-opacity duration-200 z-50">
                     <div className="glass-card rounded-lg p-3 flex flex-col gap-1 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                       {item.items.map((subItem) => (
                         <button
@@ -385,7 +388,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                           onClick={() => navigate(subItem.path)}
                           className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none"
                         >
-                          <span>{subItem.label}</span>
+                          <span className="ponnala-nudge">{subItem.label}</span>
                           <ChevronRight size={14} className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]" />
                         </button>
                       ))}
@@ -406,7 +409,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                 className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto ${isActive ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'
                   }`}
               >
-                {item.label}
+                <span className="inline-block ponnala-nudge">{item.label}</span>
               </button>
             );
           })}
@@ -458,7 +461,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                 className="absolute inset-0 rounded-[20.53px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out bg-[radial-gradient(140px_circle_at_var(--mouse-x)_var(--mouse-y),var(--spotlight-fill,rgba(168,85,247,0.15)),transparent_70%)]"
               />
 
-              <span className="relative z-10">{t('nav.login', 'Giriş et')}</span>
+              <span className="relative z-10 ponnala-nudge">{t('nav.login', 'Giriş et')}</span>
             </button>
           </div>
         </div>
@@ -468,6 +471,9 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           <LanguageSelector direction="down" />
 
           <button
+            type="button"
+            aria-expanded={isMobileMenuOpen}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             onClick={() => {
               const nextOpen = !isMobileMenuOpen;
               setIsMobileMenuOpen(nextOpen);

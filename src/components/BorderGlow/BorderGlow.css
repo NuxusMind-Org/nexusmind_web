@@ -1,0 +1,41 @@
+.border-glow {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-radius: 140px;
+  --border-w: 1.5px;
+  --rounded: 24px;
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--rounded);
+}
+
+.border-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  padding: var(--border-w);
+  pointer-events: none;
+  background: radial-gradient(
+    var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+    var(--glow-color-a, rgba(0, 242, 255, 0.95)) 0%,
+    var(--glow-color-b, rgba(192, 132, 252, 0.55)) 28%,
+    transparent 58%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.border-glow::after {
+  content: none;
+}
+
+.border-glow > * {
+  position: relative;
+  z-index: 1;
+  border-radius: inherit;
+}

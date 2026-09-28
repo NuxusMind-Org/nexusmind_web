@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Star, GraduationCap, Award, Video, Clock, Lock, CheckCircle2 } from 'lucide-react';
@@ -6,13 +7,33 @@ import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { psychologists } from '../data/psychologists';
 import { PATHS } from '@/routes/paths';
+import { doctorsApi } from '@/api/doctors.api';
+import { mapDoctorToPsychologist } from '@/utils/mappers';
+import type { Psychologist } from '../types/psychologist.types';
 
 export const PsychologistPage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const psychologistId = id ? parseInt(id, 10) : 1;
-  const psych = psychologists.find(p => p.id === psychologistId) || psychologists[0];
+  const [psych, setPsych] = useState<Psychologist>(
+    () => psychologists.find(p => p.id === psychologistId) || psychologists[0]
+  );
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        const doc = await doctorsApi.getById(psychologistId);
+        if (doc) {
+          const currentLang = (i18n.language?.slice(0, 2) as 'az' | 'en' | 'ru') || 'az';
+          setPsych(mapDoctorToPsychologist(doc, currentLang));
+        }
+      } catch (err) {
+        setPsych(psychologists.find(p => p.id === psychologistId) || psychologists[0]);
+      }
+    };
+    fetchDoctor();
+  }, [psychologistId, i18n.language]);
 
   return (
     <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">

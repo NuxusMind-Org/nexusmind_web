@@ -210,7 +210,7 @@ export const ProfilePage = () => {
 
         {/* Title */}
         <h1
-          className="relative z-10 text-[#1E0A42] font-normal text-[28px] sm:text-[36px] md:text-[46.72px] leading-[36px] sm:leading-[48px] md:leading-[59.84px] text-center tracking-[-0.96px] font-['Lexend',_sans-serif]"
+          className="relative z-10 text-[#1E0A42] font-normal text-[28px] sm:text-[36px] md:text-[46.72px] leading-[36px] sm:leading-[48px] md:leading-[59.84px] text-center tracking-[-0.96px] font-sans"
         >
           {t('webapp.profile.title')}
         </h1>
@@ -259,7 +259,7 @@ export const ProfilePage = () => {
             {/* Card Content Area */}
             <div className="p-6 sm:p-10 flex flex-col gap-8">
               {/* Card Title */}
-              <h2 className="text-[22px] sm:text-[26px] font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+              <h2 className="text-[22px] sm:text-[26px] font-semibold text-[#1E0A42] font-sans">
                 {t('webapp.profile.accountDetails')}
               </h2>
 
@@ -294,7 +294,7 @@ export const ProfilePage = () => {
 
                   {/* Info Text */}
                   <div className="flex flex-col">
-                    <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+                    <span className="text-base font-semibold text-[#1E0A42] font-sans">
                       {t('webapp.profile.profilePicture')}
                     </span>
                     <span className="text-xs text-gray-400 font-normal mt-0.5">
@@ -335,7 +335,7 @@ export const ProfilePage = () => {
                       </button>
                     </div>
                   ) : (
-                    <span className="text-base sm:text-lg font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+                    <span className="text-base sm:text-lg font-semibold text-[#1E0A42] font-sans">
                       {name || '—'}
                     </span>
                   )}
@@ -376,7 +376,7 @@ export const ProfilePage = () => {
                       </button>
                     </div>
                   ) : (
-                    <span className="text-base sm:text-lg font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] break-all">
+                    <span className="text-base sm:text-lg font-semibold text-[#1E0A42] font-sans break-all">
                       {email || '—'}
                     </span>
                   )}
@@ -402,7 +402,7 @@ export const ProfilePage = () => {
                   onClick={() => setIsStatusOpen(!isStatusOpen)}
                   className="w-full bg-[#F3F5FA] hover:bg-[#EEF1F8] border border-transparent focus-within:border-[#38166D]/30 rounded-2xl px-4 py-3.5 flex items-center justify-between cursor-pointer transition-colors"
                 >
-                  <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+                  <span className="text-base font-semibold text-[#1E0A42] font-sans">
                     {statusOptions.find(s => s.key === status)?.label || status}
                   </span>
                   <ChevronDown
@@ -443,7 +443,7 @@ export const ProfilePage = () => {
                   onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                   className="w-full bg-[#F3F5FA] hover:bg-[#EEF1F8] border border-transparent focus-within:border-[#38166D]/30 rounded-2xl px-4 py-3.5 flex items-center justify-between cursor-pointer transition-colors"
                 >
-                  <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+                  <span className="text-base font-semibold text-[#1E0A42] font-sans">
                     {languageOptions.find(l => l.code === i18n.language)?.name || 'Azərbaycan dili'}
                   </span>
                   <ChevronDown
@@ -520,7 +520,7 @@ export const ProfilePage = () => {
                 <div className="flex flex-col gap-6">
                   {/* Hazırkı şifrə */}
                   <div>
-                    <label className="text-sm font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] mb-2 block">
+                    <label className="text-sm font-semibold text-[#1E0A42] font-sans mb-2 block">
                       {t('webapp.profile.currentPassword')}
                     </label>
                     <div className="w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 flex items-center justify-between focus-within:border-[#38166D] transition-colors">
@@ -545,7 +545,7 @@ export const ProfilePage = () => {
 
                   {/* Yeni şifrə */}
                   <div>
-                    <label className="text-sm font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] mb-2 block">
+                    <label className="text-sm font-semibold text-[#1E0A42] font-sans mb-2 block">
                       {t('webapp.profile.newPassword')}
                     </label>
                     <div className="w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 flex items-center justify-between focus-within:border-[#38166D] transition-colors">
@@ -568,7 +568,7 @@ export const ProfilePage = () => {
 
                   {/* Yeni şifrənin təsdiqi */}
                   <div>
-                    <label className="text-sm font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] mb-2 block">
+                    <label className="text-sm font-semibold text-[#1E0A42] font-sans mb-2 block">
                       {t('webapp.profile.confirmNewPassword')}
                     </label>
                     <div className="w-full bg-white border border-gray-200 rounded-2xl px-4 py-3.5 flex items-center justify-between focus-within:border-[#38166D] transition-colors">
@@ -626,7 +626,7 @@ export const ProfilePage = () => {
               <div className="flex flex-col gap-6 w-full">
                 {/* 1. Təhlükəsizlik qaydaları Card */}
                 <div className="bg-[#F6EFFF] rounded-[28px] p-6 sm:p-7 text-left flex flex-col gap-4">
-                  <div className="flex items-center gap-2.5 text-[#1E0A42] font-semibold text-base font-['Lexend',_sans-serif]">
+                  <div className="flex items-center gap-2.5 text-[#1E0A42] font-semibold text-base font-sans">
                     <ShieldCheck size={18} className="text-[#1E0A42]" />
                     <span>{t('webapp.profile.securityRules')}</span>
                   </div>
@@ -653,7 +653,7 @@ export const ProfilePage = () => {
 
                 {/* 2. Məxfilik məlumatı Card */}
                 <div className="bg-[#EBF3FF] rounded-[28px] p-6 sm:p-7 text-left flex flex-col gap-3">
-                  <h3 className="text-[#1E0A42] font-semibold text-base font-['Lexend',_sans-serif]">
+                  <h3 className="text-[#1E0A42] font-semibold text-base font-sans">
                     {t('webapp.profile.privacyInfo')}
                   </h3>
                   <p className="text-sm text-[#1E0A42]/80 font-normal leading-relaxed">
@@ -666,7 +666,7 @@ export const ProfilePage = () => {
             {/* Bottom Card: İki-mərhələli Təsdiqləmə (2FA) */}
             <div className="w-full bg-white border border-gray-100/80 rounded-[28px] p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.03)] flex items-center justify-between gap-4">
               <div className="flex flex-col">
-                <h3 className="text-lg font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+                <h3 className="text-lg font-semibold text-[#1E0A42] font-sans">
                   {t('webapp.profile.twoFactor')}
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-500 font-normal mt-1">

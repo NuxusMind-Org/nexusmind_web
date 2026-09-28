@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
-import pillarsImage from '@/assets/pillars_image.png';
 import { PILLARS } from '../../constants/pillars';
 import { ScrollReveal } from '../ScrollReveal';
+import { WaveDivider } from '@/components/WaveDivider';
 
 export const PillarsSection = () => {
   const { t } = useTranslation();
@@ -16,28 +16,21 @@ export const PillarsSection = () => {
   }));
 
   return (
-    <section
-      id="pillars"
-      className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20 scroll-mt-20"
-    >
-      <ScrollReveal className="w-full mx-auto flex flex-col lg:flex-row items-center lg:items-stretch gap-12 lg:gap-20">
+    <section id="pillars" className="relative w-full overflow-hidden scroll-mt-20">
+      <div
+        className="relative w-full z-[10] pointer-events-none"
+        style={{ marginTop: 'clamp(-216px, -16.5vw, -108px)' }}
+      >
+        <WaveDivider />
+      </div>
 
-        {/* Left Image */}
-        <div className="w-full lg:w-[582px] h-[300px] sm:h-[400px] lg:h-[728px] flex-shrink-0 rounded-lg overflow-hidden shadow-2xl relative">
-          <img
-            src={pillarsImage}
-            alt="6 Pillars of Psychological Health"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Right Accordion */}
-        <div className="w-full lg:w-[45%] xl:w-[50%] flex flex-col">
-          <h2 className="text-[28px] sm:text-[32px] lg:text-[40px] font-bold text-white mb-8 lg:mb-10 tracking-tight leading-tight">
+      <div className="relative z-[11] w-full bg-white -mt-1 px-4 sm:px-8 md:px-12 lg:px-[72px] py-12 md:py-16">
+        <ScrollReveal className="w-full max-w-[900px] mx-auto flex flex-col">
+          <h2 className="text-[24px] sm:text-[32px] lg:text-[46px] font-bold text-[#3D2A6B] mb-8 lg:mb-10 tracking-tight leading-tight text-center ponnala-nudge">
             {t('pillars.title', 'Psixoloji sağlamlığının 6 əsas sütunu')}
           </h2>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
             {localizedPillars.map((item) => {
               const isOpen = openAccordion === item.id;
               const contentId = `pillar-content-${item.id}`;
@@ -45,8 +38,8 @@ export const PillarsSection = () => {
               return (
                 <div
                   key={item.id}
-                  className={`flex flex-col rounded-lg overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    isOpen ? 'bg-[#F4F5F6] shadow-md' : 'bg-transparent hover:bg-white/5'
+                  className={`flex flex-col rounded-2xl overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    isOpen ? 'bg-[#E8F4F5] shadow-sm' : 'bg-transparent'
                   }`}
                 >
                   <button
@@ -54,19 +47,15 @@ export const PillarsSection = () => {
                     onClick={() => setOpenAccordion(isOpen ? null : item.id)}
                     aria-expanded={isOpen}
                     aria-controls={contentId}
-                    className="w-full flex items-center justify-between text-left py-[18px] px-6 cursor-pointer select-none rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+                    className="w-full flex items-center justify-between text-left py-4 sm:py-5 px-4 sm:px-6 cursor-pointer select-none rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F5C63]/30"
                   >
-                    <span
-                      className={`text-[16px] sm:text-[17px] font-medium transition-colors duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                        isOpen ? 'text-[#1a2b3c]' : 'text-white'
-                      }`}
-                    >
+                    <span className="text-[16px] sm:text-[20px] font-semibold text-[#0F5C63] pr-3 leading-snug ponnala-nudge">
                       {item.title}
                     </span>
                     <ChevronDown
-                      size={20}
-                      className={`shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                        isOpen ? 'rotate-180 text-[#1a2b3c]' : 'rotate-0 text-white'
+                      size={22}
+                      className={`shrink-0 text-[#0F5C63] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                        isOpen ? 'rotate-180' : 'rotate-0'
                       }`}
                     />
                   </button>
@@ -79,12 +68,8 @@ export const PillarsSection = () => {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <div
-                        className={`pb-5 px-6 -mt-1 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                          isOpen ? 'translate-y-0' : '-translate-y-1'
-                        }`}
-                      >
-                        <p className="text-[#475467] text-[13px] sm:text-[14px] leading-relaxed">
+                      <div className="pb-5 px-4 sm:px-6 -mt-1">
+                        <p className="text-[#0F5C63]/80 text-[15px] sm:text-[17px] leading-relaxed ponnala-nudge">
                           {item.content}
                         </p>
                       </div>
@@ -94,10 +79,12 @@ export const PillarsSection = () => {
               );
             })}
           </div>
-        </div>
+        </ScrollReveal>
+      </div>
 
-      </ScrollReveal>
+      <div className="relative w-full z-[10] pointer-events-none -mt-1">
+        <WaveDivider reverse />
+      </div>
     </section>
   );
 };
-

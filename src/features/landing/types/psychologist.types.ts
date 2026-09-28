@@ -11,4 +11,5 @@ export type Psychologist = {
   tags: string[];
   education: { uni: string; degree: string }[];
   certifications: string[];
+  specialty?: string;
 };

@@ -120,7 +120,7 @@ export const GalleryPage = () => {
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
       >
-        <h2 className="text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] text-center max-w-[1041.5px] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-2">
+        <h2 className="text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] text-center max-w-[1041.5px] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-sans mt-2">
           Terapiyalar, konsultasiyalar, təlimlər və digər fəaliyyətlərdən görüntülər :
         </h2>
 
@@ -139,7 +139,7 @@ export const GalleryPage = () => {
                       setActiveCategory(cat.id);
                       setCurrentPage(1);
                     }}
-                    className={`min-h-[44px] px-5 py-2.5 rounded-full text-[13px] sm:text-sm font-semibold transition-all duration-200 cursor-pointer border font-['Lexend'] flex items-center justify-center select-none ${
+                    className={`min-h-[44px] px-5 py-2.5 rounded-full text-[13px] sm:text-sm font-semibold transition-all duration-200 cursor-pointer border font-sans flex items-center justify-center select-none ${
                       activeCategory === cat.id
                         ? 'bg-[#DDD4F8] border-[#4D2059] text-[#1E0A42] shadow-sm font-bold'
                         : 'bg-white/40 border-[#4D2059]/30 text-[#1E0A42]/80 hover:bg-[#4D2059]/10'
@@ -153,11 +153,11 @@ export const GalleryPage = () => {
 
             {/* Mobile Sort Dropdown */}
             <div className="flex items-center justify-between gap-3 w-full">
-              <span className="text-xs sm:text-sm font-medium text-[#1E0A42]/70 font-['Lexend'] whitespace-nowrap">Sıralama :</span>
+              <span className="text-xs sm:text-sm font-medium text-[#1E0A42]/70 font-sans whitespace-nowrap">Sıralama :</span>
               <div className="relative flex-1 max-w-[240px]">
                 <button
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  className="w-full min-h-[44px] bg-[#4D2059] text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center justify-between gap-2 shadow-md cursor-pointer font-['Lexend'] outline-none"
+                  className="w-full min-h-[44px] bg-[#4D2059] text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center justify-between gap-2 shadow-md cursor-pointer font-sans outline-none"
                 >
                   <span className="truncate">{currentSortLabel}</span>
                   <ChevronDown size={16} className={`shrink-0 transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
@@ -176,7 +176,7 @@ export const GalleryPage = () => {
                             setShowSortDropdown(false);
                             setCurrentPage(1);
                           }}
-                          className={`w-full text-left min-h-[44px] px-4 py-2.5 rounded-[14px] text-[13px] font-medium font-['Lexend'] transition-colors cursor-pointer flex items-center ${
+                          className={`w-full text-left min-h-[44px] px-4 py-2.5 rounded-[14px] text-[13px] font-medium font-sans transition-colors cursor-pointer flex items-center ${
                             activeSort === opt.id
                               ? 'bg-[#482476]/15 text-[#482476] font-bold'
                               : 'text-[#482476] hover:bg-[#482476]/5'
@@ -196,7 +196,7 @@ export const GalleryPage = () => {
           <div className="hidden lg:flex items-center gap-4 w-auto">
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`bg-[#204F5E] text-white px-5 py-2.5 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-[#204F5E]/90 transition-all duration-300 shadow-sm cursor-pointer font-['Lexend'] border select-none outline-none group ${
+              className={`bg-[#204F5E] text-white px-5 py-2.5 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-[#204F5E]/90 transition-all duration-300 shadow-sm cursor-pointer font-sans border select-none outline-none group ${
                 isFilterOpen ? 'border-[#4D2059]' : 'border-transparent'
               }`}
             >
@@ -219,7 +219,7 @@ export const GalleryPage = () => {
                       setActiveCategory(cat.id);
                       setCurrentPage(1);
                     }}
-                    className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer border font-['Lexend'] ${
+                    className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer border font-sans ${
                       activeCategory === cat.id
                         ? 'bg-[#DDD4F8] border-[#4D2059] text-[#1E0A42] shadow-sm'
                         : 'border-[#4D2059]/40 text-[#1E0A42] hover:bg-[#4D2059]/5'
@@ -235,11 +235,11 @@ export const GalleryPage = () => {
           {/* Desktop Sort controls dropdown */}
           <div className="hidden lg:flex relative w-auto justify-end">
             <div className="flex items-center gap-3 w-auto justify-start">
-              <span className="text-sm font-medium text-[#1E0A42]/60 font-['Lexend'] whitespace-nowrap">Sıralama :</span>
+              <span className="text-sm font-medium text-[#1E0A42]/60 font-sans whitespace-nowrap">Sıralama :</span>
               <div className="relative">
                 <button
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  className="bg-[#4D2059] text-white px-5 py-2.5 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-[#4D2059]/90 transition-colors shadow-md cursor-pointer font-['Lexend'] min-w-[200px] justify-between"
+                  className="bg-[#4D2059] text-white px-5 py-2.5 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-[#4D2059]/90 transition-colors shadow-md cursor-pointer font-sans min-w-[200px] justify-between"
                 >
                   <span>{currentSortLabel}</span>
                   <ChevronDown size={16} className={`transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
@@ -258,7 +258,7 @@ export const GalleryPage = () => {
                             setShowSortDropdown(false);
                             setCurrentPage(1);
                           }}
-                          className={`w-full text-left px-3.5 py-1 rounded-[14px] text-[12px] font-normal leading-[21px] tracking-[0.35px] font-['Lexend'] transition-colors duration-150 cursor-pointer ${
+                          className={`w-full text-left px-3.5 py-1 rounded-[14px] text-[12px] font-normal leading-[21px] tracking-[0.35px] font-sans transition-colors duration-150 cursor-pointer ${
                             activeSort === opt.id
                               ? 'bg-[#482476]/10 text-[#482476]'
                               : 'text-[#482476] hover:bg-[#482476]/5'
@@ -293,7 +293,7 @@ export const GalleryPage = () => {
                   />
                   {/* Badge overlay on the bottom right */}
                   <div className="absolute bottom-4 right-4 z-10 pointer-events-none">
-                    <span className="bg-black/45 border border-white/15 backdrop-blur-md text-white text-[10px] md:text-[11px] font-medium tracking-widest px-4 py-2 rounded-full uppercase shadow-sm font-['Lexend']">
+                    <span className="bg-black/45 border border-white/15 backdrop-blur-md text-white text-[10px] md:text-[11px] font-medium tracking-widest px-4 py-2 rounded-full uppercase shadow-sm font-sans">
                       {item.badgeText}
                     </span>
                   </div>
@@ -321,7 +321,7 @@ export const GalleryPage = () => {
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shadow-md cursor-pointer font-['Lexend'] transition-all ${
+                      className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shadow-md cursor-pointer font-sans transition-all ${
                         isActive
                           ? 'bg-gradient-to-tr from-[#6366f1] to-[#a855f7] text-white scale-105'
                           : 'bg-[#4D2059] text-white hover:bg-[#4D2059]/90'
@@ -345,7 +345,7 @@ export const GalleryPage = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center flex-1">
-            <span className="text-[#1E0A42]/50 text-base font-medium font-['Lexend']">Bu kateqoriyada heç bir şəkil tapılmadı.</span>
+            <span className="text-[#1E0A42]/50 text-base font-medium font-sans">Bu kateqoriyada heç bir şəkil tapılmadı.</span>
           </div>
         )}
       </div>

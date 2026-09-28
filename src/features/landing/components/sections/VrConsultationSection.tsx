@@ -1,43 +1,76 @@
 import { useTranslation } from 'react-i18next';
-import vrConsultation from '@/assets/vr_consultation.png';
+import { useNavigate } from 'react-router-dom';
+import vrNexie from '@/assets/svg/VR_Nexie.png';
+import { PATHS } from '@/routes/paths';
 import { ScrollReveal } from '../ScrollReveal';
 
 export const VrConsultationSection = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <section
       id="vr"
-      className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20 scroll-mt-20"
+      className="relative w-full min-h-0 sm:min-h-[560px] md:min-h-[700px] flex items-center justify-center overflow-hidden scroll-mt-20 pt-12 pb-10 sm:py-16 md:py-24"
     >
-      <ScrollReveal className="w-full max-w-[1200px] h-[50vh] sm:h-[60vh] md:h-[75vh] mx-auto relative rounded-[8px] overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.5)] border border-white/20 group">
-        {/* Background Image */}
-        <img
-          src={vrConsultation}
-          alt="VR Consultation"
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-105"
-        />
+      {/* ── Background Cosmic Video ───────────────────────────────── */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          <source src="/bg/cosmic_bg.mp4" type="video/mp4" />
+          <source
+            src="/bg/Generating_cosmic_background_video_1080p_20260922051243 (1).mp4.mp4"
+            type="video/mp4"
+          />
+        </video>
 
-        {/* Floating Glassmorphism Content */}
-        <div className="absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 md:right-10 bg-[#eeb3b3]/30 backdrop-blur-2xl border border-white/40 rounded-lg p-4 sm:p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-          <div className="flex-1 text-center md:text-left">
-            <h2 className="text-[22px] md:text-[36px] font-bold text-white mb-2 md:mb-3 tracking-wide">
-              {t('vr.title', 'VR KONSULTASİYA')}
-            </h2>
-            <p className="text-[13px] sm:text-[15px] md:text-[20px] text-white/95 leading-relaxed font-semibold">
-              {t('vr.description', 'Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.')}
-            </p>
+        {/* Subtle radial/horizontal gradient overlays to enhance typography readability while keeping cosmic brilliance */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/30 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-b from-transparent to-black/30 pointer-events-none" />
+      </div>
+
+      {/* ── Foreground Content ────────────────────────────────────── */}
+      <ScrollReveal className="relative z-10 w-full max-w-[1300px] mx-auto px-6 sm:px-10 md:px-14 lg:px-16 flex flex-col-reverse md:flex-row items-center justify-between gap-6 sm:gap-10 md:gap-14 lg:gap-20">
+        {/* Left: Nexie Mascot wearing VR Goggles */}
+        <div className="flex-1 flex justify-center md:justify-end items-center w-full">
+          <div className="relative group">
+            <img
+              src={vrNexie}
+              alt="Nexie VR Mascot"
+              className="w-[240px] sm:w-[280px] md:w-[420px] lg:w-[480px] h-auto object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.7)] select-none pointer-events-none transition-transform duration-700 ease-out group-hover:scale-105"
+              loading="eager"
+            />
           </div>
-          <a
-            href="https://youtu.be/Vb68KcP-Aa4?si=71_BkKtTInEGks1l"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center whitespace-nowrap bg-[#a88bff] hover:bg-[#9773fc] text-[#1a2b3c] font-bold text-[14px] md:text-[18px] rounded-lg px-6 py-2.5 md:px-10 md:py-4 transition-all duration-300 shadow-[0_4px_14px_rgba(168,139,255,0.4)] hover:shadow-[0_6px_20px_rgba(168,139,255,0.6)] cursor-pointer select-none"
+        </div>
+
+        {/* Right: Typography & CTA */}
+        <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left max-w-[580px]">
+          <h2 className="font-title font-normal text-[32px] sm:text-[48px] md:text-[74px] lg:text-[84px] text-white leading-[1.08] mb-3 sm:mb-6 tracking-wide drop-shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
+            {t('vr.title', 'Vr konsultasiya')}
+          </h2>
+
+          <p className="text-[16px] sm:text-[19px] md:text-[21px] lg:text-[22px] text-white/95 font-normal leading-relaxed mb-8 sm:mb-10 max-w-[540px] drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] ponnala-nudge">
+            {t(
+              'vr.description',
+              'Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.'
+            )}
+          </p>
+
+          <button
+            type="button"
+            onClick={() => navigate(PATHS.REGISTER)}
+            className="inline-flex items-center justify-center bg-black hover:bg-neutral-900 active:scale-95 text-white font-medium text-[16px] sm:text-[18px] px-8 sm:px-10 py-3 sm:py-3.5 rounded-full border border-white/20 hover:border-white/50 shadow-[0_6px_25px_rgba(0,0,0,0.6)] transition-all duration-300 cursor-pointer select-none"
           >
-            {t('vr.watchDemo', 'Demo-nu İzlə')}
-          </a>
+            <span className="ponnala-nudge">{t('vr.cta', 'İndi başla')}</span>
+          </button>
         </div>
       </ScrollReveal>
     </section>
   );
 };
+

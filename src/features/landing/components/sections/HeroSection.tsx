@@ -2,76 +2,101 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import nexie from '@/assets/svg/Nexie.svg';
-import nexieCloud from '@/assets/svg/NexieCloud.svg';
-import hi0101 from '@/assets/hi0101.png';
-import hi0102 from '@/assets/hi0102.png';
-import hi0103 from '@/assets/hi0103.png';
 import { ScrollReveal } from '../ScrollReveal';
 
 export const HeroSection = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const featureCards = [
-    { img: hi0101, text: t('hero.feature1', 'Mütəxəssislər köməyilə çətinliklərdən azad ol!') },
-    { img: hi0102, text: t('hero.feature2', 'Vr konsultasiya ilə evdən çıxmağa belə ehtiyac yoxdur!') },
-    { img: hi0103, text: t('hero.feature3', 'Günlük notlar qeyd edərək səndə öz inkişafını gör!') },
-  ];
-
   return (
     <section
       id="hero"
-      className="relative w-full min-h-fit flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] sm:pt-[80px] pb-8 sm:pb-14 scroll-mt-20"
+      className="relative w-full min-h-[calc(100vh-80px)] flex items-start justify-start px-4 sm:px-8 md:px-12 lg:px-0 lg:pl-[80px] pt-[100px] sm:pt-[120px] lg:pt-[160px] pb-0 scroll-mt-20 overflow-hidden"
     >
-      <ScrollReveal className="w-full mx-auto flex flex-col items-center relative">
-        <div className="relative w-full max-w-[1056px] h-auto min-h-[417px] md:h-[417px] bg-white/10 backdrop-blur-xl border border-white/10 rounded-[8px] pt-[24px] pb-[24px] pr-[16px] pl-[16px] sm:pr-[21px] sm:pl-[21px] gap-[8px] flex flex-col justify-between items-center text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-
-          {/* Mascot — Desktop */}
-          <div className="absolute -left-[145px] bottom-[-25px] hidden md:flex flex-col items-center pointer-events-none z-20">
-            <img src={nexieCloud} alt="Speech Bubble" className="w-[180px] object-contain mb-[-15px] ml-[-40px] drop-shadow-xl" />
-            <img src={nexie} alt="Nexie Mascot" className="w-[285px] object-contain drop-shadow-[0_0_35px_rgba(0,242,255,0.4)]" />
+      <ScrollReveal className="w-full max-w-[1000px] flex flex-col relative z-20">
+        {/* Text & Buttons */}
+        <div className="flex flex-col justify-start items-start gap-6 md:gap-12 w-full text-left">
+          <div className="flex flex-col gap-3 sm:gap-6 w-full">
+            <h1 className="text-[36px] sm:text-[60px] md:text-[72px] lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] font-title">
+              {t('hero.title', 'Özünü kəşf etməyə hazırsan?')}
+            </h1>
+            <p className="text-[17px] sm:text-[26px] md:text-[30px] lg:text-[34px] text-white/95 max-w-[700px] leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] ponnala-nudge">
+              {t('hero.subtitle', 'Sıxıntıdan qurtularaq və rahat nəfəs alaraq , həyatdan zövq al !')}
+            </p>
           </div>
 
-          {/* Mascot — Mobile */}
-          <div className="absolute -left-[35px] -bottom-[15px] flex md:hidden flex-col items-center pointer-events-none z-20">
-            <img src={nexie} alt="Nexie Mascot" className="w-[135px] sm:w-[165px] object-contain drop-shadow-[0_0_20px_rgba(0,242,255,0.4)]" />
-          </div>
-
-          {/* Card Content */}
-          <div className="flex-1 flex flex-col justify-center gap-6 py-2 w-full items-center">
-            <div className="flex flex-col gap-3">
-              <h1 className="text-[28px] sm:text-[40px] md:text-[48px] font-bold text-white tracking-tight leading-tight">
-                {t('hero.title', 'Özünü kəşf etməyə hazırsan?')}
-              </h1>
-              <p className="text-[16px] sm:text-[22px] md:text-[24px] text-white/80 max-w-[800px] mx-auto leading-relaxed whitespace-pre-line">
-                {t('hero.subtitle', 'Sıxıntıdan qurtul, rahat nəfəs al,\nvə həyatdan zövq al!')}
-              </p>
-            </div>
-
+          {/*
+           * Buttons — mobile: left-aligned, width capped to ~58% of the row
+           * so they naturally clear the Nexie standing in the bottom-right.
+           * sm+: auto width, side-by-side row.
+           */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 w-[58%] sm:w-auto">
             <button
               onClick={() => navigate(PATHS.REGISTER)}
-              className="w-[247px] h-[51px] bg-[#4A148F] hover:bg-[#5919ad] text-white p-[10px] gap-[10px] rounded-[100px] border border-[#8A38F5] text-[16px] sm:text-[18px] font-semibold flex items-center justify-center transition-all duration-300 ease-out shadow-[0_0_20px_rgba(74,20,143,0.4)] hover:shadow-[0_0_28px_rgba(138,56,245,0.6)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              className="group relative w-full sm:w-auto sm:min-w-[200px] h-[52px] sm:h-[54px] bg-[#4A148F] text-white text-center px-6 sm:px-8 rounded-[100px] text-[16px] sm:text-[20px] font-semibold flex items-center justify-center transition-transform duration-300 ease-out active:scale-[0.95] cursor-pointer shadow-[0_4px_20px_rgba(74,20,143,0.4)]"
             >
-              {t('hero.cta', 'İndi başla')}
+              {/* Animated Border */}
+              <div
+                className="absolute inset-0 rounded-[100px] pointer-events-none overflow-hidden"
+                style={{
+                  padding: '2px',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                }}
+              >
+                <div
+                  className="absolute left-1/2 top-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out group-hover:rotate-90"
+                  style={{
+                    background: 'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)'
+                  }}
+                />
+              </div>
+              <span className="relative z-10 ponnala-nudge">{t('hero.cta', 'İndi başla')}</span>
+            </button>
+
+            <button
+              onClick={() => navigate('/experts')}
+              className="group relative w-full sm:w-auto sm:min-w-[200px] h-[52px] sm:h-[54px] bg-white text-[#4A148F] text-center px-6 sm:px-8 rounded-[100px] text-[16px] sm:text-[20px] font-semibold flex items-center justify-center transition-transform duration-300 ease-out active:scale-[0.95] cursor-pointer shadow-[0_4px_15px_rgba(255,255,255,0.15)]"
+            >
+              {/* Animated Border */}
+              <div
+                className="absolute inset-0 rounded-[100px] pointer-events-none overflow-hidden"
+                style={{
+                  padding: '2px',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                }}
+              >
+                <div
+                  className="absolute left-1/2 top-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out group-hover:rotate-90"
+                  style={{
+                    background: 'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)'
+                  }}
+                />
+              </div>
+              <span className="relative z-10 ponnala-nudge">{t('hero.secondary_cta', 'Psixoloqlara bax')}</span>
             </button>
           </div>
         </div>
-
-        {/* Bottom Feature Cards */}
-        <div className="w-full mt-10 sm:mt-14 flex flex-wrap justify-evenly gap-6 px-4 sm:px-6 xl:px-[58px]">
-          {featureCards.map((card, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-center gap-3.5 w-full max-w-[326px] min-h-[80px] bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-[12px] hover:bg-white/15 transition-colors"
-            >
-              <div className="w-[46px] h-[46px] rounded-full overflow-hidden flex-shrink-0 bg-[#591b98]/30">
-                <img src={card.img} alt={`Feature ${i + 1}`} className="w-full h-full object-cover" />
-              </div>
-              <p className="text-white text-[13px] leading-snug font-medium text-left flex-1">{card.text}</p>
-            </div>
-          ))}
-        </div>
       </ScrollReveal>
+
+      {/*
+       * Nexie — absolute bottom-right on ALL breakpoints.
+       * Mobile : w-[170px], flush to the right edge, anchored to bottom-0.
+       * sm     : w-[220px], same position.
+       * md+    : w-[460px], shifted up to md:bottom-[48px].
+       * lg+    : w-[540px], inset lg:right-[3%] lg:bottom-[56px].
+       */}
+      <div className="absolute right-[-120px] sm:right-0 bottom-0 md:bottom-[48px] lg:bottom-[56px] lg:right-[3%] z-[15] pointer-events-none origin-bottom">
+        <img
+          src={nexie}
+          alt="Nexie Mascot"
+          className="h-[48vh] w-auto sm:h-auto sm:w-[220px] md:w-[460px] lg:w-[540px] object-contain origin-bottom scale-x-[-1]"
+        />
+      </div>
+
     </section>
   );
 };

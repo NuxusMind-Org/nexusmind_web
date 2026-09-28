@@ -41,7 +41,7 @@ function AvatarPlaceholder({ name, size = 'lg' }: { name: string; size?: 'lg' | 
   return (
     <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-[#0D0618] via-[#141029] to-[#1a0d2e]">
       <div
-        className={`rounded-full bg-[#4B2E83]/50 border-2 border-[#4B2E83]/80 flex items-center justify-center font-bold font-['Lexend'] text-white select-none ${
+        className={`rounded-full bg-[#4B2E83]/50 border-2 border-[#4B2E83]/80 flex items-center justify-center font-bold font-sans text-white select-none ${
           isLg ? 'w-28 h-28 text-5xl sm:w-36 sm:h-36 sm:text-6xl' : 'w-9 h-9 text-base'
         }`}
       >
@@ -171,7 +171,7 @@ function NotesSheet({ open, onClose }: NotesSheetProps) {
             onChange={e => setNote(e.target.value)}
             placeholder="Jot quick notes during the session…"
             rows={5}
-            className="w-full bg-white/5 border border-white/10 focus:border-[#4B2E83]/60 rounded-xl px-4 py-3 text-sm text-white/85 placeholder-white/25 resize-none focus:outline-none transition-colors leading-relaxed font-['Lexend']"
+            className="w-full bg-white/5 border border-white/10 focus:border-[#4B2E83]/60 rounded-xl px-4 py-3 text-sm text-white/85 placeholder-white/25 resize-none focus:outline-none transition-colors leading-relaxed font-sans"
           />
           <p className="text-[10px] text-white/30 mt-1.5 px-1">
             Notes are saved locally and submitted when the session ends.
@@ -235,7 +235,7 @@ export function NexusCallLayout({ roomName }: NexusCallLayoutProps) {
   const localCameraTrack = allTracks.find(t => isTrackReference(t) && t.participant.isLocal);
 
   return (
-    <div ref={rootRef} className="relative w-full h-[100dvh] overflow-hidden bg-[#090a0f] font-['Lexend'] select-none">
+    <div ref={rootRef} className="relative w-full h-[100dvh] overflow-hidden bg-[#090a0f] font-sans select-none">
 
       {/* ── Remote Video (full-screen background) ── */}
       <div className="absolute inset-0 w-full h-full">

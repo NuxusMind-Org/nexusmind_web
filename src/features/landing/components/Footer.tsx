@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 export const Footer = () => {
   const { t } = useTranslation();
   return (
-    <footer className="w-full bg-[#4E1070] text-white relative mt-24 z-20 rounded-t-[40px] sm:rounded-t-[64px] shadow-2xl overflow-visible">
+    <footer className="w-full bg-[#3D2A6B] text-white relative mt-12 sm:mt-24 z-20 rounded-t-[40px] sm:rounded-t-[64px] shadow-2xl overflow-visible">
       <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-12 md:px-16 pt-12 md:pt-16 pb-8 relative overflow-visible">
         <div className="w-full flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-8 relative z-10">
           {/* Left Main Section */}
@@ -29,38 +29,38 @@ export const Footer = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 mb-12">
               {/* Column 1: Quick Links */}
               <div className="flex flex-col gap-3">
-                <h4 className="font-bold text-[16px] sm:text-[17px] mb-2 tracking-wide">
+                <h4 className="font-bold text-[16px] sm:text-[17px] mb-2 tracking-wide ponnala-nudge">
                   {t('footer.quickLinks', 'Cəld Keçidlər')}
                 </h4>
-                <Link to="#faq" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px]">
+                <Link to="#faq" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
                   {t('footer.faq', 'FAQ')}
                 </Link>
-                <Link to={PATHS.HOME} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px]">
+                <Link to={PATHS.HOME} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
                   {t('footer.about', 'Haqqımızda')}
                 </Link>
-                <Link to="#experts" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px]">
+                <Link to="#experts" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
                   {t('footer.experts', 'Mütəxəssislər')}
                 </Link>
               </div>
 
               {/* Column 2: Contact Info */}
               <div className="flex flex-col gap-4">
-                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide">
+                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide ponnala-nudge">
                   {t('footer.contact', 'Əlaqə')}
                 </h4>
                 <div className="flex items-start gap-3 text-white/80 text-[14px] sm:text-[15px] leading-snug">
                   <MapPin size={18} className="shrink-0 mt-0.5 text-white/90" />
-                  <span>{t('footer.address', 'Bakı şəhəri, Neftçilər prospekti 123, AZ1000')}</span>
+                  <span className="ponnala-nudge">{t('footer.address', 'Bakı şəhəri, Neftçilər prospekti 123, AZ1000')}</span>
                 </div>
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
                   <Phone size={18} className="shrink-0 text-white/90" />
-                  <a href="tel:+994503956772" className="hover:text-white transition-colors">
+                  <a href="tel:+994503956772" className="hover:text-white transition-colors ponnala-nudge">
                     +994 50 395 67 72
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
                   <Mail size={18} className="shrink-0 text-white/90" />
-                  <a href="mailto:nexusmind.net@gmail.com" className="hover:text-white transition-colors">
+                  <a href="mailto:nexusmind.net@gmail.com" className="hover:text-white transition-colors ponnala-nudge">
                     nexusmind.net@gmail.com
                   </a>
                 </div>
@@ -68,14 +68,14 @@ export const Footer = () => {
 
               {/* Column 3: Download App & QR Code */}
               <div className="flex flex-col gap-3">
-                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide">
+                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide ponnala-nudge">
                   {t('footer.downloadApp', 'Tətbiqi yükləyin')}
                 </h4>
 
-                <div className="flex items-start gap-3">
+                <div className="flex flex-col sm:flex-row items-start gap-3">
                   {/* QR Code Container */}
                   <div className="bg-white p-2 rounded-xl shadow-md shrink-0 border border-white/20">
-                    <img src={qrCodeDemo} alt="Download App QR Code" className="w-[110px] h-[110px] sm:w-[120px] sm:h-[120px] object-contain" />
+                    <img src={qrCodeDemo} alt="Download App QR Code" className="w-[88px] h-[88px] sm:w-[120px] sm:h-[120px] object-contain" />
                   </div>
 
                   {/* App Store / Play Store Buttons Stack */}
@@ -89,8 +89,8 @@ export const Footer = () => {
                         <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734c0-.38.214-.722.609-.92zm11.6 11.6l2.357-2.357-11.455-6.62 9.098 8.977zm0 1.172l-9.098 8.977 11.455-6.62-2.357-2.357zm1.414-1.414l3.197 1.848a1 1 0 0 1 0 1.732l-3.197 1.848-2.28-2.28 2.28-2.28z" />
                       </svg>
                       <div className="flex flex-col items-start leading-none text-left">
-                        <span className="text-[8px] text-white/70 uppercase font-medium">GET IT ON</span>
-                        <span className="text-[12px] font-bold mt-0.5">Google Play</span>
+                        <span className="text-[8px] text-white/70 uppercase font-medium ponnala-nudge">GET IT ON</span>
+                        <span className="text-[12px] font-bold mt-0.5 ponnala-nudge">Google Play</span>
                       </div>
                     </a>
 
@@ -103,8 +103,8 @@ export const Footer = () => {
                         <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.32c.67-.82 1.13-1.96.99-3.11-1 .04-2.18.67-2.88 1.48-.63.73-1.18 1.9-1.03 3.03 1.11.09 2.25-.58 2.92-1.4" />
                       </svg>
                       <div className="flex flex-col items-start leading-none text-left">
-                        <span className="text-[8px] text-white/70 uppercase font-medium">Download on the</span>
-                        <span className="text-[12px] font-bold mt-0.5">App Store</span>
+                        <span className="text-[8px] text-white/70 uppercase font-medium ponnala-nudge">Download on the</span>
+                        <span className="text-[12px] font-bold mt-0.5 ponnala-nudge">App Store</span>
                       </div>
                     </a>
                   </div>
@@ -114,7 +114,7 @@ export const Footer = () => {
 
             {/* Social Media Links ("Bizi izləyin") */}
             <div className="flex flex-col gap-3 mb-10">
-              <h4 className="font-bold text-[16px] sm:text-[17px] tracking-wide">
+              <h4 className="font-bold text-[16px] sm:text-[17px] tracking-wide ponnala-nudge">
                 {t('footer.followUs', 'Bizi izləyin')}
               </h4>
               <div className="flex items-center gap-3">
@@ -202,7 +202,7 @@ export const Footer = () => {
 
         {/* Copyright Footer Bar */}
         <div className="w-full flex items-center justify-start relative z-10">
-          <p className="text-white/70 text-[13px] sm:text-[14px]">
+          <p className="text-white/70 text-[13px] sm:text-[14px] ponnala-nudge">
             {t('footer.copyright', '© 2026 NexusMind | Bütün hüquqlar qorunur')}
           </p>
         </div>

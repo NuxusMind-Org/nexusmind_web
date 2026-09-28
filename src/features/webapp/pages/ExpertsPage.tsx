@@ -28,7 +28,7 @@ export const ExpertsPage = () => {
     const fetchDoctors = async () => {
       try {
         const doctors = await doctorsApi.getAll();
-        const mapped = doctors.map(mapDoctorToPsychologist);
+        const mapped = doctors.map((doc) => mapDoctorToPsychologist(doc));
         setRealExperts(mapped);
       } catch (error) {
         console.error('Failed to fetch doctors:', error);
@@ -109,7 +109,7 @@ export const ExpertsPage = () => {
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
       >
-        <h2 className="text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] text-center max-w-[1041.5px] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-1">
+        <h2 className="text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] text-center max-w-[1041.5px] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-sans mt-1">
           {t('webapp.experts.title')}
         </h2>
 
@@ -123,7 +123,7 @@ export const ExpertsPage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t('webapp.experts.searchPlaceholder')}
-            className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-['Lexend'] transition-all shadow-sm"
+            className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-sans transition-all shadow-sm"
           />
         </div>
 
@@ -139,7 +139,7 @@ export const ExpertsPage = () => {
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`min-h-[44px] px-5 py-2.5 rounded-full text-[13px] sm:text-sm font-semibold transition-all duration-200 cursor-pointer border font-['Lexend'] flex items-center justify-center select-none ${activeCategory === cat.id
+                    className={`min-h-[44px] px-5 py-2.5 rounded-full text-[13px] sm:text-sm font-semibold transition-all duration-200 cursor-pointer border font-sans flex items-center justify-center select-none ${activeCategory === cat.id
                         ? 'bg-[#DDD4F8] border-[#4D2059] text-[#1E0A42] shadow-sm font-bold'
                         : 'bg-white/40 border-[#4D2059]/30 text-[#1E0A42]/80 hover:bg-[#4D2059]/10'
                       }`}
@@ -152,11 +152,11 @@ export const ExpertsPage = () => {
 
             {/* Mobile Sort Dropdown */}
             <div className="flex items-center justify-between gap-3 w-full">
-              <span className="text-xs sm:text-sm font-medium text-[#1E0A42]/70 font-['Lexend'] whitespace-nowrap">{t('webapp.experts.sortBy')}</span>
+              <span className="text-xs sm:text-sm font-medium text-[#1E0A42]/70 font-sans whitespace-nowrap">{t('webapp.experts.sortBy')}</span>
               <div className="relative flex-1 max-w-[240px]">
                 <button
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  className="w-full min-h-[44px] bg-[#4D2059] text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center justify-between gap-2 shadow-md cursor-pointer font-['Lexend'] outline-none border-0"
+                  className="w-full min-h-[44px] bg-[#4D2059] text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium flex items-center justify-between gap-2 shadow-md cursor-pointer font-sans outline-none border-0"
                 >
                   <span className="truncate">{currentSortLabel}</span>
                   <ChevronDown size={16} className={`shrink-0 transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
@@ -174,7 +174,7 @@ export const ExpertsPage = () => {
                             setActiveSort(opt.id);
                             setShowSortDropdown(false);
                           }}
-                          className={`w-full text-left min-h-[44px] px-4 py-2.5 rounded-[14px] text-[13px] font-medium font-['Lexend'] transition-colors cursor-pointer flex items-center border-0 ${activeSort === opt.id
+                          className={`w-full text-left min-h-[44px] px-4 py-2.5 rounded-[14px] text-[13px] font-medium font-sans transition-colors cursor-pointer flex items-center border-0 ${activeSort === opt.id
                               ? 'bg-[#482476]/15 text-[#482476] font-bold'
                               : 'text-[#482476] hover:bg-[#482476]/5'
                             }`}
@@ -193,7 +193,7 @@ export const ExpertsPage = () => {
           <div className="hidden lg:flex items-center gap-4 w-auto">
             <button
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className={`bg-[#204F5E] text-white px-5 py-2.5 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-[#204F5E]/90 transition-all duration-300 shadow-sm cursor-pointer font-['Lexend'] border select-none outline-none group ${isFilterOpen ? 'border-[#4D2059]' : 'border-transparent'
+              className={`bg-[#204F5E] text-white px-5 py-2.5 rounded-2xl text-sm font-medium flex items-center gap-2 hover:bg-[#204F5E]/90 transition-all duration-300 shadow-sm cursor-pointer font-sans border select-none outline-none group ${isFilterOpen ? 'border-[#4D2059]' : 'border-transparent'
                 }`}
             >
               <SlidersHorizontal size={16} className="group-hover:scale-105 transition-transform duration-300" />
@@ -211,7 +211,7 @@ export const ExpertsPage = () => {
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
-                    className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer border font-['Lexend'] ${activeCategory === cat.id
+                    className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer border font-sans ${activeCategory === cat.id
                         ? 'bg-[#DDD4F8] border-[#4D2059] text-[#1E0A42] shadow-sm'
                         : 'border-[#4D2059]/40 text-[#1E0A42] hover:bg-[#4D2059]/5'
                       }`}
@@ -226,11 +226,11 @@ export const ExpertsPage = () => {
           {/* Desktop Sort controls dropdown */}
           <div className="hidden lg:flex relative w-auto justify-end">
             <div className="flex items-center gap-3 w-auto justify-start">
-              <span className="text-sm font-semibold text-[#1E0A42]/65 font-['Lexend'] whitespace-nowrap">{t('webapp.experts.sortBy')}</span>
+              <span className="text-sm font-semibold text-[#1E0A42]/65 font-sans whitespace-nowrap">{t('webapp.experts.sortBy')}</span>
               <div className="relative">
                 <button
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  className="bg-[#4D2059] text-white px-5 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-2 hover:bg-[#4D2059]/90 transition-colors shadow-md cursor-pointer font-['Lexend'] min-w-[200px] justify-between border-0"
+                  className="bg-[#4D2059] text-white px-5 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-2 hover:bg-[#4D2059]/90 transition-colors shadow-md cursor-pointer font-sans min-w-[200px] justify-between border-0"
                 >
                   <span>{currentSortLabel}</span>
                   <ChevronDown size={16} className={`transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
@@ -248,7 +248,7 @@ export const ExpertsPage = () => {
                             setActiveSort(opt.id);
                             setShowSortDropdown(false);
                           }}
-                          className={`w-full text-left px-3.5 py-1.5 rounded-[14px] text-[11px] font-bold leading-[21px] tracking-[0.35px] font-['Lexend'] transition-colors duration-150 cursor-pointer border-0 ${activeSort === opt.id
+                          className={`w-full text-left px-3.5 py-1.5 rounded-[14px] text-[11px] font-bold leading-[21px] tracking-[0.35px] font-sans transition-colors duration-150 cursor-pointer border-0 ${activeSort === opt.id
                               ? 'bg-[#482476]/10 text-[#482476]'
                               : 'text-[#482476] hover:bg-[#482476]/5'
                             }`}
@@ -291,7 +291,7 @@ export const ExpertsPage = () => {
                       }}
                       className="w-20 h-20 rounded-full border-2 border-white/20 object-cover shadow-sm flex-shrink-0"
                     />
-                    <div className="flex flex-col text-left font-['Lexend']">
+                    <div className="flex flex-col text-left font-sans">
                       <span className="text-lg md:text-xl font-bold text-white leading-tight">
                         {expert.name}
                       </span>
@@ -306,13 +306,13 @@ export const ExpertsPage = () => {
                   </div>
 
                   {/* Pricing text */}
-                  <span className="text-[20px] md:text-[22px] font-bold text-white tracking-tight flex-shrink-0 font-['Lexend']">
+                  <span className="text-[20px] md:text-[22px] font-bold text-white tracking-tight flex-shrink-0 font-sans">
                     ${expert.price}<span className="text-xs font-normal text-white/70">{t('webapp.sessions.perSession')}</span>
                   </span>
                 </div>
 
                 {/* Bio description paragraph */}
-                <p className="text-xs md:text-sm text-white/80 leading-relaxed mt-5 text-left line-clamp-3 font-['Lexend']">
+                <p className="text-xs md:text-sm text-white/80 leading-relaxed mt-5 text-left line-clamp-3 font-sans">
                   {getLocalizedTitle(expert.description as any, i18n.language as 'az' | 'en' | 'ru', '')}
                 </p>
 
@@ -321,7 +321,7 @@ export const ExpertsPage = () => {
                   {expert.languages.map((lang, idx) => (
                     <span
                       key={`lang-${idx}`}
-                      className="bg-white text-[#0D0669] text-[10px] font-bold px-4 py-1.5 rounded-full border border-[#0D0669]/10 shadow-sm font-['Lexend'] uppercase"
+                      className="bg-white text-[#0D0669] text-[10px] font-bold px-4 py-1.5 rounded-full border border-[#0D0669]/10 shadow-sm font-sans uppercase"
                     >
                       {getLocalizedTitle(lang as any, i18n.language as 'az' | 'en' | 'ru', '')}
                     </span>
@@ -333,7 +333,7 @@ export const ExpertsPage = () => {
                   {expert.tags.slice(0, 3).map((spec, idx) => (
                     <span
                       key={`spec-${idx}`}
-                      className="bg-white/10 text-white text-[10px] font-bold px-4 py-1.5 rounded-full border border-white/5 shadow-sm font-['Lexend'] uppercase"
+                      className="bg-white/10 text-white text-[10px] font-bold px-4 py-1.5 rounded-full border border-white/5 shadow-sm font-sans uppercase"
                     >
                       {getLocalizedTitle(spec as any, i18n.language as 'az' | 'en' | 'ru', '')}
                     </span>
@@ -341,7 +341,7 @@ export const ExpertsPage = () => {
                 </div>
 
                 {/* CTA Booking Button */}
-                <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-2.5 shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-['Lexend'] border-0">
+                <button className="bg-white hover:bg-white/95 text-[#0D0669] font-bold text-xs md:text-sm py-4 rounded-[14px] w-full text-center mt-2.5 shadow-md transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-sans border-0">
                   {t('webapp.sessions.start')}
                 </button>
               </div>
@@ -349,7 +349,7 @@ export const ExpertsPage = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center w-full">
-            <span className="text-[#1E0A42]/50 text-base font-medium font-['Lexend']">
+            <span className="text-[#1E0A42]/50 text-base font-medium font-sans">
               {t('webapp.experts.noExpertsFound')}
             </span>
           </div>

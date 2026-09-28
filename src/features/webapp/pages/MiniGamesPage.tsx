@@ -68,12 +68,12 @@ export const MiniGamesPage = () => {
         </button>
 
         {/* Centered Main Title */}
-        <h1 className="text-[26px] sm:text-[36px] md:text-[44px] font-normal text-[#1E0A42] tracking-[-0.96px] leading-tight font-['Lexend',_sans-serif] max-w-[900px]">
+        <h1 className="text-[26px] sm:text-[36px] md:text-[44px] font-normal text-[#1E0A42] tracking-[-0.96px] leading-tight font-sans max-w-[900px]">
           {t('webapp.miniGames.headerTitle')}
         </h1>
 
         {/* Subtitle */}
-        <p className="text-sm sm:text-base md:text-lg font-semibold text-[#7B2CBF] mt-2 font-['Lexend',_sans-serif]">
+        <p className="text-sm sm:text-base md:text-lg font-semibold text-[#7B2CBF] mt-2 font-sans">
           {t('webapp.miniGames.headerSubtitle')}
         </p>
       </div>

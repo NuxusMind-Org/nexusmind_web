@@ -159,12 +159,12 @@ export const ExpertDetailPage = () => {
         }}
       >
         {/* Centered Heading */}
-        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-2">
+        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-sans mt-2">
           {t('webapp.experts.stayInformed')}
         </h2>
 
         {/* Breadcrumb row - Aligned left at the bottom */}
-        <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-['Lexend'] select-none overflow-x-auto no-scrollbar whitespace-nowrap">
+        <div className="w-full flex items-center justify-start gap-2 text-xs sm:text-sm text-[#1E0A42]/70 font-semibold font-sans select-none overflow-x-auto no-scrollbar whitespace-nowrap">
           <Link to={PATHS.DASHBOARD} className="hover:text-[#4D2059] transition-colors">
             {t('webapp.bottomNav.home')}
           </Link>
@@ -200,7 +200,7 @@ export const ExpertDetailPage = () => {
                       }}
                       className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full object-cover border-4 border-white/20 shadow-md"
                     />
-                    <div className="absolute bottom-10 right-0 bg-[#03C6B2] text-[#111] px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-md font-['Lexend'] select-none">
+                    <div className="absolute bottom-10 right-0 bg-[#03C6B2] text-[#111] px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-md font-sans select-none">
                       <Star size={10} fill="currentColor" /> {psych.rating.toFixed(1)}
                     </div>
                   </div>
@@ -209,19 +209,19 @@ export const ExpertDetailPage = () => {
                   <div className="flex flex-col flex-1 text-left">
                     <div className="flex flex-col sm:flex-row justify-between items-start mb-2 gap-2 w-full">
                       <div>
-                        <h3 className="text-2xl sm:text-[28px] font-bold text-white leading-tight font-['Lexend']">
+                        <h3 className="text-2xl sm:text-[28px] font-bold text-white leading-tight font-sans">
                           {psych.name}
                         </h3>
-                        <p className="text-white/70 text-[13px] font-['Lexend'] mt-1.5">
+                        <p className="text-white/70 text-[13px] font-sans mt-1.5">
                           {psych.experience} • {getLocalizedTitle(psych.title as any, i18n.language as 'az' | 'en' | 'ru', '')}
                         </p>
                       </div>
-                      <div className="text-[#03C6B2] font-bold text-[22px] sm:text-[24px] font-['Lexend'] shrink-0">
+                      <div className="text-[#03C6B2] font-bold text-[22px] sm:text-[24px] font-sans shrink-0">
                         ${psych.price}<span className="text-[12px] text-white/60 font-normal">{t('webapp.sessions.perSession')}</span>
                       </div>
                     </div>
 
-                    <p className="text-white/85 text-xs sm:text-sm leading-relaxed mt-4 mb-6 font-['Lexend'] font-light">
+                    <p className="text-white/85 text-xs sm:text-sm leading-relaxed mt-4 mb-6 font-sans font-light">
                       {getLocalizedTitle(psych.description as any, i18n.language as 'az' | 'en' | 'ru', '')}
                     </p>
 
@@ -230,7 +230,7 @@ export const ExpertDetailPage = () => {
                       {psych.languages.map((lang, idx) => (
                         <span
                           key={`lang-${idx}`}
-                          className="bg-transparent text-[#44E2CD] text-[10px] font-semibold px-4 py-1.5 rounded-full border border-[#44E2CD] shadow-sm font-['Lexend'] uppercase"
+                          className="bg-transparent text-[#44E2CD] text-[10px] font-semibold px-4 py-1.5 rounded-full border border-[#44E2CD] shadow-sm font-sans uppercase"
                         >
                           {getLocalizedTitle(lang as any, i18n.language as 'az' | 'en' | 'ru', '')}
                         </span>
@@ -244,12 +244,12 @@ export const ExpertDetailPage = () => {
 
                   {/* Təhsil Card */}
                   <div className="flex-1 bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
-                    <h3 className="text-white text-base font-bold flex items-center gap-2 mb-6 font-['Lexend']">
+                    <h3 className="text-white text-base font-bold flex items-center gap-2 mb-6 font-sans">
                       <GraduationCap className="text-white/70" size={18} /> {t('webapp.experts.education')}
                     </h3>
                     <div className="flex flex-col gap-5">
                       {psych.education.map((edu, i) => (
-                        <div key={i} className="border-l-2 border-white/20 pl-4 font-['Lexend']">
+                        <div key={i} className="border-l-2 border-white/20 pl-4 font-sans">
                           <h4 className="text-white text-sm font-bold leading-snug">{edu.uni}</h4>
                           <p className="text-white/60 text-xs mt-1 font-light">{edu.degree}</p>
                         </div>
@@ -259,14 +259,14 @@ export const ExpertDetailPage = () => {
 
                   {/* Sertifikatlar Card */}
                   <div className="flex-1 bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
-                    <h3 className="text-white text-base font-bold flex items-center gap-2 mb-6 font-['Lexend']">
+                    <h3 className="text-white text-base font-bold flex items-center gap-2 mb-6 font-sans">
                       <Award className="text-white/70" size={18} /> {t('webapp.experts.certifications')}
                     </h3>
                     <div className="flex flex-col gap-3">
                       {psych.certifications.map((cert, i) => (
                         <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-xl border border-white/5">
                           <CheckCircle2 size={16} className="text-[#03C6B2] shrink-0" />
-                          <span className="text-white/80 text-xs font-['Lexend'] leading-snug">{cert}</span>
+                          <span className="text-white/80 text-xs font-sans leading-snug">{cert}</span>
                         </div>
                       ))}
                     </div>
@@ -276,12 +276,12 @@ export const ExpertDetailPage = () => {
 
                 {/* Card 3: Specialties */}
                 <div className="bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
-                  <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">{t('webapp.experts.directions')}</h3>
+                  <h3 className="text-white text-base font-bold mb-6 font-sans">{t('webapp.experts.directions')}</h3>
                   <div className="flex flex-wrap gap-2.5">
                     {psych.tags.map((tag, idx) => (
                       <span
                         key={`tag-${idx}`}
-                        className="bg-white/10 text-white text-xs font-semibold px-4 py-2.5 rounded-xl border border-white/5 shadow-sm font-['Lexend']"
+                        className="bg-white/10 text-white text-xs font-semibold px-4 py-2.5 rounded-xl border border-white/5 shadow-sm font-sans"
                       >
                         {getLocalizedTitle(tag as any, i18n.language as 'az' | 'en' | 'ru', '')}
                       </span>
@@ -290,12 +290,12 @@ export const ExpertDetailPage = () => {
                 </div>
 
                 <div className="bg-[#4B2E83] rounded-[24px] p-6 sm:p-8 text-white shadow-lg border border-white/10 text-left">
-                  <h3 className="text-white text-base font-bold mb-6 font-['Lexend']">{t('webapp.experts.methods')}</h3>
+                  <h3 className="text-white text-base font-bold mb-6 font-sans">{t('webapp.experts.methods')}</h3>
                   <div className="flex flex-wrap gap-2.5">
                     {psych.tags.map((tag, idx) => (
                       <span
                         key={`tag-${idx}`}
-                        className="bg-white/10 text-white text-xs font-semibold px-4 py-2.5 rounded-xl border border-white/5 shadow-sm font-['Lexend']"
+                        className="bg-white/10 text-white text-xs font-semibold px-4 py-2.5 rounded-xl border border-white/5 shadow-sm font-sans"
                       >
                         {getLocalizedTitle(tag as any, i18n.language as 'az' | 'en' | 'ru', '')}
                       </span>
@@ -310,31 +310,31 @@ export const ExpertDetailPage = () => {
 
                 {/* Booking Widget Box */}
                 <div className="bg-[#3C2475] rounded-[24px] sm:rounded-[38.93px] p-6 sm:p-[38.93px] text-white shadow-xl flex flex-col text-left gap-5 sm:gap-[28px] w-full">
-                  <h3 className="text-white text-[28px] font-medium font-['Lexend'] leading-normal">
+                  <h3 className="text-white text-[28px] font-medium font-sans leading-normal">
                     {t('webapp.experts.bookConsultation')}
                   </h3>
 
                   {/* Next availability container */}
                   <div className="bg-[#25134F] border border-white/10 rounded-[20px] p-[24px]">
                     <div className="flex justify-between items-center mb-[14px]">
-                      <span className="text-white/70 text-[16px] font-['Lexend'] font-light">
+                      <span className="text-white/70 text-[16px] font-sans font-light">
                         {t('webapp.experts.nextAvailableTime')}
                       </span>
                       {isSlotsLoading ? (
-                        <span className="bg-white/10 text-white/50 text-[10px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-wider font-['Lexend'] select-none flex items-center gap-1">
+                        <span className="bg-white/10 text-white/50 text-[10px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-wider font-sans select-none flex items-center gap-1">
                           <Loader2 size={10} className="animate-spin" /> {t('webapp.experts.loading').toUpperCase()}
                         </span>
                       ) : closestAvailableSlot ? (
-                        <span className="bg-[#03C6B2]/15 text-[#03C6B2] text-[10px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-wider font-['Lexend'] select-none">
+                        <span className="bg-[#03C6B2]/15 text-[#03C6B2] text-[10px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-wider font-sans select-none">
                           {t('webapp.experts.soon')}
                         </span>
                       ) : (
-                        <span className="bg-white/10 text-white/50 text-[10px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-wider font-['Lexend'] select-none">
+                        <span className="bg-white/10 text-white/50 text-[10px] font-bold px-[10px] py-[4px] rounded-[6px] tracking-wider font-sans select-none">
                           {t('webapp.experts.unavailable')}
                         </span>
                       )}
                     </div>
-                    <p className="text-white font-bold text-[20px] font-['Lexend'] leading-snug">
+                    <p className="text-white font-bold text-[20px] font-sans leading-snug">
                       {isSlotsLoading
                         ? t('webapp.experts.checking')
                         : closestAvailableSlot
@@ -347,15 +347,15 @@ export const ExpertDetailPage = () => {
                   <div className="flex flex-col gap-[20px]">
                     <div className="flex items-center gap-[16px]">
                       <Video size={24} className="text-white shrink-0" strokeWidth={1.5} />
-                      <span className="text-white text-[18px] font-['Lexend'] font-normal">{t('webapp.experts.onlineVideoSession')}</span>
+                      <span className="text-white text-[18px] font-sans font-normal">{t('webapp.experts.onlineVideoSession')}</span>
                     </div>
                     <div className="flex items-center gap-[16px]">
                       <Clock size={24} className="text-white shrink-0" strokeWidth={1.5} />
-                      <span className="text-white text-[18px] font-['Lexend'] font-normal">{t('webapp.experts.duration45')}</span>
+                      <span className="text-white text-[18px] font-sans font-normal">{t('webapp.experts.duration45')}</span>
                     </div>
                     <div className="flex items-center gap-[16px]">
                       <Lock size={24} className="text-white shrink-0" strokeWidth={1.5} />
-                      <span className="text-white text-[18px] font-['Lexend'] font-normal">{t('webapp.experts.confidential')}</span>
+                      <span className="text-white text-[18px] font-sans font-normal">{t('webapp.experts.confidential')}</span>
                     </div>
                   </div>
 
@@ -363,7 +363,7 @@ export const ExpertDetailPage = () => {
                   <div className="flex flex-col items-center gap-[12px] w-full">
                     <button
                       onClick={() => setShowCalendar(true)}
-                      className="w-full h-[59.05px] bg-gradient-to-r from-[#DDB7FF] to-[#B76DFF] text-[#1E0A42] font-bold text-[18px] rounded-[15.53px] shadow-[0_8px_20px_rgba(183,109,255,0.25)] hover:shadow-[0_8px_24px_rgba(183,109,255,0.4)] hover:opacity-95 active:scale-[0.98] transition-all duration-200 cursor-pointer border-0 outline-none flex items-center justify-center font-['Lexend']"
+                      className="w-full h-[59.05px] bg-gradient-to-r from-[#DDB7FF] to-[#B76DFF] text-[#1E0A42] font-bold text-[18px] rounded-[15.53px] shadow-[0_8px_20px_rgba(183,109,255,0.25)] hover:shadow-[0_8px_24px_rgba(183,109,255,0.4)] hover:opacity-95 active:scale-[0.98] transition-all duration-200 cursor-pointer border-0 outline-none flex items-center justify-center font-sans"
                     >
                       {t('webapp.experts.setSession')}
                     </button>
@@ -378,10 +378,10 @@ export const ExpertDetailPage = () => {
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-105"
                   />
                   <div className="absolute bottom-[24px] left-[24px] right-[24px] bg-[#5C4533]/60 backdrop-blur-md border border-white/20 rounded-[20px] p-[20px] text-left">
-                    <h4 className="text-[18px] font-bold text-white mb-2 font-['Lexend'] tracking-wider">
+                    <h4 className="text-[18px] font-bold text-white mb-2 font-sans tracking-wider">
                       {t('webapp.experts.vrTitle')}
                     </h4>
-                    <p className="text-[13px] text-white/90 font-['Lexend'] leading-relaxed font-light">
+                    <p className="text-[13px] text-white/90 font-sans leading-relaxed font-light">
                       {t('webapp.experts.vrDesc')}
                     </p>
                   </div>
@@ -420,12 +420,12 @@ export const ExpertDetailPage = () => {
                 }}
               />
               {bookingError && (
-                <div className="w-full max-w-[900px] mx-auto mt-3 sm:mt-4 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs sm:text-sm font-['Lexend'] text-center">
+                <div className="w-full max-w-[900px] mx-auto mt-3 sm:mt-4 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs sm:text-sm font-sans text-center">
                   {bookingError}
                 </div>
               )}
               {booking && (
-                <div className="w-full max-w-[900px] mx-auto mt-3 sm:mt-4 p-3 sm:p-4 bg-[#4B2E83]/10 border border-[#4B2E83]/20 rounded-xl text-[#4B2E83] text-xs sm:text-sm font-['Lexend'] text-center animate-pulse">
+                <div className="w-full max-w-[900px] mx-auto mt-3 sm:mt-4 p-3 sm:p-4 bg-[#4B2E83]/10 border border-[#4B2E83]/20 rounded-xl text-[#4B2E83] text-xs sm:text-sm font-sans text-center animate-pulse">
                   {t('webapp.experts.bookingInProgress')}
                 </div>
               )}

@@ -141,7 +141,7 @@ export const JournalPage = () => {
         {/* Row 1: Left Column Header Row */}
         <div className="flex justify-between items-end mb-6 w-full max-w-[880px]">
           <div>
-            <h3 className="text-[22px] md:text-[31.15px] font-normal text-[#1E0A42] tracking-[-0.96px] leading-[32px] md:leading-[59.84px] font-['Lexend']">
+            <h3 className="text-[22px] md:text-[31.15px] font-normal text-[#1E0A42] tracking-[-0.96px] leading-[32px] md:leading-[59.84px] font-sans">
               {t('webapp.journal.todayThoughts')}
             </h3>
             <p className="text-[15px] md:text-[16px] font-normal text-[#9633D8] tracking-[0px] leading-[30px] md:leading-[36px] font-['Kite_One',_sans-serif]">
@@ -152,7 +152,7 @@ export const JournalPage = () => {
           <div className="flex items-center gap-3">
             {/* Save Status Indicator */}
             {saveStatus !== 'idle' && (
-              <div className="text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-medium transition-all font-['Lexend']">
+              <div className="text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-medium transition-all font-sans">
                 {saveStatus === 'saving' && (
                   <span className="text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full flex items-center gap-1">
                     <Loader2 size={12} className="animate-spin" /> {t('webapp.journal.saving')}
@@ -170,7 +170,7 @@ export const JournalPage = () => {
                 )}
               </div>
             )}
-            <span className="text-sm text-gray-400 font-normal mb-1 font-['Lexend']">
+            <span className="text-sm text-gray-400 font-normal mb-1 font-sans">
               {todayFormatted}
             </span>
           </div>
@@ -188,7 +188,7 @@ export const JournalPage = () => {
               value={noteText}
               onChange={handleTextChange}
               placeholder={isTodayLoading ? t('webapp.journal.loading') : t('webapp.journal.placeholder')}
-              className="w-full h-full bg-transparent text-gray-800 placeholder-gray-400 text-base font-normal resize-none focus:outline-none font-['Lexend'] leading-[32px] z-10 relative"
+              className="w-full h-full bg-transparent text-gray-800 placeholder-gray-400 text-base font-normal resize-none focus:outline-none font-sans leading-[32px] z-10 relative"
               style={{
                 backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, rgba(0, 0, 0, 0.08) 31px, rgba(0, 0, 0, 0.08) 32px)',
                 backgroundAttachment: 'local',
@@ -218,7 +218,7 @@ export const JournalPage = () => {
             {/* Header */}
             <div className="flex items-center gap-3">
               <History size={20} className="text-white/80" />
-              <h4 className="text-lg font-medium text-white tracking-wide font-['Lexend']">
+              <h4 className="text-lg font-medium text-white tracking-wide font-sans">
                 {t('webapp.journal.pastNotes')}
               </h4>
             </div>
@@ -228,12 +228,12 @@ export const JournalPage = () => {
               {isHistoryLoading ? (
                 <div className="flex flex-col items-center justify-center py-10 text-white/50 gap-2">
                   <Loader2 size={24} className="animate-spin" />
-                  <span className="text-xs font-['Lexend']">{t('webapp.journal.loading')}</span>
+                  <span className="text-xs font-sans">{t('webapp.journal.loading')}</span>
                 </div>
               ) : !recentHistory?.content || recentHistory.content.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center text-white/50">
                   <BookOpen size={32} className="opacity-40 mb-2" />
-                  <p className="text-xs font-['Lexend']">{t('webapp.journal.noPastNotes')}</p>
+                  <p className="text-xs font-sans">{t('webapp.journal.noPastNotes')}</p>
                 </div>
               ) : (
                 recentHistory.content.map((note) => {
@@ -245,13 +245,13 @@ export const JournalPage = () => {
                       className="flex justify-between items-start group cursor-pointer p-2.5 rounded-xl hover:bg-white/10 transition-colors"
                     >
                       <div className="flex flex-col pr-3">
-                        <span className="text-[10px] text-white/60 font-bold uppercase tracking-wider font-['Lexend']">
+                        <span className="text-[10px] text-white/60 font-bold uppercase tracking-wider font-sans">
                           {formatNoteDate(note.entryDate)}
                         </span>
-                        <h5 className="text-sm font-semibold text-white mt-0.5 leading-snug group-hover:text-[#46bdc6] transition-colors font-['Lexend'] line-clamp-1">
+                        <h5 className="text-sm font-semibold text-white mt-0.5 leading-snug group-hover:text-[#46bdc6] transition-colors font-sans line-clamp-1">
                           {note.thoughts?.split('\n')[0] || 'Düşüncələr...'}
                         </h5>
-                        <p className="text-[11px] text-white/70 mt-1 leading-normal line-clamp-2 font-['Lexend']">
+                        <p className="text-[11px] text-white/70 mt-1 leading-normal line-clamp-2 font-sans">
                           {note.thoughts || t('webapp.journal.noNoteText')}
                         </p>
                       </div>
@@ -271,7 +271,7 @@ export const JournalPage = () => {
                 setHistoryPage(0);
                 setIsHistoryModalOpen(true);
               }}
-              className="w-full bg-white text-[#482476] py-3.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white/90 transition-colors shadow-md cursor-pointer font-['Lexend']"
+              className="w-full bg-white text-[#482476] py-3.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white/90 transition-colors shadow-md cursor-pointer font-sans"
             >
               {t('webapp.journal.seeAll')}
             </button>
@@ -286,10 +286,10 @@ export const JournalPage = () => {
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-gray-100 pb-4">
               <div>
-                <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider font-['Lexend']">
+                <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider font-sans">
                   {formatNoteDate(selectedNote.entryDate)}
                 </span>
-                <h3 className="text-xl font-bold text-[#1E0A42] font-['Lexend'] mt-0.5">
+                <h3 className="text-xl font-bold text-[#1E0A42] font-sans mt-0.5">
                   {t('webapp.journal.todayNote')}
                 </h3>
               </div>
@@ -312,7 +312,7 @@ export const JournalPage = () => {
 
             {/* Note Content */}
             <div className="bg-[#F9FAFC] rounded-2xl p-5 border border-gray-100 max-h-[300px] overflow-y-auto">
-              <p className="text-gray-800 text-sm sm:text-base font-normal leading-relaxed whitespace-pre-wrap font-['Lexend']">
+              <p className="text-gray-800 text-sm sm:text-base font-normal leading-relaxed whitespace-pre-wrap font-sans">
                 {selectedNote.thoughts || t('webapp.journal.emptyNote')}
               </p>
             </div>
@@ -346,7 +346,7 @@ export const JournalPage = () => {
             <div className="flex items-center justify-between border-b border-gray-100 pb-4">
               <div className="flex items-center gap-2.5">
                 <History size={22} className="text-[#482476]" />
-                <h3 className="text-xl font-bold text-[#1E0A42] font-['Lexend']">
+                <h3 className="text-xl font-bold text-[#1E0A42] font-sans">
                   {t('webapp.journal.allPastNotes')}
                 </h3>
               </div>
@@ -361,7 +361,7 @@ export const JournalPage = () => {
             {/* List */}
             <div className="flex flex-col gap-3 overflow-y-auto flex-1 pr-1">
               {!modalHistory?.content || modalHistory.content.length === 0 ? (
-                <div className="py-16 text-center text-gray-400 font-['Lexend']">
+                <div className="py-16 text-center text-gray-400 font-sans">
                   {t('webapp.journal.noNotesFound')}
                 </div>
               ) : (
@@ -376,10 +376,10 @@ export const JournalPage = () => {
                       className="flex items-center justify-between p-4 rounded-2xl bg-[#F8FAFC] hover:bg-[#F0F3FA] border border-gray-100 transition-colors cursor-pointer"
                     >
                       <div className="flex flex-col flex-1 pr-4">
-                        <span className="text-[11px] font-bold text-[#482476] uppercase tracking-wider font-['Lexend']">
+                        <span className="text-[11px] font-bold text-[#482476] uppercase tracking-wider font-sans">
                           {formatNoteDate(note.entryDate)}
                         </span>
-                        <p className="text-sm font-semibold text-[#1E0A42] font-['Lexend'] mt-0.5 line-clamp-1">
+                        <p className="text-sm font-semibold text-[#1E0A42] font-sans mt-0.5 line-clamp-1">
                           {note.thoughts || t('webapp.journal.noNoteText')}
                         </p>
                       </div>
@@ -406,7 +406,7 @@ export const JournalPage = () => {
 
             {/* Pagination Controls */}
             {modalHistory && modalHistory.totalPages && modalHistory.totalPages > 1 && (
-              <div className="flex items-center justify-between pt-3 border-t border-gray-100 font-['Lexend']">
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100 font-sans">
                 <button
                   onClick={() => setHistoryPage((p) => Math.max(0, p - 1))}
                   disabled={historyPage === 0}

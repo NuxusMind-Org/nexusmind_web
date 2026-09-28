@@ -368,11 +368,11 @@ export const BlogDetailPage = () => {
                 <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white shrink-0">
                   <Settings size={18} />
                 </div>
-                <h5 className="text-[16px] font-bold font-['Lexend'] tracking-tight">
+                <h5 className="text-[16px] font-bold font-sans tracking-tight">
                   Tam Nəzarət
                 </h5>
               </div>
-              <p className="text-white/75 text-[12px] leading-relaxed font-light font-['Lexend']">
+              <p className="text-white/75 text-[12px] leading-relaxed font-light font-sans">
                 Terapevt virtual mühitdəki hər bir detalı — səsləri, vizual effektləri, günün saatını və hadisələrin intensivliyini pasientin dözümlülük səviyyəsinə uyğun tənzimləyir.
               </p>
             </div>
@@ -383,11 +383,11 @@ export const BlogDetailPage = () => {
                 <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white shrink-0">
                   <Brain size={18} />
                 </div>
-                <h5 className="text-[16px] font-bold font-['Lexend'] tracking-tight">
+                <h5 className="text-[16px] font-bold font-sans tracking-tight">
                   Tam Nəzarət
                 </h5>
               </div>
-              <p className="text-white/75 text-[12px] leading-relaxed font-light font-['Lexend']">
+              <p className="text-white/75 text-[12px] leading-relaxed font-light font-sans">
                 Virtual dünya süni olsa da, insan beyni oradakı təhlükəsizlik hissini real qəbul edir və travmatik xatirəyə qarşı dözümlülük (desensitizasiya) qazanır.
               </p>
             </div>
@@ -402,7 +402,7 @@ export const BlogDetailPage = () => {
               <div className="absolute -left-4 top-4 w-9 h-9 rounded-lg bg-[#271c4c] border border-white/20 flex items-center justify-center shadow-lg text-white font-serif text-[22px] font-bold select-none">
                 &rdquo;
               </div>
-              <blockquote className="text-white text-[16px] sm:text-[19px] font-light italic leading-relaxed text-left font-['Lexend']">
+              <blockquote className="text-white text-[16px] sm:text-[19px] font-light italic leading-relaxed text-left font-sans">
                 &ldquo;Virtual dünyalar rəqəmsal qaçış vasitəsi olmaqdan çıxıb, real dünyanın yaralarını sağaldan ən güclü tibbi alətlərdən birinə çevrilir.&rdquo;
               </blockquote>
             </div>

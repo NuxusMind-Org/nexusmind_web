@@ -80,12 +80,12 @@ export const BreathingGamePage = () => {
         </button>
 
         {/* Centered Main Title */}
-        <h1 className="text-[26px] sm:text-[34px] md:text-[42px] font-normal text-[#1E0A42] tracking-[-0.96px] leading-tight font-['Lexend',_sans-serif] max-w-[900px]">
+        <h1 className="text-[26px] sm:text-[34px] md:text-[42px] font-normal text-[#1E0A42] tracking-[-0.96px] leading-tight font-sans max-w-[900px]">
           {t('webapp.miniGames.breathingGame.title')}
         </h1>
 
         {/* Subtitle */}
-        <p className="text-sm sm:text-base md:text-lg font-semibold text-[#7B2CBF] mt-1.5 font-['Lexend',_sans-serif]">
+        <p className="text-sm sm:text-base md:text-lg font-semibold text-[#7B2CBF] mt-1.5 font-sans">
           {t('webapp.miniGames.breathingGame.subtitle')}
         </p>
       </div>
@@ -179,7 +179,7 @@ export const BreathingGamePage = () => {
           </div>
 
           {/* Phase Title Below Circle */}
-          <h2 className="text-[28px] sm:text-[36px] font-bold text-[#1E0A42] tracking-tight font-['Lexend',_sans-serif] mt-2 mb-6">
+          <h2 className="text-[28px] sm:text-[36px] font-bold text-[#1E0A42] tracking-tight font-sans mt-2 mb-6">
             {breathPhaseText}
           </h2>
 
@@ -236,7 +236,7 @@ export const BreathingGamePage = () => {
                 {t('webapp.miniGames.breathingGame.new')}
               </span>
             </div>
-            <h3 className="text-base font-bold text-white font-['Lexend',_sans-serif]">
+            <h3 className="text-base font-bold text-white font-sans">
               {t('webapp.miniGames.breathingGame.heartRate')}
             </h3>
             <p className="text-xs text-white/70 font-normal leading-relaxed mt-1">

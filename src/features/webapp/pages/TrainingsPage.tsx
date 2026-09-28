@@ -225,7 +225,7 @@ export const TrainingsPage = () => {
         }}
       >
         {/* Centered Heading */}
-        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-1">
+        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-sans mt-1">
           {t('webapp.trainings.title')}
         </h2>
 
@@ -266,7 +266,7 @@ export const TrainingsPage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t('webapp.trainings.searchPlaceholder')}
-            className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-['Lexend'] transition-all shadow-sm"
+            className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-sans transition-all shadow-sm"
           />
         </div>
       </div>
@@ -287,11 +287,11 @@ export const TrainingsPage = () => {
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center">
                 <span className="w-1 h-6 bg-[#D946EF] rounded-full mr-2.5" />
-                <h3 className="text-[#1E0A42] text-2xl font-bold font-['Lexend']">
+                <h3 className="text-[#1E0A42] text-2xl font-bold font-sans">
                   {t('webapp.trainings.inPerson')}
                 </h3>
               </div>
-              <button className="text-[#4D2059]/70 hover:text-[#4D2059] text-sm font-semibold transition-colors duration-200 cursor-pointer font-['Lexend'] bg-transparent border-0 outline-none">
+              <button className="text-[#4D2059]/70 hover:text-[#4D2059] text-sm font-semibold transition-colors duration-200 cursor-pointer font-sans bg-transparent border-0 outline-none">
                 {t('webapp.trainings.viewAll')}
               </button>
             </div>
@@ -305,7 +305,7 @@ export const TrainingsPage = () => {
                       alt={item.title}
                       className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-500"
                     />
-                    <span className="absolute top-3.5 right-3.5 bg-[#0B093C]/60 text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] uppercase font-['Lexend'] select-none">
+                    <span className="absolute top-3.5 right-3.5 bg-[#0B093C]/60 text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] uppercase font-sans select-none">
                       {new Date(item.date).toLocaleDateString(locale, { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
@@ -315,18 +315,18 @@ export const TrainingsPage = () => {
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="border border-white/30 text-white/95 text-[10px] font-semibold px-3 py-1 rounded-full uppercase font-['Lexend']"
+                          className="border border-white/30 text-white/95 text-[10px] font-semibold px-3 py-1 rounded-full uppercase font-sans"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
 
-                    <h4 className="text-white text-lg font-bold font-['Lexend'] text-left leading-snug line-clamp-1">
+                    <h4 className="text-white text-lg font-bold font-sans text-left leading-snug line-clamp-1">
                       {item.title}
                     </h4>
 
-                    <div className="flex flex-col gap-2 text-left font-['Lexend'] text-white/80 text-xs sm:text-[13px] font-light">
+                    <div className="flex flex-col gap-2 text-left font-sans text-white/80 text-xs sm:text-[13px] font-light">
                       <span className="flex items-center gap-2">
                         <Clock size={15} className="text-white/60 shrink-0" />
                         {item.time}
@@ -338,10 +338,10 @@ export const TrainingsPage = () => {
                     </div>
 
                     <div className="flex justify-between items-center w-full mt-auto pt-2 border-t border-white/10">
-                      <span className="text-white font-bold text-lg font-['Lexend']">
+                      <span className="text-white font-bold text-lg font-sans">
                         {item.price}
                       </span>
-                      <button className="bg-white hover:bg-white/95 text-[#4B2E83] text-xs font-bold px-6 py-2.5 rounded-full transition-colors cursor-pointer border-0 outline-none select-none font-['Lexend']">
+                      <button className="bg-white hover:bg-white/95 text-[#4B2E83] text-xs font-bold px-6 py-2.5 rounded-full transition-colors cursor-pointer border-0 outline-none select-none font-sans">
                         {t('webapp.trainings.register')}
                       </button>
                     </div>
@@ -350,7 +350,7 @@ export const TrainingsPage = () => {
               ))}
             </div>
             {inPersonList.length === 0 && (
-              <p className="text-[#1E0A42]/60 text-sm font-['Lexend'] py-8 text-left">{t('webapp.trainings.noTrainings')}</p>
+              <p className="text-[#1E0A42]/60 text-sm font-sans py-8 text-left">{t('webapp.trainings.noTrainings')}</p>
             )}
           </div>
 
@@ -359,7 +359,7 @@ export const TrainingsPage = () => {
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center">
                 <span className="w-1 h-6 bg-[#3B82F6] rounded-full mr-2.5" />
-                <h3 className="text-[#1E0A42] text-2xl font-bold font-['Lexend']">
+                <h3 className="text-[#1E0A42] text-2xl font-bold font-sans">
                   {t('webapp.trainings.online')}
                 </h3>
               </div>
@@ -382,11 +382,11 @@ export const TrainingsPage = () => {
                       alt={item.title}
                       className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-500"
                     />
-                    <span className="absolute top-3.5 right-3.5 bg-[#0B093C]/60 text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] uppercase font-['Lexend'] select-none">
+                    <span className="absolute top-3.5 right-3.5 bg-[#0B093C]/60 text-white text-[11px] font-bold px-3 py-1.5 rounded-[5px] uppercase font-sans select-none">
                       {new Date(item.date).toLocaleDateString(locale, { day: 'numeric', month: 'short' })}
                     </span>
                     {item.isLive && (
-                      <span className="absolute bottom-3.5 left-3.5 bg-black/40 text-white text-[10px] font-bold px-3 py-1 rounded-[5px] flex items-center gap-1.5 font-['Lexend'] backdrop-blur-sm select-none">
+                      <span className="absolute bottom-3.5 left-3.5 bg-black/40 text-white text-[10px] font-bold px-3 py-1 rounded-[5px] flex items-center gap-1.5 font-sans backdrop-blur-sm select-none">
                         <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                         {t('webapp.trainings.live')}
                       </span>
@@ -398,18 +398,18 @@ export const TrainingsPage = () => {
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="border border-white/30 text-white/95 text-[10px] font-semibold px-3 py-1 rounded-full uppercase font-['Lexend']"
+                          className="border border-white/30 text-white/95 text-[10px] font-semibold px-3 py-1 rounded-full uppercase font-sans"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
 
-                    <h4 className="text-white text-lg font-bold font-['Lexend'] text-left leading-snug line-clamp-1">
+                    <h4 className="text-white text-lg font-bold font-sans text-left leading-snug line-clamp-1">
                       {item.title}
                     </h4>
 
-                    <div className="flex flex-col gap-2 text-left font-['Lexend'] text-white/80 text-xs sm:text-[13px] font-light">
+                    <div className="flex flex-col gap-2 text-left font-sans text-white/80 text-xs sm:text-[13px] font-light">
                       <span className="flex items-center gap-2">
                         <Clock size={15} className="text-white/60 shrink-0" />
                         {item.time}
@@ -421,10 +421,10 @@ export const TrainingsPage = () => {
                     </div>
 
                     <div className="flex justify-between items-center w-full mt-auto pt-2 border-t border-white/10">
-                      <span className="text-white font-bold text-lg font-['Lexend']">
+                      <span className="text-white font-bold text-lg font-sans">
                         {item.price}
                       </span>
-                      <button className="bg-white hover:bg-white/95 text-[#4B2E83] text-xs font-bold px-6 py-2.5 rounded-full transition-colors cursor-pointer border-0 outline-none select-none font-['Lexend']">
+                      <button className="bg-white hover:bg-white/95 text-[#4B2E83] text-xs font-bold px-6 py-2.5 rounded-full transition-colors cursor-pointer border-0 outline-none select-none font-sans">
                         {t('webapp.trainings.register')}
                       </button>
                     </div>
@@ -433,7 +433,7 @@ export const TrainingsPage = () => {
               ))}
             </div>
             {onlineList.length === 0 && (
-              <p className="text-[#1E0A42]/60 text-sm font-['Lexend'] py-8 text-left">{t('webapp.trainings.noTrainings')}</p>
+              <p className="text-[#1E0A42]/60 text-sm font-sans py-8 text-left">{t('webapp.trainings.noTrainings')}</p>
             )}
           </div>
         </div>
@@ -453,7 +453,7 @@ export const TrainingsPage = () => {
               
               {/* Card 1: Filters */}
               <div className="w-full bg-[#462985] rounded-[24px] p-6 text-white flex flex-col gap-6 shadow-xl border border-white/10">
-                <h4 className="text-lg font-bold font-['Lexend'] text-white text-left">{t('webapp.trainings.filters')}</h4>
+                <h4 className="text-lg font-bold font-sans text-white text-left">{t('webapp.trainings.filters')}</h4>
                 
                 <div className="flex flex-col gap-4">
                   {/* Bütün təlimlər */}
@@ -560,24 +560,24 @@ export const TrainingsPage = () => {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-2 max-w-[85%]">
-                  <h4 className="text-[17px] font-bold font-['Lexend'] text-[#1E0A42]">{t('webapp.trainings.needSupport')}</h4>
-                  <p className="text-xs text-[#1E0A42]/75 font-['Lexend'] leading-relaxed">
+                  <h4 className="text-[17px] font-bold font-sans text-[#1E0A42]">{t('webapp.trainings.needSupport')}</h4>
+                  <p className="text-xs text-[#1E0A42]/75 font-sans leading-relaxed">
                     {t('webapp.trainings.supportDesc')}
                   </p>
                 </div>
-                <button className="w-full bg-[#201046] hover:bg-[#341b70] text-white text-xs font-bold py-3 px-6 rounded-full transition-colors cursor-pointer border-0 outline-none mt-2 font-['Lexend'] shadow-md">
+                <button className="w-full bg-[#201046] hover:bg-[#341b70] text-white text-xs font-bold py-3 px-6 rounded-full transition-colors cursor-pointer border-0 outline-none mt-2 font-sans shadow-md">
                   {t('webapp.trainings.getConsultation')}
                 </button>
               </div>
 
               {/* Card 3: Popular topics */}
               <div className="w-full flex flex-col gap-3.5 text-left">
-                <h4 className="text-[15px] font-bold font-['Lexend'] text-[#1E0A42] px-1">{t('webapp.trainings.popularTopics')}</h4>
+                <h4 className="text-[15px] font-bold font-sans text-[#1E0A42] px-1">{t('webapp.trainings.popularTopics')}</h4>
                 <div className="flex flex-wrap gap-2.5">
                   {(['meditation', 'anxiety', 'sleep', 'selfDiscovery', 'childPsychology'] as const).map((topicKey) => (
                     <span
                       key={topicKey}
-                      className="bg-[#EAE4FF] hover:bg-[#DDD4F8] text-[#4D2059] text-xs font-semibold px-4 py-2.5 rounded-full cursor-pointer transition-colors duration-200 font-['Lexend'] shadow-sm"
+                      className="bg-[#EAE4FF] hover:bg-[#DDD4F8] text-[#4D2059] text-xs font-semibold px-4 py-2.5 rounded-full cursor-pointer transition-colors duration-200 font-sans shadow-sm"
                     >
                       {t(`webapp.trainings.topics.${topicKey}`)}
                     </span>
@@ -601,7 +601,7 @@ export const TrainingsPage = () => {
                   >
                     <ChevronLeft size={18} />
                   </button>
-                  <h3 className="text-xl font-bold font-['Lexend'] min-w-[130px] text-center select-none capitalize">
+                  <h3 className="text-xl font-bold font-sans min-w-[130px] text-center select-none capitalize">
                     {new Date(year, month, 1).toLocaleDateString(locale, { month: 'long', year: 'numeric' })}
                   </h3>
                   <button
@@ -615,7 +615,7 @@ export const TrainingsPage = () => {
                 {/* Today button */}
                 <button
                   onClick={handleToday}
-                  className="border border-white/20 px-5 py-2 rounded-full text-[10px] font-bold tracking-wider hover:bg-white/10 transition-all cursor-pointer bg-transparent uppercase select-none outline-none font-['Lexend']"
+                  className="border border-white/20 px-5 py-2 rounded-full text-[10px] font-bold tracking-wider hover:bg-white/10 transition-all cursor-pointer bg-transparent uppercase select-none outline-none font-sans"
                 >
                   {t('webapp.trainings.today')}
                 </button>
@@ -628,7 +628,7 @@ export const TrainingsPage = () => {
                 {weekdays.map((day) => (
                   <div
                     key={day}
-                    className="text-center py-4 text-xs font-bold text-white/50 uppercase tracking-wider bg-white/[0.02] border-r border-b border-white/10 font-['Lexend']"
+                    className="text-center py-4 text-xs font-bold text-white/50 uppercase tracking-wider bg-white/[0.02] border-r border-b border-white/10 font-sans"
                   >
                     {day}
                   </div>
@@ -642,7 +642,7 @@ export const TrainingsPage = () => {
                   return (
                     <div
                       key={idx}
-                      className={`min-h-[112px] p-2 flex flex-col gap-1 border-r border-b border-white/10 transition-all font-['Lexend'] text-left ${
+                      className={`min-h-[112px] p-2 flex flex-col gap-1 border-r border-b border-white/10 transition-all font-sans text-left ${
                         cell.isCurrentMonth
                           ? 'text-white hover:bg-white/[0.03]'
                           : 'text-white/20 bg-white/[0.005]'

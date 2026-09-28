@@ -71,7 +71,7 @@ export const BlogPage = () => {
           background: 'linear-gradient(135deg, #CBE8FC 0%, #DDD4F8 33%, #F9D8E8 66%, #FFF5E6 100%)',
         }}
       >
-        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-['Lexend'] mt-1">
+        <h2 className="w-full text-center text-[28px] md:text-[46.72px] font-normal text-[#1E0A42] leading-[36px] md:leading-[59.84px] tracking-[-0.96px] font-sans mt-1">
           Trendləri bizimlə izlə!
         </h2>
 
@@ -85,7 +85,7 @@ export const BlogPage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Hər şeyi axtarın..."
-            className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-['Lexend'] transition-all shadow-sm"
+            className="w-full pl-12 pr-6 py-3.5 bg-white rounded-full border border-[#C2B7D0] text-sm text-[#1E0A42] placeholder-[#1E0A42]/50 focus:outline-none focus:border-[#4D2059]/40 focus:ring-1 focus:ring-[#4D2059]/40 font-sans transition-all shadow-sm"
           />
         </div>
       </div>
@@ -106,7 +106,7 @@ export const BlogPage = () => {
             </div>
 
             {/* Right Column: Panel text and controls content */}
-            <div className="w-full md:w-[470px] shrink-0 p-5 sm:p-8 md:pt-[46px] md:pr-[44px] md:pb-[42px] md:pl-[44px] flex flex-col justify-between text-left h-auto md:h-[475.68px] bg-[#1E0F44] text-white font-['Lexend']">
+            <div className="w-full md:w-[470px] shrink-0 p-5 sm:p-8 md:pt-[46px] md:pr-[44px] md:pb-[42px] md:pl-[44px] flex flex-col justify-between text-left h-auto md:h-[475.68px] bg-[#1E0F44] text-white font-sans">
 
               {/* Top Details */}
               <div className="flex flex-col gap-[30.44px]">
@@ -167,7 +167,7 @@ export const BlogPage = () => {
         {/* Left Column: Other Blogs grid */}
         <div className="w-full lg:w-[863.93px] flex flex-col gap-8 text-left shrink-0">
           {/* Section title */}
-          <h3 className="text-[#1E0A42] text-[28px] md:text-[32px] font-semibold font-['Lexend']">
+          <h3 className="text-[#1E0A42] text-[28px] md:text-[32px] font-semibold font-sans">
             Digər bloqlar
           </h3>
 
@@ -187,7 +187,7 @@ export const BlogPage = () => {
                       alt={blog.title}
                       className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                     />
-                    <span className="absolute top-2 left-2 bg-black/35 text-white text-[8px] font-bold tracking-widest px-2 py-0.5 rounded-full uppercase font-['Lexend']">
+                    <span className="absolute top-2 left-2 bg-black/35 text-white text-[8px] font-bold tracking-widest px-2 py-0.5 rounded-full uppercase font-sans">
                       {blog.badge}
                     </span>
                   </div>
@@ -196,16 +196,16 @@ export const BlogPage = () => {
                   <div className="p-3 pt-2.5 flex flex-col gap-[6.29px] flex-grow justify-between">
                     {/* Title and Summary */}
                     <div className="flex flex-col gap-[4px] text-left">
-                      <h4 className="text-[#1E0A42] font-bold text-xs leading-snug line-clamp-2 font-['Lexend'] group-hover:text-[#4D2059] transition-colors">
+                      <h4 className="text-[#1E0A42] font-bold text-xs leading-snug line-clamp-2 font-sans group-hover:text-[#4D2059] transition-colors">
                         {blog.title}
                       </h4>
-                      <p className="text-[#1E0A42]/70 text-[10px] leading-relaxed line-clamp-3 font-['Lexend']">
+                      <p className="text-[#1E0A42]/70 text-[10px] leading-relaxed line-clamp-3 font-sans">
                         {blog.description}
                       </p>
                     </div>
 
                     {/* Card Footer */}
-                    <div className="flex justify-between items-center text-[#1E0A42]/60 text-[10px] font-semibold font-['Lexend'] border-t border-[#E5DFDF]/50 pt-2 mt-auto shrink-0">
+                    <div className="flex justify-between items-center text-[#1E0A42]/60 text-[10px] font-semibold font-sans border-t border-[#E5DFDF]/50 pt-2 mt-auto shrink-0">
                       <span className="flex items-center gap-1">
                         <Calendar size={11} className="text-[#1E0A42]/40" />
                         {blog.date}
@@ -221,7 +221,7 @@ export const BlogPage = () => {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-center w-full">
-              <span className="text-[#1E0A42]/50 text-base font-medium font-['Lexend']">
+              <span className="text-[#1E0A42]/50 text-base font-medium font-sans">
                 Axtarışa uyğun bloq tapılmadı.
               </span>
             </div>
@@ -280,10 +280,10 @@ export const BlogPage = () => {
           {/* Widget 1: Newsletter Subscribe Card */}
           <div className="bg-[#1E0F44] rounded-[24px] p-8 shadow-xl flex flex-col gap-4 font-sans text-left relative overflow-hidden group text-white">
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#8B5CF6]/20 to-transparent rounded-full blur-2xl -mr-10 -mt-10" />
-            <h4 className="text-xl font-bold tracking-tight font-['Lexend']">
+            <h4 className="text-xl font-bold tracking-tight font-sans">
               Bloqlardan xəbərdar ol
             </h4>
-            <p className="text-xs text-white/70 leading-relaxed font-['Lexend']">
+            <p className="text-xs text-white/70 leading-relaxed font-sans">
               Ən son VR texnologiyaları və psixoloji araşdırmalar haqqında məlumatları birbaşa elektron poçtunuza alın.
             </p>
 
@@ -299,25 +299,25 @@ export const BlogPage = () => {
                 value={emailInput}
                 onChange={(e) => setEmailInput(e.target.value)}
                 placeholder="E-poçt ünvanınız"
-                className="w-full px-4 py-3 bg-white/10 rounded-xl border border-white/20 text-sm text-white placeholder-white/50 focus:outline-none focus:border-[#8B5CF6] transition-colors font-['Lexend']"
+                className="w-full px-4 py-3 bg-white/10 rounded-xl border border-white/20 text-sm text-white placeholder-white/50 focus:outline-none focus:border-[#8B5CF6] transition-colors font-sans"
                 required
               />
               <button
                 type="submit"
-                className="w-full py-3 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white font-bold text-xs rounded-xl hover:opacity-95 transition-opacity shadow-md cursor-pointer font-['Lexend'] uppercase tracking-wider"
+                className="w-full py-3 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white font-bold text-xs rounded-xl hover:opacity-95 transition-opacity shadow-md cursor-pointer font-sans uppercase tracking-wider"
               >
                 Abunə Ol
               </button>
             </form>
 
-            <span className="text-[10px] text-white/40 text-center mt-1 font-['Lexend']">
+            <span className="text-[10px] text-white/40 text-center mt-1 font-sans">
               İstənilən vaxt abunəliyi ləğv edə bilərsiniz.
             </span>
           </div>
 
           {/* Widget 2: Popular Topics Card */}
           <div className="bg-[#C2B7D0]/20 backdrop-blur-md rounded-[24px] p-8 border border-[#1E0A42]/10 flex flex-col gap-4 text-left">
-            <h4 className="text-lg font-bold text-[#1E0A42] font-['Lexend'] border-b border-[#1E0A42]/10 pb-3">
+            <h4 className="text-lg font-bold text-[#1E0A42] font-sans border-b border-[#1E0A42]/10 pb-3">
               Populyar Mövzular
             </h4>
             <div className="flex flex-wrap gap-2 pt-1">
@@ -330,7 +330,7 @@ export const BlogPage = () => {
               ].map((topic, i) => (
                 <span
                   key={i}
-                  className="px-3.5 py-1.5 bg-[#4D2059]/10 hover:bg-[#4D2059]/20 text-[#4D2059] rounded-lg text-xs font-semibold font-['Lexend'] cursor-pointer transition-colors duration-150"
+                  className="px-3.5 py-1.5 bg-[#4D2059]/10 hover:bg-[#4D2059]/20 text-[#4D2059] rounded-lg text-xs font-semibold font-sans cursor-pointer transition-colors duration-150"
                 >
                   {topic}
                 </span>
@@ -345,14 +345,14 @@ export const BlogPage = () => {
                 <Mic size={20} />
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-white/50 font-['Lexend']">Həftəlik buraxılış</span>
-                <span className="text-base font-bold text-white font-['Lexend']">Sanctuary Podkast</span>
+                <span className="text-xs text-white/50 font-sans">Həftəlik buraxılış</span>
+                <span className="text-base font-bold text-white font-sans">Sanctuary Podkast</span>
               </div>
             </div>
-            <p className="text-xs text-white/70 leading-relaxed font-['Lexend'] mt-1">
+            <p className="text-xs text-white/70 leading-relaxed font-sans mt-1">
               &quot;Rəqəmsal Dünyada İnsan Olmaq&quot; - Bu həftəlik qonağımız Dr. Leyla Əliyeva ilə maraqlı söhbəti dinləyin.
             </p>
-            <button className="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs rounded-xl border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer font-['Lexend'] mt-2">
+            <button className="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs rounded-xl border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer font-sans mt-2">
               <span className="w-2 h-2 rounded-full bg-[#8B5CF6] animate-ping" />
               İndi Dinlə
             </button>

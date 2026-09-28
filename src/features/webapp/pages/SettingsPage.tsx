@@ -73,7 +73,7 @@ export const SettingsPage = () => {
 
         {/* Title */}
         <h1
-          className="relative z-10 text-[#1E0A42] font-normal text-[28px] sm:text-[36px] md:text-[46.72px] leading-[36px] sm:leading-[48px] md:leading-[59.84px] text-center tracking-[-0.96px] font-['Lexend',_sans-serif]"
+          className="relative z-10 text-[#1E0A42] font-normal text-[28px] sm:text-[36px] md:text-[46.72px] leading-[36px] sm:leading-[48px] md:leading-[59.84px] text-center tracking-[-0.96px] font-sans"
         >
           {t('webapp.settings.title')}
         </h1>
@@ -85,7 +85,7 @@ export const SettingsPage = () => {
         {/* TƏTBİQ TƏNZİMLƏMƏLƏRİ Section */}
         <div className="flex flex-col w-full">
           {/* Section Header Label */}
-          <span className="text-xs font-bold text-gray-400 tracking-[0.12em] uppercase mb-4 font-['Lexend',_sans-serif]">
+          <span className="text-xs font-bold text-gray-400 tracking-[0.12em] uppercase mb-4 font-sans">
             {t('webapp.settings.appSettings')}
           </span>
 
@@ -99,7 +99,7 @@ export const SettingsPage = () => {
                   <Globe size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+                  <span className="text-base font-semibold text-[#1E0A42] font-sans">
                     {t('webapp.settings.language')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
@@ -152,7 +152,7 @@ export const SettingsPage = () => {
                   <Bell size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+                  <span className="text-base font-semibold text-[#1E0A42] font-sans">
                     {t('webapp.settings.dailyReminders')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
@@ -184,7 +184,7 @@ export const SettingsPage = () => {
                   <Volume2 size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+                  <span className="text-base font-semibold text-[#1E0A42] font-sans">
                     {t('webapp.settings.sessionNotifications')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
@@ -215,7 +215,7 @@ export const SettingsPage = () => {
                 <div className="w-10 h-10 rounded-full bg-[#F3F0F8] text-[#482476] flex items-center justify-center shrink-0 shadow-sm">
                   <Palette size={18} />
                 </div>
-                <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif]">
+                <span className="text-base font-semibold text-[#1E0A42] font-sans">
                   {t('webapp.settings.appearance')}
                 </span>
               </div>
@@ -272,7 +272,7 @@ export const SettingsPage = () => {
         {/* MƏXFİLİK VƏ TƏHLÜKƏSİZLİK Section */}
         <div className="flex flex-col w-full">
           {/* Section Header Label */}
-          <span className="text-xs font-bold text-gray-400 tracking-[0.12em] uppercase mb-4 font-['Lexend',_sans-serif]">
+          <span className="text-xs font-bold text-gray-400 tracking-[0.12em] uppercase mb-4 font-sans">
             {t('webapp.settings.privacySecurity')}
           </span>
 
@@ -289,7 +289,7 @@ export const SettingsPage = () => {
                   <Lock size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] group-hover:text-[#482476] transition-colors">
+                  <span className="text-base font-semibold text-[#1E0A42] font-sans group-hover:text-[#482476] transition-colors">
                     {t('webapp.settings.changePassword')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
@@ -308,7 +308,7 @@ export const SettingsPage = () => {
                   <Shield size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] group-hover:text-[#482476] transition-colors">
+                  <span className="text-base font-semibold text-[#1E0A42] font-sans group-hover:text-[#482476] transition-colors">
                     {t('webapp.settings.dataPrivacy')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
@@ -326,7 +326,7 @@ export const SettingsPage = () => {
         {/* DƏSTƏK Section */}
         <div className="flex flex-col w-full">
           {/* Section Header Label */}
-          <span className="text-xs font-bold text-gray-400 tracking-[0.12em] uppercase mb-4 font-['Lexend',_sans-serif]">
+          <span className="text-xs font-bold text-gray-400 tracking-[0.12em] uppercase mb-4 font-sans">
             {t('webapp.settings.support')}
           </span>
 
@@ -340,7 +340,7 @@ export const SettingsPage = () => {
                   <HelpCircle size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] group-hover:text-[#482476] transition-colors">
+                  <span className="text-base font-semibold text-[#1E0A42] font-sans group-hover:text-[#482476] transition-colors">
                     {t('webapp.settings.helpCenter')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
@@ -359,7 +359,7 @@ export const SettingsPage = () => {
                   <Mail size={18} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-base font-semibold text-[#1E0A42] font-['Lexend',_sans-serif] group-hover:text-[#482476] transition-colors">
+                  <span className="text-base font-semibold text-[#1E0A42] font-sans group-hover:text-[#482476] transition-colors">
                     {t('webapp.settings.contactUs')}
                   </span>
                   <span className="text-xs text-gray-400 font-normal mt-0.5">
@@ -377,7 +377,7 @@ export const SettingsPage = () => {
         {/* Section 5 Card 1: Hesabdan çıx */}
         <div className="p-6 sm:p-8 bg-white border border-gray-100/80 rounded-[28px] shadow-[0_4px_24px_rgba(0,0,0,0.03)] flex items-center justify-between gap-4">
           <div className="flex flex-col">
-            <h3 className="text-base sm:text-lg font-bold text-[#1E0A42] font-['Lexend',_sans-serif]">
+            <h3 className="text-base sm:text-lg font-bold text-[#1E0A42] font-sans">
               {t('webapp.settings.logout')}
             </h3>
             <p className="text-xs text-gray-500 font-normal mt-1">
@@ -397,7 +397,7 @@ export const SettingsPage = () => {
         {/* Section 5 Card 2: Hesabı Sil */}
         <div className="p-6 sm:p-8 bg-[#FDF6F6]/50 border border-red-100 rounded-[28px] shadow-sm flex items-center justify-between gap-4">
           <div className="flex flex-col">
-            <h3 className="text-base sm:text-lg font-bold text-red-600 font-['Lexend',_sans-serif]">
+            <h3 className="text-base sm:text-lg font-bold text-red-600 font-sans">
               {t('webapp.settings.deleteAccount')}
             </h3>
             <p className="text-xs text-gray-500 font-normal mt-1">

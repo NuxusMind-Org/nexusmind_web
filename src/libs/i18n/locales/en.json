@@ -17,6 +17,7 @@
     "title": "Ready to discover yourself?",
     "subtitle": "Break free from stress, breathe freely,\nand enjoy life!",
     "cta": "Get Started",
+    "secondary_cta": "View psychologists",
     "feature1": "Overcome difficulties with the help of experts!",
     "feature2": "With VR consultation, you don't even need to leave home!",
     "feature3": "Notice your progress by writing daily notes!"
@@ -27,22 +28,23 @@
     "subtitle2": "Learn to enjoy life again with us!",
     "perSession": "/session",
     "getStarted": "Get Started",
-    "more": "View More"
+    "more": "View More",
+    "learnMore": "Learn more"
   },
   "vr": {
-    "title": "VR CONSULTATION",
+    "title": "VR Consultation",
     "description": "Choose your desired comfort zone without leaving home and relax by spending peaceful time there.",
+    "cta": "Start Now",
     "watchDemo": "Watch Demo"
   },
   "roadmap": {
     "title": "How you will use it:",
     "subtitle": "Learn to enjoy life again with us",
-    "step1Title": "Know Yourself",
-    "step1Desc": "In the first stage, users analyze their emotional state through short tests and daily notes. The system identifies stress, anxiety, and emotional states to provide personalized recommendations.",
-    "step2Title": "Connect with an Expert",
-    "step2Desc": "Users can securely and comfortably connect with professional psychologists. Online consultation and personal guidance foster healthier perspectives on life challenges.",
-    "step3Title": "Evolve & Grow",
-    "step3Desc": "Through guided meditation, breathing exercises, and personal development tasks, users begin to feel more balanced and confident. The goal is long-term inner peace and clarity."
+    "card1Title": "Overcome difficulties with the help of experts!",
+    "card2Title": "With VR consultation, you don't even need to leave home!",
+    "card3Title": "Overcome difficulties with the help of experts!",
+    "ctaPsychologists": "Psychologists",
+    "ctaVrTherapy": "VR therapy"
   },
   "features": {
     "title": "Find inner balance, understand yourself better.",
