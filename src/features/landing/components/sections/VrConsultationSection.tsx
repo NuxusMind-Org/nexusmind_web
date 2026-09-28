@@ -11,7 +11,8 @@ export const VrConsultationSection = () => {
   return (
     <section
       id="vr"
-      className="relative w-full min-h-0 sm:min-h-[560px] md:min-h-[700px] flex items-center justify-center overflow-hidden scroll-mt-20 pt-12 pb-10 sm:py-16 md:py-24"
+      className="relative w-full min-h-0 sm:min-h-[560px] md:min-h-[700px] flex items-center justify-center overflow-hidden scroll-mt-20 pt-24 pb-12 sm:pt-28 sm:pb-16 md:pt-36 md:pb-24"
+      style={{ marginTop: 'clamp(-80px, -6vw, -45px)' }}
     >
       {/* ── Background Cosmic Video ───────────────────────────────── */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0">

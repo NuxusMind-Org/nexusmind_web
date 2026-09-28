@@ -24,7 +24,7 @@ export const FeaturesSection = () => {
   return (
     <section
       id="features"
-      className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20 scroll-mt-20"
+      className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] pt-10 pb-20 sm:pt-14 sm:pb-24 md:pt-20 md:pb-32 scroll-mt-20"
     >
       <ScrollReveal className="w-full mx-auto flex flex-col items-center">
         <div className="text-center mb-10">

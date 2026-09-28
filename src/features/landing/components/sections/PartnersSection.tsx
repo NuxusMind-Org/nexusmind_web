@@ -6,10 +6,10 @@ const PARTNER_ITEMS = Array.from({ length: PARTNER_REPEAT_COUNT }, () => PARTNER
 
 export const PartnersSection = () => {
   return (
-    <section id="partners" className="relative w-full overflow-hidden" aria-label="Partners">
+    <section id="partners" className="relative w-full" aria-label="Partners">
       <div
         className="relative w-full z-[10] pointer-events-none"
-        style={{ marginTop: 'clamp(-216px, -16.5vw, -108px)' }}
+        style={{ marginTop: 'clamp(-80px, -6vw, -45px)' }}
       >
         <WaveDivider />
       </div>

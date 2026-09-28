@@ -16,10 +16,10 @@ export const PillarsSection = () => {
   }));
 
   return (
-    <section id="pillars" className="relative w-full overflow-hidden scroll-mt-20">
+    <section id="pillars" className="relative w-full scroll-mt-20">
       <div
         className="relative w-full z-[10] pointer-events-none"
-        style={{ marginTop: 'clamp(-216px, -16.5vw, -108px)' }}
+        style={{ marginTop: 'clamp(-80px, -6vw, -45px)' }}
       >
         <WaveDivider />
       </div>

@@ -36,7 +36,7 @@ export const ExpertsSection = () => {
   return (
     <section
       id="experts"
-      className="relative w-full flex flex-col items-center pt-10 sm:pt-12 md:pt-20 pb-24 sm:pb-20 scroll-mt-20 bg-white overflow-hidden"
+      className="relative z-20 w-full flex flex-col items-center pt-10 sm:pt-12 md:pt-20 pb-24 sm:pb-28 md:pb-32 scroll-mt-20 bg-white overflow-hidden"
     >
       {/* Section Header */}
       <div className="w-full max-w-[1200px] mx-auto flex flex-col items-center px-4 sm:px-8 text-center mb-6 sm:mb-8 md:mb-12">
