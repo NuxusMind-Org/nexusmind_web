@@ -56,4 +56,19 @@ export const appointmentsApi = {
     const response = await apiClient.get<AppointmentStatsDto>('/appointments/stats');
     return response.data;
   },
+
+  compareFace: async (file: Blob | File): Promise<boolean> => {
+    const formData = new FormData();
+    if (file instanceof File) {
+      formData.append('file', file);
+    } else {
+      formData.append('file', file, 'face_verification.jpg');
+    }
+    const response = await apiClient.post<boolean>('/appointments/compare-face', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
 };

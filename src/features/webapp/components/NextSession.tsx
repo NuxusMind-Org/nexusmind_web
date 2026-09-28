@@ -189,7 +189,7 @@ export const NextSession = () => {
           {/* Right Side: Reschedule and Join Actions */}
           <div className="flex flex-row md:flex-col gap-3 items-center md:items-end flex-shrink-0 relative z-10 w-full md:w-auto mt-4 md:mt-0 font-sans">
             <button
-              onClick={() => navigate(PATHS.WEBAPP_SESSION_CALL.replace(':id', String(nextSession.id)))}
+              onClick={() => navigate(PATHS.WEBAPP_SESSION_VERIFY_FACE.replace(':id', String(nextSession.id)))}
               disabled={!isJoinable}
               className={`flex-1 md:flex-initial md:w-[200px] py-3 sm:py-3.5 font-bold text-xs md:text-sm rounded-full shadow-lg transition-all duration-300 uppercase tracking-wider text-center border-0 ${
                 isJoinable

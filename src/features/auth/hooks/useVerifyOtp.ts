@@ -27,7 +27,7 @@ export const useVerifyOtp = () => {
       }
       return null;
     },
-    onSuccess: (data, variables) => {
+    onSuccess: (data) => {
       if (data?.token) {
         // Save auth and refresh tokens along with user ID
         setTokens({
@@ -40,7 +40,7 @@ export const useVerifyOtp = () => {
 
         queryClient.invalidateQueries({ queryKey: authKeys.me() });
         queryClient.invalidateQueries({ queryKey: ['user'] });
-        navigate(PATHS.REGISTRATION_SUCCESS, { state: { email: variables.verify.email } });
+        navigate(PATHS.DASHBOARD);
       } else {
         // Fallback for Password recovery flow: navigate to set new password
         navigate(PATHS.NEW_PASSWORD);

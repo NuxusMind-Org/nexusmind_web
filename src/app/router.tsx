@@ -33,6 +33,7 @@ import { ArticleDetailPage as WebappArticleDetailPage } from '@/features/webapp/
 import { TrainingsPage as WebappTrainingsPage } from '@/features/webapp/pages/TrainingsPage';
 import { SessionsPage } from '@/features/webapp/pages/SessionsPage';
 import { SessionCallPage } from '@/features/webapp/pages/SessionCallPage';
+import { SessionFaceVerificationPage } from '@/features/webapp/pages/SessionFaceVerificationPage';
 import { MediaPage } from '@/features/webapp/pages/MediaPage';
 import { EnlightenmentPage } from '@/features/webapp/pages/EnlightenmentPage';
 import { ProfilePage } from '@/features/webapp/pages/ProfilePage';
@@ -136,6 +137,10 @@ const router = createBrowserRouter([
       {
         element: <ProtectedRoute />,
         children: [
+          {
+            path: PATHS.WEBAPP_SESSION_VERIFY_FACE,
+            element: <SessionFaceVerificationPage />,
+          },
           {
             path: PATHS.WEBAPP_SESSION_CALL,
             element: <SessionCallPage />,

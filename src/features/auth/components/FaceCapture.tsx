@@ -108,7 +108,18 @@ export const FaceCapture = () => {
     };
   }, [retryCount, isSuccess]);
 
-  // Success 3-second auto-redirect to Home
+  const navigateToOtp = () => {
+    if (!registrationData) return;
+    navigate(PATHS.VERIFY_OTP, {
+      state: {
+        email: registrationData.email,
+        password: registrationData.password,
+        isRegistrationFlow: true,
+      },
+    });
+  };
+
+  // Success auto-redirect to OTP verification page
   useEffect(() => {
     if (!isSuccess) return;
 
@@ -116,7 +127,7 @@ export const FaceCapture = () => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          navigate(PATHS.HOME);
+          navigateToOtp();
           return 0;
         }
         return prev - 1;
@@ -124,7 +135,7 @@ export const FaceCapture = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isSuccess, navigate]);
+  }, [isSuccess, registrationData]);
 
   // Cleanup object URL
   useEffect(() => {
@@ -470,26 +481,26 @@ export const FaceCapture = () => {
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 tracking-tight">
-            Qeydiyyat uğurla tamamlandı!
+            Üz təsdiqi tamamlandı!
           </h2>
 
           <p className="text-ui-muted text-sm sm:text-base max-w-sm mb-6 leading-relaxed">
-            Hesabınız yaradıldı və üz təsdiqiniz qəbul olundu. NexusMind-a xoş gəlmisiniz!
+            Qeydiyyatınız qəbul edildi. Email ünvanınıza göndərilən təsdiq kodunu daxil etmək üçün OTP səhifəsinə yönləndirilirsiniz.
           </p>
 
           <div className="flex items-center gap-2.5 text-accent text-sm font-medium mb-8 bg-white/5 py-2.5 px-5 rounded-full border border-white/10 shadow-sm">
             <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-            <span>{countdown} saniyə ərzində əsas səhifəyə yönləndirilirsiniz...</span>
+            <span>{countdown} saniyə ərzində OTP təsdiq səhifəsinə yönləndirilirsiniz...</span>
           </div>
 
           <Button
             type="button"
             variant="primary"
             size="lg"
-            onClick={() => navigate(PATHS.HOME)}
+            onClick={navigateToOtp}
             className="w-full max-w-xs font-semibold"
           >
-            Əsas səhifəyə keç
+            OTP təsdiqinə keç
           </Button>
         </div>
       )}

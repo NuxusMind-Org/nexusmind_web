@@ -201,7 +201,7 @@ export const SessionsPage = () => {
                   {/* Right side buttons */}
                   <div className="flex flex-col w-full md:w-[220px] shrink-0 gap-3.5 relative z-10 mt-2 md:mt-0">
                     <button 
-                      onClick={() => navigate(PATHS.WEBAPP_SESSION_CALL.replace(':id', String(session.id)))}
+                      onClick={() => navigate(PATHS.WEBAPP_SESSION_VERIFY_FACE.replace(':id', String(session.id)))}
                       disabled={!isJoinable}
                       className={`w-full py-3.5 sm:py-4 rounded-[16px] font-bold font-sans shadow-md transition-all border-0 text-[15px] sm:text-[16px] ${isJoinable ? "bg-white hover:bg-gray-50 text-[#3B2068] cursor-pointer active:scale-[0.98]" : "bg-white/40 text-[#3B2068]/50 cursor-not-allowed"}`}
                     >
