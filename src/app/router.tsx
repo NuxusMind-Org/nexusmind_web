@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
 import { RegistrationPage } from '@/features/auth/pages/RegistrationPage';
+import { FaceCapturePage } from '@/features/auth/pages/FaceCapturePage';
 import { LoginPage } from '@/features/auth/pages/LoginPage';
 import { ForgotPasswordPage } from '@/features/auth/pages/ForgotPasswordPage';
 import { VerifyOtpPage } from '@/features/auth/pages/VerifyOtpPage';
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
       {
         path: PATHS.REGISTER,
         element: <RegistrationPage />,
+      },
+      {
+        path: PATHS.FACE_CAPTURE,
+        element: <FaceCapturePage />,
       },
       {
         path: PATHS.LOGIN,

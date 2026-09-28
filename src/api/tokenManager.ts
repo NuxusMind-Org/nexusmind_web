@@ -178,6 +178,7 @@ export const handleAuthFailure = (redirect = true): void => {
     const publicPaths = [
       PATHS.LOGIN,
       PATHS.REGISTER,
+      PATHS.FACE_CAPTURE,
       PATHS.FORGOT_PASSWORD,
       PATHS.NEW_PASSWORD,
       PATHS.VERIFY_OTP,

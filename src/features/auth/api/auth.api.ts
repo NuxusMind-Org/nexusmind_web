@@ -19,6 +19,33 @@ export const authApi = {
     return response.data;
   },
 
+  uploadRegistrationImage: async (file: Blob | File): Promise<string> => {
+    const formData = new FormData();
+    if (file instanceof File) {
+      formData.append('file', file);
+    } else {
+      formData.append('file', file, 'face_capture.jpg');
+    }
+    const response = await apiClient.post('/auth/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    if (typeof response.data === 'string') {
+      return response.data;
+    }
+    if (response.data && typeof response.data === 'object') {
+      return (
+        (response.data as any).url ||
+        (response.data as any).imageUrl ||
+        (response.data as any).registrationImageUrl ||
+        String(response.data)
+      );
+    }
+    return String(response.data);
+  },
+
   register: async (data: PasientRegisterDto): Promise<string> => {
     const response = await apiClient.post<string>('/auth/add', data);
     return response.data;

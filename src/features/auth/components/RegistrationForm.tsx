@@ -3,18 +3,20 @@ import nexusMindLogo from '@/assets/svg/NexusMindLogo.svg';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Input } from '@/components/input';
 import { Button } from '@/components/button';
 import { PATHS } from '@/routes/paths';
 import { registrationSchema } from '../schemas/registration.schema';
 import type { RegistrationFormValues } from '../schemas/registration.schema';
+import type { PasientRegisterDto } from '@/api/types';
 import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
-import { useRegister } from '../hooks/useRegister';
-import { AxiosError } from 'axios';
 
 export const RegistrationForm = () => {
-  const registerMutation = useRegister();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const initialFormData = location.state?.formData as RegistrationFormValues | undefined;
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -26,6 +28,7 @@ export const RegistrationForm = () => {
   } = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
     mode: 'onTouched',
+    defaultValues: initialFormData || undefined,
   });
 
   const passwordValue = useWatch({
@@ -52,16 +55,20 @@ export const RegistrationForm = () => {
     const name = parts[0] || '';
     const surname = parts.slice(1).join(' ') || '';
 
-    registerMutation.mutate({
-      dto: {
-        name,
-        surname,
-        age: Number(data.age),
-        email: data.email,
-        password: data.password,
-        phone: normalizePhone(data.phoneNumber),
+    const registrationData: PasientRegisterDto = {
+      name,
+      surname,
+      age: Number(data.age),
+      email: data.email,
+      password: data.password,
+      phone: normalizePhone(data.phoneNumber),
+    };
+
+    navigate(PATHS.FACE_CAPTURE, {
+      state: {
+        registrationData,
+        formData: data,
       },
-      rawPassword: data.password,
     });
   };
 
@@ -147,12 +154,6 @@ export const RegistrationForm = () => {
           }
         />
 
-        {registerMutation.isError && (
-          <div className="text-red-400 text-xs mt-2 text-center font-medium bg-red-950/30 border border-red-500/20 py-2 px-3 rounded-md">
-            {((registerMutation.error as AxiosError<{ message?: string }>).response?.data?.message) || 'Qeydiyyat zamanı xəta baş verdi. Məlumatları yenidən yoxlayın.'}
-          </div>
-        )}
-
         <div className="relative mt-2 w-full group">
           <div
             className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
@@ -168,9 +169,9 @@ export const RegistrationForm = () => {
             variant="glass"
             size="lg"
             className="w-full !border-0 !rounded-lg bg-white/5 hover:bg-white/10"
-            isLoading={isSubmitting || registerMutation.isPending}
+            isLoading={isSubmitting}
           >
-            Qeydiyyatdan keç
+            Növbəti
           </Button>
         </div>
       </form>

@@ -143,6 +143,22 @@
   }
 }
 
+@keyframes face-scan {
+  0%, 100% {
+    top: 15%;
+    opacity: 0.4;
+  }
+  50% {
+    top: 82%;
+    opacity: 0.95;
+  }
+}
+
+.animate-scan {
+  position: absolute;
+  animation: face-scan 2.5s ease-in-out infinite;
+}
+
 /* ── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar {
   display: none;

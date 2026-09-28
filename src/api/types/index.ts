@@ -69,6 +69,7 @@ export interface PasientRegisterDto {
   email: string;
   password?: string;
   phone?: string;
+  registrationImageUrl?: string;
 }
 
 export interface ChangePasswordRequest {
