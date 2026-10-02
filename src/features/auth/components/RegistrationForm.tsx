@@ -2,7 +2,7 @@ import { useState } from 'react';
 import nexusMindLogo from '@/assets/svg/NexusMindLogo.svg';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Eye, EyeOff } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Input } from '@/components/input';
 import { Button } from '@/components/button';
@@ -129,7 +129,7 @@ export const RegistrationForm = () => {
                 className="hover:text-white transition-colors"
                 tabIndex={-1}
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword ? <AppIcon icon="lucide:eye-off" size={18} /> : <AppIcon icon="lucide:eye" size={18} />}
               </button>
             }
           />
@@ -149,7 +149,7 @@ export const RegistrationForm = () => {
               className="hover:text-white transition-colors"
               tabIndex={-1}
             >
-              {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showConfirmPassword ? <AppIcon icon="lucide:eye-off" size={18} /> : <AppIcon icon="lucide:eye" size={18} />}
             </button>
           }
         />

@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
-import { Share2, Bookmark, Calendar, Clock, ChevronRight, Mic, ChevronLeft, Eye, Settings, Brain, Flower2, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { PATHS } from '@/routes/paths';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { Footer } from '../components/Footer';
@@ -9,7 +8,7 @@ import digitalBrainImg from '@/assets/digital_brain.png';
 import mountainSunsetImg from '@/assets/mountain_sunset_clouds.png';
 import { blogsApi } from '@/api/blogs.api';
 import type { BlogResponse } from '@/api/types';
-import { SEO } from '@/components';
+import { SEO, AppIcon } from '@/components';
 import { getLocalizedTitle } from '@/utils/multilingual';
 
 export const BlogDetailPage = () => {
@@ -100,7 +99,7 @@ export const BlogDetailPage = () => {
       {isLoading && (
         <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
           <div className="flex flex-col items-center gap-4 text-white/80">
-            <Loader2 className="w-10 h-10 animate-spin text-[#a072ff]" />
+            <AppIcon icon="lucide:loader-2" className="w-10 h-10 animate-spin text-[#a072ff]" />
             <p className="text-base font-medium">Bloq məlumatları yüklənir...</p>
           </div>
         </main>
@@ -117,7 +116,7 @@ export const BlogDetailPage = () => {
           <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
             <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 flex flex-col items-center text-center gap-4 shadow-xl">
               <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300">
-                <AlertCircle className="w-8 h-8" />
+                <AppIcon icon="lucide:alert-circle" className="w-8 h-8" />
               </div>
               <h2 className="text-2xl font-bold text-white">Bloq tapılmadı</h2>
               <p className="text-sm text-white/70">
@@ -127,7 +126,7 @@ export const BlogDetailPage = () => {
                 onClick={() => navigate(PATHS.BLOG)}
                 className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-sm font-semibold transition-colors cursor-pointer border border-white/20"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <AppIcon icon="lucide:arrow-left" className="w-4 h-4" />
                 <span>Bloqlar siyahısına qayıt</span>
               </button>
             </div>
@@ -162,11 +161,11 @@ export const BlogDetailPage = () => {
                 <Link to={PATHS.HOME} className="hover:text-white transition-colors">
                   Ana səhifə
                 </Link>
-                <ChevronRight size={14} className="text-white/40" />
+                <AppIcon icon="lucide:chevron-right" size={14} className="text-white/40" />
                 <Link to={PATHS.BLOG} className="hover:text-white transition-colors">
                   Bloqlar
                 </Link>
-                <ChevronRight size={14} className="text-white/40" />
+                <AppIcon icon="lucide:chevron-right" size={14} className="text-white/40" />
                 <span className="text-[#a072ff] font-bold">{blogTitle}</span>
               </div>
             </div>
@@ -186,10 +185,10 @@ export const BlogDetailPage = () => {
               {/* Top Right Action Buttons */}
               <div className="absolute top-6 right-6 z-20 flex items-center gap-3">
                 <button className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/35 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-lg border border-white/20 select-none">
-                  <Share2 size={18} />
+                  <AppIcon icon="lucide:share-2" size={18} />
                 </button>
                 <button className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/35 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-lg border border-white/20 select-none">
-                  <Bookmark size={18} />
+                  <AppIcon icon="lucide:bookmark" size={18} />
                 </button>
               </div>
 
@@ -202,15 +201,15 @@ export const BlogDetailPage = () => {
                     {blog.category || 'BLOQ'}
                   </span>
                   <span className="flex items-center gap-1.5 text-white/80 select-none">
-                    <Calendar size={14} className="text-white/60" />
+                    <AppIcon icon="lucide:calendar" size={14} className="text-white/60" />
                     {blog.createdAt ? (blog.createdAt.includes('T') ? new Date(blog.createdAt).toLocaleDateString('az-AZ', { day: 'numeric', month: 'long', year: 'numeric' }) : blog.createdAt) : '24 Mart 2026'}
                   </span>
                   <span className="flex items-center gap-1.5 text-white/80 select-none">
-                    <Clock size={14} className="text-white/60" />
+                    <AppIcon icon="lucide:clock" size={14} className="text-white/60" />
                     4 dəq oxu
                   </span>
                   <span className="flex items-center gap-1.5 text-white/80 select-none">
-                    <Eye size={14} className="text-white/60" />
+                    <AppIcon icon="lucide:eye" size={14} className="text-white/60" />
                     93 baxış
                   </span>
                 </div>
@@ -293,7 +292,7 @@ export const BlogDetailPage = () => {
                 <h4 className="text-[#1E0A42] text-[20px] font-bold tracking-tight">
                   Dəstək lazımdır?
                 </h4>
-                <Flower2 className="w-6 h-6 text-[#9a76be] shrink-0" />
+                <AppIcon icon="lucide:flower-2" className="w-6 h-6 text-[#9a76be] shrink-0" />
               </div>
               <p className="text-[#1E0A42]/75 text-[14px] leading-relaxed font-normal">
                 Mütəxəssislərimiz sizə kömək etməyə hazırdır.
@@ -310,7 +309,7 @@ export const BlogDetailPage = () => {
             <div className="bg-[#121b3d]/90 backdrop-blur-md border border-white/10 rounded-[20px] p-6 flex flex-col gap-4 text-left shadow-xl">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#2a3866] flex items-center justify-center shrink-0">
-                  <Mic size={18} className="text-[#8b9eff]" />
+                  <AppIcon icon="lucide:mic" size={18} className="text-[#8b9eff]" />
                 </div>
                 <div className="flex flex-col">
                   <h5 className="text-white text-base font-bold leading-tight">
@@ -366,7 +365,7 @@ export const BlogDetailPage = () => {
             <div className="bg-[#1b153b] rounded-[18px] p-6 text-white text-left flex flex-col gap-3 border border-white/10 shadow-lg">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white shrink-0">
-                  <Settings size={18} />
+                  <AppIcon icon="lucide:settings" size={18} />
                 </div>
                 <h5 className="text-[16px] font-bold font-sans tracking-tight">
                   Tam Nəzarət
@@ -381,7 +380,7 @@ export const BlogDetailPage = () => {
             <div className="bg-[#1b153b] rounded-[18px] p-6 text-white text-left flex flex-col gap-3 border border-white/10 shadow-lg">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-white shrink-0">
-                  <Brain size={18} />
+                  <AppIcon icon="lucide:brain" size={18} />
                 </div>
                 <h5 className="text-[16px] font-bold font-sans tracking-tight">
                   Tam Nəzarət
@@ -452,14 +451,14 @@ export const BlogDetailPage = () => {
               onClick={() => handleScroll('left')}
               className="absolute left-[-20px] z-10 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white backdrop-blur-md border border-white/20 flex items-center justify-center cursor-pointer transition-all opacity-0 group-hover/slider:opacity-100 select-none"
             >
-              <ChevronLeft size={20} />
+              <AppIcon icon="lucide:chevron-left" size={20} />
             </button>
 
             <button
               onClick={() => handleScroll('right')}
               className="absolute right-[-20px] z-10 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white backdrop-blur-md border border-white/20 flex items-center justify-center cursor-pointer transition-all opacity-0 group-hover/slider:opacity-100 select-none"
             >
-              <ChevronRight size={20} />
+              <AppIcon icon="lucide:chevron-right" size={20} />
             </button>
 
             <div

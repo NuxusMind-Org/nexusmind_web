@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { TrainingCard } from './TrainingCard';
 import type { Training } from '../../constants/trainings';
 
@@ -24,7 +24,7 @@ export const TrainingsGrid = ({ trainings, onRegister }: TrainingsGridProps) => 
           </div>
           <button className="flex items-center gap-1 text-[14px] text-white/80 hover:text-[#00f2ff] transition-colors cursor-pointer border-0 bg-transparent outline-none font-medium">
             <span>Hamısına bax</span>
-            <ArrowRight size={16} />
+            <AppIcon icon="lucide:arrow-right" size={16} />
           </button>
         </div>
 
@@ -50,7 +50,7 @@ export const TrainingsGrid = ({ trainings, onRegister }: TrainingsGridProps) => 
           </div>
           <button className="flex items-center gap-1 text-[14px] text-white/80 hover:text-[#00f2ff] transition-colors cursor-pointer border-0 bg-transparent outline-none font-medium">
             <span>Hamısına bax</span>
-            <ArrowRight size={16} />
+            <AppIcon icon="lucide:arrow-right" size={16} />
           </button>
         </div>
 

@@ -11,10 +11,17 @@ import {
   ExpertsSection,
   PartnersSection,
 } from '../components/sections';
+import {
+  UserHeroSection,
+  UserNextSession,
+  UserMoodWidget,
+  UserQuickActivities,
+} from '../components/authenticated';
 import { Footer } from '../components/Footer';
 import { useActiveSection } from '../hooks/useActiveSection';
 import { GradientBackground } from '@/components';
 import { WaveDivider } from '@/components/WaveDivider';
+import { useAuthStore } from '@/store/authStore';
 
 const scrollToSection = (id: string) => {
   setTimeout(() => {
@@ -27,6 +34,7 @@ const scrollToSection = (id: string) => {
 
 export const LandingPage = () => {
   const activeSection = useActiveSection();
+  const { isAuthenticated } = useAuthStore();
 
   // Handle deep-link hash on initial load
   useEffect(() => {
@@ -38,12 +46,8 @@ export const LandingPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col relative font-sans bg-white text-slate-900">
-
-
       <div className="relative">
-
         <GradientBackground speed={1} resolution={0.5} />
-
 
         <div className="relative z-50">
           <LandingNavbar
@@ -53,34 +57,33 @@ export const LandingPage = () => {
           />
         </div>
 
-
         <div className="relative z-10">
-          <HeroSection />
+          {isAuthenticated ? (
+            <UserHeroSection>
+              <UserMoodWidget />
+              <UserNextSession />
+              <UserQuickActivities />
+            </UserHeroSection>
+          ) : (
+            <HeroSection />
+          )}
         </div>
       </div>
       <div
         className="relative w-full z-[5]"
-        style={{ marginTop: 'clamp(-216px, -12vw, -120px)' }}
+        style={{ marginTop: 'clamp(-130px, -7.5vw, -72px)' }}
       >
         <WaveDivider />
       </div>
-
 
       <main className="flex-1 w-full relative">
         <div className="w-full relative flex flex-col">
           <ExpertsSection />
           <div className="w-full relative flex flex-col bg-landing-gradient text-white -mt-1">
-            <div
-              className="relative w-full z-[10] pointer-events-none"
-              style={{ marginTop: 'clamp(-70px, -5vw, -40px)' }}
-            >
-              <WaveDivider reverse />
-            </div>
-
             <VrConsultationSection />
             <div
               className="relative w-full z-[10] pointer-events-none"
-              style={{ marginTop: 'clamp(-65px, -4vw, -45px)' }}
+              style={{ marginTop: 'clamp(-42px, -2.8vw, -28px)' }}
             >
               <WaveDivider variant="single" />
             </div>
@@ -90,7 +93,7 @@ export const LandingPage = () => {
             <FeaturesSection />
             <PillarsSection />
             <TestimonialsSection />
-            <CtaSection />
+            {!isAuthenticated && <CtaSection />}
             <Footer />
           </div>
         </div>

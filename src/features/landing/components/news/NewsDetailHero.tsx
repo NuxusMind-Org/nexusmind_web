@@ -1,4 +1,4 @@
-import { Share2, Bookmark, Clock } from 'lucide-react';
+import { AppIcon } from '@/components';
 import type { NewsItem } from '../../constants/news';
 
 interface NewsDetailHeroProps {
@@ -20,10 +20,10 @@ export const NewsDetailHero = ({ item }: NewsDetailHeroProps) => {
       {/* Top Right Action Buttons */}
       <div className="absolute top-4 sm:top-6 right-4 sm:right-6 flex items-center gap-3">
         <button className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/45 hover:bg-black/60 border border-white/10 hover:border-white/20 flex items-center justify-center text-white cursor-pointer transition-all duration-300 backdrop-blur-md outline-none">
-          <Share2 size={16} />
+          <AppIcon icon="lucide:share-2" size={16} />
         </button>
         <button className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/45 hover:bg-black/60 border border-white/10 hover:border-white/20 flex items-center justify-center text-white cursor-pointer transition-all duration-300 backdrop-blur-md outline-none">
-          <Bookmark size={16} />
+          <AppIcon icon="lucide:bookmark" size={16} />
         </button>
       </div>
 
@@ -37,7 +37,7 @@ export const NewsDetailHero = ({ item }: NewsDetailHeroProps) => {
           <span className="text-white/70 text-[13px] font-medium">{item.date}</span>
           <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
           <div className="flex items-center gap-1.5 text-white/70 text-[13px] font-medium">
-            <Clock size={14} className="text-white/40" />
+            <AppIcon icon="lucide:clock" size={14} className="text-white/40" />
             <span>8 dəq oxu</span>
           </div>
         </div>

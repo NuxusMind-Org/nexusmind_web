@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Star, GraduationCap, Award, Video, Clock, Lock, CheckCircle2 } from 'lucide-react';
+import { AppIcon } from '@/components';
 import vrConsultation from '@/assets/vr_consultation.png';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
@@ -56,7 +56,7 @@ export const PsychologistPage = () => {
               <div className="relative shrink-0">
                 <img src={psych.image} alt={psych.name} className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full object-cover border-4 border-white/20 shadow-lg mx-auto" />
                 <div className="absolute -bottom-3 right-0 bg-[#03C6B2] text-[#111] px-3 py-1 rounded-full text-[12px] font-light flex items-center gap-1 shadow-md">
-                  <Star size={12} fill="currentColor" /> {psych.rating}
+                  <AppIcon icon="lucide:star" size={12} fill="currentColor" /> {psych.rating}
                 </div>
               </div>
 
@@ -89,7 +89,7 @@ export const PsychologistPage = () => {
               {/* Education */}
               <div className="flex-1 bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
                 <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
-                  <GraduationCap className="text-white/80" size={20} /> {t('psychologist.education', 'Təhsil')}
+                  <AppIcon icon="lucide:graduation-cap" className="text-white/80" size={20} /> {t('psychologist.education', 'Təhsil')}
                 </h3>
                 <div className="flex flex-col gap-5">
                   {psych.education.map((edu, i) => (
@@ -129,12 +129,12 @@ export const PsychologistPage = () => {
               {/* İştirak Etdiyi Təlimlər */}
               <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
                 <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
-                  <Award className="text-white/80" size={20} /> {t('psychologist.certifications', 'İştirak Etdiyi Təlimlər')}
+                  <AppIcon icon="lucide:award" className="text-white/80" size={20} /> {t('psychologist.certifications', 'İştirak Etdiyi Təlimlər')}
                 </h3>
                 <div className="flex flex-col gap-3 mb-4">
                   {psych.certifications.map((cert, i) => (
                     <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
-                      <CheckCircle2 size={18} className="text-[#00f2ff]" />
+                      <AppIcon icon="lucide:check-circle-2" size={18} className="text-[#00f2ff]" />
                       <span className="text-white/80 text-[13px]">{cert}</span>
                     </div>
                   ))}
@@ -147,12 +147,12 @@ export const PsychologistPage = () => {
               {/* Sertifikatlar */}
               <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
                 <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
-                  <Award className="text-white/80" size={20} /> {t('psychologist.certificates', 'Sertifikatlar')}
+                  <AppIcon icon="lucide:award" className="text-white/80" size={20} /> {t('psychologist.certificates', 'Sertifikatlar')}
                 </h3>
                 <div className="flex flex-col gap-3 mb-4">
                   {psych.certifications.map((cert, i) => (
                     <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
-                      <CheckCircle2 size={18} className="text-[#c084fc]" />
+                      <AppIcon icon="lucide:check-circle-2" size={18} className="text-[#c084fc]" />
                       <span className="text-white/80 text-[13px]">{cert}</span>
                     </div>
                   ))}
@@ -183,15 +183,15 @@ export const PsychologistPage = () => {
 
               <div className="flex flex-col gap-4 mb-8">
                 <div className="flex items-center gap-3">
-                  <Video size={18} className="text-white/70" />
+                  <AppIcon icon="lucide:video" size={18} className="text-white/70" />
                   <span className="text-white/80 text-[14px]">{t('psychologist.onlineVideo', 'Onlayn Video Seans')}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Clock size={18} className="text-white/70" />
+                  <AppIcon icon="lucide:clock" size={18} className="text-white/70" />
                   <span className="text-white/80 text-[14px]">{t('psychologist.duration', '45 dəqiqəlik görüş')}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Lock size={18} className="text-white/70" />
+                  <AppIcon icon="lucide:lock" size={18} className="text-white/70" />
                   <span className="text-white/80 text-[14px]">{t('psychologist.confidential', 'Məxfi və Təhlükəsiz')}</span>
                 </div>
               </div>

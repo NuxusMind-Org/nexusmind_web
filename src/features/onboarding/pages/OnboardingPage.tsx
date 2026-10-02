@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Minus, Plus } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import onboardingDataRaw from '../data/onboardingData.json';
 import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
@@ -73,7 +73,7 @@ export const OnboardingPage = () => {
       });
 
       const timer = setTimeout(() => {
-        navigate(PATHS.DASHBOARD);
+        navigate(PATHS.HOME);
       }, 4000);
 
       const interval = setInterval(() => {
@@ -109,7 +109,7 @@ export const OnboardingPage = () => {
     if (currentStepIndex < onboardingData.length - 1) {
       setCurrentStepIndex(prev => prev + 1);
     } else {
-      navigate(PATHS.DASHBOARD);
+      navigate(PATHS.HOME);
     }
   };
 
@@ -135,7 +135,7 @@ export const OnboardingPage = () => {
           onClick={handleBack}
           className="flex items-center gap-2 text-[#E0E0E0] hover:text-white transition-colors self-start font-medium text-[15px]"
         >
-          <ArrowLeft size={18} />
+          <AppIcon icon="lucide:arrow-left" size={18} />
           <span>Back to Home</span>
         </button>
       </div>
@@ -284,7 +284,7 @@ export const OnboardingPage = () => {
                           disabled={store.parentCount <= 0}
                           className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
                         >
-                          <Minus size={16} />
+                          <AppIcon icon="lucide:minus" size={16} />
                         </button>
                         <span className="w-6 text-center font-semibold text-[18px]">
                           {store.parentCount}
@@ -294,7 +294,7 @@ export const OnboardingPage = () => {
                           onClick={() => store.setParentCount(store.parentCount + 1)}
                           className="w-8 h-8 rounded-full bg-[#9f5bff] hover:bg-[#b070ff] flex items-center justify-center transition-colors"
                         >
-                          <Plus size={16} />
+                          <AppIcon icon="lucide:plus" size={16} />
                         </button>
                       </div>
                     </div>
@@ -309,7 +309,7 @@ export const OnboardingPage = () => {
                           disabled={store.childCount <= 0}
                           className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
                         >
-                          <Minus size={16} />
+                          <AppIcon icon="lucide:minus" size={16} />
                         </button>
                         <span className="w-6 text-center font-semibold text-[18px]">
                           {store.childCount}
@@ -319,7 +319,7 @@ export const OnboardingPage = () => {
                           onClick={() => store.setChildCount(store.childCount + 1)}
                           className="w-8 h-8 rounded-full bg-[#9f5bff] hover:bg-[#b070ff] flex items-center justify-center transition-colors"
                         >
-                          <Plus size={16} />
+                          <AppIcon icon="lucide:plus" size={16} />
                         </button>
                       </div>
                     </div>
@@ -342,7 +342,7 @@ export const OnboardingPage = () => {
                           disabled={store.femaleCount <= 0}
                           className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
                         >
-                          <Minus size={16} />
+                          <AppIcon icon="lucide:minus" size={16} />
                         </button>
                         <span className="w-6 text-center font-semibold text-[18px]">
                           {store.femaleCount}
@@ -352,7 +352,7 @@ export const OnboardingPage = () => {
                           onClick={() => store.setFemaleCount(store.femaleCount + 1)}
                           className="w-8 h-8 rounded-full bg-[#9f5bff] hover:bg-[#b070ff] flex items-center justify-center transition-colors"
                         >
-                          <Plus size={16} />
+                          <AppIcon icon="lucide:plus" size={16} />
                         </button>
                       </div>
                     </div>
@@ -367,7 +367,7 @@ export const OnboardingPage = () => {
                           disabled={store.maleCount <= 0}
                           className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
                         >
-                          <Minus size={16} />
+                          <AppIcon icon="lucide:minus" size={16} />
                         </button>
                         <span className="w-6 text-center font-semibold text-[18px]">
                           {store.maleCount}
@@ -377,7 +377,7 @@ export const OnboardingPage = () => {
                           onClick={() => store.setMaleCount(store.maleCount + 1)}
                           className="w-8 h-8 rounded-full bg-[#9f5bff] hover:bg-[#b070ff] flex items-center justify-center transition-colors"
                         >
-                          <Plus size={16} />
+                          <AppIcon icon="lucide:plus" size={16} />
                         </button>
                       </div>
                     </div>

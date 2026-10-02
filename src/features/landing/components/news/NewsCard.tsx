@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Eye } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import type { NewsItem } from '../../constants/news';
@@ -53,7 +53,7 @@ export const NewsCard = ({ item }: NewsCardProps) => {
         <div className="flex items-center justify-between border-t border-white/5 pt-4 mt-auto">
           {/* View Counter */}
           <div className="flex items-center gap-1.5 text-white/50 text-[12px] font-medium">
-            <Eye size={14} className="text-white/30" />
+            <AppIcon icon="lucide:eye" size={14} className="text-white/30" />
             <span>{item.views} {t('news.views')}</span>
           </div>
 

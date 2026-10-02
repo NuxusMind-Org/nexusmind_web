@@ -13,15 +13,15 @@ export const HeroSection = () => {
       id="hero"
       className="relative w-full min-h-[calc(100vh-80px)] flex items-start justify-start px-4 sm:px-8 md:px-12 lg:px-0 lg:pl-[80px] pt-[100px] sm:pt-[120px] lg:pt-[160px] pb-0 scroll-mt-20 overflow-hidden"
     >
-      <ScrollReveal className="w-full max-w-[1000px] flex flex-col relative z-20">
+      <ScrollReveal className="w-full max-w-[1300px] flex flex-col relative z-20">
         {/* Text & Buttons */}
         <div className="flex flex-col justify-start items-start gap-6 md:gap-12 w-full text-left">
           <div className="flex flex-col gap-3 sm:gap-6 w-full">
             <h1 className="text-[36px] sm:text-[60px] md:text-[72px] lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] font-title">
               {t('hero.title', 'Özünü kəşf etməyə hazırsan?')}
             </h1>
-            <p className="text-[17px] sm:text-[26px] md:text-[30px] lg:text-[34px] text-white/95 max-w-[700px] leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] ponnala-nudge">
-              {t('hero.subtitle', 'Sıxıntıdan qurtularaq və rahat nəfəs alaraq , həyatdan zövq al !')}
+            <p className="text-[14px] min-[400px]:text-[16px] sm:text-[20px] md:text-[24px] lg:text-[28px] xl:text-[32px] text-white/95 whitespace-nowrap max-w-none leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] ponnala-nudge">
+              {t('hero.subtitle', 'Sıxıntıdan qurtul, rahat nəfəs al, və həyatdan zövq al!')}
             </p>
           </div>
 

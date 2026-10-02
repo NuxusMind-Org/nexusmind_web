@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLocation } from 'react-router-dom';
-import { MailCheck } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { Button } from '@/components/button';
 import { verifyOtpSchema } from '../schemas/verify-otp.schema';
 import type { VerifyOtpFormInput, VerifyOtpFormOutput } from '../schemas/verify-otp.schema';
@@ -112,7 +112,7 @@ export const VerifyOtpForm = () => {
       {/* Icon */}
       <div className="flex justify-center mb-6">
         <div className="w-[88px] h-[88px] rounded-full bg-[#113B4A] flex items-center justify-center shadow-[0_0_24px_rgba(0,242,255,0.15)]">
-          <MailCheck size={44} className="text-white" strokeWidth={1.5} />
+          <AppIcon icon="lucide:mail-check" size={44} className="text-white" strokeWidth={1.5} />
         </div>
       </div>
 

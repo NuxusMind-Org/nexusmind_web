@@ -1,11 +1,10 @@
-import { Heart, Sparkles, BookOpen, Users, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import purpleRoom from '@/assets/purple_room.png';
 import avatar1 from '@/assets/avatar1.png';
 import avatar2 from '@/assets/avatar2.png';
 import avatar3 from '@/assets/avatar3.png';
 import { ScrollReveal } from '../ScrollReveal';
-import { BorderGlow } from '@/components';
+import { BorderGlow, AppIcon } from '@/components';
 
 const GLOW = {
   colors: ['rgba(0, 242, 255, 0.95)', 'rgba(192, 132, 252, 0.55)'] as [string, string],
@@ -40,7 +39,7 @@ export const FeaturesSection = () => {
           <BorderGlow className="sm:col-span-2 lg:col-span-2" {...GLOW}>
             <div className={`${glassCard} pb-[17px]`}>
               <div className="flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 mb-4">
-                <Heart size={24} className="text-[#00f2ff] shrink-0" strokeWidth={2} />
+                <AppIcon icon="lucide:heart" size={24} className="text-[#00f2ff] shrink-0" strokeWidth={2} />
                 <h3 className="text-white text-[20px] sm:text-[26px] font-medium tracking-wide ponnala-nudge">
                   {t('features.card1Title', 'Sənin hisslərin önəmlidir.')}
                 </h3>
@@ -57,7 +56,7 @@ export const FeaturesSection = () => {
           <BorderGlow {...GLOW}>
             <div className={glassCard}>
               <div className="flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 mb-6">
-                <Sparkles size={24} className="text-[#00f2ff] shrink-0" strokeWidth={2} />
+                <AppIcon icon="lucide:sparkles" size={24} className="text-[#00f2ff] shrink-0" strokeWidth={2} />
                 <h3 className="text-white text-[20px] sm:text-[24px] font-medium tracking-wide ponnala-nudge">
                   {t('features.card2Title', 'Gündəlik Rituallar')}
                 </h3>
@@ -66,7 +65,7 @@ export const FeaturesSection = () => {
                 {t('features.card2Desc', 'Kiçik addımlarla psixoloji rifahını gücləndir.Nəfəs məşqləri,qısa meditasiya və gündəlik refleksiya ilə özünü daha balanslı hiss et.')}
               </p>
               <button className="text-white flex items-center gap-2 text-[14px] sm:text-[15px] hover:opacity-80 transition-opacity mt-8 font-medium cursor-pointer">
-                <span className="ponnala-nudge">{t('features.card2Cta', 'Bütün ritualları gör')}</span> <ArrowRight size={18} />
+                <span className="ponnala-nudge">{t('features.card2Cta', 'Bütün ritualları gör')}</span> <AppIcon icon="lucide:arrow-right" size={18} />
               </button>
             </div>
           </BorderGlow>
@@ -74,7 +73,7 @@ export const FeaturesSection = () => {
           <BorderGlow {...GLOW}>
             <div className={glassCard}>
               <div className="flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 mb-6">
-                <BookOpen size={24} className="text-[#00f2ff] shrink-0" strokeWidth={2} />
+                <AppIcon icon="lucide:book-open" size={24} className="text-[#00f2ff] shrink-0" strokeWidth={2} />
                 <h3 className="text-white text-[20px] sm:text-[24px] font-medium tracking-wide ponnala-nudge">
                   {t('features.card3Title', 'Gündəlik Notlar')}
                 </h3>
@@ -89,7 +88,7 @@ export const FeaturesSection = () => {
             <div className={`${glassCard} sm:flex-row justify-between items-start sm:items-center gap-6`}>
               <div className="flex-1">
                 <div className="flex flex-col sm:flex-row sm:items-center items-start gap-2 sm:gap-3 mb-4">
-                  <Users size={24} className="text-[#00f2ff] shrink-0" strokeWidth={2} />
+                  <AppIcon icon="lucide:users" size={24} className="text-[#00f2ff] shrink-0" strokeWidth={2} />
                   <h3 className="text-white text-[20px] sm:text-[24px] font-medium tracking-wide ponnala-nudge">
                     {t('features.card4Title', 'Dəstək və paylaşım icması')}
                   </h3>

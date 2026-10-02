@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Eye } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import type { NewsItem } from '../../constants/news';
@@ -52,7 +52,7 @@ export const NewsHero = ({ item }: NewsHeroProps) => {
         <div className="flex items-center justify-between border-t border-white/5 pt-5 mt-auto">
           {/* View counter */}
           <div className="flex items-center gap-2 text-white/60 text-[13px] font-medium">
-            <Eye size={16} className="text-white/40" />
+            <AppIcon icon="lucide:eye" size={16} className="text-white/40" />
             <span>{item.views} {t('news.views')}</span>
           </div>
 

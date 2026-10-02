@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import type { Training } from '../../constants/trainings';
 import supportIcon from '@/assets/svg/supportIcon.svg';
@@ -249,7 +249,7 @@ export const TrainingsCalendarV2 = ({ trainings, onRegister }: TrainingsCalendar
               className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-all flex items-center justify-center cursor-pointer border border-white/10 outline-none"
               aria-label="Previous month"
             >
-              <ChevronLeft size={20} />
+              <AppIcon icon="lucide:chevron-left" size={20} />
             </button>
             <h3 className="text-[19px] sm:text-[22px] font-bold text-white tracking-tight min-w-[150px] text-center capitalize">
               {monthName}
@@ -259,7 +259,7 @@ export const TrainingsCalendarV2 = ({ trainings, onRegister }: TrainingsCalendar
               className="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-all flex items-center justify-center cursor-pointer border border-white/10 outline-none"
               aria-label="Next month"
             >
-              <ChevronRight size={20} />
+              <AppIcon icon="lucide:chevron-right" size={20} />
             </button>
           </div>
 
@@ -384,7 +384,7 @@ export const TrainingsCalendarV2 = ({ trainings, onRegister }: TrainingsCalendar
                         {training.title}
                       </h5>
                     </div>
-                    <ChevronRight size={16} className="text-white/60" />
+                    <AppIcon icon="lucide:chevron-right" size={16} className="text-white/60" />
                   </div>
                 );
               })}

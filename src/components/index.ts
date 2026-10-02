@@ -16,3 +16,9 @@ export type { GradientBackgroundProps } from './background';
 
 export { BorderGlow } from './BorderGlow';
 export type { BorderGlowProps } from './BorderGlow';
+
+export { AppIcon, Icon } from './common/AppIcon';
+export type { AppIconProps } from './common/AppIcon';
+
+export { default as CircularGallery } from './CircularGallery/CircularGallery';
+export type { CircularGalleryProps, CircularGalleryItem } from './CircularGallery/CircularGallery';

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
-import { ChevronRight } from 'lucide-react';
+import { AppIcon } from '@/components';
 
 interface NewsDetailHeaderProps {
   categoryLabel: string;
@@ -16,11 +16,11 @@ export const NewsDetailHeader = ({ categoryLabel }: NewsDetailHeaderProps) => {
         <Link to={PATHS.HOME} className="hover:text-[#00f2ff] transition-colors">
           Ana səhifə
         </Link>
-        <ChevronRight size={14} className="text-white/30" />
+        <AppIcon icon="lucide:chevron-right" size={14} className="text-white/30" />
         <Link to={PATHS.NEWS} className="hover:text-[#00f2ff] transition-colors">
           Xəbərlər
         </Link>
-        <ChevronRight size={14} className="text-white/30" />
+        <AppIcon icon="lucide:chevron-right" size={14} className="text-white/30" />
         <span className="text-[#c39ffd] font-semibold">{categoryLabel}</span>
       </div>
     </div>

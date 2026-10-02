@@ -15,7 +15,7 @@
   },
   "hero": {
     "title": "Ready to discover yourself?",
-    "subtitle": "Break free from stress, breathe freely,\nand enjoy life!",
+    "subtitle": "Break free from stress, breathe freely, and enjoy life!",
     "cta": "Get Started",
     "secondary_cta": "View psychologists",
     "feature1": "Overcome difficulties with the help of experts!",
@@ -29,7 +29,17 @@
     "perSession": "/session",
     "getStarted": "Get Started",
     "more": "View More",
-    "learnMore": "Learn more"
+    "learnMore": "Learn more",
+    "viewAll": "View all specialists",
+    "badge": "Professional team",
+    "pageTitle": "Our Specialists",
+    "pageSubtitle": "Meet our verified, experienced psychologists and therapists for your psychological well-being and easily book a session.",
+    "searchPlaceholder": "Search by specialist name or focus area...",
+    "foundCount": "specialists found",
+    "noResults": "No specialists found matching your search",
+    "resetFilters": "Reset filters",
+    "bookSession": "Book a Session",
+    "yearsExp": "years experience"
   },
   "vr": {
     "title": "VR Consultation",

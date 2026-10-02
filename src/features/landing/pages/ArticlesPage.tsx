@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
@@ -91,7 +91,7 @@ export const ArticlesPage = () => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              rightElement={<Search size={18} className="text-white/40" />}
+              rightElement={<AppIcon icon="lucide:search" size={18} className="text-white/40" />}
               className="bg-white/5 border-white/10 hover:border-white/20 focus:border-brand focus:ring-1 focus:ring-brand text-[14px] text-white placeholder-white/30 h-12"
             />
           </div>

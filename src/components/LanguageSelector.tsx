@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown, Check } from 'lucide-react';
+import { AppIcon } from './common/AppIcon';
 import { SUPPORTED_LANGUAGES, type LanguageCode } from '@/libs/i18n';
 
 interface LanguageSelectorProps {
@@ -67,8 +67,9 @@ export const LanguageSelector = ({
         aria-expanded={isOpen}
         className="flex items-center gap-1.5 py-2 px-2 text-white/80 hover:text-white font-medium text-[15px] transition-colors cursor-pointer outline-none select-none"
       >
-        <span className="ponnala-nudge">{currentLang.shortLabel}</span>
-        <ChevronDown
+        <span>{currentLang.shortLabel}</span>
+        <AppIcon
+          icon="lucide:chevron-down"
           size={16}
           className={`transition-transform duration-300 text-white/80 ${
             isOpen ? 'rotate-180 text-[#00f2ff]' : ''
@@ -104,10 +105,10 @@ export const LanguageSelector = ({
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-[13px] opacity-75 ponnala-nudge">{lang.shortLabel}</span>
-                    <span className="ponnala-nudge">{lang.label}</span>
+                    <span className="font-semibold text-[13px] opacity-75">{lang.shortLabel}</span>
+                    <span>{lang.label}</span>
                   </div>
-                  {isSelected && <Check size={14} className="text-[#00f2ff] shrink-0 ml-2" />}
+                  {isSelected && <AppIcon icon="lucide:check" size={14} className="text-[#00f2ff] shrink-0 ml-2" />}
                 </button>
               );
             })}

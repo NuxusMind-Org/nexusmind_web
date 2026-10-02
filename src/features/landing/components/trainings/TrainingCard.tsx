@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Clock, MapPin } from 'lucide-react';
+import { AppIcon } from '@/components';
 import type { Training } from '../../constants/trainings';
 
 interface TrainingCardProps {
@@ -56,11 +56,11 @@ export const TrainingCard = ({ training, onRegister }: TrainingCardProps) => {
           {/* Metadata Details */}
           <div className="flex flex-col gap-2 mt-auto mb-2">
             <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
-              <Clock size={18} className="text-white/50" />
+              <AppIcon icon="lucide:clock" size={18} className="text-white/50" />
               <span>{training.time}</span>
             </div>
             <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
-              <MapPin size={18} className="text-white/50" />
+              <AppIcon icon="lucide:map-pin" size={18} className="text-white/50" />
               <span className="line-clamp-1">{training.location}</span>
             </div>
           </div>

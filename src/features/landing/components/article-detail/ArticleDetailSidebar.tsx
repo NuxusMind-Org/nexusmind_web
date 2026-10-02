@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
-import { Mic, PlayCircle } from 'lucide-react';
+import { AppIcon } from '@/components';
 import supportIcon from '@/assets/svg/supportIcon.svg';
 
 export const ArticleDetailSidebar = () => {
@@ -47,7 +47,7 @@ export const ArticleDetailSidebar = () => {
         {/* Header row */}
         <div className="flex items-center gap-3 w-full">
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-            <Mic size={20} className="text-white" />
+            <AppIcon icon="lucide:mic" size={20} className="text-white" />
           </div>
           <div className="flex flex-col justify-center leading-snug">
             <span className="text-white text-[16px] font-semibold">Sanctuary Podkast</span>
@@ -62,7 +62,7 @@ export const ArticleDetailSidebar = () => {
         <button
           className="w-full py-3.5 rounded-[16px] border border-white/20 hover:border-white/40 bg-transparent hover:bg-white/5 text-white text-[14px] font-semibold flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 select-none outline-none"
         >
-          <PlayCircle size={18} className="text-white" />
+          <AppIcon icon="lucide:play-circle" size={18} className="text-white" />
           <span>İndi Dinlə</span>
         </button>
       </div>

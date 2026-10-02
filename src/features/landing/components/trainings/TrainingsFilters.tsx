@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
-import { List, Calendar } from 'lucide-react';
+import { AppIcon } from '@/components';
 
 interface TrainingsFiltersProps {
   activeView: 'list' | 'calendar';
@@ -36,7 +36,7 @@ export const TrainingsFilters = ({ activeView, onViewChange }: TrainingsFiltersP
               : 'text-white/60 hover:text-white bg-transparent'
           }`}
         >
-          <List size={16} />
+          <AppIcon icon="lucide:list" size={16} />
           <span>{t('trainings.listView', 'Siyahı')}</span>
         </button>
         <button
@@ -47,7 +47,7 @@ export const TrainingsFilters = ({ activeView, onViewChange }: TrainingsFiltersP
               : 'text-white/60 hover:text-white bg-transparent'
           }`}
         >
-          <Calendar size={16} />
+          <AppIcon icon="lucide:calendar" size={16} />
           <span>{t('trainings.calendarView', 'Təqvimə bax')}</span>
         </button>
       </div>

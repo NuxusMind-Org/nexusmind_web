@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Eye, EyeOff } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { AxiosError } from 'axios';
 import { Link } from 'react-router-dom';
 import { Input } from '@/components/input';
@@ -64,7 +64,7 @@ export const LoginForm = () => {
                 className="hover:text-white transition-colors"
                 tabIndex={-1}
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword ? <AppIcon icon="lucide:eye-off" size={18} /> : <AppIcon icon="lucide:eye" size={18} />}
               </button>
             }
           />

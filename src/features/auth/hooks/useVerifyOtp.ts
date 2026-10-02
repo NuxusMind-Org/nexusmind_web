@@ -40,7 +40,7 @@ export const useVerifyOtp = () => {
 
         queryClient.invalidateQueries({ queryKey: authKeys.me() });
         queryClient.invalidateQueries({ queryKey: ['user'] });
-        navigate(PATHS.DASHBOARD);
+        navigate(PATHS.HOME);
       } else {
         // Fallback for Password recovery flow: navigate to set new password
         navigate(PATHS.NEW_PASSWORD);

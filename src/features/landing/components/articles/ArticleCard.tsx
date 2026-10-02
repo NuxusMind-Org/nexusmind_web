@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Calendar, Clock, Eye, User, ArrowRight } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import type { ArticleItem } from '../../constants/articles';
 
@@ -42,7 +42,7 @@ export const ArticleCard = ({ item }: ArticleCardProps) => {
                   className="w-full h-full rounded-full object-cover"
                 />
               ) : (
-                <User size={18} className="text-[#a682ff]" />
+                <AppIcon icon="lucide:user" size={18} className="text-[#a682ff]" />
               )}
             </div>
             <div className="flex flex-col">
@@ -58,15 +58,15 @@ export const ArticleCard = ({ item }: ArticleCardProps) => {
           {/* Metadata Row */}
           <div className="flex flex-wrap items-center gap-4 text-white/60 text-[12px] font-normal tracking-wide">
             <div className="flex items-center gap-1.5">
-              <Calendar size={14} className="text-white/40" />
+              <AppIcon icon="lucide:calendar" size={14} className="text-white/40" />
               <span>{item.date}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Clock size={14} className="text-white/40" />
+              <AppIcon icon="lucide:clock" size={14} className="text-white/40" />
               <span>{item.readTime}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Eye size={14} className="text-white/40" />
+              <AppIcon icon="lucide:eye" size={14} className="text-white/40" />
               <span>{item.views} baxış</span>
             </div>
           </div>
@@ -88,7 +88,7 @@ export const ArticleCard = ({ item }: ArticleCardProps) => {
         <div className="flex items-center justify-end border-t border-white/5 pt-4 mt-auto">
           <Link to={detailPath} className="text-accent hover:text-brand text-[13px] sm:text-[14px] font-semibold flex items-center gap-1.5 cursor-pointer transition-colors duration-300 group-hover:translate-x-0.5 transition-transform">
             <span>Davamını oxu</span>
-            <ArrowRight size={14} />
+            <AppIcon icon="lucide:arrow-right" size={14} />
           </Link>
         </div>
       </div>

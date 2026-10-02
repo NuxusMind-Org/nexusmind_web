@@ -53,48 +53,61 @@ export const useRoadmapMascot = (): RoadmapMascotState => {
       if (!container || !card1 || !card2 || !card3) return;
 
       const r = CORNER_R;
-      const drop1x = card2.offsetLeft + 140;
-      const drop2x = card3.offsetLeft + card3.offsetWidth - 140;
+      const c1Right = card1.offsetLeft + card1.offsetWidth;
+      const c2Left = card2.offsetLeft;
+      const c2Right = card2.offsetLeft + card2.offsetWidth;
+      const c3Right = card3.offsetLeft + card3.offsetWidth;
+
+      // Drop point on Card 2 (for Arrow 1)
+      const idealDrop1x = Math.max(c1Right + r * 2 + 10, c2Left + 160);
+      const drop1x = Math.min(c2Right - 80, idealDrop1x);
+
+      // Drop point on Card 3 (for Arrow 2)
+      const idealDrop2x = Math.min(c2Left - r * 2 - 10, c3Right - 160);
+      const drop2x = Math.max(card3.offsetLeft + 80, idealDrop2x);
+
       const canZigzag =
         window.innerWidth >= 768 &&
-        drop1x >= card1.offsetLeft + card1.offsetWidth + r * 2 &&
-        drop2x <= card2.offsetLeft - r * 2;
+        drop1x >= c1Right + r * 2 &&
+        drop2x <= c2Left - r * 2;
 
       if (!canZigzag) {
         const start1x = card1.offsetLeft + card1.offsetWidth / 2;
         const start1y = card1.offsetTop + card1.offsetHeight + 10;
         const end1x = card2.offsetLeft + card2.offsetWidth / 2;
         const end1y = card2.offsetTop - 12;
+        const mid1x = (start1x + end1x) / 2;
         const mid1y = (start1y + end1y) / 2;
         setArrow1Path(`M ${start1x},${start1y} L ${end1x},${end1y}`);
-        setArrow1Chevron(chevronPath(start1x, mid1y, 'down'));
+        setArrow1Chevron(chevronPath(mid1x, mid1y, 'down'));
 
         const start2x = card2.offsetLeft + card2.offsetWidth / 2;
         const start2y = card2.offsetTop + card2.offsetHeight + 10;
         const end2x = card3.offsetLeft + card3.offsetWidth / 2;
         const end2y = card3.offsetTop - 12;
+        const mid2x = (start2x + end2x) / 2;
         const mid2y = (start2y + end2y) / 2;
         setArrow2Path(`M ${start2x},${start2y} L ${end2x},${end2y}`);
-        setArrow2Chevron(chevronPath(start2x, mid2y, 'down'));
+        setArrow2Chevron(chevronPath(mid2x, mid2y, 'down'));
       } else {
-        const s1x = card1.offsetLeft + card1.offsetWidth;
+        const s1x = c1Right;
         const s1y = card1.offsetTop + card1.offsetHeight - 28;
         const e1x = drop1x;
         const e1y = card2.offsetTop;
         const gap1 = e1y - (card1.offsetTop + card1.offsetHeight);
-        const mid1y = card1.offsetTop + card1.offsetHeight + Math.max(r + 8, gap1 * 0.28);
+        const mid1y = card1.offsetTop + card1.offsetHeight + Math.max(r + 8, gap1 * 0.35);
 
         setArrow1Path(
           `M ${s1x},${s1y} L ${s1x},${mid1y - r} Q ${s1x},${mid1y} ${s1x + r},${mid1y} L ${e1x - r},${mid1y} Q ${e1x},${mid1y} ${e1x},${mid1y + r} L ${e1x},${e1y}`
         );
         setArrow1Chevron(chevronPath((s1x + e1x) / 2, mid1y, 'right'));
 
-        const s2x = card2.offsetLeft;
+        const s2x = c2Left;
         const s2y = card2.offsetTop + card2.offsetHeight - 28;
         const e2x = drop2x;
         const e2y = card3.offsetTop;
         const gap2 = e2y - (card2.offsetTop + card2.offsetHeight);
-        const mid2y = card2.offsetTop + card2.offsetHeight + Math.max(r + 8, gap2 * 0.28);
+        const mid2y = card2.offsetTop + card2.offsetHeight + Math.max(r + 8, gap2 * 0.35);
 
         setArrow2Path(
           `M ${s2x},${s2y} L ${s2x},${mid2y - r} Q ${s2x},${mid2y} ${s2x - r},${mid2y} L ${e2x + r},${mid2y} Q ${e2x},${mid2y} ${e2x},${mid2y + r} L ${e2x},${e2y}`
@@ -111,8 +124,8 @@ export const useRoadmapMascot = (): RoadmapMascotState => {
       const range = startScroll - endScroll;
       const progress = Math.max(0, Math.min(1, (startScroll - currentScroll) / range));
 
-      const showA1 = progress > 0.15;
-      const showA2 = progress > 0.45;
+      const showA1 = progress > 0.12;
+      const showA2 = progress > 0.40;
 
       if (showA1 !== arrowsVisibleRef.current.a1 || showA2 !== arrowsVisibleRef.current.a2) {
         arrowsVisibleRef.current = { a1: showA1, a2: showA2 };
@@ -120,13 +133,18 @@ export const useRoadmapMascot = (): RoadmapMascotState => {
       }
     };
 
-    window.addEventListener('scroll', updateConnectorPaths);
+    window.addEventListener('scroll', updateConnectorPaths, { passive: true });
     window.addEventListener('resize', updateConnectorPaths);
-    setTimeout(updateConnectorPaths, 100);
+    const timer1 = setTimeout(updateConnectorPaths, 100);
+    const timer2 = setTimeout(updateConnectorPaths, 400);
+    const timer3 = setTimeout(updateConnectorPaths, 1000);
 
     return () => {
       window.removeEventListener('scroll', updateConnectorPaths);
       window.removeEventListener('resize', updateConnectorPaths);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
     };
   }, []);
 

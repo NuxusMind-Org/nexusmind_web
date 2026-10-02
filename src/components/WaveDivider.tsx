@@ -43,9 +43,10 @@ interface WaveDividerProps {
   variant?: 'multi' | 'single';
 }
 
-const STAGGER_MS = 150;
-const DURATION_MS = 700;
-const EASE = 'ease-in-out';
+const STAGGER_MS = 220;
+const INITIAL_DELAY_MS = 80;
+const DURATION_MS = 650;
+const EASE = 'cubic-bezier(0.25, 1, 0.5, 1)';
 
 const usePrefersReducedMotion = () => {
   const [reduced, setReduced] = useState(false);
@@ -74,7 +75,7 @@ const useDividerVisible = () => {
         setVisible(true);
         return;
       }
-      if (rect.top < window.innerHeight - 20) {
+      if (rect.top < window.innerHeight - 30) {
         setVisible(true);
         return;
       }
@@ -87,7 +88,7 @@ const useDividerVisible = () => {
       },
       {
         threshold: [0, 0.15, 1],
-        rootMargin: '0px 0px -20px 0px',
+        rootMargin: '0px 0px -30px 0px',
       }
     );
 
@@ -108,7 +109,7 @@ const useDividerVisible = () => {
   return { ref, visible };
 };
 
-const bandStyle = (index: number, visible: boolean, reduced: boolean): CSSProperties => {
+const animatedBandStyle = (index: number, visible: boolean, reduced: boolean): CSSProperties => {
   if (reduced) {
     return { opacity: 1 };
   }
@@ -116,7 +117,7 @@ const bandStyle = (index: number, visible: boolean, reduced: boolean): CSSProper
   return {
     opacity: visible ? 1 : 0,
     transition: `opacity ${DURATION_MS}ms ${EASE}`,
-    transitionDelay: visible ? `${index * STAGGER_MS}ms` : '0ms',
+    transitionDelay: visible ? `${INITIAL_DELAY_MS + index * STAGGER_MS}ms` : '0ms',
   };
 };
 
@@ -143,41 +144,41 @@ export const WaveDivider = ({
         aria-hidden="true"
       >
         <svg
-          viewBox="0 0 1271 160"
+          viewBox="0 0 1271 110"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
           className="w-full block"
           style={{
-            height: 'clamp(100px, 12vw, 150px)',
+            height: 'clamp(60px, 7.5vw, 95px)',
           }}
         >
           {reverse ? (
             <path
               d="
-                M -20 15
-                C 180 25 400 65 700 60
-                C 900 55 1100 25 1291 30
-                L 1291 95
-                C 1100 90 900 120 700 125
-                C 400 130 180 90 -20 80
+                M -20 16
+                C 180 22 420 44 700 48
+                C 920 50 1120 28 1291 26
+                L 1291 38
+                C 1120 40 920 82 700 85
+                C 420 80 180 34 -20 28
                 Z
               "
               fill="#6B69A8"
-              style={bandStyle(0, visible, reducedMotion)}
+              style={{ opacity: 1 }}
             />
           ) : (
             <path
               d="
-                M -20 45
-                C 180 35 400 5 700 12
-                C 900 20 1100 45 1291 40
-                L 1291 105
-                C 1100 110 900 85 700 77
-                C 400 70 180 100 -20 110
+                M -20 35
+                C 180 30 420 10 700 15
+                C 920 20 1120 34 1291 32
+                L 1291 44
+                C 1120 46 920 58 700 52
+                C 420 46 180 44 -20 47
                 Z
               "
               fill="#6B69A8"
-              style={bandStyle(0, visible, reducedMotion)}
+              style={{ opacity: 1 }}
             />
           )}
         </svg>
@@ -199,12 +200,12 @@ export const WaveDivider = ({
       aria-hidden="true"
     >
       <svg
-        viewBox="0 0 1271 360"
+        viewBox="0 0 1271 220"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="none"
         className="w-full block"
         style={{
-          height: 'clamp(160px, 31.5vw, 360px)',
+          height: 'clamp(110px, 19vw, 220px)',
         }}
       >
         {reverse ? (
@@ -219,58 +220,58 @@ export const WaveDivider = ({
               d="
                 M -20 0
                 L 1291 0
-                L 1291 90
-                C 1100 84 900 116 700 124
-                C 400 134 180 50 -20 38
+                L 1291 60
+                C 1120 65 920 86 700 80
+                C 420 72 180 50 -20 45
                 Z
               "
               fill="#FFFFFF"
-              style={bandStyle(0, visible, reducedMotion)}
+              style={{ opacity: 1 }}
             />
 
-            {/* 2. LIGHT WAVE (Warm Off-White) */}
+            {/* 2. 1ST WAVE (Warm Off-White) — Stays still as the primary divider */}
             <path
               d="
-                M -20 38
-                C 180 50 400 134 700 124
-                C 900 116 1100 84 1291 90
-                L 1291 169
-                C 1100 163 900 195 700 203
-                C 400 213 180 145 -20 133
+                M -20 45
+                C 180 50 420 72 700 80
+                C 920 86 1120 65 1291 60
+                L 1291 74
+                C 1120 80 920 134 700 126
+                C 420 114 180 68 -20 59
                 Z
               "
               fill="#EFEAEA"
-              style={bandStyle(1, visible, reducedMotion)}
+              style={{ opacity: 1 }}
             />
 
-            {/* 3. MIDDLE WAVE (Light Lavender) */}
+            {/* 3. 2ND WAVE (Light Lavender) — Fades in first */}
             <path
               d="
-                M -20 133
-                C 180 145 400 213 700 203
-                C 900 195 1100 163 1291 169
-                L 1291 240
-                C 1100 234 900 266 700 274
-                C 400 284 180 222 -20 210
+                M -20 59
+                C 180 68 420 114 700 126
+                C 920 134 1120 80 1291 74
+                L 1291 87
+                C 1120 94 920 178 700 170
+                C 420 154 180 84 -20 72
                 Z
               "
               fill="#B6BBD9"
-              style={bandStyle(2, visible, reducedMotion)}
+              style={animatedBandStyle(0, visible, reducedMotion)}
             />
 
-            {/* 4. DARK WAVE (Dark Purple / Blue) */}
+            {/* 4. 3RD WAVE (Dark Purple / Blue) — Fades in second */}
             <path
               d="
-                M -20 210
-                C 180 222 400 284 700 274
-                C 900 266 1100 234 1291 240
-                L 1291 330
-                C 1100 326 900 358 700 366
-                C 400 376 180 312 -20 302
+                M -20 72
+                C 180 84 420 154 700 170
+                C 920 178 1120 94 1291 87
+                L 1291 99
+                C 1120 106 920 220 700 212
+                C 420 194 180 98 -20 84
                 Z
               "
               fill="#6B69A8"
-              style={bandStyle(3, visible, reducedMotion)}
+              style={animatedBandStyle(1, visible, reducedMotion)}
             />
           </>
         ) : (
@@ -280,63 +281,63 @@ export const WaveDivider = ({
                 Sequence: Dark (#6B69A8) → Lavender (#B6BBD9) → Light (#EFEAEA) → White (#FFFFFF)
                 ============================================================ */}
 
-            {/* 1. DARK WAVE (Dark Purple / Blue) — Starts at top */}
+            {/* 1. DARK WAVE (Dark Purple / Blue) — Always visible as persistent divider */}
             <path
               d="
-                M -20 58
-                C 180 48 400 -16 700 -6
-                C 900 2 1100 34 1291 30
-                L 1291 120
-                C 1100 126 900 94 700 86
-                C 400 76 180 138 -20 150
+                M -20 45
+                C 180 38 420 2 700 8
+                C 920 14 1120 32 1291 30
+                L 1291 42
+                C 1120 46 920 56 700 50
+                C 420 42 180 54 -20 57
                 Z
               "
               fill="#6B69A8"
-              style={bandStyle(0, visible, reducedMotion)}
+              style={{ opacity: 1 }}
             />
 
-            {/* 2. MIDDLE WAVE (Light Lavender) */}
+            {/* 2. MIDDLE WAVE (Light Lavender) — Fades in first */}
             <path
               d="
-                M -20 150
-                C 180 138 400 76 700 86
-                C 900 94 1100 126 1291 120
-                L 1291 191
-                C 1100 197 900 165 700 157
-                C 400 147 180 215 -20 227
+                M -20 57
+                C 180 54 420 42 700 50
+                C 920 56 1120 46 1291 42
+                L 1291 55
+                C 1120 62 920 100 700 94
+                C 420 82 180 72 -20 70
                 Z
               "
               fill="#B6BBD9"
-              style={bandStyle(1, visible, reducedMotion)}
+              style={animatedBandStyle(0, visible, reducedMotion)}
             />
 
-            {/* 3. LIGHT WAVE (Warm Off-White) */}
+            {/* 3. LIGHT WAVE (Warm Off-White) — Fades in second */}
             <path
               d="
-                M -20 227
-                C 180 215 400 147 700 157
-                C 900 165 1100 197 1291 191
-                L 1291 270
-                C 1100 276 900 244 700 236
-                C 400 226 180 310 -20 322
+                M -20 70
+                C 180 72 420 82 700 94
+                C 920 100 1120 62 1291 55
+                L 1291 69
+                C 1120 80 920 146 700 140
+                C 420 124 180 92 -20 84
                 Z
               "
               fill="#EFEAEA"
-              style={bandStyle(2, visible, reducedMotion)}
+              style={animatedBandStyle(1, visible, reducedMotion)}
             />
 
             {/* 4. WHITE BASE: Connects seamlessly into white ExpertsSection */}
             <path
               d="
-                M -20 322
-                C 180 310 400 226 700 236
-                C 900 244 1100 276 1291 270
-                L 1291 360
-                L -20 360
+                M -20 84
+                C 180 92 420 124 700 140
+                C 920 146 1120 80 1291 69
+                L 1291 220
+                L -20 220
                 Z
               "
               fill="#FFFFFF"
-              style={bandStyle(3, visible, reducedMotion)}
+              style={{ opacity: 1 }}
             />
           </>
         )}

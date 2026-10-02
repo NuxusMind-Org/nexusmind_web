@@ -1,17 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import {
-  Camera,
-  CameraOff,
-  CheckCircle2,
-  RefreshCw,
-  ArrowLeft,
-  AlertCircle,
-  Loader2,
-  Sparkles,
-  SunMedium,
-  UserCheck,
-} from 'lucide-react';
+import { AppIcon } from '@/components';
 import nexusMindLogo from '@/assets/svg/NexusMindLogo.svg';
 import { Button } from '@/components/button';
 import { PATHS } from '@/routes/paths';
@@ -243,7 +232,7 @@ export const FaceCapture = () => {
   if (!registrationData && !isSuccess) {
     return (
       <div className="w-full flex flex-col justify-center items-center py-12 text-center">
-        <AlertCircle size={52} className="text-amber-400 mb-4" />
+        <AppIcon icon="lucide:alert-circle" size={52} className="text-amber-400 mb-4" />
         <h2 className="text-2xl font-bold text-white mb-2">Qeydiyyat Məlumatı Tapılmadı</h2>
         <p className="text-ui-muted text-sm max-w-sm mb-6">
           Üz təsdiqini tamamlamaq üçün ilk öncə qeydiyyat formasını doldurmalısınız.
@@ -278,7 +267,7 @@ export const FaceCapture = () => {
           disabled={isProcessing}
           className="flex items-center gap-2 text-xs sm:text-sm text-ui-muted hover:text-white transition-colors disabled:opacity-50 px-3 py-1.5 rounded-lg hover:bg-white/5"
         >
-          <ArrowLeft size={16} />
+          <AppIcon icon="lucide:arrow-left" size={16} />
           <span>Məlumatları dəyiş</span>
         </button>
       </div>
@@ -295,15 +284,15 @@ export const FaceCapture = () => {
         {/* Biometric Tips Chips */}
         <div className="flex flex-wrap items-center justify-center gap-2 mt-3.5">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs bg-white/5 border border-white/10 text-white/80">
-            <UserCheck size={12} className="text-brand" />
+            <AppIcon icon="lucide:user-check" size={12} className="text-brand" />
             Üzünüzü mərkəzdə saxlayın
           </span>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs bg-white/5 border border-white/10 text-white/80">
-            <SunMedium size={12} className="text-amber-300" />
+            <AppIcon icon="lucide:sun-medium" size={12} className="text-amber-300" />
             İşıqlı mühitdə dayanın
           </span>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs bg-white/5 border border-white/10 text-white/80">
-            <Sparkles size={12} className="text-accent" />
+            <AppIcon icon="lucide:sparkles" size={12} className="text-accent" />
             Eynəkləri çıxarın
           </span>
         </div>
@@ -382,7 +371,7 @@ export const FaceCapture = () => {
           {/* Camera Loading State */}
           {isCameraLoading && !cameraError && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0D1117]/85 z-25 text-center p-6">
-              <Loader2 size={40} className="text-brand animate-spin mb-3" />
+              <AppIcon icon="lucide:loader-2" size={40} className="text-brand animate-spin mb-3" />
               <p className="text-base text-white font-medium">Kamera başladılır...</p>
               <p className="text-xs text-ui-muted mt-1">Zəhmət olmasa gözləyin</p>
             </div>
@@ -391,7 +380,7 @@ export const FaceCapture = () => {
           {/* Camera Permission / Device Error */}
           {cameraError && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0D1117]/95 z-25 text-center p-6">
-              <CameraOff size={44} className="text-red-400 mb-3" />
+              <AppIcon icon="lucide:camera-off" size={44} className="text-red-400 mb-3" />
               <p className="text-base text-red-200 font-medium mb-1.5">
                 Kamera tapılmadı və ya icazə verilmədi
               </p>
@@ -406,7 +395,7 @@ export const FaceCapture = () => {
                   onClick={() => setRetryCount((prev) => prev + 1)}
                   className="w-full text-xs"
                 >
-                  <RefreshCw size={14} className="mr-1.5" />
+                  <AppIcon icon="lucide:refresh-cw" size={14} className="mr-1.5" />
                   Yenidən yoxla
                 </Button>
               </div>
@@ -417,7 +406,7 @@ export const FaceCapture = () => {
         {/* Processing Indicator */}
         {isProcessing && (
           <div className="flex items-center gap-2.5 mt-4 text-sm text-brand font-medium bg-brand/10 border border-brand/20 py-2 px-4 rounded-full animate-pulse">
-            <Loader2 size={16} className="animate-spin" />
+            <AppIcon icon="lucide:loader-2" size={16} className="animate-spin" />
             <span>
               {processingStep === 'uploading'
                 ? 'Üz şəkli yüklənir...'
@@ -430,7 +419,7 @@ export const FaceCapture = () => {
         {submitError && (
           <div className="mt-4 text-xs sm:text-sm text-red-300 font-medium bg-red-950/40 border border-red-500/30 py-3 px-4 rounded-xl max-w-[500px] w-full flex items-center justify-between gap-3 shadow-lg">
             <div className="flex items-start gap-2">
-              <AlertCircle size={18} className="text-red-400 shrink-0 mt-0.5" />
+              <AppIcon icon="lucide:alert-circle" size={18} className="text-red-400 shrink-0 mt-0.5" />
               <span className="leading-snug">{submitError}</span>
             </div>
             <button
@@ -461,7 +450,7 @@ export const FaceCapture = () => {
             >
               <div className="w-20 h-20 rounded-full border-4 border-white/70 p-1 flex items-center justify-center transition-all group-hover:border-brand group-hover:shadow-[0_0_28px_rgba(0,242,255,0.45)]">
                 <div className="w-full h-full rounded-full bg-white group-hover:bg-brand transition-colors flex items-center justify-center text-slate-900 shadow-xl">
-                  <Camera size={28} className="transition-transform group-hover:scale-110" />
+                  <AppIcon icon="lucide:camera" size={28} className="transition-transform group-hover:scale-110" />
                 </div>
               </div>
             </button>
@@ -477,7 +466,7 @@ export const FaceCapture = () => {
       {isSuccess && (
         <div className="absolute inset-0 z-50 bg-[#0D1117]/95 backdrop-blur-2xl rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-8 text-center animate-fade-in">
           <div className="w-24 h-24 rounded-full bg-emerald-500/20 border-2 border-emerald-500/80 flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(16,185,129,0.4)] animate-bounce">
-            <CheckCircle2 size={54} className="text-emerald-400" />
+            <AppIcon icon="lucide:check-circle-2" size={54} className="text-emerald-400" />
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 tracking-tight">

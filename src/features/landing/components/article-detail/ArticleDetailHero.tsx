@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Calendar, Clock, Eye, ChevronRight } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import type { ArticleItem } from '../../constants/articles';
 
@@ -15,11 +15,11 @@ export const ArticleDetailHero = ({ item }: ArticleDetailHeroProps) => {
         <Link to={PATHS.HOME} className="hover:text-white transition-colors duration-300">
           Ana səhifə
         </Link>
-        <ChevronRight size={14} className="text-white/30" />
+        <AppIcon icon="lucide:chevron-right" size={14} className="text-white/30" />
         <Link to={PATHS.ARTICLE} className="hover:text-white transition-colors duration-300">
           Məqalələr
         </Link>
-        <ChevronRight size={14} className="text-white/30" />
+        <AppIcon icon="lucide:chevron-right" size={14} className="text-white/30" />
         <span className="text-[#c39ffd] font-light">Vr simulyasiya və psixologiya</span>
       </nav>
 
@@ -41,15 +41,15 @@ export const ArticleDetailHero = ({ item }: ArticleDetailHeroProps) => {
           {/* Metadata Row */}
           <div className="flex flex-wrap items-center gap-4 text-white/60 text-[12px] sm:text-[13px] font-normal tracking-wide mb-8">
             <div className="flex items-center gap-1.5">
-              <Calendar size={14} className="text-white/40" />
+              <AppIcon icon="lucide:calendar" size={14} className="text-white/40" />
               <span>{item.date}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Clock size={14} className="text-white/40" />
+              <AppIcon icon="lucide:clock" size={14} className="text-white/40" />
               <span>{item.readTime}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Eye size={14} className="text-white/40" />
+              <AppIcon icon="lucide:eye" size={14} className="text-white/40" />
               <span>{item.views} baxış</span>
             </div>
           </div>

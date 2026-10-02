@@ -30,8 +30,8 @@ export const useLogin = () => {
       queryClient.invalidateQueries({ queryKey: authKeys.me() });
       queryClient.invalidateQueries({ queryKey: ['user'] });
 
-      // 5. Redirect to web app dashboard
-      navigate(PATHS.DASHBOARD);
+      // 5. Redirect to unified home platform
+      navigate(PATHS.HOME);
     },
   });
 };

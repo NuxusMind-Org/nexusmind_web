@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { useTranslation } from 'react-i18next';
 
 export type CategoryFilter = 'all' | 'terapiyalar' | 'otaqlar' | 'telimler';
@@ -83,7 +83,7 @@ export const GalleryFilters = ({
               className="w-full min-h-[44px] bg-[#1e293b]/70 backdrop-blur-md border border-white/15 rounded-xl px-4 py-2.5 text-[13px] font-medium text-white flex items-center justify-between gap-2 cursor-pointer hover:bg-white/10 transition-all shadow-md outline-none"
             >
               <span className="truncate">{sortLabels[activeSort]}</span>
-              <ChevronDown size={16} className={`text-white/60 shrink-0 transition-transform duration-300 ${isSortOpen ? 'rotate-180 text-white' : ''}`} />
+              <AppIcon icon="lucide:chevron-down" size={16} className={`text-white/60 shrink-0 transition-transform duration-300 ${isSortOpen ? 'rotate-180 text-white' : ''}`} />
             </button>
 
             {/* Mobile Dropdown Options overlay */}
@@ -125,7 +125,7 @@ export const GalleryFilters = ({
           className={`flex items-center gap-2 bg-[#255765]/85 hover:bg-[#255765] border rounded-[8px] px-4 py-2 text-[14px] font-medium text-white shadow-lg cursor-pointer transition-all duration-300 select-none outline-none group ${isFilterOpen ? 'border-[#8A38F5]' : 'border-[rgba(255,255,255,0.1)]'
             }`}
         >
-          <SlidersHorizontal size={15} className="group-hover:scale-105 transition-transform duration-300" />
+          <AppIcon icon="lucide:sliders-horizontal" size={15} className="group-hover:scale-105 transition-transform duration-300" />
           <span>{t('gallery.filter')}</span>
         </button>
 
@@ -165,7 +165,7 @@ export const GalleryFilters = ({
             className="bg-[#1e293b]/60 backdrop-blur-md border border-white/10 rounded-lg px-5 py-2.5 text-[14px] font-medium text-white flex items-center justify-between gap-3 min-w-[200px] cursor-pointer hover:bg-white/5 hover:border-white/20 transition-all shadow-lg"
           >
             <span>{sortLabels[activeSort]}</span>
-            <ChevronDown size={16} className={`text-white/60 transition-transform duration-300 ${isSortOpen ? 'rotate-180 text-white' : ''}`} />
+            <AppIcon icon="lucide:chevron-down" size={16} className={`text-white/60 transition-transform duration-300 ${isSortOpen ? 'rotate-180 text-white' : ''}`} />
           </button>
 
           {/* Custom Dropdown Drop-list */}

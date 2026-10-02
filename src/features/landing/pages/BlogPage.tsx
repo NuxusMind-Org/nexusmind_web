@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, Search, Calendar, ChevronLeft, ChevronRight, Mic, ChevronRight as ChevronRightIcon } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { useTranslation } from 'react-i18next';
 import { blogsApi } from '@/api/blogs.api';
 import { mapBlogToSimilarBlogCard } from '@/utils/contentMappers';
@@ -107,7 +107,7 @@ export const BlogPage = () => {
             {/* Footer Row */}
             <div className="flex items-center justify-between w-full mt-4">
               <div className="flex items-center gap-2 text-white/50 text-[14px] font-light select-none">
-                <Eye className="w-4 h-4" />
+                <AppIcon icon="lucide:eye" className="w-4 h-4" />
                 <span>130 {t('blog.views')}</span>
               </div>
               <button className="bg-[#5c16c5] hover:bg-[#6f25db] text-white text-[14px] font-semibold px-6 py-2.5 rounded-full cursor-pointer transition-all duration-300 select-none">
@@ -136,7 +136,7 @@ export const BlogPage = () => {
               placeholder={t('blog.searchPlaceholder')}
               className="w-full h-[54px] bg-[#1a2847]/70 backdrop-blur-md border border-white/15 rounded-[14px] sm:rounded-full pl-6 pr-14 text-[15px] text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition-all shadow-inner"
             />
-            <Search className="absolute right-5 top-1/2 -translate-y-1/2 text-white/50 w-5 h-5 pointer-events-none" />
+            <AppIcon icon="lucide:search" className="absolute right-5 top-1/2 -translate-y-1/2 text-white/50 w-5 h-5 pointer-events-none" />
           </div>
 
           {/* Main Layout Grid: 2 Columns for Cards, 1 Column for Sidebar */}
@@ -176,11 +176,11 @@ export const BlogPage = () => {
                     {/* Card Footer */}
                     <div className="flex items-center justify-between w-full pt-4 border-t border-white/10 text-[12.5px] text-white/60">
                       <div className="flex items-center gap-1.5 font-light select-none">
-                        <Calendar className="w-3.5 h-3.5" />
+                        <AppIcon icon="lucide:calendar" className="w-3.5 h-3.5" />
                         <span>{blog.date}</span>
                       </div>
                       <span className="text-white/80 font-medium group-hover:text-white flex items-center gap-1 transition-colors select-none">
-                        {t('blog.readMore')} <ChevronRightIcon className="w-3.5 h-3.5" />
+                        {t('blog.readMore')} <AppIcon icon="lucide:chevron-right" className="w-3.5 h-3.5" />
                       </span>
                     </div>
                   </div>
@@ -235,7 +235,7 @@ export const BlogPage = () => {
               <div className="bg-[#121b3d]/90 backdrop-blur-md border border-white/10 rounded-[20px] p-6 flex flex-col gap-4 text-left shadow-xl">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-[#2a3866] flex items-center justify-center shrink-0">
-                    <Mic className="w-5 h-5 text-[#8b9eff]" />
+                    <AppIcon icon="lucide:mic" className="w-5 h-5 text-[#8b9eff]" />
                   </div>
                   <div className="flex flex-col">
                     <h4 className="text-white text-[16.5px] font-bold leading-tight">
@@ -264,7 +264,7 @@ export const BlogPage = () => {
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/80 transition-all cursor-pointer select-none"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <AppIcon icon="lucide:chevron-left" className="w-5 h-5" />
             </button>
 
             {[1, 2, 3].map((page) => (
@@ -284,7 +284,7 @@ export const BlogPage = () => {
               onClick={() => setCurrentPage(Math.min(3, currentPage + 1))}
               className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/80 transition-all cursor-pointer select-none"
             >
-              <ChevronRight className="w-5 h-5" />
+              <AppIcon icon="lucide:chevron-right" className="w-5 h-5" />
             </button>
           </div>
 

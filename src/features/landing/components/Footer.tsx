@@ -1,9 +1,5 @@
 import { Link } from 'react-router-dom';
-import {
-  MapPin,
-  Phone,
-  Mail,
-} from 'lucide-react';
+import { AppIcon } from '@/components';
 import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
 import qrCodeDemo from '@/assets/svg/qrCodeDemo.svg';
 import appInterface from '@/assets/nexusmindAppInterface.jpeg';
@@ -49,17 +45,17 @@ export const Footer = () => {
                   {t('footer.contact', 'Əlaqə')}
                 </h4>
                 <div className="flex items-start gap-3 text-white/80 text-[14px] sm:text-[15px] leading-snug">
-                  <MapPin size={18} className="shrink-0 mt-0.5 text-white/90" />
+                  <AppIcon icon="lucide:map-pin" size={18} className="shrink-0 mt-0.5 text-white/90" />
                   <span className="ponnala-nudge">{t('footer.address', 'Bakı şəhəri, Neftçilər prospekti 123, AZ1000')}</span>
                 </div>
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
-                  <Phone size={18} className="shrink-0 text-white/90" />
+                  <AppIcon icon="lucide:phone" size={18} className="shrink-0 text-white/90" />
                   <a href="tel:+994503956772" className="hover:text-white transition-colors ponnala-nudge">
                     +994 50 395 67 72
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
-                  <Mail size={18} className="shrink-0 text-white/90" />
+                  <AppIcon icon="lucide:mail" size={18} className="shrink-0 text-white/90" />
                   <a href="mailto:nexusmind.net@gmail.com" className="hover:text-white transition-colors ponnala-nudge">
                     nexusmind.net@gmail.com
                   </a>

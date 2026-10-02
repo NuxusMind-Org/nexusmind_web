@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { PILLARS } from '../../constants/pillars';
 import { ScrollReveal } from '../ScrollReveal';
 import { WaveDivider } from '@/components/WaveDivider';
@@ -19,7 +19,7 @@ export const PillarsSection = () => {
     <section id="pillars" className="relative w-full scroll-mt-20">
       <div
         className="relative w-full z-[10] pointer-events-none"
-        style={{ marginTop: 'clamp(-80px, -6vw, -45px)' }}
+        style={{ marginTop: 'clamp(-50px, -3.6vw, -28px)' }}
       >
         <WaveDivider />
       </div>
@@ -52,7 +52,7 @@ export const PillarsSection = () => {
                     <span className="text-[16px] sm:text-[20px] font-semibold text-[#0F5C63] pr-3 leading-snug ponnala-nudge">
                       {item.title}
                     </span>
-                    <ChevronDown
+                    <AppIcon icon="lucide:chevron-down"
                       size={22}
                       className={`shrink-0 text-[#0F5C63] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                         isOpen ? 'rotate-180' : 'rotate-0'

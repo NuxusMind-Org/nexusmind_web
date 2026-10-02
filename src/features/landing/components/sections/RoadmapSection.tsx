@@ -1,6 +1,6 @@
-import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Icon } from '@iconify/react';
 import roadmap01 from '@/assets/roadmap01.png';
 import roadmap02 from '@/assets/roadmap02.png';
 import roadmap03 from '@/assets/roadmap03.png';
@@ -24,31 +24,31 @@ interface RoadmapCardProps {
 
 const RoadmapCard = ({ image, imageAlt, gradient, title, ctaLabel, onCta }: RoadmapCardProps) => (
   <div
-    className="relative w-full h-auto min-h-[280px] sm:min-h-[320px] md:h-[356px] md:min-h-[356px] rounded-[20px] overflow-hidden pt-6 pr-7 pb-6 pl-7 flex flex-col gap-2"
+    className="group relative w-full h-auto min-h-[360px] sm:min-h-[420px] md:min-h-[460px] lg:min-h-[500px] rounded-[24px] sm:rounded-[32px] md:rounded-[40px] overflow-hidden p-6 sm:p-10 md:p-12 lg:p-14 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.35)] border border-white/10 transition-all duration-300 hover:shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
     style={{
       backgroundColor: '#171717',
       backgroundImage: gradient,
     }}
   >
-    <div className="relative z-10 flex flex-col gap-2 max-w-[58%] sm:max-w-[260px]">
-      <h3 className="text-white text-[18px] sm:text-[20px] md:text-[22px] font-medium leading-snug ponnala-nudge">
+    <div className="relative z-10 flex flex-col justify-between h-full max-w-[62%] sm:max-w-[360px] md:max-w-[460px] lg:max-w-[520px]">
+      <h3 className="text-white text-[22px] sm:text-[28px] md:text-[32px] lg:text-[38px] font-bold leading-tight sm:leading-[1.22] tracking-tight">
         {title}
       </h3>
       <button
         type="button"
         onClick={onCta}
-        className="inline-flex items-center gap-2 text-white text-[14px] sm:text-[15px] self-start cursor-pointer group"
+        className="inline-flex items-center gap-3 text-white text-[15px] sm:text-[17px] md:text-[19px] lg:text-[20px] font-medium self-start cursor-pointer group/btn mt-6 sm:mt-10 transition-transform duration-200 hover:translate-x-1"
       >
-        <span className="ponnala-nudge">{ctaLabel}</span>
-        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/80 group-hover:border-white transition-colors">
-          <ArrowRight size={14} />
+        <span className="group-hover/btn:underline underline-offset-4">{ctaLabel}</span>
+        <span className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border border-white/80 group-hover/btn:border-white group-hover/btn:bg-white/15 transition-all">
+          <Icon icon="lucide:arrow-right" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
         </span>
       </button>
     </div>
     <img
       src={image}
       alt={imageAlt}
-      className="absolute bottom-2 right-2 z-0 h-[72%] sm:h-[80%] md:h-[88%] w-auto max-w-[58%] object-contain object-right-bottom pointer-events-none select-none"
+      className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 md:bottom-8 md:right-10 z-0 h-[68%] sm:h-[76%] md:h-[84%] lg:h-[88%] w-auto max-w-[46%] sm:max-w-[46%] md:max-w-[44%] max-h-[320px] sm:max-h-[380px] md:max-h-[440px] object-contain object-right-bottom pointer-events-none select-none transition-transform duration-500 group-hover:scale-105"
       aria-hidden="true"
     />
   </div>
@@ -80,21 +80,24 @@ export const RoadmapSection = () => {
   return (
     <section
       id="roadmap"
-      className="relative w-full min-h-0 md:min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-10 md:py-20 scroll-mt-20"
+      className="relative w-full min-h-0 flex flex-col items-center justify-center px-3 sm:px-6 md:px-8 lg:px-10 xl:px-14 py-16 sm:py-24 md:py-32 scroll-mt-20"
     >
-      <div className="w-full max-w-[1100px] mx-auto flex flex-col">
+      <div className="w-full max-w-[1560px] 2xl:max-w-[1680px] mx-auto flex flex-col">
         <ScrollReveal className="w-full flex flex-col">
-          <div className="text-center mb-10 md:mb-24">
-            <h2 className="text-[30px] sm:text-[44px] font-bold text-white mb-3 tracking-tight ponnala-nudge">
+          <div className="text-center max-w-[900px] mx-auto mb-16 sm:mb-24 md:mb-36">
+            <h2 className="text-[32px] sm:text-[46px] md:text-[52px] font-bold text-white mb-4 tracking-tight">
               {t('roadmap.title', 'Necə istifadə edəcəksən:')}
             </h2>
-            <p className="text-[15px] sm:text-[19px] text-white/80 ponnala-nudge">
+            <p className="text-[16px] sm:text-[20px] md:text-[22px] text-white/80">
               {t('roadmap.subtitle', 'Sən də bizimlə həyatdan yenidən zövq almağı öyrən')}
             </p>
           </div>
         </ScrollReveal>
 
-        <div ref={roadmapRef} className="w-full max-w-[1100px] mx-auto relative flex flex-col gap-8 sm:gap-24 md:gap-[240px] pb-12 md:pb-[200px]">
+        <div
+          ref={roadmapRef}
+          className="w-full relative flex flex-col gap-24 sm:gap-40 md:gap-[380px] lg:gap-[460px] pb-24 sm:pb-36 md:pb-[300px] lg:pb-[380px]"
+        >
           <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ overflow: 'visible' }}>
             {arrow1Path && (
               <g style={{ opacity: arrowsVisible.a1 ? 1 : 0, transition: 'opacity 0.5s ease-in-out' }}>
@@ -140,7 +143,10 @@ export const RoadmapSection = () => {
             )}
           </svg>
 
-          <ScrollReveal ref={card1Ref} className="w-full max-w-[530px] relative self-center md:self-auto">
+          <ScrollReveal
+            ref={card1Ref}
+            className="w-full max-w-[540px] sm:max-w-[620px] md:max-w-[680px] lg:max-w-[720px] xl:max-w-[760px] relative self-center md:self-start"
+          >
             <RoadmapCard
               image={roadmap01}
               imageAlt=""
@@ -151,7 +157,10 @@ export const RoadmapSection = () => {
             />
           </ScrollReveal>
 
-          <ScrollReveal ref={card2Ref} className="w-full max-w-[530px] relative self-center md:self-end">
+          <ScrollReveal
+            ref={card2Ref}
+            className="w-full max-w-[540px] sm:max-w-[620px] md:max-w-[680px] lg:max-w-[720px] xl:max-w-[760px] relative self-center md:self-end"
+          >
             <RoadmapCard
               image={roadmap02}
               imageAlt=""
@@ -162,7 +171,10 @@ export const RoadmapSection = () => {
             />
           </ScrollReveal>
 
-          <ScrollReveal ref={card3Ref} className="w-full max-w-[530px] relative self-center md:self-auto">
+          <ScrollReveal
+            ref={card3Ref}
+            className="w-full max-w-[540px] sm:max-w-[620px] md:max-w-[680px] lg:max-w-[720px] xl:max-w-[760px] relative self-center md:self-start"
+          >
             <RoadmapCard
               image={roadmap03}
               imageAlt=""

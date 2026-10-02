@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
@@ -13,7 +12,7 @@ import {
 } from '../components/article-detail';
 import { articlesApi } from '@/api/articles.api';
 import type { MeqaleResponseDto } from '@/api/types';
-import { SEO } from '@/components';
+import { SEO, AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import { getLocalizedTitle } from '@/utils/multilingual';
 
@@ -98,7 +97,7 @@ export const ArticleDetailPage = () => {
       {isLoading && (
         <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
           <div className="flex flex-col items-center gap-4 text-white/80">
-            <Loader2 className="w-10 h-10 animate-spin text-[#2dd4bf]" />
+            <AppIcon icon="lucide:loader-2" className="w-10 h-10 animate-spin text-[#2dd4bf]" />
             <p className="text-base font-medium">{t('articles.loading')}</p>
           </div>
         </main>
@@ -115,7 +114,7 @@ export const ArticleDetailPage = () => {
           <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
             <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 flex flex-col items-center text-center gap-4 shadow-xl">
               <div className="w-16 h-16 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-300">
-                <AlertCircle className="w-8 h-8" />
+                <AppIcon icon="lucide:alert-circle" className="w-8 h-8" />
               </div>
               <h2 className="text-2xl font-bold text-white">{t('articles.notFoundTitle')}</h2>
               <p className="text-sm text-white/70">
@@ -125,7 +124,7 @@ export const ArticleDetailPage = () => {
                 onClick={() => navigate(PATHS.ARTICLE)}
                 className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-sm font-semibold transition-colors cursor-pointer border border-white/20"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <AppIcon icon="lucide:arrow-left" className="w-4 h-4" />
                 <span>{t('articles.backToList')}</span>
               </button>
             </div>

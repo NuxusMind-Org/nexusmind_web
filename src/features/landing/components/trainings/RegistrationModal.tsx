@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, CheckCircle } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { Input } from '@/components/input';
 import { Button } from '@/components/button';
 import type { Training } from '../../constants/trainings';
@@ -76,14 +76,14 @@ export const RegistrationModal = ({ training, isOpen, onClose }: RegistrationMod
           onClick={handleClose}
           className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors cursor-pointer border-0 bg-transparent outline-none p-1"
         >
-          <X size={20} />
+          <AppIcon icon="lucide:x" size={20} />
         </button>
 
         {isSuccess ? (
           /* Success Screen */
           <div className="flex flex-col items-center justify-center text-center py-8 gap-4">
             <div className="w-16 h-16 rounded-full bg-[#00F2FF]/10 flex items-center justify-center text-[#00F2FF]">
-              <CheckCircle size={40} />
+              <AppIcon icon="lucide:check-circle" size={40} />
             </div>
             <h3 className="text-[20px] font-bold text-white tracking-tight">
               {t('trainings.successTitle', 'Uğurla Qeydiyyatdan Keçdiniz!')}

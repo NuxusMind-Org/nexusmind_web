@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Eye, EyeOff, KeyRound, CheckCircle2 } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { Input } from '@/components/input';
@@ -120,7 +120,7 @@ export const NewPasswordForm = () => {
       {isSuccess ? (
         <div className="flex flex-col items-center text-center gap-4 py-6 animate-fade-in">
           <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/40">
-            <CheckCircle2 size={36} />
+            <AppIcon icon="lucide:check-circle-2" size={36} />
           </div>
           <h2 className="text-xl font-bold text-white">Şifrəniz uğurla yeniləndi!</h2>
           <p className="text-sm text-gray-300">
@@ -157,7 +157,7 @@ export const NewPasswordForm = () => {
               placeholder="Email ilə göndərilən kod"
               {...register('otp')}
               error={errors.otp?.message}
-              rightElement={<KeyRound size={18} className="text-white/40" />}
+              rightElement={<AppIcon icon="lucide:key-round" size={18} className="text-white/40" />}
             />
             {email && (
               <div className="flex justify-end mt-1">
@@ -200,7 +200,7 @@ export const NewPasswordForm = () => {
                   className="hover:text-white transition-colors cursor-pointer"
                   tabIndex={-1}
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPassword ? <AppIcon icon="lucide:eye-off" size={18} /> : <AppIcon icon="lucide:eye" size={18} />}
                 </button>
               }
             />
@@ -224,7 +224,7 @@ export const NewPasswordForm = () => {
                 className="hover:text-white transition-colors cursor-pointer"
                 tabIndex={-1}
               >
-                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showConfirmPassword ? <AppIcon icon="lucide:eye-off" size={18} /> : <AppIcon icon="lucide:eye" size={18} />}
               </button>
             }
           />

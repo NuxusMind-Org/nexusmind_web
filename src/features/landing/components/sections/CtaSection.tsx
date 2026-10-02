@@ -13,10 +13,10 @@ export const CtaSection = () => {
       className="relative w-full flex flex-col items-center px-4 sm:px-8 md:px-12 lg:px-[72px] py-16 md:py-24 scroll-mt-20"
     >
       <ScrollReveal className="w-full max-w-[900px] mx-auto flex flex-col items-center text-center">
-        <h2 className="text-[32px] sm:text-[52px] lg:text-[64px] font-bold text-white tracking-tight leading-tight ponnala-nudge">
+        <h2 className="text-[32px] sm:text-[52px] lg:text-[64px] font-bold text-white tracking-tight leading-tight">
           {t('cta.title', 'İndi qoşul !')}
         </h2>
-        <p className="text-[16px] sm:text-[19px] md:text-[21px] text-white/80 max-w-[560px] mt-4 mb-10 sm:mb-12 leading-relaxed ponnala-nudge">
+        <p className="text-[16px] sm:text-[19px] md:text-[21px] text-white/80 max-w-[560px] mt-4 mb-10 sm:mb-12 leading-relaxed">
           {t('cta.subtitle', 'Email-ini göndər sənə ilkin ödənişsiz planı göndərək.')}
         </p>
         <form
@@ -36,7 +36,7 @@ export const CtaSection = () => {
             type="submit"
             className="w-full sm:w-auto h-[56px] sm:h-[58px] px-8 sm:px-10 bg-[#4A148F] hover:bg-[#5b1ab0] text-white font-semibold text-[16px] sm:text-[18px] rounded-full transition-colors duration-300 cursor-pointer shrink-0 shadow-[0_4px_20px_rgba(74,20,143,0.45)] inline-flex items-center justify-center"
           >
-            <span className="inline-block ponnala-nudge">{t('cta.button', 'Göndər')}</span>
+            <span>{t('cta.button', 'Göndər')}</span>
           </button>
         </form>
       </ScrollReveal>

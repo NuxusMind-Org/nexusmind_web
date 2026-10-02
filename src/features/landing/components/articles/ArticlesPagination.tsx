@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { AppIcon } from '@/components';
 
 interface ArticlesPaginationProps {
   currentPage: number;
@@ -28,7 +28,7 @@ export const ArticlesPagination = ({
         }`}
         aria-label="Previous page"
       >
-        <ChevronLeft size={16} />
+        <AppIcon icon="lucide:chevron-left" size={16} />
       </button>
 
       {/* Page Numbers */}
@@ -60,7 +60,7 @@ export const ArticlesPagination = ({
         }`}
         aria-label="Next page"
       >
-        <ChevronRight size={16} />
+        <AppIcon icon="lucide:chevron-right" size={16} />
       </button>
     </div>
   );

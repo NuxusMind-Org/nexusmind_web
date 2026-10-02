@@ -11,6 +11,7 @@ import { OnboardingPage } from '@/features/onboarding/pages/OnboardingPage';
 import { LandingPage } from '@/features/landing/pages/LandingPage';
 import { JournalPage } from '@/features/landing/pages/JournalPage';
 import { PsychologistPage } from '@/features/landing/pages/PsychologistPage';
+import { ExpertsPage } from '@/features/experts/pages/ExpertsPage';
 import { BlogPage } from '@/features/landing/pages/BlogPage';
 import { BlogDetailPage } from '@/features/landing/pages/BlogDetailPage';
 import { ArticlesPage } from '@/features/landing/pages/ArticlesPage';
@@ -20,29 +21,14 @@ import { NewsDetailPage } from '@/features/landing/pages/NewsDetailPage';
 import { GalleryPage } from '@/features/landing/pages/GalleryPage';
 import { TrainingsPage } from '@/features/landing/pages/TrainingsPage';
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute';
-import { AppLayout } from '@/features/webapp/layout/AppLayout';
-import { HomePage } from '@/features/webapp/pages/HomePage';
-import { JournalPage as WebappJournalPage } from '@/features/webapp/pages/JournalPage';
-import { GalleryPage as WebappGalleryPage } from '@/features/webapp/pages/GalleryPage';
-import { NewsPage as WebappNewsPage } from '@/features/webapp/pages/NewsPage';
-import { NewsDetailPage as WebappNewsDetailPage } from '@/features/webapp/pages/NewsDetailPage';
-import { BlogPage as WebappBlogPage } from '@/features/webapp/pages/BlogPage';
-import { BlogDetailPage as WebappBlogDetailPage } from '@/features/webapp/pages/BlogDetailPage';
-import { ArticlesPage as WebappArticlesPage } from '@/features/webapp/pages/ArticlesPage';
-import { ArticleDetailPage as WebappArticleDetailPage } from '@/features/webapp/pages/ArticleDetailPage';
-import { TrainingsPage as WebappTrainingsPage } from '@/features/webapp/pages/TrainingsPage';
-import { SessionsPage } from '@/features/webapp/pages/SessionsPage';
-import { SessionCallPage } from '@/features/webapp/pages/SessionCallPage';
-import { SessionFaceVerificationPage } from '@/features/webapp/pages/SessionFaceVerificationPage';
-import { MediaPage } from '@/features/webapp/pages/MediaPage';
-import { EnlightenmentPage } from '@/features/webapp/pages/EnlightenmentPage';
-import { ProfilePage } from '@/features/webapp/pages/ProfilePage';
-import { SettingsPage } from '@/features/webapp/pages/SettingsPage';
-import { NotificationsPage } from '@/features/webapp/pages/NotificationsPage';
-import { ExpertsPage } from '@/features/webapp/pages/ExpertsPage';
-import { ExpertDetailPage } from '@/features/webapp/pages/ExpertDetailPage';
-import { MiniGamesPage } from '@/features/webapp/pages/MiniGamesPage';
-import { BreathingGamePage } from '@/features/webapp/pages/BreathingGamePage';
+import { SessionsPage } from '@/features/sessions/pages/SessionsPage';
+import { SessionCallPage } from '@/features/sessions/pages/SessionCallPage';
+import { SessionFaceVerificationPage } from '@/features/sessions/pages/SessionFaceVerificationPage';
+import { ProfilePage } from '@/features/profile/pages/ProfilePage';
+import { SettingsPage } from '@/features/settings/pages/SettingsPage';
+import { NotificationsPage } from '@/features/notifications/pages/NotificationsPage';
+import { MiniGamesPage } from '@/features/games/pages/MiniGamesPage';
+import { BreathingGamePage } from '@/features/games/pages/BreathingGamePage';
 import { ScrollToTop } from '@/components';
 
 const RootLayout = () => {
@@ -58,6 +44,7 @@ const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
+      // Public / Discovery Routes
       {
         path: PATHS.HOME,
         element: <LandingPage />,
@@ -65,6 +52,14 @@ const router = createBrowserRouter([
       {
         path: PATHS.JOURNAL,
         element: <JournalPage />,
+      },
+      {
+        path: PATHS.EXPERTS,
+        element: <ExpertsPage />,
+      },
+      {
+        path: PATHS.EXPERT_DETAIL,
+        element: <PsychologistPage />,
       },
       {
         path: PATHS.PSYCHOLOGIST,
@@ -102,6 +97,8 @@ const router = createBrowserRouter([
         path: PATHS.TRAININGS,
         element: <TrainingsPage />,
       },
+
+      // Auth Routes
       {
         path: PATHS.REGISTER,
         element: <RegistrationPage />,
@@ -134,101 +131,42 @@ const router = createBrowserRouter([
         path: PATHS.ONBOARDING,
         element: <OnboardingPage />,
       },
+
+      // Protected Authenticated Routes
       {
         element: <ProtectedRoute />,
         children: [
           {
-            path: PATHS.WEBAPP_SESSION_VERIFY_FACE,
+            path: PATHS.SESSIONS,
+            element: <SessionsPage />,
+          },
+          {
+            path: PATHS.SESSION_VERIFY_FACE,
             element: <SessionFaceVerificationPage />,
           },
           {
-            path: PATHS.WEBAPP_SESSION_CALL,
+            path: PATHS.SESSION_CALL,
             element: <SessionCallPage />,
           },
           {
-            element: <AppLayout />,
-            children: [
-              {
-                path: PATHS.DASHBOARD,
-                element: <HomePage />,
-              },
-              {
-                path: PATHS.WEBAPP_JOURNAL,
-                element: <WebappJournalPage />,
-              },
-              {
-                path: PATHS.WEBAPP_SESSIONS,
-                element: <SessionsPage />,
-              },
-              {
-                path: PATHS.WEBAPP_MEDIA,
-                element: <MediaPage />,
-              },
-              {
-                path: PATHS.WEBAPP_GALLERY,
-                element: <WebappGalleryPage />,
-              },
-              {
-                path: PATHS.WEBAPP_NEWS,
-                element: <WebappNewsPage />,
-              },
-              {
-                path: PATHS.WEBAPP_NEWS_DETAIL,
-                element: <WebappNewsDetailPage />,
-              },
-              {
-                path: PATHS.WEBAPP_BLOG,
-                element: <WebappBlogPage />,
-              },
-              {
-                path: PATHS.WEBAPP_BLOG_DETAIL,
-                element: <WebappBlogDetailPage />,
-              },
-              {
-                path: PATHS.WEBAPP_ARTICLE,
-                element: <WebappArticlesPage />,
-              },
-              {
-                path: PATHS.WEBAPP_ARTICLE_DETAIL,
-                element: <WebappArticleDetailPage />,
-              },
-              {
-                path: PATHS.WEBAPP_TRAININGS,
-                element: <WebappTrainingsPage />,
-              },
-              {
-                path: PATHS.WEBAPP_EXPERTS,
-                element: <ExpertsPage />,
-              },
-              {
-                path: PATHS.WEBAPP_EXPERT_DETAIL,
-                element: <ExpertDetailPage />,
-              },
-              {
-                path: PATHS.WEBAPP_ENLIGHTENMENT,
-                element: <EnlightenmentPage />,
-              },
-              {
-                path: PATHS.WEBAPP_PROFILE,
-                element: <ProfilePage />,
-              },
-              {
-                path: PATHS.WEBAPP_SETTINGS,
-                element: <SettingsPage />,
-              },
-              {
-                path: PATHS.WEBAPP_NOTIFICATIONS,
-                element: <NotificationsPage />,
-              },
-              {
-                path: PATHS.WEBAPP_MINI_GAMES,
-                element: <MiniGamesPage />,
-              },
-              {
-                path: PATHS.WEBAPP_BREATHING_GAME,
-                element: <BreathingGamePage />,
-              },
-            ],
+            path: PATHS.PROFILE,
+            element: <ProfilePage />,
+          },
+          {
+            path: PATHS.SETTINGS,
+            element: <SettingsPage />,
+          },
+          {
+            path: PATHS.NOTIFICATIONS,
+            element: <NotificationsPage />,
+          },
+          {
+            path: PATHS.MINI_GAMES,
+            element: <MiniGamesPage />,
+          },
+          {
+            path: PATHS.BREATHING_GAME,
+            element: <BreathingGamePage />,
           },
         ],
       },
@@ -239,5 +177,3 @@ const router = createBrowserRouter([
 export const AppRouter = () => {
   return <RouterProvider router={router} />;
 };
-
-

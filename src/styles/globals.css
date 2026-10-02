@@ -14,7 +14,7 @@
   --color-ui-border: rgba(255, 255, 255, 0.12);
   --color-ui-muted: rgba(224, 224, 224, 0.7);
 
-  --font-sans: "Ponnala", sans-serif;
+  --font-sans: "Afacad", sans-serif;
   --font-title: "Caveat", cursive;
 
   --radius-xs: 8px;
@@ -34,7 +34,7 @@
   html,
   body {
     @apply antialiased;
-    font-family: "Ponnala", sans-serif;
+    font-family: "Afacad", sans-serif;
     color: var(--color-primary-text);
     /* Fallback for legacy browsers */
     background: linear-gradient(90deg, #928CE3 0%, #2C2F54 50%, #011611 100%);
@@ -74,11 +74,6 @@
 }
 
 @layer utilities {
-  /* Ponnala has extra empty space below the glyphs; nudge text down to optically center it. */
-  .ponnala-nudge {
-    margin-top: 4px;
-  }
-
   .bg-landing-gradient {
     /* Fallback for legacy browsers */
     background: linear-gradient(90deg, #928CE3 0%, #2C2F54 50%, #011611 100%);

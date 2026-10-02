@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Handshake } from 'lucide-react';
+import { AppIcon } from '@/components';
 import { Button } from '@/components/button';
 import { PATHS } from '@/routes/paths';
 
@@ -12,7 +12,7 @@ export const RegistrationSuccess = () => {
       {/* Icon */}
       <div className="flex justify-center mb-8">
         <div className="w-[100px] h-[100px] rounded-full bg-[#1A4F65] flex items-center justify-center shadow-[0_0_32px_rgba(0,242,255,0.15)]">
-          <Handshake size={52} className="text-white" strokeWidth={1.5} />
+          <AppIcon icon="lucide:handshake" size={52} className="text-white" strokeWidth={1.5} />
         </div>
       </div>
 

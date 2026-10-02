@@ -15,7 +15,7 @@
   },
   "hero": {
     "title": "Özünü kəşf etməyə hazırsan?",
-    "subtitle": "Sıxıntıdan qurtul, rahat nəfəs al,\nvə həyatdan zövq al!",
+    "subtitle": "Sıxıntıdan qurtul, rahat nəfəs al, və həyatdan zövq al!",
     "cta": "İndi başla",
     "secondary_cta": "Psixoloqlara bax",
     "feature1": "Mütəxəssislər köməyilə çətinliklərdən azad ol!",
@@ -29,7 +29,17 @@
     "perSession": "/seans",
     "getStarted": "Başlayaq",
     "more": "Daha çox",
-    "learnMore": "Ətraflı məlumat al"
+    "learnMore": "Ətraflı məlumat al",
+    "viewAll": "Bütün mütəxəssislərə bax",
+    "badge": "Peşəkar komanda",
+    "pageTitle": "Mütəxəssislərimiz",
+    "pageSubtitle": "Psixoloji rifahınız üçün təsdiqlənmiş, təcrübəli psixoloq və terapevtlərimizlə tanış olun və rahatlıqla seans təyin edin.",
+    "searchPlaceholder": "Mütəxəssis adı və ya istiqamət üzrə axtar...",
+    "foundCount": "mütəxəssis tapıldı",
+    "noResults": "Axtarışınıza uyğun mütəxəssis tapılmadı",
+    "resetFilters": "Filtrləri sıfırla",
+    "bookSession": "Seans Təyin Et",
+    "yearsExp": "illik təcrübə"
   },
   "vr": {
     "title": "Vr konsultasiya",
