@@ -519,6 +519,7 @@ class App {
   boundOnKeyDown!: (e: KeyboardEvent) => void;
   boundOnMouseMove!: (e: MouseEvent) => void;
   boundOnMouseLeave!: () => void;
+  boundOnWheel!: (e: WheelEvent) => void;
 
   constructor(
     container: HTMLElement,
@@ -769,6 +770,19 @@ class App {
     }
   }
 
+  onWheel(e: WheelEvent) {
+    const deltaX = e.deltaMode === 1 ? e.deltaX * 16 : e.deltaX;
+    const deltaY = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+
+    // Only respond to horizontal touchpad / trackpad swipes
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 0.5) {
+      e.preventDefault();
+      const distance = deltaX * (this.scrollSpeed * 0.025);
+      this.scroll.target += distance;
+      this.onCheckDebounce();
+    }
+  }
+
   onKeyDown(e: KeyboardEvent) {
     switch (e.key) {
       case 'ArrowRight':
@@ -849,6 +863,7 @@ class App {
     this.boundOnKeyDown = this.onKeyDown.bind(this);
     this.boundOnMouseMove = this.onMouseMove.bind(this);
     this.boundOnMouseLeave = this.onMouseLeave.bind(this);
+    this.boundOnWheel = this.onWheel.bind(this);
 
     window.addEventListener('resize', this.boundOnResize);
 
@@ -857,6 +872,7 @@ class App {
     this.container.addEventListener('touchstart', this.boundOnTouchDown, { passive: true });
     this.container.addEventListener('mousemove', this.boundOnMouseMove);
     this.container.addEventListener('mouseleave', this.boundOnMouseLeave);
+    this.container.addEventListener('wheel', this.boundOnWheel, { passive: false });
 
     window.addEventListener('mousemove', this.boundOnTouchMove);
     window.addEventListener('mouseup', this.boundOnTouchUp);
@@ -875,6 +891,7 @@ class App {
       this.container.removeEventListener('mousemove', this.boundOnMouseMove);
       this.container.removeEventListener('mouseleave', this.boundOnMouseLeave);
       this.container.removeEventListener('keydown', this.boundOnKeyDown);
+      this.container.removeEventListener('wheel', this.boundOnWheel);
     }
     window.removeEventListener('mousemove', this.boundOnTouchMove);
     window.removeEventListener('mouseup', this.boundOnTouchUp);
