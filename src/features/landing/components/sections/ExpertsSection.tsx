@@ -8,10 +8,13 @@ import { ScrollReveal } from '../ScrollReveal';
 import { doctorsApi } from '@/api/doctors.api';
 import { mapDoctorToPsychologist } from '@/utils/mappers';
 import type { Psychologist } from '../../types/psychologist.types';
+import { useAuthStore } from '@/store/authStore';
+import { NextSessionSection } from './NextSessionSection';
 
 export const ExpertsSection = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuthStore();
   const [experts, setExperts] = useState<Psychologist[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -65,6 +68,15 @@ export const ExpertsSection = () => {
       id="experts"
       className="relative z-20 w-full flex flex-col items-center pt-10 sm:pt-12 md:pt-20 pb-24 sm:pb-28 md:pb-32 scroll-mt-20 bg-white overflow-hidden"
     >
+      {/* Post-Registration Next Session Section */}
+      {isAuthenticated && (
+        <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-8 mb-14 sm:mb-18 md:mb-20">
+          <ScrollReveal className="w-full">
+            <NextSessionSection />
+          </ScrollReveal>
+        </div>
+      )}
+
       {/* Section Header */}
       <div className="w-full max-w-[1200px] mx-auto flex flex-col items-center px-4 sm:px-8 text-center mb-6 sm:mb-8 md:mb-10">
         <ScrollReveal className="w-full text-center">
@@ -79,7 +91,10 @@ export const ExpertsSection = () => {
 
       {/* Circular Gallery Section */}
       <ScrollReveal className="w-full">
-        <div className="w-full h-[480px] sm:h-[560px] md:h-[620px] relative my-2 sm:my-4 flex items-center justify-center">
+        <div
+          id="experts-gallery"
+          className="w-full h-[480px] sm:h-[560px] md:h-[620px] relative my-2 sm:my-4 flex items-center justify-center"
+        >
           {isLoading && experts.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-3">
               <div className="w-10 h-10 border-3 border-[#4A1FA8]/20 border-t-[#4A1FA8] rounded-full animate-spin" />

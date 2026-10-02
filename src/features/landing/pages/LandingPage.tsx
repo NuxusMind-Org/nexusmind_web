@@ -11,12 +11,7 @@ import {
   ExpertsSection,
   PartnersSection,
 } from '../components/sections';
-import {
-  UserHeroSection,
-  UserNextSession,
-  UserMoodWidget,
-  UserQuickActivities,
-} from '../components/authenticated';
+import { UserHeroSection } from '../components/authenticated';
 import { Footer } from '../components/Footer';
 import { useActiveSection } from '../hooks/useActiveSection';
 import { GradientBackground } from '@/components';
@@ -59,11 +54,7 @@ export const LandingPage = () => {
 
         <div className="relative z-10">
           {isAuthenticated ? (
-            <UserHeroSection>
-              <UserMoodWidget />
-              <UserNextSession />
-              <UserQuickActivities />
-            </UserHeroSection>
+            <UserHeroSection />
           ) : (
             <HeroSection />
           )}
