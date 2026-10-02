@@ -183,6 +183,15 @@ export const handleAuthFailure = (redirect = true): void => {
       PATHS.NEW_PASSWORD,
       PATHS.VERIFY_OTP,
       PATHS.HOME,
+      PATHS.EXPERTS,
+      '/experts',
+      '/psychologist',
+      PATHS.NEWS,
+      PATHS.GALLERY,
+      PATHS.TRAININGS,
+      PATHS.ARTICLE,
+      PATHS.BLOG,
+      PATHS.JOURNAL,
     ];
     const currentPath = window.location.pathname;
     const isPublic = publicPaths.some((p) => currentPath === p || currentPath.startsWith(p + '/'));

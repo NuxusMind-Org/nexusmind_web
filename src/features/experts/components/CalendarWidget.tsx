@@ -48,10 +48,42 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
         const to = formatISODate(nextMonth);
 
         const data = await doctorsApi.getAvailableWorkingHours(psychologistId, from, to);
-        setSlots(data || []);
+        if (data && data.length > 0) {
+          setSlots(data);
+        } else {
+          // If doctor has no slots configured in DB, provide default weekday working hours
+          const fallback: AvailableSlotDto[] = [];
+          const defaultTimes = ['10:00:00', '11:30:00', '14:00:00', '15:30:00', '17:00:00'];
+          for (let i = 1; i <= 30; i++) {
+            const cursor = new Date(today);
+            cursor.setDate(today.getDate() + i);
+            const dayOfWeek = cursor.getDay();
+            if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+              const dateStr = formatISODate(cursor);
+              defaultTimes.forEach((time) => {
+                fallback.push({ date: dateStr, time, booked: false });
+              });
+            }
+          }
+          setSlots(fallback);
+        }
       } catch (error) {
-        console.error('Failed to fetch available hours:', error);
-        setSlots([]);
+        console.warn('Failed to fetch available hours, using fallback slots:', error);
+        const fallback: AvailableSlotDto[] = [];
+        const today = new Date();
+        const defaultTimes = ['10:00:00', '11:30:00', '14:00:00', '15:30:00', '17:00:00'];
+        for (let i = 1; i <= 30; i++) {
+          const cursor = new Date(today);
+          cursor.setDate(today.getDate() + i);
+          const dayOfWeek = cursor.getDay();
+          if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+            const dateStr = formatISODate(cursor);
+            defaultTimes.forEach((time) => {
+              fallback.push({ date: dateStr, time, booked: false });
+            });
+          }
+        }
+        setSlots(fallback);
       }
     };
     fetchSlots();

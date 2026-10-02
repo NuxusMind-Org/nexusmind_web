@@ -344,7 +344,7 @@ export const ExpertsPage = () => {
 
                   <button
                     type="button"
-                    onClick={() => navigate(PATHS.PSYCHOLOGIST.replace(':id', String(psych.id)))}
+                    onClick={() => navigate(PATHS.PSYCHOLOGIST.replace(':id', String(psych.id)), { state: { autoOpenBooking: true } })}
                     className="py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#9f5bff] to-[#00f2ff] text-slate-950 font-bold text-xs hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 shadow-[0_4px_16px_rgba(0,242,255,0.25)] cursor-pointer"
                   >
                     <span>{t('experts.bookSession', 'Seans Təyin Et')}</span>

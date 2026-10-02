@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
 import vrConsultation from '@/assets/vr_consultation.png';
@@ -10,15 +10,30 @@ import { PATHS } from '@/routes/paths';
 import { doctorsApi } from '@/api/doctors.api';
 import { mapDoctorToPsychologist } from '@/utils/mappers';
 import type { Psychologist } from '../types/psychologist.types';
+import { CalendarWidget } from '@/features/experts/components/CalendarWidget';
+import { useAuthStore } from '@/store/authStore';
+import { useSessionStore } from '@/store/sessionStore';
+import type { AppointmentMode } from '@/api/types';
 
 export const PsychologistPage = () => {
   const { t, i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuthStore();
+  const { bookSession } = useSessionStore();
+
   const psychologistId = id ? parseInt(id, 10) : 1;
   const [psych, setPsych] = useState<Psychologist>(
     () => psychologists.find(p => p.id === psychologistId) || psychologists[0]
   );
-  const navigate = useNavigate();
+
+  const [showCalendar, setShowCalendar] = useState<boolean>(() => {
+    return Boolean((location.state as { autoOpenBooking?: boolean } | null)?.autoOpenBooking);
+  });
+  const [isBooking, setIsBooking] = useState(false);
+  const [bookingError, setBookingError] = useState<string | null>(null);
+  const [bookingSuccess, setBookingSuccess] = useState(false);
 
   useEffect(() => {
     const fetchDoctor = async () => {
@@ -34,6 +49,40 @@ export const PsychologistPage = () => {
     };
     fetchDoctor();
   }, [psychologistId, i18n.language]);
+
+  const handleScheduleClick = () => {
+    if (!isAuthenticated) {
+      navigate(PATHS.LOGIN, { state: { from: location.pathname } });
+      return;
+    }
+    setShowCalendar(true);
+  };
+
+  const handleConfirmBooking = async (
+    appointmentDate: string,
+    appointmentTime: string,
+    mode: AppointmentMode
+  ) => {
+    setIsBooking(true);
+    setBookingError(null);
+    try {
+      await bookSession({
+        doctorId: psych.id,
+        appointmentDate,
+        appointmentTime,
+        mode,
+      });
+      setBookingSuccess(true);
+      setTimeout(() => {
+        navigate(PATHS.SESSIONS);
+      }, 1200);
+    } catch (err) {
+      console.error('Failed to book session:', err);
+      setBookingError(t('webapp.sessions.bookingError', 'Seansı təyin etmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.'));
+    } finally {
+      setIsBooking(false);
+    }
+  };
 
   return (
     <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
@@ -169,40 +218,81 @@ export const PsychologistPage = () => {
           {/* Right Column */}
           <div className="w-full lg:w-[350px] xl:w-[400px] flex flex-col gap-6 sticky top-28">
 
-            {/* Booking Box */}
-            <div className="bg-[#2D3E50]/60 backdrop-blur-xl rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
-              <h3 className="text-white text-[20px] font-medium mb-6">{t('psychologist.bookingTitle', 'Məsləhət Təyin Edin')}</h3>
+            {/* Interactive Calendar or Summary Booking Box */}
+            {showCalendar ? (
+              <div className="flex flex-col gap-4">
+                {bookingError && (
+                  <div className="p-3.5 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-200 text-xs flex items-center justify-between shadow-lg">
+                    <span>{bookingError}</span>
+                    <button onClick={() => setBookingError(null)} className="text-white/60 hover:text-white font-bold ml-2">✕</button>
+                  </div>
+                )}
 
-              <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-6 relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-[#03C6B2]/20 text-[#03C6B2] text-[10px] font-light px-2 py-1 rounded-bl-lg tracking-wider">
-                  {t('psychologist.soon', 'TEZLİKLƏ')}
-                </div>
-                <p className="text-white/60 text-[13px] mb-1">{t('psychologist.nextAvailable', 'Növbəti mövcud vaxt:')}</p>
-                <p className="text-white font-medium text-[16px]">{t('psychologist.nextTime', 'Sabah, 14:00 - 15:00')}</p>
+                {bookingSuccess ? (
+                  <div className="bg-[#2D3E50]/80 backdrop-blur-xl rounded-3xl p-8 border border-emerald-500/30 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-fade-in">
+                    <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center text-emerald-400">
+                      <AppIcon icon="lucide:check" size={32} />
+                    </div>
+                    <h3 className="text-white text-xl font-bold">
+                      {t('webapp.sessions.bookedSuccessTitle', 'Seansınız Uğurla Təyin Edildi!')}
+                    </h3>
+                    <p className="text-white/70 text-sm">
+                      {t('webapp.sessions.redirectingToSessions', 'Seanslar səhifəsinə yönləndirilirsiniz...')}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    {isBooking && (
+                      <div className="absolute inset-0 z-30 bg-[#1b172a]/80 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center gap-3">
+                        <div className="w-10 h-10 border-3 border-[#00f2ff]/20 border-t-[#00f2ff] rounded-full animate-spin" />
+                        <span className="text-white text-sm font-medium">{t('webapp.sessions.bookingSession', 'Seans təyin edilir...')}</span>
+                      </div>
+                    )}
+                    <CalendarWidget
+                      psychologistId={psych.id}
+                      psychologistName={psych.name}
+                      onBack={() => setShowCalendar(false)}
+                      onConfirm={handleConfirmBooking}
+                    />
+                  </div>
+                )}
               </div>
+            ) : (
+              /* Booking Box */
+              <div className="bg-[#2D3E50]/60 backdrop-blur-xl rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
+                <h3 className="text-white text-[20px] font-medium mb-6">{t('psychologist.bookingTitle', 'Məsləhət Təyin Edin')}</h3>
 
-              <div className="flex flex-col gap-4 mb-8">
-                <div className="flex items-center gap-3">
-                  <AppIcon icon="lucide:video" size={18} className="text-white/70" />
-                  <span className="text-white/80 text-[14px]">{t('psychologist.onlineVideo', 'Onlayn Video Seans')}</span>
+                <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-6 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 bg-[#03C6B2]/20 text-[#03C6B2] text-[10px] font-light px-2 py-1 rounded-bl-lg tracking-wider">
+                    {t('psychologist.soon', 'TEZLİKLƏ')}
+                  </div>
+                  <p className="text-white/60 text-[13px] mb-1">{t('psychologist.nextAvailable', 'Növbəti mövcud vaxt:')}</p>
+                  <p className="text-white font-medium text-[16px]">{t('psychologist.nextTime', 'Sabah, 14:00 - 15:00')}</p>
                 </div>
-                <div className="flex items-center gap-3">
-                  <AppIcon icon="lucide:clock" size={18} className="text-white/70" />
-                  <span className="text-white/80 text-[14px]">{t('psychologist.duration', '45 dəqiqəlik görüş')}</span>
+
+                <div className="flex flex-col gap-4 mb-8">
+                  <div className="flex items-center gap-3">
+                    <AppIcon icon="lucide:video" size={18} className="text-white/70" />
+                    <span className="text-white/80 text-[14px]">{t('psychologist.onlineVideo', 'Onlayn Video Seans')}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <AppIcon icon="lucide:clock" size={18} className="text-white/70" />
+                    <span className="text-white/80 text-[14px]">{t('psychologist.duration', '45 dəqiqəlik görüş')}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <AppIcon icon="lucide:lock" size={18} className="text-white/70" />
+                    <span className="text-white/80 text-[14px]">{t('psychologist.confidential', 'Məxfi və Təhlükəsiz')}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <AppIcon icon="lucide:lock" size={18} className="text-white/70" />
-                  <span className="text-white/80 text-[14px]">{t('psychologist.confidential', 'Məxfi və Təhlükəsiz')}</span>
-                </div>
+
+                <button
+                  className="w-full py-4 bg-[#c084fc] hover:bg-[#a855f7] active:scale-[0.98] text-[#1e1b4b] font-medium text-[16px] rounded-lg transition-all shadow-lg cursor-pointer"
+                  onClick={handleScheduleClick}
+                >
+                  {t('psychologist.bookSession', 'Seans Təyin Et')}
+                </button>
               </div>
-
-              <button
-                className="w-full py-4 bg-[#c084fc] hover:bg-[#a855f7] text-[#1e1b4b] font-light text-[16px] rounded-lg transition-colors shadow-lg cursor-pointer"
-                onClick={() => navigate(PATHS.LOGIN)}
-              >
-                {t('psychologist.bookSession', 'Seans Təyin Et')}
-              </button>
-            </div>
+            )}
 
             {/* VR Consultation Mini Box */}
             <div className="w-full h-[180px] rounded-lg overflow-hidden relative group cursor-pointer shadow-xl border border-white/10">
