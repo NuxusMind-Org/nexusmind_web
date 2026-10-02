@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
-import presentingNexie from '@/assets/svg/presenting_nexie.svg';
 import { psychologists } from '../../data/psychologists';
 import { useSessionStore } from '@/store/sessionStore';
 import {
@@ -87,15 +86,6 @@ export const NextSessionSection = () => {
     return checkIsJoinable(nextSession, currentTime);
   }, [nextSession, currentTime]);
 
-  const handleScheduleClick = () => {
-    const galleryEl = document.getElementById('experts-gallery') || document.getElementById('experts');
-    if (galleryEl) {
-      galleryEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-      navigate(PATHS.EXPERTS);
-    }
-  };
-
   return (
     <div className="w-full flex flex-col items-start text-left">
       {/* Section Header */}
@@ -105,12 +95,12 @@ export const NextSessionSection = () => {
 
       {/* Card Container */}
       {loading ? (
-        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-[#FBFBFE] border border-[#ECEEF5] py-16 px-6 flex items-center justify-center shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
+        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] py-16 px-6 flex items-center justify-center shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
           <div className="w-8 h-8 border-3 border-[#4A1FA8]/20 border-t-[#4A1FA8] rounded-full animate-spin" />
         </div>
       ) : nextSession && doctorInfo ? (
-        /* Active Upcoming Session Card (Light theme matching section) */
-        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-[#FBFBFE] border border-[#ECEEF5] p-6 sm:p-8 md:p-10 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-[0_4px_30px_rgba(0,0,0,0.03)] text-left transition-all duration-300 hover:border-[#DDD9F3]">
+        /* Active Upcoming Session Card (White theme matching ExpertsSection) */
+        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] p-6 sm:p-8 md:p-10 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-[0_4px_30px_rgba(0,0,0,0.03)] text-left transition-all duration-300 hover:border-[#DDD9F3]">
           {/* Doctor Info */}
           <div className="flex items-center gap-4 sm:gap-6 w-full lg:w-auto">
             <div className="relative shrink-0">
@@ -141,7 +131,7 @@ export const NextSessionSection = () => {
 
           {/* Time & Action Button */}
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full lg:w-auto justify-end">
-            <div className="flex items-center gap-4 bg-white border border-[#ECEEF5] px-4 py-2.5 rounded-2xl shadow-sm">
+            <div className="flex items-center gap-4 bg-slate-50 border border-[#ECEEF5] px-4 py-2.5 rounded-2xl shadow-sm">
               <div className="flex items-center gap-2 text-[#4A1FA8] text-xs sm:text-sm font-medium">
                 <AppIcon icon="lucide:calendar" size={16} />
                 <span>{formatDate(nextSession.appointmentDate)}</span>
@@ -175,29 +165,38 @@ export const NextSessionSection = () => {
           </div>
         </div>
       ) : (
-        /* Empty State Card (Exact Match with Reference Image) */
-        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-[#FBFBFE] border border-[#ECEEF5] py-12 sm:py-16 md:py-20 px-6 sm:px-12 flex flex-col items-center justify-center text-center shadow-[0_4px_30px_rgba(0,0,0,0.03)] relative overflow-hidden">
+        /* Empty State Card (Matches ExpertsSection White Background, expanded container) */
+        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] py-14 sm:py-18 md:py-20 px-6 sm:px-12 flex flex-col items-center justify-center text-center shadow-[0_4px_30px_rgba(0,0,0,0.03)] relative overflow-hidden">
           {/* Status Message */}
-          <p className="text-[20px] sm:text-[24px] md:text-[26px] text-[#71717A] font-normal tracking-tight mb-8 sm:mb-10">
+          <p className="text-[20px] sm:text-[24px] md:text-[26px] text-[#71717A] font-normal tracking-tight mb-8 sm:mb-9">
             {t('webapp.sessions.noSessions', 'Hələki seans yoxdur .')}
           </p>
 
-          {/* Nexie Mascot + Action Button */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 relative">
-            <img
-              src={presentingNexie}
-              alt="Nexie"
-              className="w-32 sm:w-36 md:w-44 h-auto object-contain select-none pointer-events-none"
-            />
+          {/* Action Button - navigates directly to Experts Page */}
+          <button
+            onClick={() => navigate(PATHS.EXPERTS)}
+            className="px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-[#4A1FA8] hover:bg-[#3E1691] active:scale-[0.98] text-white text-[13px] sm:text-[14px] font-bold tracking-wider uppercase transition-all shadow-[0_8px_24px_rgba(74,31,168,0.35)] flex items-center justify-center gap-2 cursor-pointer shrink-0"
+          >
+            <AppIcon icon="lucide:plus" size={16} className="text-white shrink-0 stroke-[2.5]" />
+            <span>{t('webapp.sessions.bookSession', 'SEANS TƏYİN ET').toUpperCase()}</span>
+          </button>
 
-            <button
-              onClick={handleScheduleClick}
-              className="px-6 py-3 sm:px-7 sm:py-3.5 rounded-full bg-[#4A1FA8] hover:bg-[#3E1691] active:scale-[0.98] text-white text-[12px] sm:text-[13px] font-bold tracking-wider uppercase transition-all shadow-[0_8px_24px_rgba(74,31,168,0.35)] flex items-center justify-center gap-2 cursor-pointer shrink-0"
-            >
-              <AppIcon icon="lucide:plus" size={16} className="text-white shrink-0 stroke-[2.5]" />
-              <span>{t('webapp.sessions.bookSession', 'SEANS TƏYİN ET').toUpperCase()}</span>
-            </button>
-          </div>
+          {/* Animative Down Arrow to Hint Scrolling Down to Experts */}
+          <button
+            type="button"
+            onClick={() => {
+              const galleryEl = document.getElementById('experts-gallery') || document.getElementById('experts');
+              galleryEl?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
+            className="mt-6 sm:mt-7 flex flex-col items-center justify-center text-[#4A1FA8]/65 hover:text-[#4A1FA8] transition-colors cursor-pointer group p-1"
+            aria-label={t('experts.viewAll', 'Mütəxəssislərə bax')}
+          >
+            <AppIcon
+              icon="lucide:chevron-down"
+              size={26}
+              className="animate-bounce transition-transform duration-200 group-hover:translate-y-1"
+            />
+          </button>
         </div>
       )}
     </div>
