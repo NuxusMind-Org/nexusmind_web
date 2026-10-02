@@ -77,39 +77,18 @@ const isSlotInPast = (dateIso: string, timeStr: string): boolean => {
   const slotDate = new Date();
   slotDate.setHours(h, m, 0, 0);
 
-  // Require booking at least 30 minutes in advance
-  const minValidTime = new Date(now.getTime() + 30 * 60 * 1000);
+  // Require booking at least 15 minutes in advance if today
+  const minValidTime = new Date(now.getTime() + 15 * 60 * 1000);
   return slotDate <= minValidTime;
-};
-
-const generateMonthlyFallbackSlots = (year: number, month: number): AvailableSlotDto[] => {
-  const fallback: AvailableSlotDto[] = [];
-  const defaultTimes = ['10:00', '11:30', '14:00', '15:30', '17:00'];
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const now = new Date();
-  const todayIso = formatISODate(now);
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const cursor = new Date(year, month, d);
-    const dateStr = formatISODate(cursor);
-    if (dateStr < todayIso) continue;
-
-    const dayOfWeek = cursor.getDay();
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-      defaultTimes.forEach((time) => {
-        if (!isSlotInPast(dateStr, time)) {
-          fallback.push({ date: dateStr, time, booked: false });
-        }
-      });
-    }
-  }
-  return fallback;
 };
 
 export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onConfirm }: CalendarWidgetProps) => {
   const { t, i18n } = useTranslation();
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const today = useMemo(() => new Date(), []);
+  const todayIso = useMemo(() => formatISODate(today), [today]);
+
+  const [currentDate, setCurrentDate] = useState<Date>(today);
+  const [selectedDate, setSelectedDate] = useState<string | null>(todayIso);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedMode, setSelectedMode] = useState<AppointmentMode>('VIDEO_CALL');
   const [slots, setSlots] = useState<AvailableSlotDto[]>([]);
@@ -121,12 +100,12 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
   const month = currentDate.getMonth();
 
   const isCurrentMonth = useMemo(() => {
-    const now = new Date();
-    return year === now.getFullYear() && month <= now.getMonth();
-  }, [year, month]);
+    return year === today.getFullYear() && month <= today.getMonth();
+  }, [year, month, today]);
 
+  // Weekday labels starting from Monday
   const days = useMemo(() => {
-    const base = new Date(2023, 0, 2); // Monday
+    const base = new Date(2023, 0, 2); // Monday, Jan 2 2023
     return Array.from({ length: 7 }).map((_, i) => {
       const d = new Date(base);
       d.setDate(base.getDate() + i);
@@ -139,7 +118,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    // Monday start adjust (0 is Sun, convert to 6, 1 to 0, etc.)
+    // Monday start adjust (0 is Sun -> 6, 1 is Mon -> 0, etc.)
     const startOffset = (firstDay + 6) % 7;
 
     const cells: (Date | null)[] = [];
@@ -152,14 +131,13 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
     return cells;
   }, [year, month]);
 
-  // Fetch slots whenever psychologistId, year, or month changes
+  // Fetch REAL slots from working hours controller whenever psychologistId, year, or month changes
   useEffect(() => {
     let isCancelled = false;
 
     const fetchSlots = async () => {
       setIsLoading(true);
       try {
-        const today = new Date();
         const startOfMonth = new Date(year, month, 1);
         const endOfMonth = new Date(year, month + 1, 0);
 
@@ -177,12 +155,13 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
           }));
           setSlots(normalized);
         } else {
-          setSlots(generateMonthlyFallbackSlots(year, month));
+          // No mock data - only real data from backend
+          setSlots([]);
         }
       } catch (error) {
         if (isCancelled) return;
-        console.warn('Failed to fetch available hours, using fallback slots:', error);
-        setSlots(generateMonthlyFallbackSlots(year, month));
+        console.warn('Failed to fetch available hours from API:', error);
+        setSlots([]);
       } finally {
         if (!isCancelled) {
           setIsLoading(false);
@@ -195,34 +174,15 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
     return () => {
       isCancelled = true;
     };
-  }, [psychologistId, year, month]);
+  }, [psychologistId, year, month, today]);
 
+  // Check if a date has any available, unbooked future slots from the backend
   const hasSlotsForDate = (dateObj: Date): boolean => {
     const iso = formatISODate(dateObj);
     return slots.some((s) => s.date === iso && !s.booked && !isSlotInPast(iso, s.time));
   };
 
-  // Auto-select first available date once slots load for this month
-  useEffect(() => {
-    if (isLoading) return;
-
-    if (selectedDate) {
-      const stillValid = slots.some(
-        (s) => s.date === selectedDate && !s.booked && !isSlotInPast(selectedDate, s.time)
-      );
-      if (stillValid) return;
-    }
-
-    const firstAvailableCell = monthData.find((d) => d && hasSlotsForDate(d));
-    if (firstAvailableCell) {
-      setSelectedDate(formatISODate(firstAvailableCell));
-      setSelectedTime(null);
-    } else {
-      setSelectedDate(null);
-      setSelectedTime(null);
-    }
-  }, [slots, isLoading, monthData]);
-
+  // Available hours for the currently selected date (only real data)
   const availableHours = useMemo(() => {
     if (!selectedDate) return [];
     const times = slots
@@ -233,7 +193,11 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
     return uniqueTimes.sort((a, b) => a.localeCompare(b));
   }, [slots, selectedDate]);
 
-  const todayIso = formatISODate(new Date());
+  const todayStartOfDay = useMemo(() => {
+    const d = new Date(today);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }, [today]);
 
   return (
     <div className="w-full bg-[#1b172a]/95 backdrop-blur-2xl border border-white/15 rounded-3xl p-6 sm:p-8 text-white shadow-2xl flex flex-col gap-6">
@@ -271,8 +235,13 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
             type="button"
             disabled={isCurrentMonth}
             onClick={() => {
-              setCurrentDate(new Date(year, month - 1, 1));
-              setSelectedDate(null);
+              const prevMonth = new Date(year, month - 1, 1);
+              setCurrentDate(prevMonth);
+              if (prevMonth.getFullYear() === today.getFullYear() && prevMonth.getMonth() === today.getMonth()) {
+                setSelectedDate(todayIso);
+              } else {
+                setSelectedDate(formatISODate(prevMonth));
+              }
               setSelectedTime(null);
             }}
             className={`p-1.5 rounded-lg transition-colors ${
@@ -287,8 +256,13 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
           <button
             type="button"
             onClick={() => {
-              setCurrentDate(new Date(year, month + 1, 1));
-              setSelectedDate(null);
+              const nextMonth = new Date(year, month + 1, 1);
+              setCurrentDate(nextMonth);
+              if (nextMonth.getFullYear() === today.getFullYear() && nextMonth.getMonth() === today.getMonth()) {
+                setSelectedDate(todayIso);
+              } else {
+                setSelectedDate(formatISODate(nextMonth));
+              }
               setSelectedTime(null);
             }}
             className="p-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-white/80 hover:text-white transition-colors cursor-pointer"
@@ -301,6 +275,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
 
       {/* Calendar Grid */}
       <div className="w-full">
+        {/* Weekday headers: Mon - Sun */}
         <div className="grid grid-cols-7 gap-1 text-center text-xs text-white/50 mb-2 font-medium">
           {days.map((d, idx) => (
             <div key={idx} className="py-1">
@@ -309,6 +284,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
           ))}
         </div>
 
+        {/* Days grid: All 7 days of the week are available */}
         <div className="grid grid-cols-7 gap-1.5">
           {monthData.map((dateObj, idx) => {
             if (!dateObj) {
@@ -318,14 +294,14 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
             const iso = formatISODate(dateObj);
             const isSelected = selectedDate === iso;
             const isToday = iso === todayIso;
-            const isPast = dateObj < new Date(new Date().setHours(0, 0, 0, 0));
+            const isPast = dateObj < todayStartOfDay;
             const hasSlots = hasSlotsForDate(dateObj);
 
             return (
               <button
                 key={iso}
                 type="button"
-                disabled={isPast || !hasSlots}
+                disabled={isPast}
                 onClick={() => {
                   setSelectedDate(iso);
                   setSelectedTime(null);
@@ -333,17 +309,21 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
                 className={`h-9 sm:h-10 rounded-xl text-xs sm:text-sm font-medium transition-all flex flex-col items-center justify-center relative ${
                   isSelected
                     ? 'bg-[#00f2ff] text-slate-950 font-bold shadow-[0_0_15px_rgba(0,242,255,0.5)]'
-                    : hasSlots && !isPast
-                    ? 'bg-white/10 text-white hover:bg-white/20 cursor-pointer border border-white/10'
-                    : 'text-white/20 cursor-not-allowed'
+                    : isPast
+                    ? 'text-white/20 cursor-not-allowed'
+                    : hasSlots
+                    ? 'bg-white/10 text-white hover:bg-white/20 cursor-pointer border border-white/15'
+                    : 'text-white/70 hover:bg-white/10 hover:text-white cursor-pointer border border-transparent'
                 }`}
               >
                 <span>{dateObj.getDate()}</span>
+                {/* Dot for available real hours */}
                 {hasSlots && !isSelected && (
                   <span className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] absolute bottom-1" />
                 )}
+                {/* Indicator for today */}
                 {isToday && !isSelected && (
-                  <span className="absolute top-1 right-1 w-1 h-1 rounded-full bg-[#c084fc]" />
+                  <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#c084fc]" />
                 )}
               </button>
             );
@@ -351,7 +331,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
         </div>
       </div>
 
-      {/* Available Hours */}
+      {/* Available Hours (Real data only) */}
       <div className="border-t border-white/10 pt-4 flex flex-col gap-3">
         <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">
           {t('webapp.calendar.availableHours', 'Mövcud saatlar')}
@@ -384,11 +364,13 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
             })}
           </div>
         ) : (
-          <p className="text-xs text-white/40 italic py-2">
-            {selectedDate
-              ? t('webapp.calendar.noHours', 'Bu tarixdə mövcud saat yoxdur.')
-              : t('webapp.calendar.selectDatePrompt', 'Zəhmət olmasa təqvimdən uyğun tarixi seçin.')}
-          </p>
+          <div className="py-4 px-4 rounded-xl bg-white/5 border border-white/10 text-center">
+            <p className="text-xs text-white/60">
+              {selectedDate
+                ? t('webapp.calendar.noHours', 'Bu tarixdə mövcud saat yoxdur.')
+                : t('webapp.calendar.selectDatePrompt', 'Zəhmət olmasa təqvimdən uyğun tarixi seçin.')}
+            </p>
+          </div>
         )}
       </div>
 
@@ -439,4 +421,3 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
     </div>
   );
 };
-
