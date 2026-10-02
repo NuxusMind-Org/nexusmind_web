@@ -95,12 +95,12 @@ export const NextSessionSection = () => {
 
       {/* Card Container */}
       {loading ? (
-        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] py-16 px-6 flex items-center justify-center shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
+        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] py-16 px-6 flex items-center justify-center">
           <div className="w-8 h-8 border-3 border-[#4A1FA8]/20 border-t-[#4A1FA8] rounded-full animate-spin" />
         </div>
       ) : nextSession && doctorInfo ? (
         /* Active Upcoming Session Card (White theme matching ExpertsSection) */
-        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] p-6 sm:p-8 md:p-10 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-[0_4px_30px_rgba(0,0,0,0.03)] text-left transition-all duration-300 hover:border-[#DDD9F3]">
+        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] p-6 sm:p-8 md:p-10 flex flex-col lg:flex-row items-center justify-between gap-6 text-left transition-all duration-300 hover:border-[#DDD9F3]">
           {/* Doctor Info */}
           <div className="flex items-center gap-4 sm:gap-6 w-full lg:w-auto">
             <div className="relative shrink-0">
@@ -165,8 +165,8 @@ export const NextSessionSection = () => {
           </div>
         </div>
       ) : (
-        /* Empty State Card (Matches ExpertsSection White Background, expanded container) */
-        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] py-14 sm:py-18 md:py-20 px-6 sm:px-12 flex flex-col items-center justify-center text-center shadow-[0_4px_30px_rgba(0,0,0,0.03)] relative overflow-hidden">
+        /* Empty State Card (Matches ExpertsSection White Background, expanded container, no shadow) */
+        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] py-14 sm:py-18 md:py-20 px-6 sm:px-12 flex flex-col items-center justify-center text-center relative overflow-hidden">
           {/* Status Message */}
           <p className="text-[20px] sm:text-[24px] md:text-[26px] text-[#71717A] font-normal tracking-tight mb-8 sm:mb-9">
             {t('webapp.sessions.noSessions', 'Hələki seans yoxdur .')}
