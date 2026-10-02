@@ -165,39 +165,43 @@ export const NextSessionSection = () => {
           </div>
         </div>
       ) : (
-        /* Empty State Card (Matches ExpertsSection White Background, expanded container, no shadow) */
-        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] py-14 sm:py-18 md:py-20 px-6 sm:px-12 flex flex-col items-center justify-center text-center relative overflow-hidden">
-          {/* Status Message */}
-          <p className="text-[20px] sm:text-[24px] md:text-[26px] text-[#71717A] font-normal tracking-tight mb-8 sm:mb-9">
-            {t('webapp.sessions.noSessions', 'Hələki seans yoxdur .')}
-          </p>
+        <>
+          {/* Empty State Card (Matches ExpertsSection White Background, expanded container, no shadow) */}
+          <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] py-10 sm:py-12 md:py-14 px-6 sm:px-12 flex flex-col items-center justify-center text-center relative">
+            {/* Status Message */}
+            <p className="text-[20px] sm:text-[24px] md:text-[26px] text-[#71717A] font-normal tracking-tight mb-7 sm:mb-8">
+              {t('webapp.sessions.noSessions', 'Hələki seans yoxdur .')}
+            </p>
 
-          {/* Action Button - navigates directly to Experts Page */}
-          <button
-            onClick={() => navigate(PATHS.EXPERTS)}
-            className="px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-[#4A1FA8] hover:bg-[#3E1691] active:scale-[0.98] text-white text-[13px] sm:text-[14px] font-bold tracking-wider uppercase transition-all shadow-[0_8px_24px_rgba(74,31,168,0.35)] flex items-center justify-center gap-2 cursor-pointer shrink-0"
-          >
-            <AppIcon icon="lucide:plus" size={16} className="text-white shrink-0 stroke-[2.5]" />
-            <span>{t('webapp.sessions.bookSession', 'SEANS TƏYİN ET').toUpperCase()}</span>
-          </button>
+            {/* Action Button - navigates directly to Experts Page */}
+            <button
+              onClick={() => navigate(PATHS.EXPERTS)}
+              className="px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-[#4A1FA8] hover:bg-[#3E1691] active:scale-[0.98] text-white text-[13px] sm:text-[14px] font-bold tracking-wider uppercase transition-all shadow-[0_8px_24px_rgba(74,31,168,0.35)] flex items-center justify-center gap-2 cursor-pointer shrink-0"
+            >
+              <AppIcon icon="lucide:plus" size={16} className="text-white shrink-0 stroke-[2.5]" />
+              <span>{t('webapp.sessions.bookSession', 'SEANS TƏYİN ET').toUpperCase()}</span>
+            </button>
+          </div>
 
-          {/* Animative Down Arrow to Hint Scrolling Down to Experts */}
-          <button
-            type="button"
-            onClick={() => {
-              const galleryEl = document.getElementById('experts-gallery') || document.getElementById('experts');
-              galleryEl?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }}
-            className="mt-6 sm:mt-7 flex flex-col items-center justify-center text-[#4A1FA8]/65 hover:text-[#4A1FA8] transition-colors cursor-pointer group p-1"
-            aria-label={t('experts.viewAll', 'Mütəxəssislərə bax')}
-          >
-            <AppIcon
-              icon="lucide:chevron-down"
-              size={26}
-              className="animate-bounce transition-transform duration-200 group-hover:translate-y-1"
-            />
-          </button>
-        </div>
+          {/* Animative Down Arrow between Session Button & Experts Title */}
+          <div className="w-full flex justify-center mt-5 sm:mt-6">
+            <button
+              type="button"
+              onClick={() => {
+                const galleryEl = document.getElementById('experts-gallery') || document.getElementById('experts');
+                galleryEl?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="flex flex-col items-center justify-center text-[#4A1FA8]/70 hover:text-[#4A1FA8] transition-colors cursor-pointer group p-1"
+              aria-label={t('experts.viewAll', 'Mütəxəssislərə bax')}
+            >
+              <AppIcon
+                icon="lucide:chevron-down"
+                size={28}
+                className="animate-bounce transition-transform duration-200 group-hover:translate-y-1"
+              />
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

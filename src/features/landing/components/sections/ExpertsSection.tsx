@@ -70,7 +70,7 @@ export const ExpertsSection = () => {
     >
       {/* Post-Registration Next Session Section */}
       {isAuthenticated && (
-        <div className="w-full px-4 sm:px-8 lg:px-[56px] mb-14 sm:mb-18 md:mb-20">
+        <div className="w-full px-4 sm:px-8 lg:px-[56px] mb-10 sm:mb-12 md:mb-14">
           <ScrollReveal className="w-full">
             <NextSessionSection />
           </ScrollReveal>
