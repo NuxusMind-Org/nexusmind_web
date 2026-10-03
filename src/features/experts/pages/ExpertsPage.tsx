@@ -264,7 +264,10 @@ export const ExpertsPage = () => {
                 key={psych.id}
                 className="bg-white/10 backdrop-blur-xl border border-white/15 rounded-3xl p-5 shadow-[0_16px_40px_rgba(0,0,0,0.25)] flex flex-col justify-between transition-all duration-300 hover:border-[#00f2ff]/50 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)] group"
               >
-                <div>
+                <div
+                  onClick={() => navigate(PATHS.PSYCHOLOGIST.replace(':id', String(psych.id)))}
+                  className="cursor-pointer"
+                >
                   {/* Photo Container */}
                   <div className="relative w-full h-56 rounded-2xl overflow-hidden mb-4 bg-slate-900/60 shadow-inner">
                     <img

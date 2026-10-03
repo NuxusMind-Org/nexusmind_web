@@ -11,6 +11,7 @@ import { doctorsApi } from '@/api/doctors.api';
 import { mapDoctorToPsychologist } from '@/utils/mappers';
 import type { Psychologist } from '../types/psychologist.types';
 import { CalendarWidget } from '@/features/experts/components/CalendarWidget';
+import { PsychologistSkeleton } from '@/features/experts/components/PsychologistSkeleton';
 import { useAuthStore } from '@/store/authStore';
 import { useSessionStore } from '@/store/sessionStore';
 import type { AppointmentMode } from '@/api/types';
@@ -24,9 +25,8 @@ export const PsychologistPage = () => {
   const { bookSession } = useSessionStore();
 
   const psychologistId = id ? parseInt(id, 10) : 1;
-  const [psych, setPsych] = useState<Psychologist>(
-    () => psychologists.find(p => p.id === psychologistId) || psychologists[0]
-  );
+  const [psych, setPsych] = useState<Psychologist | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [showCalendar, setShowCalendar] = useState<boolean>(() => {
     return Boolean((location.state as { autoOpenBooking?: boolean } | null)?.autoOpenBooking);
@@ -36,18 +36,42 @@ export const PsychologistPage = () => {
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
   useEffect(() => {
+    setShowCalendar(Boolean((location.state as { autoOpenBooking?: boolean } | null)?.autoOpenBooking));
+  }, [location.state, psychologistId]);
+
+  useEffect(() => {
+    let isMounted = true;
+    setIsLoading(true);
+
     const fetchDoctor = async () => {
       try {
         const doc = await doctorsApi.getById(psychologistId);
-        if (doc) {
-          const currentLang = (i18n.language?.slice(0, 2) as 'az' | 'en' | 'ru') || 'az';
-          setPsych(mapDoctorToPsychologist(doc, currentLang));
+        if (isMounted) {
+          if (doc) {
+            const currentLang = (i18n.language?.slice(0, 2) as 'az' | 'en' | 'ru') || 'az';
+            setPsych(mapDoctorToPsychologist(doc, currentLang));
+          } else {
+            const fallback = psychologists.find(p => p.id === psychologistId) || psychologists[0];
+            setPsych(fallback);
+          }
         }
       } catch (err) {
-        setPsych(psychologists.find(p => p.id === psychologistId) || psychologists[0]);
+        if (isMounted) {
+          const fallback = psychologists.find(p => p.id === psychologistId) || psychologists[0];
+          setPsych(fallback);
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
+
     fetchDoctor();
+
+    return () => {
+      isMounted = false;
+    };
   }, [psychologistId, i18n.language]);
 
   const handleScheduleClick = () => {
@@ -63,6 +87,7 @@ export const PsychologistPage = () => {
     appointmentTime: string,
     mode: AppointmentMode
   ) => {
+    if (!psych) return;
     setIsBooking(true);
     setBookingError(null);
     try {
@@ -95,10 +120,13 @@ export const PsychologistPage = () => {
           {t('psychologist.about', 'Psixoloq haqqında')}
         </h1>
 
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
+        {isLoading || !psych ? (
+          <PsychologistSkeleton />
+        ) : (
+          <div className="flex flex-col lg:flex-row gap-8 items-start animate-fade-in">
 
-          {/* Left Column */}
-          <div className="flex-1 flex flex-col gap-6">
+            {/* Left Column */}
+            <div className="flex-1 flex flex-col gap-6">
 
             {/* Profile Card */}
             <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col sm:flex-row gap-6 sm:gap-8 relative items-center sm:items-start text-center sm:text-left">
@@ -306,6 +334,7 @@ export const PsychologistPage = () => {
           </div>
 
         </div>
+        )}
       </div>
 
       {/* Footer — full width */}

@@ -41,16 +41,14 @@ export const LandingPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col relative font-sans bg-white text-slate-900">
+      <LandingNavbar
+        activePage="landing"
+        activeSection={activeSection}
+        scrollToSection={scrollToSection}
+      />
+
       <div className="relative">
         <GradientBackground speed={1} resolution={0.5} />
-
-        <div className="relative z-50">
-          <LandingNavbar
-            activePage="landing"
-            activeSection={activeSection}
-            scrollToSection={scrollToSection}
-          />
-        </div>
 
         <div className="relative z-10">
           {isAuthenticated ? (

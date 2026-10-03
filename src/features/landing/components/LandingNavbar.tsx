@@ -26,7 +26,7 @@ type ActivePage =
 
 interface LandingNavbarProps {
   activePage: ActivePage;
-  activeSection?: number;
+  activeSection?: number | string;
   scrollToSection?: (id: string) => void;
 }
 
@@ -155,7 +155,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
   // Track window scroll position to toggle navbar transparency
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -337,14 +337,16 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           }
 
           const isActive = item.type === 'scroll'
-            ? activePage === 'landing' && activeSection === item.index
+            ? (activePage === 'landing' && (activeSection === item.index || (activeSection as any) === item.id)) || (activePage === item.id)
+            : item.type === 'route'
+            ? activePage === item.page
             : activePage === 'journal';
 
           return (
             <button
               key={item.id}
               onClick={() => handleItemClick(item)}
-              className={`text-left py-4 px-4 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'text-[#00f2ff] font-semibold nav-active-glow' : 'text-white/80 hover:text-white'
+              className={`text-left py-4 px-4 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] outline-none focus:outline-none focus-visible:outline-none ${isActive ? 'text-[#00f2ff] font-semibold nav-active-glow' : 'text-white/80 hover:text-white'
                 }`}
               style={{
                 background: 'none',
@@ -442,7 +444,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     <>
       <header
         ref={headerRef}
-        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 shrink-0 sticky top-0 transition-all duration-300 ease-in-out ${
+        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out ${
           isSolid
             ? 'bg-[#16122d]/85 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/25'
             : 'bg-transparent border-b border-transparent'
@@ -497,7 +499,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
             }
 
             const isActive = item.type === 'scroll'
-              ? activePage === 'landing' && activeSection === item.index
+              ? (activePage === 'landing' && (activeSection === item.index || (activeSection as any) === item.id)) || (activePage === item.id)
               : item.type === 'route'
               ? activePage === item.page
               : activePage === 'journal';
@@ -506,7 +508,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
               <button
                 key={item.id}
                 onClick={() => handleItemClick(item)}
-                className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto ${isActive ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'
+                className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto outline-none focus:outline-none focus-visible:outline-none ${isActive ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'
                   }`}
               >
                 <span className="inline-block ponnala-nudge">{item.label}</span>
@@ -714,6 +716,11 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           </button>
         </div>
       </header>
+
+      {/* Spacer for non-landing pages so content isn't hidden under the fixed navbar */}
+      {activePage !== 'landing' && (
+        <div className="w-full h-[72px] sm:h-[80px] md:h-[88px] shrink-0 pointer-events-none" aria-hidden="true" />
+      )}
 
       {/* Mobile drawer rendered into document.body via Portal */}
       {mobileDrawer}

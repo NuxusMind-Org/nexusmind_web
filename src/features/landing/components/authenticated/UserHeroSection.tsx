@@ -14,7 +14,7 @@ export const UserHeroSection = ({ children }: UserHeroSectionProps = {}) => {
 
   return (
     <section
-      id="user-hero"
+      id="hero"
       className="relative w-full min-h-[calc(100vh-80px)] flex items-start justify-start px-4 sm:px-8 md:px-12 lg:px-0 lg:pl-[80px] pt-[100px] sm:pt-[120px] lg:pt-[160px] pb-0 scroll-mt-20 overflow-hidden"
     >
       <ScrollReveal className="w-full max-w-[1300px] flex flex-col relative z-20">
