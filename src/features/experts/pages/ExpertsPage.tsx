@@ -1,22 +1,19 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
 import { psychologists as mockPsychologists } from '@/features/landing/data/psychologists';
-import { PATHS } from '@/routes/paths';
 import { doctorsApi } from '@/api/doctors.api';
 import type { Psychologist } from '@/features/landing/types/psychologist.types';
-import defaultAvatar from '@/assets/avatar1.png';
 import { mapDoctorToPsychologist } from '@/utils/mappers';
 import { LandingNavbar } from '@/features/landing/components/LandingNavbar';
 import { Footer } from '@/features/landing/components/Footer';
+import { ExpertCard } from '../components/ExpertCard';
 
 type CategoryFilter = 'all' | 'anxiety' | 'family' | 'child' | 'trauma';
 type SortOption = 'popularity' | 'experience' | 'name';
 
 export const ExpertsPage = () => {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
   const [activeSort, setActiveSort] = useState<SortOption>('popularity');
@@ -119,7 +116,7 @@ export const ExpertsPage = () => {
     <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
       <LandingNavbar activePage="experts" />
 
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-10 sm:py-16 flex flex-col gap-8">
+      <main className="flex-1 w-full px-4 sm:px-8 lg:px-[54px] py-8 sm:py-12 flex flex-col gap-8">
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-white/10">
           <div className="flex flex-col items-start">
@@ -224,12 +221,20 @@ export const ExpertsPage = () => {
             {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={`skeleton-${i}`}
-                className="bg-white/5 border border-white/10 rounded-3xl p-5 flex flex-col gap-4 animate-pulse"
+                className="w-full aspect-[350/470] rounded-[24px] overflow-hidden bg-[#1A2836] border border-white/10 p-5 flex flex-col justify-between animate-pulse relative"
               >
-                <div className="w-full h-56 rounded-2xl bg-white/10" />
-                <div className="w-2/3 h-5 rounded-lg bg-white/10" />
-                <div className="w-1/2 h-4 rounded-lg bg-white/10" />
-                <div className="w-full h-12 rounded-xl bg-white/10 mt-auto" />
+                {/* Top badges skeleton */}
+                <div className="flex items-center justify-between w-full">
+                  <div className="h-6 w-16 rounded-full bg-white/10" />
+                  <div className="h-6 w-12 rounded-full bg-white/10" />
+                </div>
+                {/* Bottom content skeleton */}
+                <div className="flex flex-col items-center gap-2.5 w-full mt-auto">
+                  <div className="h-6 w-3/4 rounded-lg bg-white/15" />
+                  <div className="h-4 w-1/2 rounded-md bg-white/10" />
+                  <div className="h-4 w-1/3 rounded-md bg-white/10" />
+                  <div className="w-full h-9 rounded-xl bg-white/10 mt-2" />
+                </div>
               </div>
             ))}
           </div>
@@ -260,101 +265,7 @@ export const ExpertsPage = () => {
           /* Experts Grid */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {processedExperts.map((psych) => (
-              <div
-                key={psych.id}
-                className="bg-white/10 backdrop-blur-xl border border-white/15 rounded-3xl p-5 shadow-[0_16px_40px_rgba(0,0,0,0.25)] flex flex-col justify-between transition-all duration-300 hover:border-[#00f2ff]/50 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)] group"
-              >
-                <div
-                  onClick={() => navigate(PATHS.PSYCHOLOGIST.replace(':id', String(psych.id)))}
-                  className="cursor-pointer"
-                >
-                  {/* Photo Container */}
-                  <div className="relative w-full h-56 rounded-2xl overflow-hidden mb-4 bg-slate-900/60 shadow-inner">
-                    <img
-                      src={psych.image || defaultAvatar}
-                      alt={psych.name}
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
-                    />
-
-                    {/* Gradient Overlay for subtle depth */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Rating Badge */}
-                    <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 text-[#00f2ff] border border-white/15 shadow-md">
-                      <AppIcon icon="lucide:star" size={12} fill="currentColor" />
-                      <span>{psych.rating ? psych.rating.toFixed(1) : '5.0'}</span>
-                    </div>
-
-                    {/* Experience Badge */}
-                    {psych.experience && (
-                      <div className="absolute bottom-3 left-3 bg-black/65 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-medium text-white/90 border border-white/10">
-                        {psych.experience}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Doctor Info */}
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-1.5">
-                      <h3 className="text-[19px] sm:text-[20px] font-bold text-white group-hover:text-[#00f2ff] transition-colors leading-snug line-clamp-1">
-                        {psych.name}
-                      </h3>
-                      <AppIcon icon="lucide:user-check" size={16} className="text-[#00f2ff] shrink-0" />
-                    </div>
-
-                    <p className="text-xs font-semibold text-[#00f2ff]/90 tracking-wide uppercase">
-                      {psych.specialty || psych.title || 'Klinik Psixoloq'}
-                    </p>
-
-                    {/* Specialization Tags */}
-                    {psych.tags && psych.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-2">
-                        {psych.tags.slice(0, 2).map((tag, idx) => (
-                          <span
-                            key={idx}
-                            className="bg-white/10 text-white/80 text-[11px] px-2.5 py-0.5 rounded-full border border-white/10 font-medium line-clamp-1 max-w-[160px]"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                        {psych.tags.length > 2 && (
-                          <span className="text-[11px] text-white/50 px-1 py-0.5 font-medium self-center">
-                            +{psych.tags.length - 2}
-                          </span>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Bio Snippet */}
-                    {psych.description && (
-                      <p className="text-[13px] text-white/70 mt-2.5 line-clamp-2 leading-relaxed font-light">
-                        {psych.description}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Card Action / Booking CTA */}
-                <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between gap-3">
-                  <div className="flex flex-col">
-                    <span className="text-[10px] uppercase tracking-wider text-white/50 font-medium">Qiymət</span>
-                    <span className="text-[15px] font-bold text-white">
-                      {psych.price || 50} AZN
-                      <span className="text-[11px] font-normal text-white/60 ml-0.5">/ seans</span>
-                    </span>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => navigate(PATHS.PSYCHOLOGIST.replace(':id', String(psych.id)), { state: { autoOpenBooking: true } })}
-                    className="py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#9f5bff] to-[#00f2ff] text-slate-950 font-bold text-xs hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 shadow-[0_4px_16px_rgba(0,242,255,0.25)] cursor-pointer"
-                  >
-                    <span>{t('experts.bookSession', 'Seans Təyin Et')}</span>
-                    <AppIcon icon="lucide:arrow-right" size={14} />
-                  </button>
-                </div>
-              </div>
+              <ExpertCard key={psych.id} expert={psych} />
             ))}
           </div>
         )}
