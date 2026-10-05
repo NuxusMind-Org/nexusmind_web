@@ -70,16 +70,16 @@ export const LanguageSelector = ({
         <span>{currentLang.shortLabel}</span>
         <AppIcon
           icon="lucide:chevron-down"
-          size={16}
+          size={14}
           className={`transition-transform duration-300 text-white/80 ${
-            isOpen ? 'rotate-180 text-[#00f2ff]' : ''
+            isOpen ? 'rotate-180' : ''
           }`}
         />
       </button>
 
       {/* Dropdown Menu */}
       <div
-        className={`absolute right-0 min-w-[150px] transition-all duration-200 ease-out ${
+        className={`absolute right-0 w-44 transition-all duration-200 ease-out ${
           direction === 'up'
             ? 'bottom-full mb-2 origin-bottom-right'
             : 'top-full mt-2 origin-top-right'
@@ -89,8 +89,8 @@ export const LanguageSelector = ({
             : 'opacity-0 scale-95 pointer-events-none'
         }`}
       >
-        <div className="glass-card rounded-xl p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.35)] border border-white/10 backdrop-blur-xl bg-[#1e293b]/90">
-          <div role="listbox" aria-label="Languages" className="flex flex-col gap-0.5">
+        <div className="glass-card rounded-lg p-3 flex flex-col gap-1 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+          <div role="listbox" aria-label="Languages" className="flex flex-col gap-1">
             {SUPPORTED_LANGUAGES.map((lang) => {
               const isSelected = currentLang.code === lang.code;
               return (
@@ -98,17 +98,29 @@ export const LanguageSelector = ({
                   key={lang.code}
                   type="button"
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`flex items-center justify-between px-3 py-2 text-[14px] rounded-lg transition-colors cursor-pointer text-left ${
-                    isSelected
-                      ? 'bg-white/10 text-[#00f2ff] font-medium'
-                      : 'text-white/80 hover:text-white hover:bg-white/5'
+                  className={`group/item flex items-center justify-between hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none ${
+                    isSelected ? 'text-white' : 'text-white/80'
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-[13px] opacity-75">{lang.shortLabel}</span>
-                    <span>{lang.label}</span>
+                  <div className="flex items-center gap-2.5">
+                    <span className={`text-[13px] font-semibold transition-opacity ${isSelected ? 'opacity-100 text-white' : 'opacity-70'}`}>
+                      {lang.shortLabel}
+                    </span>
+                    <span className="ponnala-nudge">{lang.label}</span>
                   </div>
-                  {isSelected && <AppIcon icon="lucide:check" size={14} className="text-[#00f2ff] shrink-0 ml-2" />}
+                  {isSelected ? (
+                    <AppIcon
+                      icon="lucide:check"
+                      size={14}
+                      className="text-white/80 group-hover/item:text-[#00f2ff] transition-colors shrink-0 ml-2"
+                    />
+                  ) : (
+                    <AppIcon
+                      icon="lucide:chevron-right"
+                      size={14}
+                      className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]"
+                    />
+                  )}
                 </button>
               );
             })}

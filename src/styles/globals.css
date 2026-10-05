@@ -15,6 +15,7 @@
   --color-ui-muted: rgba(224, 224, 224, 0.7);
 
   --font-sans: "Afacad", sans-serif;
+  --font-serif: "Afacad", sans-serif;
   --font-title: "Caveat", cursive;
 
   --radius-xs: 8px;
@@ -44,6 +45,10 @@
     min-height: 100vh;
     /* Prevent tap-highlight flash on mobile */
     -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Afacad", sans-serif;
   }
 
   /* ── Responsive Typography (mobile-first) ──────────────── */
@@ -99,30 +104,10 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 18px rgba(0, 242, 255, 0.08);
   }
 
-  .nav-active-glow {
-    border-left: 3px solid #00f2ff !important;
-    animation: nav-pulse 2s infinite ease-in-out;
-  }
-
   /* ── Mobile Bottom Navigation Spacing ──────────────────── */
   /* Apply to main content containers that sit above a fixed bottom nav */
   .pb-safe-bottom {
     padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
-  }
-}
-
-/* ── Keyframes ───────────────────────────────────────────── */
-@keyframes nav-pulse {
-
-  0%,
-  100% {
-    box-shadow: inset 4px 0 8px -4px rgba(0, 242, 255, 0.4);
-    text-shadow: 0 0 8px rgba(0, 242, 255, 0.3);
-  }
-
-  50% {
-    box-shadow: inset 4px 0 16px -4px rgba(0, 242, 255, 0.8);
-    text-shadow: 0 0 14px rgba(0, 242, 255, 0.7);
   }
 }
 

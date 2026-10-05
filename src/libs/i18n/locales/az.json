@@ -283,6 +283,7 @@
       "trainings": "Təlimlər",
       "gallery": "Qalereya",
       "news": "Xəbərlər",
+      "profile": "Profilim",
       "recentSearches": "Son axtarılanlar :"
     },
     "bottomNav": {
@@ -354,6 +355,17 @@
       "saved": "Əhvalınız qeydə alındı",
       "error": "Əhvalı yadda saxlamaq mümkün olmadı."
     },
+    "calendar": {
+      "title": "Görüş vaxtını seçin",
+      "availableHours": "Mövcud saatlar",
+      "loadingHours": "Mövcud saatlar yüklənir...",
+      "noHours": "Bu tarixdə mövcud saat yoxdur.",
+      "selectDatePrompt": "Zəhmət olmasa təqvimdən uyğun tarixi seçin.",
+      "sessionFormat": "Seans formatı",
+      "confirmBooking": "Təsdiq et və Seansı Təyin Et",
+      "thisWeek": "Bu həftə",
+      "today": "Bugün"
+    },
     "sessions": {
       "nextSession": "Növbəti seansın",
       "loading": "Seans məlumatları yüklənir...",
@@ -376,7 +388,12 @@
       "exploreExperts": "Mütəxəssisləri araşdır",
       "more": "Daha çox →",
       "start": "Başlayaq",
-      "perSession": "/seans"
+      "perSession": "/seans",
+      "recommendedExperts": "Tövsiyə Edilən Mütəxəssislər",
+      "recommendedExpertsSubtitle": "Psixoloji rifahınız üçün ən uyğun mütəxəssislər",
+      "viewAllExperts": "Bütün mütəxəssislər",
+      "showAllHistory": "Bütün tarixçəni göstər",
+      "hideHistory": "Daha az göstər"
     },
     "sessionCall": {
       "connecting": "Seansa qoşulur...",

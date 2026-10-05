@@ -55,7 +55,7 @@ export const PsychologistPage = () => {
             setPsych(fallback);
           }
         }
-      } catch (err) {
+      } catch {
         if (isMounted) {
           const fallback = psychologists.find(p => p.id === psychologistId) || psychologists[0];
           setPsych(fallback);
@@ -116,7 +116,7 @@ export const PsychologistPage = () => {
       {/* Main Content Container */}
       <div className="w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[40px] pb-[80px] flex flex-col gap-8">
 
-        <h1 className="text-[32px] sm:text-[42px] md:text-[56px] font-serif font-light text-white mb-2 leading-tight">
+        <h1 className="text-[32px] sm:text-[42px] md:text-[56px] font-sans font-light text-white mb-2 leading-tight tracking-tight">
           {t('psychologist.about', 'Psixoloq haqqında')}
         </h1>
 
@@ -271,8 +271,8 @@ export const PsychologistPage = () => {
                 ) : (
                   <div className="relative">
                     {isBooking && (
-                      <div className="absolute inset-0 z-30 bg-[#1b172a]/80 backdrop-blur-md rounded-3xl flex flex-col items-center justify-center gap-3">
-                        <div className="w-10 h-10 border-3 border-[#00f2ff]/20 border-t-[#00f2ff] rounded-full animate-spin" />
+                      <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-md rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center gap-3">
+                        <div className="w-10 h-10 border-3 border-purple-500/20 border-t-[#8B5CF6] rounded-full animate-spin" />
                         <span className="text-white text-sm font-medium">{t('webapp.sessions.bookingSession', 'Seans təyin edilir...')}</span>
                       </div>
                     )}

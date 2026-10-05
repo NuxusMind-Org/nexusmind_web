@@ -172,7 +172,7 @@ export const JournalPage = () => {
         {/* Left Column */}
         <div className="flex-1 flex flex-col gap-6 w-full">
           <div>
-            <h1 className="text-[42px] sm:text-[56px] font-serif font-light text-white mb-2 leading-tight">
+            <h1 className="text-[42px] sm:text-[56px] font-sans font-light text-white mb-2 leading-tight tracking-tight">
               {t('journal.title', 'Gündəlik')} <span className="text-[#c39ffd] font-light">{t('journal.titleHighlight', 'Qeydlərim')}</span>
             </h1>
             <p className="text-white/80 text-[16px] sm:text-[18px]">
@@ -220,7 +220,7 @@ export const JournalPage = () => {
                 <h4 className="text-white/50 text-[11px] tracking-[0.2em] uppercase font-light mb-2">
                   {t('journal.todayThoughts', 'BUGÜNKÜ DÜŞÜNCƏLƏR')}
                 </h4>
-                <h3 className="text-white text-[24px] sm:text-[28px] italic font-serif">
+                <h3 className="text-white text-[24px] sm:text-[28px] font-sans font-medium">
                   {t('journal.whatThinking', 'Nə düşünürsən?')}
                 </h3>
               </div>

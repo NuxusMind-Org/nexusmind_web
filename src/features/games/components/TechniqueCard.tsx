@@ -34,7 +34,7 @@ export const TechniqueCard: React.FC<TechniqueCardProps> = ({
         </div>
 
         {/* Card Title */}
-        <h3 className="text-xl sm:text-2xl font-serif font-light text-white mb-5 leading-tight text-left">
+        <h3 className="text-xl sm:text-2xl font-sans font-light text-white mb-5 leading-tight text-left">
           {title}
         </h3>
 

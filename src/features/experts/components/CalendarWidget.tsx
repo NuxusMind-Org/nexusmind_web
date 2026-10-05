@@ -82,12 +82,52 @@ const isSlotInPast = (dateIso: string, timeStr: string): boolean => {
   return slotDate <= minValidTime;
 };
 
+const getMonday = (d: Date): Date => {
+  const date = new Date(d);
+  const day = date.getDay();
+  const diff = (day === 0 ? -6 : 1) - day;
+  date.setDate(date.getDate() + diff);
+  date.setHours(0, 0, 0, 0);
+  return date;
+};
+
+const formatWeekRange = (start: Date, end: Date, locale: string): string => {
+  const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
+  const sameYear = start.getFullYear() === end.getFullYear();
+
+  const startDay = start.getDate();
+  const endDay = end.getDate();
+
+  if (sameMonth) {
+    const monthYear = end.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
+    return `${startDay} – ${endDay} ${monthYear}`;
+  }
+
+  if (sameYear) {
+    const startMonth = start.toLocaleDateString(locale, { month: 'short' });
+    const endMonthYear = end.toLocaleDateString(locale, { month: 'short', year: 'numeric' });
+    return `${startDay} ${startMonth} – ${endDay} ${endMonthYear}`;
+  }
+
+  const startFull = start.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+  const endFull = end.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
+  return `${startFull} – ${endFull}`;
+};
+
+const formatSelectedDateHeading = (iso: string | null, locale: string): string => {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-').map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
+};
+
 export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onConfirm }: CalendarWidgetProps) => {
   const { t, i18n } = useTranslation();
   const today = useMemo(() => new Date(), []);
   const todayIso = useMemo(() => formatISODate(today), [today]);
+  const thisWeekMonday = useMemo(() => getMonday(today), [today]);
 
-  const [currentDate, setCurrentDate] = useState<Date>(today);
+  const [currentWeekMonday, setCurrentWeekMonday] = useState<Date>(() => getMonday(today));
   const [selectedDate, setSelectedDate] = useState<string | null>(todayIso);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedMode, setSelectedMode] = useState<AppointmentMode>('VIDEO_CALL');
@@ -96,53 +136,31 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
 
   const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+  const isCurrentWeek = currentWeekMonday.getTime() <= thisWeekMonday.getTime();
 
-  const isCurrentMonth = useMemo(() => {
-    return year === today.getFullYear() && month <= today.getMonth();
-  }, [year, month, today]);
-
-  // Weekday labels starting from Monday
-  const days = useMemo(() => {
-    const base = new Date(2023, 0, 2); // Monday, Jan 2 2023
+  // 7 days of the active week: Monday to Sunday
+  const weekDays = useMemo(() => {
     return Array.from({ length: 7 }).map((_, i) => {
-      const d = new Date(base);
-      d.setDate(base.getDate() + i);
-      return d.toLocaleDateString(locale, { weekday: 'short' });
+      const d = new Date(currentWeekMonday);
+      d.setDate(currentWeekMonday.getDate() + i);
+      d.setHours(0, 0, 0, 0);
+      return d;
     });
-  }, [locale]);
+  }, [currentWeekMonday]);
 
-  // Calendar dates generation for the viewed month
-  const monthData = useMemo(() => {
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    // Monday start adjust (0 is Sun -> 6, 1 is Mon -> 0, etc.)
-    const startOffset = (firstDay + 6) % 7;
-
-    const cells: (Date | null)[] = [];
-    for (let i = 0; i < startOffset; i++) {
-      cells.push(null);
-    }
-    for (let d = 1; d <= daysInMonth; d++) {
-      cells.push(new Date(year, month, d));
-    }
-    return cells;
-  }, [year, month]);
-
-  // Fetch REAL slots from working hours controller whenever psychologistId, year, or month changes
+  // Fetch REAL slots for the active week from backend
   useEffect(() => {
     let isCancelled = false;
 
     const fetchSlots = async () => {
       setIsLoading(true);
       try {
-        const startOfMonth = new Date(year, month, 1);
-        const endOfMonth = new Date(year, month + 1, 0);
+        const weekStart = new Date(currentWeekMonday);
+        const weekEnd = new Date(currentWeekMonday);
+        weekEnd.setDate(weekEnd.getDate() + 6);
 
-        const from = formatISODate(startOfMonth < today ? today : startOfMonth);
-        const to = formatISODate(endOfMonth);
+        const from = formatISODate(weekStart < today ? today : weekStart);
+        const to = formatISODate(weekEnd);
 
         const data = await doctorsApi.getAvailableWorkingHours(psychologistId, from, to);
         if (isCancelled) return;
@@ -154,9 +172,49 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
             booked: Boolean(s.booked),
           }));
           setSlots(normalized);
+
+          // Update selectedDate if not in active week or to pick first available slot
+          setSelectedDate((prevSelected) => {
+            const daysInWeek = Array.from({ length: 7 }).map((_, i) => {
+              const d = new Date(currentWeekMonday);
+              d.setDate(currentWeekMonday.getDate() + i);
+              return formatISODate(d);
+            });
+
+            if (prevSelected && daysInWeek.includes(prevSelected)) {
+              return prevSelected;
+            }
+
+            const firstAvailable = daysInWeek.find((isoDate) =>
+              normalized.some((s) => s.date === isoDate && !s.booked && !isSlotInPast(isoDate, s.time))
+            );
+
+            if (firstAvailable) {
+              return firstAvailable;
+            }
+
+            if (currentWeekMonday.getTime() === thisWeekMonday.getTime()) {
+              return todayIso;
+            }
+            return daysInWeek[0];
+          });
         } else {
-          // No mock data - only real data from backend
           setSlots([]);
+          setSelectedDate((prevSelected) => {
+            const daysInWeek = Array.from({ length: 7 }).map((_, i) => {
+              const d = new Date(currentWeekMonday);
+              d.setDate(currentWeekMonday.getDate() + i);
+              return formatISODate(d);
+            });
+
+            if (prevSelected && daysInWeek.includes(prevSelected)) {
+              return prevSelected;
+            }
+            if (currentWeekMonday.getTime() === thisWeekMonday.getTime()) {
+              return todayIso;
+            }
+            return daysInWeek[0];
+          });
         }
       } catch (error) {
         if (isCancelled) return;
@@ -174,15 +232,42 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
     return () => {
       isCancelled = true;
     };
-  }, [psychologistId, year, month, today]);
+  }, [psychologistId, currentWeekMonday, today, todayIso, thisWeekMonday]);
 
-  // Check if a date has any available, unbooked future slots from the backend
+  // Week navigation
+  const handlePrevWeek = () => {
+    if (isCurrentWeek) return;
+    const prev = new Date(currentWeekMonday);
+    prev.setDate(prev.getDate() - 7);
+    setCurrentWeekMonday(prev);
+    setSelectedTime(null);
+  };
+
+  const handleNextWeek = () => {
+    const next = new Date(currentWeekMonday);
+    next.setDate(next.getDate() + 7);
+    setCurrentWeekMonday(next);
+    setSelectedTime(null);
+  };
+
+  const handleJumpToToday = () => {
+    setCurrentWeekMonday(thisWeekMonday);
+    setSelectedDate(todayIso);
+    setSelectedTime(null);
+  };
+
+  // Check if a date has any available unbooked future slots
   const hasSlotsForDate = (dateObj: Date): boolean => {
     const iso = formatISODate(dateObj);
     return slots.some((s) => s.date === iso && !s.booked && !isSlotInPast(iso, s.time));
   };
 
-  // Available hours for the currently selected date (only real data)
+  const getSlotsCountForDate = (dateObj: Date): number => {
+    const iso = formatISODate(dateObj);
+    return slots.filter((s) => s.date === iso && !s.booked && !isSlotInPast(iso, s.time)).length;
+  };
+
+  // Available hours for currently selected date
   const availableHours = useMemo(() => {
     if (!selectedDate) return [];
     const times = slots
@@ -199,148 +284,162 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
     return d;
   }, [today]);
 
+  const isFormValid = Boolean(selectedDate && selectedTime && !isLoading);
+
   return (
-    <div className="w-full bg-[#1b172a]/95 backdrop-blur-2xl border border-white/15 rounded-3xl p-6 sm:p-8 text-white shadow-2xl flex flex-col gap-6">
+    <div className="w-full glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-7 text-white shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col gap-5">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div>
-          <h3 className="text-xl font-semibold text-white">
+          <h3 className="text-lg sm:text-xl font-semibold text-white tracking-tight">
             {t('webapp.calendar.title', 'Görüş vaxtını seçin')}
           </h3>
-          <p className="text-xs text-white/60 mt-1">
+          <p className="text-xs text-white/60 mt-1 font-medium">
             {psychologistName}
           </p>
         </div>
         <button
           type="button"
           onClick={onBack}
-          className="text-xs text-white/70 hover:text-white px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 transition-colors cursor-pointer"
+          className="text-xs font-medium text-white/80 hover:text-white px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 border border-white/10 transition-colors cursor-pointer flex items-center gap-1.5"
         >
-          {t('common.back', 'Geri')}
+          <AppIcon icon="lucide:arrow-left" size={14} />
+          <span>{t('common.back', 'Geri')}</span>
         </button>
       </div>
 
-      {/* Month Navigator */}
-      <div className="flex items-center justify-between px-2">
+      {/* Week Navigator */}
+      <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <h4 className="text-base font-medium text-white capitalize">
-            {currentDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' })}
+          <h4 className="text-sm sm:text-base font-semibold text-white capitalize">
+            {formatWeekRange(weekDays[0], weekDays[6], locale)}
           </h4>
           {isLoading && (
-            <div className="w-3.5 h-3.5 border-2 border-[#00f2ff]/30 border-t-[#00f2ff] rounded-full animate-spin" />
+            <div className="w-3.5 h-3.5 border-2 border-[#A682FF]/30 border-t-[#A682FF] rounded-full animate-spin" />
           )}
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
+          {!isCurrentWeek && (
+            <button
+              type="button"
+              onClick={handleJumpToToday}
+              className="text-[11px] font-medium px-2.5 py-1.5 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 border border-purple-400/40 text-purple-200 transition-colors cursor-pointer"
+            >
+              {t('webapp.calendar.thisWeek', 'Bugün')}
+            </button>
+          )}
           <button
             type="button"
-            disabled={isCurrentMonth}
-            onClick={() => {
-              const prevMonth = new Date(year, month - 1, 1);
-              setCurrentDate(prevMonth);
-              if (prevMonth.getFullYear() === today.getFullYear() && prevMonth.getMonth() === today.getMonth()) {
-                setSelectedDate(todayIso);
-              } else {
-                setSelectedDate(formatISODate(prevMonth));
-              }
-              setSelectedTime(null);
-            }}
-            className={`p-1.5 rounded-lg transition-colors ${
-              isCurrentMonth
-                ? 'opacity-30 cursor-not-allowed text-white/40 bg-white/5'
-                : 'bg-white/10 hover:bg-white/15 text-white/80 hover:text-white cursor-pointer'
+            disabled={isCurrentWeek}
+            onClick={handlePrevWeek}
+            className={`p-2 rounded-xl transition-all ${
+              isCurrentWeek
+                ? 'opacity-30 cursor-not-allowed text-white/40 bg-white/5 border border-transparent'
+                : 'bg-white/10 hover:bg-white/15 border border-white/10 text-white/80 hover:text-white cursor-pointer active:scale-95'
             }`}
-            aria-label="Previous month"
+            aria-label="Previous week"
           >
-            <AppIcon icon="lucide:chevron-left" size={18} />
+            <AppIcon icon="lucide:chevron-left" size={16} />
           </button>
           <button
             type="button"
-            onClick={() => {
-              const nextMonth = new Date(year, month + 1, 1);
-              setCurrentDate(nextMonth);
-              if (nextMonth.getFullYear() === today.getFullYear() && nextMonth.getMonth() === today.getMonth()) {
-                setSelectedDate(todayIso);
-              } else {
-                setSelectedDate(formatISODate(nextMonth));
-              }
-              setSelectedTime(null);
-            }}
-            className="p-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-white/80 hover:text-white transition-colors cursor-pointer"
-            aria-label="Next month"
+            onClick={handleNextWeek}
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-white/80 hover:text-white transition-all cursor-pointer active:scale-95"
+            aria-label="Next week"
           >
-            <AppIcon icon="lucide:chevron-right" size={18} />
+            <AppIcon icon="lucide:chevron-right" size={16} />
           </button>
         </div>
       </div>
 
-      {/* Calendar Grid */}
-      <div className="w-full">
-        {/* Weekday headers: Mon - Sun */}
-        <div className="grid grid-cols-7 gap-1 text-center text-xs text-white/50 mb-2 font-medium">
-          {days.map((d, idx) => (
-            <div key={idx} className="py-1">
-              {d}
-            </div>
-          ))}
-        </div>
+      {/* 7-Day Weekly Grid */}
+      <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
+        {weekDays.map((dateObj) => {
+          const iso = formatISODate(dateObj);
+          const isSelected = selectedDate === iso;
+          const isToday = iso === todayIso;
+          const isPast = dateObj < todayStartOfDay;
+          const hasSlots = hasSlotsForDate(dateObj);
+          const slotCount = getSlotsCountForDate(dateObj);
 
-        {/* Days grid: All 7 days of the week are available */}
-        <div className="grid grid-cols-7 gap-1.5">
-          {monthData.map((dateObj, idx) => {
-            if (!dateObj) {
-              return <div key={`empty-${idx}`} className="h-9 sm:h-10" />;
-            }
+          const weekdayName = dateObj.toLocaleDateString(locale, { weekday: 'short' });
+          const dayNumber = dateObj.getDate();
 
-            const iso = formatISODate(dateObj);
-            const isSelected = selectedDate === iso;
-            const isToday = iso === todayIso;
-            const isPast = dateObj < todayStartOfDay;
-            const hasSlots = hasSlotsForDate(dateObj);
-
-            return (
-              <button
-                key={iso}
-                type="button"
-                disabled={isPast}
-                onClick={() => {
-                  setSelectedDate(iso);
-                  setSelectedTime(null);
-                }}
-                className={`h-9 sm:h-10 rounded-xl text-xs sm:text-sm font-medium transition-all flex flex-col items-center justify-center relative ${
-                  isSelected
-                    ? 'bg-[#00f2ff] text-slate-950 font-bold shadow-[0_0_15px_rgba(0,242,255,0.5)]'
-                    : isPast
-                    ? 'text-white/20 cursor-not-allowed'
-                    : hasSlots
-                    ? 'bg-white/10 text-white hover:bg-white/20 cursor-pointer border border-white/15'
-                    : 'text-white/70 hover:bg-white/10 hover:text-white cursor-pointer border border-transparent'
+          return (
+            <button
+              key={iso}
+              type="button"
+              disabled={isPast}
+              title={hasSlots ? `${slotCount} ${t('webapp.calendar.slotsCount', 'saat mövcuddur')}` : undefined}
+              onClick={() => {
+                setSelectedDate(iso);
+                setSelectedTime(null);
+              }}
+              className={`py-2.5 sm:py-3 px-1 rounded-xl text-center transition-all flex flex-col items-center justify-between min-h-[66px] sm:min-h-[72px] relative cursor-pointer ${
+                isSelected
+                  ? 'bg-gradient-to-br from-[#7C3AED] to-[#5B21B6] text-white font-bold shadow-[0_4px_16px_rgba(124,58,237,0.45)] border border-purple-300/50 scale-[1.03]'
+                  : isPast
+                  ? 'text-white/25 cursor-not-allowed border border-transparent pointer-events-none'
+                  : hasSlots
+                  ? 'bg-purple-500/15 text-white font-semibold hover:bg-purple-500/25 border border-purple-400/40 hover:border-purple-400/70 shadow-[0_0_10px_rgba(168,85,247,0.12)]'
+                  : 'bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10'
+              }`}
+            >
+              {/* Short Weekday Name (e.g. Mon, B.e, Пн) */}
+              <span
+                className={`text-[10px] sm:text-[11px] uppercase tracking-wider font-medium truncate max-w-full ${
+                  isSelected ? 'text-white/90 font-semibold' : isPast ? 'text-white/20' : 'text-white/55'
                 }`}
               >
-                <span>{dateObj.getDate()}</span>
-                {/* Dot for available real hours */}
-                {hasSlots && !isSelected && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] absolute bottom-1" />
-                )}
-                {/* Indicator for today */}
-                {isToday && !isSelected && (
-                  <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#c084fc]" />
-                )}
-              </button>
-            );
-          })}
-        </div>
+                {weekdayName}
+              </span>
+
+              {/* Day Number */}
+              <span
+                className={`text-sm sm:text-base my-0.5 leading-tight ${
+                  isSelected ? 'text-white font-bold' : isPast ? 'text-white/25' : 'text-white font-semibold'
+                }`}
+              >
+                {dayNumber}
+              </span>
+
+              {/* Availability Indicator */}
+              <div className="h-2 flex items-center justify-center">
+                {isSelected ? (
+                  <span className="w-1.5 h-1.5 rounded-full bg-white shadow-sm" />
+                ) : hasSlots ? (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#A682FF] shadow-[0_0_6px_rgba(166,130,255,0.8)]" />
+                ) : isToday ? (
+                  <span className="w-1 h-1 rounded-full bg-purple-400/60" />
+                ) : null}
+              </div>
+
+              {/* Today Pill / Top-Right Indicator */}
+              {isToday && !isSelected && (
+                <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#A682FF]" />
+              )}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Available Hours (Real data only) */}
+      {/* Available Hours */}
       <div className="border-t border-white/10 pt-4 flex flex-col gap-3">
-        <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">
-          {t('webapp.calendar.availableHours', 'Mövcud saatlar')}
-          {selectedDate ? ` (${selectedDate})` : ''}:
+        <span className="text-xs font-semibold text-white/70 uppercase tracking-wider flex items-center justify-between">
+          <span>
+            {t('webapp.calendar.availableHours', 'Mövcud saatlar')}
+            {selectedDate ? ` (${formatSelectedDateHeading(selectedDate, locale)})` : ''}:
+          </span>
+          {availableHours.length > 0 && (
+            <span className="text-[11px] font-medium text-purple-300/90 normal-case bg-purple-500/10 px-2 py-0.5 rounded-md border border-purple-400/20">
+              {availableHours.length} {t('webapp.calendar.slotsCount', 'saat mövcuddur')}
+            </span>
+          )}
         </span>
 
         {isLoading ? (
-          <div className="py-6 flex items-center justify-center gap-2 text-white/50 text-xs">
-            <div className="w-4 h-4 border-2 border-[#00f2ff]/30 border-t-[#00f2ff] rounded-full animate-spin" />
+          <div className="py-6 flex items-center justify-center gap-2 text-white/60 text-xs">
+            <div className="w-4 h-4 border-2 border-[#A682FF]/30 border-t-[#A682FF] rounded-full animate-spin" />
             <span>{t('webapp.calendar.loadingHours', 'Mövcud saatlar yüklənir...')}</span>
           </div>
         ) : selectedDate && availableHours.length > 0 ? (
@@ -354,8 +453,8 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
                   onClick={() => setSelectedTime(timeStr)}
                   className={`py-2 px-3 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-[#c084fc] text-[#1e1435] shadow-[0_0_15px_rgba(192,132,252,0.5)]'
-                      : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
+                      ? 'bg-gradient-to-r from-[#7C3AED] to-[#5B21B6] text-white shadow-[0_4px_14px_rgba(124,58,237,0.4)] border border-purple-300/40'
+                      : 'bg-white/5 hover:bg-white/12 text-white/90 hover:text-white border border-white/15 hover:border-purple-400/30'
                   }`}
                 >
                   {timeStr}
@@ -379,45 +478,71 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
         <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">
           {t('webapp.calendar.sessionFormat', 'Seans formatı')}:
         </span>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2.5">
           <button
             type="button"
             onClick={() => setSelectedMode('VIDEO_CALL')}
-            className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+            className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               selectedMode === 'VIDEO_CALL'
-                ? 'bg-[#00f2ff] text-slate-950 font-bold'
-                : 'bg-white/5 hover:bg-white/10 text-white/80 border border-white/10'
+                ? 'bg-gradient-to-r from-[#7C3AED] to-[#5B21B6] text-white border border-purple-300/40 shadow-[0_4px_14px_rgba(124,58,237,0.35)]'
+                : 'bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/15'
             }`}
           >
-            {t('webapp.sessions.videoSession', 'Onlayn Video Seans')}
+            <AppIcon icon="lucide:video" size={15} />
+            <span>{t('webapp.sessions.videoSession', 'Onlayn Video Seans')}</span>
           </button>
           <button
             type="button"
             onClick={() => setSelectedMode('VR')}
-            className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+            className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               selectedMode === 'VR'
-                ? 'bg-[#00f2ff] text-slate-950 font-bold'
-                : 'bg-white/5 hover:bg-white/10 text-white/80 border border-white/10'
+                ? 'bg-gradient-to-r from-[#7C3AED] to-[#5B21B6] text-white border border-purple-300/40 shadow-[0_4px_14px_rgba(124,58,237,0.35)]'
+                : 'bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/15'
             }`}
           >
-            {t('webapp.sessions.vrSession', 'VR Seans')}
+            <AppIcon icon="lucide:glasses" size={15} />
+            <span>{t('webapp.sessions.vrSession', 'VR Seans')}</span>
           </button>
         </div>
       </div>
 
       {/* Confirmation Button */}
-      <button
-        type="button"
-        disabled={!selectedDate || !selectedTime || isLoading}
-        onClick={() => {
-          if (selectedDate && selectedTime) {
-            onConfirm(selectedDate, toAppointmentTime(selectedTime), selectedMode);
-          }
-        }}
-        className="w-full mt-2 py-3.5 rounded-xl bg-gradient-to-r from-[#9f5bff] to-[#00f2ff] hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed text-white font-semibold text-sm transition-all shadow-[0_4px_25px_rgba(159,91,255,0.4)] cursor-pointer"
-      >
-        {t('webapp.calendar.confirmBooking', 'Təsdiq et və Seansı Təyin Et')}
-      </button>
+      <div className="w-full mt-2">
+        <button
+          type="button"
+          disabled={!isFormValid}
+          onClick={() => {
+            if (selectedDate && selectedTime) {
+              onConfirm(selectedDate, toAppointmentTime(selectedTime), selectedMode);
+            }
+          }}
+          className="group relative w-full h-[50px] sm:h-[52px] bg-[#4A148F] hover:bg-[#5b1ab0] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#4A148F] disabled:shadow-none disabled:active:scale-100 text-white font-semibold text-sm sm:text-base rounded-xl flex items-center justify-center transition-all duration-300 ease-out active:scale-[0.98] cursor-pointer shadow-[0_4px_20px_rgba(74,20,143,0.45)] overflow-hidden"
+        >
+          {/* Animated Conic Border (active when button is enabled) */}
+          {isFormValid && (
+            <div
+              className="absolute inset-0 rounded-xl pointer-events-none overflow-hidden"
+              style={{
+                padding: '2px',
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                maskComposite: 'exclude',
+              }}
+            >
+              <div
+                className="absolute left-1/2 top-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out group-hover:rotate-90"
+                style={{
+                  background:
+                    'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
+                }}
+              />
+            </div>
+          )}
+          <span className="relative z-10 ponnala-nudge">
+            {t('webapp.calendar.confirmBooking', 'Təsdiq et və Seansı Təyin Et')}
+          </span>
+        </button>
+      </div>
     </div>
   );
 };

@@ -144,7 +144,7 @@ export const UserMoodWidget = () => {
   return (
     <div className="w-full bg-white/10 backdrop-blur-xl border border-white/15 rounded-3xl p-6 sm:p-8 shadow-[0_16px_40px_rgba(0,0,0,0.2)] flex flex-col items-center text-center">
       <div className="flex items-center justify-center gap-2 mb-6">
-        <h3 className="text-lg sm:text-2xl font-light font-serif text-white">
+        <h3 className="text-lg sm:text-2xl font-light font-sans text-white">
           {t('webapp.dashboard.howDoYouFeel', 'Bu gün özünü necə hiss edirsən?')}
         </h3>
         {updateMoodMutation.isPending && (

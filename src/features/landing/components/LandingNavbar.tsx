@@ -191,7 +191,6 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
       ro.disconnect();
       window.removeEventListener('scroll', measure);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Prevent body scroll when menu is open
@@ -266,174 +265,202 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
         right: 0,
         bottom: 0,
         zIndex: 9999,
-        backgroundColor: '#111827',
+        backgroundColor: 'rgba(18, 14, 38, 0.96)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         display: 'flex',
         flexDirection: 'column',
         overflowY: 'auto',
         overscrollBehavior: 'contain',
         WebkitOverflowScrolling: 'touch',
-        padding: '32px 24px calc(32px + env(safe-area-inset-bottom, 0px)) 24px',
+        padding: '20px 16px calc(24px + env(safe-area-inset-bottom, 0px)) 16px',
         opacity: isMobileMenuOpen ? 1 : 0,
         pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
       }}
     >
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: '0', marginBottom: '32px' }}>
-        {navItems.map((item, index) => {
-          if (item.type === 'dropdown') {
-            const isDropdownActive = item.items.some(subItem => subItem.page === activePage);
-            const isDropdownOpen = openDropdownId === item.id;
+      <div className="glass-card rounded-2xl p-2.5 sm:p-3 shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col gap-1 w-full max-w-lg mx-auto">
+        <nav className="flex flex-col gap-1">
+          {navItems.map((item, index) => {
+            if (item.type === 'dropdown') {
+              const isDropdownActive = item.items.some(subItem => subItem.page === activePage);
+              const isDropdownOpen = openDropdownId === item.id;
+              return (
+                <div key={item.id} className="w-full flex flex-col">
+                  <button
+                    type="button"
+                    onClick={() => handleItemClick(item)}
+                    className={`text-left py-3 px-3.5 rounded-xl flex items-center justify-between transition-colors cursor-pointer w-full bg-transparent border-0 outline-none ${
+                      isDropdownActive
+                        ? 'bg-white/10 text-white font-semibold'
+                        : 'text-white/80 hover:text-white hover:bg-white/5 active:bg-white/10'
+                    }`}
+                    style={{
+                      transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(12px)',
+                      opacity: isMobileMenuOpen ? 1 : 0,
+                      transition: `transform 400ms cubic-bezier(0.25,1,0.5,1) ${index * 40}ms, opacity 400ms ease ${index * 40}ms, background-color 150ms ease`,
+                    }}
+                  >
+                    <span className="ponnala-nudge">{item.label}</span>
+                    <AppIcon
+                      icon="lucide:chevron-down"
+                      size={16}
+                      className={`transition-transform duration-300 ${
+                        isDropdownOpen ? 'rotate-180 text-white' : 'text-white/50'
+                      }`}
+                    />
+                  </button>
+
+                  <div
+                    className={`transition-all duration-300 ease-in-out overflow-hidden flex flex-col gap-0.5 rounded-lg bg-white/[0.03] px-1 py-0.5 my-1 ${
+                      isDropdownOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+                    }`}
+                  >
+                    {item.items.map((subItem) => {
+                      const isSubActive = activePage === subItem.page;
+                      return (
+                        <button
+                          key={subItem.path}
+                          type="button"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setOpenDropdownId(null);
+                            navigate(subItem.path);
+                          }}
+                          className={`text-left py-2.5 px-3.5 text-[14px] rounded-lg transition-colors flex items-center justify-between w-full bg-transparent border-0 outline-none cursor-pointer ${
+                            isSubActive
+                              ? 'text-white font-semibold bg-white/10'
+                              : 'text-white/70 hover:text-white hover:bg-white/5 active:bg-white/10'
+                          }`}
+                        >
+                          <span className="ponnala-nudge">{subItem.label}</span>
+                          {isSubActive ? (
+                            <AppIcon icon="lucide:check" size={14} className="text-white/80 shrink-0" />
+                          ) : (
+                            <AppIcon icon="lucide:chevron-right" size={14} className="text-white/30 shrink-0" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            }
+
+            const isActive = item.type === 'scroll'
+              ? (activePage === 'landing' && (activeSection === item.index || (activeSection as any) === item.id)) || (activePage === item.id)
+              : item.type === 'route'
+              ? activePage === item.page
+              : activePage === 'journal';
+
             return (
-              <div key={item.id} className="w-full flex flex-col">
-                <button
-                  onClick={() => handleItemClick(item)}
-                  className={`text-left py-4 px-4 flex items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isDropdownActive ? 'text-[#00f2ff] font-semibold nav-active-glow' : 'text-white/80 hover:text-white'
-                    }`}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    borderBottom: '1px solid rgba(255,255,255,0.08)',
-                    cursor: 'pointer',
-                    width: '100%',
-                    transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(16px)',
-                    opacity: isMobileMenuOpen ? 1 : 0,
-                    transitionDelay: isMobileMenuOpen ? `${index * 60}ms` : '0ms',
-                  }}
-                >
-                  <span className="ponnala-nudge">{item.label}</span>
-                  <AppIcon icon="lucide:chevron-down"
-                    size={16}
-                    className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180 text-[#00f2ff]' : 'text-white/60'}`}
-                  />
-                </button>
-
-                <div
-                  className={`transition-all duration-300 ease-in-out overflow-hidden flex flex-col bg-white/[0.02] ${isDropdownOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
-                    }`}
-                  style={{
-                    borderBottom: isDropdownOpen ? '1px solid rgba(255,255,255,0.08)' : 'none',
-                  }}
-                >
-                  {item.items.map((subItem) => (
-                    <button
-                      key={subItem.path}
-                      onClick={() => {
-                        setIsMobileMenuOpen(false);
-                        setOpenDropdownId(null);
-                        navigate(subItem.path);
-                      }}
-                      className={`text-left py-3 px-8 text-[14px] transition-colors flex items-center justify-between ${activePage === subItem.page ? 'text-[#00f2ff]' : 'text-white/60 hover:text-white'
-                        }`}
-                    >
-                      <span className="ponnala-nudge">{subItem.label}</span>
-                      <AppIcon icon="lucide:chevron-right"
-                        size={14}
-                        className={activePage === subItem.page ? 'text-[#00f2ff]' : 'text-white/40'}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            );
-          }
-
-          const isActive = item.type === 'scroll'
-            ? (activePage === 'landing' && (activeSection === item.index || (activeSection as any) === item.id)) || (activePage === item.id)
-            : item.type === 'route'
-            ? activePage === item.page
-            : activePage === 'journal';
-
-          return (
-            <button
-              key={item.id}
-              onClick={() => handleItemClick(item)}
-              className={`text-left py-4 px-4 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] outline-none focus:outline-none focus-visible:outline-none ${isActive ? 'text-[#00f2ff] font-semibold nav-active-glow' : 'text-white/80 hover:text-white'
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => handleItemClick(item)}
+                className={`text-left py-3 px-3.5 rounded-xl transition-colors cursor-pointer w-full bg-transparent border-0 outline-none flex items-center justify-between ${
+                  isActive
+                    ? 'bg-white/10 text-white font-semibold'
+                    : 'text-white/80 hover:text-white hover:bg-white/5 active:bg-white/10'
                 }`}
-              style={{
-                background: 'none',
-                border: 'none',
-                borderBottom: '1px solid rgba(255,255,255,0.08)',
-                cursor: 'pointer',
-                width: '100%',
-                transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(16px)',
-                opacity: isMobileMenuOpen ? 1 : 0,
-                transitionDelay: isMobileMenuOpen ? `${index * 60}ms` : '0ms',
+                style={{
+                  transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(12px)',
+                  opacity: isMobileMenuOpen ? 1 : 0,
+                  transition: `transform 400ms cubic-bezier(0.25,1,0.5,1) ${index * 40}ms, opacity 400ms ease ${index * 40}ms, background-color 150ms ease`,
+                }}
+              >
+                <span className="inline-block ponnala-nudge">{item.label}</span>
+                {isActive && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] shadow-[0_0_8px_rgba(0,242,255,0.6)] shrink-0" />
+                )}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Profile or Login section inside the same card */}
+        {isAuthenticated ? (
+          <div className="flex flex-col gap-1 pt-2 border-t border-white/10 mt-1">
+            {/* User Info Header */}
+            <div className="px-3 py-2.5 rounded-xl bg-white/[0.04] flex items-center gap-3 mb-1">
+              <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-gradient-to-tr from-[#9f5bff] to-[#00f2ff] p-[1.5px] shrink-0">
+                {user?.profileImageUrl ? (
+                  <img src={user.profileImageUrl} alt={userName} className="w-full h-full rounded-full object-cover" />
+                ) : (
+                  <div className="w-full h-full rounded-full bg-[#1b142d] flex items-center justify-center text-sm font-bold text-white">
+                    {userInitial}
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-col min-w-0 flex-1">
+                <span className="text-[14px] font-semibold text-white truncate">{userName}</span>
+                <span className="text-[12px] text-white/50 truncate">{user?.email || ''}</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                navigate(PATHS.PROFILE);
               }}
+              className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2.5 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-lg active:bg-white/5"
             >
-              <span className="inline-block ponnala-nudge">{item.label}</span>
+              <div className="flex items-center gap-2.5">
+                <AppIcon icon="lucide:user" size={16} className="text-white/60 group-hover/item:text-[#00f2ff] transition-colors" />
+                <span className="ponnala-nudge">{t('webapp.sidebar.profile', 'Profilim')}</span>
+              </div>
+              <AppIcon icon="lucide:chevron-right" size={14} className="text-white/40 group-hover/item:text-[#00f2ff] group-hover/item:translate-x-0.5 transition-all" />
             </button>
-          );
-        })}
-      </nav>
 
-      {/* Mobile Drawer Bottom: Authenticated Actions OR Login Button */}
-      {isAuthenticated ? (
-        <div className="flex flex-col gap-2 mt-auto">
-          <div className="mb-4 p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-full overflow-hidden flex items-center justify-center bg-gradient-to-tr from-[#9f5bff] to-[#00f2ff] p-[1.5px] shrink-0">
-              {user?.profileImageUrl ? (
-                <img src={user.profileImageUrl} alt={userName} className="w-full h-full rounded-full object-cover" />
-              ) : (
-                <div className="w-full h-full rounded-full bg-[#1b142d] flex items-center justify-center text-sm font-bold text-white">
-                  {userInitial}
-                </div>
-              )}
-            </div>
-            <div className="flex flex-col min-w-0 flex-1">
-              <span className="text-sm font-semibold text-white truncate">{userName}</span>
-              <span className="text-xs text-white/50 truncate">{user?.email || ''}</span>
-            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                navigate(PATHS.SETTINGS);
+              }}
+              className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2.5 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-lg active:bg-white/5"
+            >
+              <div className="flex items-center gap-2.5">
+                <AppIcon icon="lucide:settings" size={16} className="text-white/60 group-hover/item:text-[#00f2ff] transition-colors" />
+                <span className="ponnala-nudge">{t('webapp.sidebar.settings', 'Tənzimləmələr')}</span>
+              </div>
+              <AppIcon icon="lucide:chevron-right" size={14} className="text-white/40 group-hover/item:text-[#00f2ff] group-hover/item:translate-x-0.5 transition-all" />
+            </button>
+
+            <div className="h-[1px] bg-white/10 my-1" />
+
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                logout();
+                navigate(PATHS.HOME);
+              }}
+              className="group/item flex items-center justify-between text-rose-300/90 hover:text-rose-300 py-2.5 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-lg active:bg-rose-500/10"
+            >
+              <div className="flex items-center gap-2.5">
+                <AppIcon icon="lucide:log-out" size={16} className="text-rose-400/80 group-hover/item:text-rose-300 transition-colors" />
+                <span className="ponnala-nudge">{t('webapp.settings.logout', 'Çıxış et')}</span>
+              </div>
+              <AppIcon icon="lucide:chevron-right" size={14} className="text-rose-400/40 group-hover/item:text-rose-300 group-hover/item:translate-x-0.5 transition-all" />
+            </button>
           </div>
-
-          <button
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              navigate(PATHS.PROFILE);
-            }}
-            className="w-full py-3 px-4 rounded-xl text-left text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-3 text-sm cursor-pointer"
-          >
-            <AppIcon icon="lucide:user" size={16} className="text-[#00f2ff]" />
-            <span>{t('webapp.sidebar.profile', 'Profilim')}</span>
-          </button>
-          <button
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              navigate(PATHS.SETTINGS);
-            }}
-            className="w-full py-3 px-4 rounded-xl text-left text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center gap-3 text-sm cursor-pointer"
-          >
-            <AppIcon icon="lucide:settings" size={16} className="text-white/60" />
-            <span>{t('webapp.sidebar.settings', 'Tənzimləmələr')}</span>
-          </button>
-          <button
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              logout();
-              navigate(PATHS.HOME);
-            }}
-            className="w-full mt-2 py-3 px-4 rounded-xl text-center text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 flex items-center justify-center gap-2 text-sm font-medium cursor-pointer"
-          >
-            <AppIcon icon="lucide:log-out" size={16} />
-            <span>{t('webapp.settings.logout', 'Çıxış et')}</span>
-          </button>
-        </div>
-      ) : (
-        <button
-          onClick={() => {
-            setIsMobileMenuOpen(false);
-            setOpenDropdownId(null);
-            navigate(PATHS.LOGIN);
-          }}
-          className="w-full py-3.5 rounded-lg text-center text-white text-[16px] font-medium bg-gradient-to-r from-[#9f5bff] to-[#00f2ff] hover:opacity-90 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer mt-auto"
-          style={{
-            border: 'none',
-            transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
-            opacity: isMobileMenuOpen ? 1 : 0,
-            transitionDelay: isMobileMenuOpen ? `${navItems.length * 60 + 80}ms` : '0ms',
-          }}
-        >
-          <span className="inline-block ponnala-nudge">{t('nav.login', 'Giriş et')}</span>
-        </button>
-      )}
+        ) : (
+          <div className="pt-2 border-t border-white/10 mt-1">
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setOpenDropdownId(null);
+                navigate(PATHS.LOGIN);
+              }}
+              className="w-full py-3.5 rounded-xl text-center text-white text-[15px] font-semibold bg-gradient-to-r from-[#9f5bff] to-[#00f2ff] hover:opacity-95 active:opacity-90 transition-opacity cursor-pointer shadow-[0_8px_24px_rgba(159,91,255,0.25)] border-0 outline-none"
+            >
+              <span className="inline-block ponnala-nudge">{t('nav.login', 'Giriş et')}</span>
+            </button>
+          </div>
+        )}
+      </div>
     </div>,
     document.body
   );
@@ -567,11 +594,26 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
 
                 {/* Dropdown Menu */}
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-[#141226]/95 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-2 z-50 text-white flex flex-col gap-1 animate-fade-in">
+                  <div className="absolute right-0 top-full mt-2 w-60 glass-card rounded-lg p-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.3)] z-50 text-white flex flex-col gap-1 animate-fade-in">
                     {/* User Info Header */}
-                    <div className="px-3 py-2.5 border-b border-white/10 flex flex-col">
-                      <span className="text-sm font-semibold text-white truncate">{userName}</span>
-                      <span className="text-xs text-white/50 truncate">{user?.email || ''}</span>
+                    <div className="px-3 py-2 border-b border-white/10 flex items-center gap-2.5 mb-1">
+                      <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-gradient-to-tr from-[#9f5bff] to-[#00f2ff] p-[1.5px] shrink-0">
+                        {user?.profileImageUrl ? (
+                          <img
+                            src={user.profileImageUrl}
+                            alt={userName}
+                            className="w-full h-full rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full rounded-full bg-[#1b142d] flex items-center justify-center text-[12px] font-bold text-white">
+                            {userInitial}
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col min-w-0 flex-1">
+                        <span className="text-[14px] font-semibold text-white truncate">{userName}</span>
+                        <span className="text-[12px] text-white/50 truncate">{user?.email || ''}</span>
+                      </div>
                     </div>
 
                     {/* Links */}
@@ -580,10 +622,17 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         setIsUserMenuOpen(false);
                         navigate(PATHS.PROFILE);
                       }}
-                      className="flex items-center gap-2.5 px-3 py-2 text-[13px] text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-colors cursor-pointer text-left w-full"
+                      className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md"
                     >
-                      <AppIcon icon="lucide:user" size={16} className="text-[#00f2ff]" />
-                      <span>{t('webapp.sidebar.profile', 'Profilim')}</span>
+                      <div className="flex items-center gap-2.5">
+                        <AppIcon icon="lucide:user" size={15} className="text-white/60 group-hover/item:text-[#00f2ff] transition-colors" />
+                        <span className="ponnala-nudge">{t('webapp.sidebar.profile', 'Profilim')}</span>
+                      </div>
+                      <AppIcon
+                        icon="lucide:chevron-right"
+                        size={14}
+                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]"
+                      />
                     </button>
 
                     <button
@@ -591,10 +640,17 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         setIsUserMenuOpen(false);
                         navigate(PATHS.SESSIONS);
                       }}
-                      className="flex items-center gap-2.5 px-3 py-2 text-[13px] text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-colors cursor-pointer text-left w-full"
+                      className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md"
                     >
-                      <AppIcon icon="lucide:calendar" size={16} className="text-[#c084fc]" />
-                      <span>{t('webapp.sidebar.sessions', 'Seanslarım')}</span>
+                      <div className="flex items-center gap-2.5">
+                        <AppIcon icon="lucide:calendar" size={15} className="text-white/60 group-hover/item:text-[#00f2ff] transition-colors" />
+                        <span className="ponnala-nudge">{t('webapp.sidebar.sessions', 'Seanslarım')}</span>
+                      </div>
+                      <AppIcon
+                        icon="lucide:chevron-right"
+                        size={14}
+                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]"
+                      />
                     </button>
 
                     <button
@@ -602,10 +658,17 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         setIsUserMenuOpen(false);
                         navigate(PATHS.SETTINGS);
                       }}
-                      className="flex items-center gap-2.5 px-3 py-2 text-[13px] text-white/80 hover:text-white hover:bg-white/10 rounded-xl transition-colors cursor-pointer text-left w-full"
+                      className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md"
                     >
-                      <AppIcon icon="lucide:settings" size={16} className="text-white/60" />
-                      <span>{t('webapp.sidebar.settings', 'Tənzimləmələr')}</span>
+                      <div className="flex items-center gap-2.5">
+                        <AppIcon icon="lucide:settings" size={15} className="text-white/60 group-hover/item:text-[#00f2ff] transition-colors" />
+                        <span className="ponnala-nudge">{t('webapp.sidebar.settings', 'Tənzimləmələr')}</span>
+                      </div>
+                      <AppIcon
+                        icon="lucide:chevron-right"
+                        size={14}
+                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]"
+                      />
                     </button>
 
                     <div className="h-[1px] bg-white/10 my-1" />
@@ -616,10 +679,17 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         logout();
                         navigate(PATHS.HOME);
                       }}
-                      className="flex items-center gap-2.5 px-3 py-2 text-[13px] text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-xl transition-colors cursor-pointer text-left w-full"
+                      className="group/item flex items-center justify-between text-white/80 hover:text-rose-400 py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md"
                     >
-                      <AppIcon icon="lucide:log-out" size={16} />
-                      <span>{t('webapp.settings.logout', 'Çıxış et')}</span>
+                      <div className="flex items-center gap-2.5">
+                        <AppIcon icon="lucide:log-out" size={15} className="text-white/60 group-hover/item:text-rose-400 transition-colors" />
+                        <span className="ponnala-nudge">{t('webapp.settings.logout', 'Çıxış et')}</span>
+                      </div>
+                      <AppIcon
+                        icon="lucide:chevron-right"
+                        size={14}
+                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-rose-400"
+                      />
                     </button>
                   </div>
                 )}

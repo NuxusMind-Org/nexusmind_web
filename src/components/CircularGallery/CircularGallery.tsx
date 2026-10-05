@@ -99,15 +99,13 @@ function drawExpertCard(
     let drawW = w;
     let drawH = h;
     let drawX = 0;
-    let drawY = 0;
+    const drawY = 0;
 
     if (imgAspect > canvasAspect) {
       drawW = h * imgAspect;
       drawX = (w - drawW) / 2;
     } else {
       drawH = w / imgAspect;
-      drawX = 0;
-      drawY = 0; // align top so doctor's face is clearly visible
     }
     ctx.drawImage(img, drawX, drawY, drawW, drawH);
   }
@@ -919,7 +917,6 @@ export default function CircularGallery({
 
   useEffect(() => {
     if (!containerRef.current) return;
-    let app: App | undefined;
     let isMounted = true;
 
     // Clean up any stray child canvases before creating a new renderer instance
@@ -928,7 +925,7 @@ export default function CircularGallery({
     }
 
     if (!isMounted || !containerRef.current) return;
-    app = new App(containerRef.current, {
+    const app = new App(containerRef.current, {
       items,
       bend,
       textColor,
@@ -941,7 +938,7 @@ export default function CircularGallery({
 
     return () => {
       isMounted = false;
-      if (app) app.destroy();
+      app.destroy();
     };
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, onItemClick]);
 

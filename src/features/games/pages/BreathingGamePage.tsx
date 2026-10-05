@@ -91,7 +91,7 @@ export const BreathingGamePage = () => {
           </button>
 
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl font-serif font-light text-white tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-sans font-light text-white tracking-tight">
               {t('webapp.miniGames.breathingGame.title', 'Nəfəs Məşqi')}
             </h1>
             <p className="text-white/60 text-xs sm:text-sm">
@@ -203,7 +203,7 @@ export const BreathingGamePage = () => {
             </div>
 
             {/* Phase Title */}
-            <h2 className="text-2xl sm:text-3xl font-serif font-light text-white tracking-wide mt-2 mb-6">
+            <h2 className="text-2xl sm:text-3xl font-sans font-light text-white tracking-wide mt-2 mb-6">
               {breathPhaseText}
             </h2>
 

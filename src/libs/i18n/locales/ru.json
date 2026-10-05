@@ -283,6 +283,7 @@
       "trainings": "Тренинги",
       "gallery": "Галерея",
       "news": "Новости",
+      "profile": "Профиль",
       "recentSearches": "Недавние поиски :"
     },
     "bottomNav": {
@@ -354,6 +355,17 @@
       "saved": "Настроение записано",
       "error": "Не удалось сохранить настроение."
     },
+    "calendar": {
+      "title": "Выберите время сеанса",
+      "availableHours": "Доступные часы",
+      "loadingHours": "Загрузка доступных часов...",
+      "noHours": "На эту дату нет доступных часов.",
+      "selectDatePrompt": "Пожалуйста, выберите подходящую дату в календаре.",
+      "sessionFormat": "Формат сеанса",
+      "confirmBooking": "Подтвердить и записаться на сеанс",
+      "thisWeek": "Эта неделя",
+      "today": "Сегодня"
+    },
     "sessions": {
       "nextSession": "Твой следующий сеанс",
       "loading": "Загрузка информации о сеансе...",
@@ -376,7 +388,12 @@
       "exploreExperts": "Исследовать специалистов",
       "more": "Подробнее →",
       "start": "Начать",
-      "perSession": "/сеанс"
+      "perSession": "/сеанс",
+      "recommendedExperts": "Рекомендованные специалисты",
+      "recommendedExpertsSubtitle": "Лучшие специалисты для вашего душевного комфорта",
+      "viewAllExperts": "Все специалисты",
+      "showAllHistory": "Показать всю историю",
+      "hideHistory": "Скрыть"
     },
     "sessionCall": {
       "connecting": "Подключение к сеансу...",

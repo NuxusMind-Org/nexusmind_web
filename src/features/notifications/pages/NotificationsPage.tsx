@@ -12,7 +12,7 @@ export const NotificationsPage = () => {
 
       <main className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col gap-8">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl sm:text-5xl font-light font-serif text-white tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-light font-sans text-white tracking-tight">
             {t('webapp.notifications.title', 'Bildirişlər')}
           </h1>
           <p className="text-white/70 text-sm sm:text-base">

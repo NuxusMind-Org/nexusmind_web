@@ -64,13 +64,10 @@ export const SEO = ({
   };
 
   const routePrefix = getRoutePrefix(contentType);
-  let canonicalPath = '';
-  if (slug !== undefined && slug !== null && String(slug).trim() !== '') {
-    const slugStr = String(slug).trim();
-    canonicalPath = routePrefix ? `/${routePrefix}/${slugStr}` : `/${slugStr}`;
-  } else {
-    canonicalPath = routePrefix ? `/${routePrefix}` : '/';
-  }
+  const canonicalPath =
+    slug !== undefined && slug !== null && String(slug).trim() !== ''
+      ? (routePrefix ? `/${routePrefix}/${String(slug).trim()}` : `/${String(slug).trim()}`)
+      : (routePrefix ? `/${routePrefix}` : '/');
   const canonicalUrl = `${baseUrl}${canonicalPath}`;
 
   // 5. Open Graph Type: "article" for news/blog/article, "website" for gallery/other

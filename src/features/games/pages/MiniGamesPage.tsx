@@ -62,7 +62,7 @@ export const MiniGamesPage = () => {
             <AppIcon icon="lucide:sparkles" size={14} />
             <span>{t('webapp.miniGames.tag', 'Zehin və Bədən Balansı')}</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-light font-serif text-white tracking-tight max-w-3xl leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-light font-sans text-white tracking-tight max-w-3xl leading-tight">
             {t('webapp.miniGames.headerTitle', 'Nəfəs Məşqləri və Sakitləşdirici Texnikalar')}
           </h1>
           <p className="text-white/70 text-sm sm:text-base max-w-xl">

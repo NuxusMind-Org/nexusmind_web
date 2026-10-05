@@ -9,7 +9,7 @@ interface NewsDetailHeaderProps {
 export const NewsDetailHeader = ({ categoryLabel }: NewsDetailHeaderProps) => {
   return (
     <div className="w-full text-left mb-6 sm:mb-8">
-      <h1 className="text-[42px] sm:text-[56px] font-serif font-light text-white mb-3 tracking-tight leading-tight">
+      <h1 className="text-[42px] sm:text-[56px] font-sans font-light text-white mb-3 tracking-tight leading-tight">
         Xəbərlər
       </h1>
       <div className="flex items-center flex-wrap gap-2 text-[13px] sm:text-[14px] text-white/50 font-medium select-none">

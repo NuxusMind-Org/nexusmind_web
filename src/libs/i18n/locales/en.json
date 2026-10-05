@@ -283,6 +283,7 @@
       "trainings": "Trainings",
       "gallery": "Gallery",
       "news": "News",
+      "profile": "Profile",
       "recentSearches": "Recent searches :"
     },
     "bottomNav": {
@@ -354,6 +355,17 @@
       "saved": "Mood saved",
       "error": "Could not save mood."
     },
+    "calendar": {
+      "title": "Select Appointment Time",
+      "availableHours": "Available Hours",
+      "loadingHours": "Loading available hours...",
+      "noHours": "No available hours for this date.",
+      "selectDatePrompt": "Please select a date from the calendar.",
+      "sessionFormat": "Session Format",
+      "confirmBooking": "Confirm and Book Session",
+      "thisWeek": "This Week",
+      "today": "Today"
+    },
     "sessions": {
       "nextSession": "Your Next Session",
       "loading": "Loading session details...",
@@ -376,7 +388,12 @@
       "exploreExperts": "Explore Experts",
       "more": "See more →",
       "start": "Get Started",
-      "perSession": "/session"
+      "perSession": "/session",
+      "recommendedExperts": "Recommended Experts",
+      "recommendedExpertsSubtitle": "Top recommended experts for your psychological well-being",
+      "viewAllExperts": "View All Experts",
+      "showAllHistory": "Show All History",
+      "hideHistory": "Show Less"
     },
     "sessionCall": {
       "connecting": "Joining session...",
