@@ -105,11 +105,11 @@ export const ExpertsSection = () => {
           ) : (
             <CircularGallery
               items={galleryItems}
-              bend={-1}
+              bend={0}
               textColor="#4A1FA8"
               borderRadius={0.07}
-              scrollEase={0.02}
-              scrollSpeed={2}
+              scrollEase={0.075}
+              scrollSpeed={2.2}
               font="bold 28px Afacad, sans-serif"
               onItemClick={(item) => {
                 if (item.id) {

@@ -449,11 +449,11 @@ class Media {
       const arc = R - Math.sqrt(Math.max(0, R * R - effectiveX * effectiveX));
       if (this.bend > 0) {
         this.plane.position.y = -arc;
-        this.plane.rotation.z = -Math.sign(x) * Math.asin(Math.min(1, effectiveX / R));
       } else {
         this.plane.position.y = arc;
-        this.plane.rotation.z = Math.sign(x) * Math.asin(Math.min(1, effectiveX / R));
       }
+      // Keep cards upright and stable without weird tilting or rotation
+      this.plane.rotation.z = 0;
     }
 
     const planeOffset = this.plane.scale.x / 2;
@@ -506,6 +506,9 @@ class App {
   isDown: boolean = false;
   start: number = 0;
   startY: number = 0;
+  lastTouchX: number = 0;
+  lastTouchTime: number = 0;
+  touchVelocity: number = 0;
   hasMoved: boolean = false;
   onItemClick?: (item: CircularGalleryItem, index: number) => void;
   mousePos: { x: number; y: number; inside: boolean } = { x: 0, y: 0, inside: false };
@@ -528,7 +531,7 @@ class App {
       borderRadius = 0.07,
       font = 'bold 30px Figtree',
       scrollSpeed = 2,
-      scrollEase = 0.05,
+      scrollEase = 0.075,
       onItemClick
     }: {
       items?: CircularGalleryItem[];
@@ -724,19 +727,37 @@ class App {
     this.hasMoved = false;
     this.container.style.cursor = 'grabbing';
     this.scroll.position = this.scroll.current;
-    this.start = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    this.startY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    this.start = clientX;
+    this.startY = clientY;
+    this.lastTouchX = clientX;
+    this.lastTouchTime = performance.now();
+    this.touchVelocity = 0;
   }
 
   onTouchMove(e: MouseEvent | TouchEvent) {
     if (!this.isDown) return;
     const x = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const y = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    const now = performance.now();
+    const dt = now - this.lastTouchTime;
+
+    if (dt > 0) {
+      const instantVelocity = (this.lastTouchX - x) / dt;
+      this.touchVelocity = this.touchVelocity * 0.3 + instantVelocity * 0.7;
+      this.lastTouchX = x;
+      this.lastTouchTime = now;
+    }
+
     if (Math.abs(x - this.start) > 6 || Math.abs(y - this.startY) > 6) {
       this.hasMoved = true;
       this.container.style.cursor = 'grabbing';
     }
-    const distance = (this.start - x) * (this.scrollSpeed * 0.025);
+
+    const isTouch = 'touches' in e;
+    const sensitivity = isTouch ? this.scrollSpeed * 0.038 : this.scrollSpeed * 0.025;
+    const distance = (this.start - x) * sensitivity;
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
 
@@ -753,6 +774,16 @@ class App {
     }
 
     this.isDown = false;
+
+    // Apply flick / swipe momentum if user performed a swift swipe
+    if (this.medias && this.medias[0]) {
+      const cardWidth = this.medias[0].width;
+      if (Math.abs(this.touchVelocity) > 0.25) {
+        const flickBoost = Math.sign(this.touchVelocity) * Math.min(cardWidth * 1.5, Math.abs(this.touchVelocity) * 12);
+        this.scroll.target += flickBoost;
+      }
+    }
+
     this.onCheck();
 
     if (this.mousePos.inside) {
@@ -825,7 +856,9 @@ class App {
   }
 
   update() {
-    this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
+    // When actively dragging, respond swiftly (0.18) so cards stick to finger without lag
+    const activeEase = this.isDown ? 0.18 : this.scroll.ease;
+    this.scroll.current = lerp(this.scroll.current, this.scroll.target, activeEase);
     const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
     if (this.medias) {
       this.medias.forEach((media) => media.update(this.scroll, direction));
