@@ -3,6 +3,7 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { Footer } from '../components/Footer';
+import { DetailPageSkeleton } from '../components/skeletons/DetailPageSkeleton';
 import vrConsultationImg from '@/assets/vr_consultation.png';
 import digitalBrainImg from '@/assets/digital_brain.png';
 import mountainSunsetImg from '@/assets/mountain_sunset_clouds.png';
@@ -96,14 +97,7 @@ export const BlogDetailPage = () => {
       <LandingNavbar activePage="blog" />
 
       {/* State 1: Loading */}
-      {isLoading && (
-        <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
-          <div className="flex flex-col items-center gap-4 text-white/80">
-            <AppIcon icon="lucide:loader-2" className="w-10 h-10 animate-spin text-[#a072ff]" />
-            <p className="text-base font-medium">Bloq məlumatları yüklənir...</p>
-          </div>
-        </main>
-      )}
+      {isLoading && <DetailPageSkeleton />}
 
       {/* State 2: Error / Not Found */}
       {!isLoading && (isError || !blog) && (

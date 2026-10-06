@@ -15,6 +15,8 @@ import {
 import { LandingNavbar } from '@/features/landing/components/LandingNavbar';
 import { Footer } from '@/features/landing/components/Footer';
 import { ExpertCard } from '@/features/experts/components/ExpertCard';
+import { ExpertCardGridSkeleton } from '@/features/experts/components/ExpertCardSkeleton';
+import { SessionListSkeleton } from '../components/SessionListSkeleton';
 import { doctorsApi } from '@/api/doctors.api';
 import { mapDoctorToPsychologist } from '@/utils/mappers';
 import type { Psychologist } from '@/features/landing/types/psychologist.types';
@@ -166,10 +168,7 @@ export const SessionsPage = () => {
           </h2>
 
           {loading ? (
-            <div className="w-full bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-12 flex items-center justify-center text-white/60">
-              <AppIcon icon="lucide:loader-2" size={28} className="animate-spin text-[#00f2ff] mr-3" />
-              <span>{t('common.loading', 'Yüklənir...')}</span>
-            </div>
+            <SessionListSkeleton />
           ) : upcomingSessions.length > 0 ? (
             <div className="flex flex-col gap-5 w-full">
               {upcomingSessions.map((session) => {
@@ -384,10 +383,7 @@ export const SessionsPage = () => {
           </div>
 
           {loadingExperts ? (
-            <div className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 flex items-center justify-center text-white/60">
-              <AppIcon icon="lucide:loader-2" size={28} className="animate-spin text-[#c084fc] mr-3" />
-              <span>{t('common.loading', 'Yüklənir...')}</span>
-            </div>
+            <ExpertCardGridSkeleton count={4} />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {recommendedExperts.map((expert) => (

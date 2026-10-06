@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
-import nexie from '@/assets/svg/Nexie.svg';
+import nexie from '@/assets/nexie/nexie_pointer.png';
 import { ScrollReveal } from '../ScrollReveal';
 
 export const HeroSection = () => {
@@ -89,11 +89,11 @@ export const HeroSection = () => {
        * md+    : w-[460px], shifted up to md:bottom-[48px].
        * lg+    : w-[540px], inset lg:right-[3%] lg:bottom-[56px].
        */}
-      <div className="absolute right-[-120px] sm:right-0 bottom-0 md:bottom-[48px] lg:bottom-[56px] lg:right-[3%] z-[15] pointer-events-none origin-bottom">
+      <div className="absolute right-[-80px] sm:right-0 bottom-0 md:bottom-[48px] lg:bottom-[56px] lg:right-[3%] z-[15] pointer-events-none origin-bottom">
         <img
           src={nexie}
           alt="Nexie Mascot"
-          className="h-[48vh] w-auto sm:h-auto sm:w-[220px] md:w-[460px] lg:w-[540px] object-contain origin-bottom scale-x-[-1]"
+          className="h-[48vh] w-auto sm:h-auto sm:w-[220px] md:w-[460px] lg:w-[540px] object-contain origin-bottom"
         />
       </div>
 

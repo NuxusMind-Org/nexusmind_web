@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
+import { CardGridSkeleton } from '../components/skeletons';
 import {
   NewsHeader,
   NewsHero,
@@ -18,6 +19,7 @@ export const NewsPage = () => {
   const [activeSort, setActiveSort] = useState<NewsSortOption>('popularity');
   const [visibleLimit, setVisibleLimit] = useState(3);
   const [realNews, setRealNews] = useState<NewsItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -31,6 +33,9 @@ export const NewsPage = () => {
       })
       .catch((err) => {
         console.warn('[LandingNewsPage] Failed to fetch news from backend:', err);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
       });
 
     return () => {
@@ -122,11 +127,15 @@ export const NewsPage = () => {
             activeSort={activeSort}
             onSortChange={handleSortChange}
           />
-          <NewsGrid
-            items={paginatedItems}
-            hasMore={hasMore}
-            onLoadMore={handleLoadMore}
-          />
+          {isLoading ? (
+            <CardGridSkeleton count={3} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8" />
+          ) : (
+            <NewsGrid
+              items={paginatedItems}
+              hasMore={hasMore}
+              onLoadMore={handleLoadMore}
+            />
+          )}
         </div>
       </main>
 

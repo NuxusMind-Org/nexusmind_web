@@ -21,7 +21,6 @@ type ActivePage =
   | 'sessions'
   | 'profile'
   | 'settings'
-  | 'notifications'
   | 'mini-games';
 
 interface LandingNavbarProps {
@@ -544,22 +543,12 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           })}
         </nav>
 
-        {/* Desktop Actions: Language Selector + (Profile & Notifications OR Login Button) */}
+        {/* Desktop Actions: Language Selector + (Profile OR Login Button) */}
         <div className="hidden md:flex items-center gap-4 z-50">
           <LanguageSelector direction="down" />
 
           {isAuthenticated ? (
             <div className="flex items-center gap-3">
-              {/* Notifications Button */}
-              <button
-                type="button"
-                onClick={() => navigate(PATHS.NOTIFICATIONS)}
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white/80 hover:text-white bg-white/10 hover:bg-white/15 border border-white/10 transition-colors relative cursor-pointer"
-                aria-label="Notifications"
-              >
-                <AppIcon icon="lucide:bell" size={18} />
-              </button>
-
               {/* User Menu Container */}
               <div className="relative" ref={userMenuRef}>
                 <button

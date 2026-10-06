@@ -8,6 +8,7 @@ import { AppIcon } from '@/components';
 import type { JoinTokenResponse } from '@/api/types';
 import { AxiosError } from 'axios';
 import { NexusCallLayout } from '../components/NexusCallLayout';
+import { SessionCallSkeleton } from '../components/SessionCallSkeleton';
 
 export const SessionCallPage = () => {
   const { t } = useTranslation();
@@ -45,27 +46,7 @@ export const SessionCallPage = () => {
 
   // ── Loading Screen ──
   if (loading) {
-    return (
-      <div className="w-full h-screen flex flex-col items-center justify-center bg-[#090a0f] font-sans animate-fade-in">
-        <div className="relative w-20 h-20 mb-8">
-          <div className="absolute inset-0 rounded-full border-2 border-[#4B2E83]/30 animate-ping" />
-          <div className="absolute inset-1 rounded-full border-2 border-[#4B2E83]/50 animate-ping [animation-delay:150ms]" />
-          <div className="absolute inset-2 rounded-full border-2 border-[#4B2E83] animate-ping [animation-delay:300ms]" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <AppIcon icon="lucide:wifi" className="w-7 h-7 text-[#03C6B2] animate-pulse" />
-          </div>
-        </div>
-        <h3 className="text-white text-xl sm:text-2xl font-semibold text-center">
-          {t('webapp.sessionCall.connecting', 'Seansa qoşulur...')}
-        </h3>
-        <p className="text-white/50 text-sm sm:text-base mt-2 text-center">
-          {t('webapp.sessionCall.pleaseWait', 'Zəhmət olmasa gözləyin')}
-        </p>
-        <div className="mt-8 w-48 h-0.5 rounded-full bg-white/10 overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-[#4B2E83] to-[#03C6B2] rounded-full animate-pulse" style={{ width: '60%' }} />
-        </div>
-      </div>
-    );
+    return <SessionCallSkeleton />;
   }
 
   // ── Error Screen ──

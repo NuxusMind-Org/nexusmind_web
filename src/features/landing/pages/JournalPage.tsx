@@ -6,6 +6,7 @@ import vrConsultation from '@/assets/vr_consultation.png';
 import { PATHS } from '@/routes/paths';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
+import { JournalHistorySkeleton } from '../components/skeletons';
 import { useAuthStore } from '@/store/authStore';
 import {
   useTodayJournal,
@@ -292,9 +293,7 @@ export const JournalPage = () => {
             {isAuthenticated ? (
               <div className="flex flex-col gap-6">
                 {isHistoryLoading ? (
-                  <div className="flex items-center justify-center py-8 text-white/50 text-xs">
-                    <AppIcon icon="lucide:loader-2" size={18} className="animate-spin mr-2" /> {t('common.loading', 'Yüklənir...')}
-                  </div>
+                  <JournalHistorySkeleton />
                 ) : recentHistory?.content && recentHistory.content.length > 0 ? (
                   recentHistory.content.slice(0, 3).map((item) => (
                     <div

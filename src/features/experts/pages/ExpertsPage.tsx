@@ -8,6 +8,7 @@ import { mapDoctorToPsychologist } from '@/utils/mappers';
 import { LandingNavbar } from '@/features/landing/components/LandingNavbar';
 import { Footer } from '@/features/landing/components/Footer';
 import { ExpertCard } from '../components/ExpertCard';
+import { ExpertCardGridSkeleton } from '../components/ExpertCardSkeleton';
 
 type CategoryFilter = 'all' | 'anxiety' | 'family' | 'child' | 'trauma';
 type SortOption = 'popularity' | 'experience' | 'name';
@@ -217,27 +218,7 @@ export const ExpertsPage = () => {
 
         {/* Loading Skeletons */}
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div
-                key={`skeleton-${i}`}
-                className="w-full aspect-[350/470] rounded-[24px] overflow-hidden bg-[#1A2836] border border-white/10 p-5 flex flex-col justify-between animate-pulse relative"
-              >
-                {/* Top badges skeleton */}
-                <div className="flex items-center justify-between w-full">
-                  <div className="h-6 w-16 rounded-full bg-white/10" />
-                  <div className="h-6 w-12 rounded-full bg-white/10" />
-                </div>
-                {/* Bottom content skeleton */}
-                <div className="flex flex-col items-center gap-2.5 w-full mt-auto">
-                  <div className="h-6 w-3/4 rounded-lg bg-white/15" />
-                  <div className="h-4 w-1/2 rounded-md bg-white/10" />
-                  <div className="h-4 w-1/3 rounded-md bg-white/10" />
-                  <div className="w-full h-9 rounded-xl bg-white/10 mt-2" />
-                </div>
-              </div>
-            ))}
-          </div>
+          <ExpertCardGridSkeleton count={8} />
         ) : processedExperts.length === 0 ? (
           /* Empty Search / Filter State */
           <div className="w-full py-16 px-4 flex flex-col items-center justify-center text-center bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md">

@@ -8,6 +8,7 @@ import { SIMILAR_BLOGS, POPULAR_TOPICS, type SimilarBlogCard } from '../constant
 import { PATHS } from '@/routes/paths';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
+import { CardGridSkeleton } from '../components/skeletons';
 import vrConsultation from '@/assets/vr_consultation.png';
 
 export const BlogPage = () => {
@@ -17,6 +18,7 @@ export const BlogPage = () => {
   const [emailInput, setEmailInput] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [realBlogs, setRealBlogs] = useState<SimilarBlogCard[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -30,6 +32,9 @@ export const BlogPage = () => {
       })
       .catch((err) => {
         console.warn('[LandingBlogPage] Failed to fetch blogs from backend:', err);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
       });
 
     return () => {
@@ -144,7 +149,13 @@ export const BlogPage = () => {
 
             {/* Left/Center Column: 2x2 Blog Cards Grid */}
             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {filteredBlogs.map((blog) => (
+              {isLoading && (
+                <CardGridSkeleton
+                  count={4}
+                  className="contents"
+                />
+              )}
+              {!isLoading && filteredBlogs.map((blog) => (
                 <div
                   key={blog.id}
                   onClick={() => navigate(PATHS.BLOG_DETAIL.replace(':id', String(blog.id)))}

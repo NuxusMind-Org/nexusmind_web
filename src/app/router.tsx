@@ -26,7 +26,6 @@ import { SessionCallPage } from '@/features/sessions/pages/SessionCallPage';
 import { SessionFaceVerificationPage } from '@/features/sessions/pages/SessionFaceVerificationPage';
 import { ProfilePage } from '@/features/profile/pages/ProfilePage';
 import { SettingsPage } from '@/features/settings/pages/SettingsPage';
-import { NotificationsPage } from '@/features/notifications/pages/NotificationsPage';
 import { MiniGamesPage } from '@/features/games/pages/MiniGamesPage';
 import { BreathingGamePage } from '@/features/games/pages/BreathingGamePage';
 import { ScrollToTop } from '@/components';
@@ -155,10 +154,6 @@ const router = createBrowserRouter([
           {
             path: PATHS.SETTINGS,
             element: <SettingsPage />,
-          },
-          {
-            path: PATHS.NOTIFICATIONS,
-            element: <NotificationsPage />,
           },
           {
             path: PATHS.MINI_GAMES,

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import { psychologists } from '../../data/psychologists';
+import { SessionCardSkeleton } from '../skeletons';
 import { useSessionStore } from '@/store/sessionStore';
 import {
   isSessionUpcomingOrActive,
@@ -95,9 +96,7 @@ export const NextSessionSection = () => {
 
       {/* Card Container */}
       {loading ? (
-        <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] py-16 px-6 flex items-center justify-center">
-          <div className="w-8 h-8 border-3 border-[#4A1FA8]/20 border-t-[#4A1FA8] rounded-full animate-spin" />
-        </div>
+        <SessionCardSkeleton tone="light" />
       ) : nextSession && doctorInfo ? (
         /* Active Upcoming Session Card (White theme matching ExpertsSection) */
         <div className="w-full rounded-[28px] sm:rounded-[36px] bg-white border border-[#ECEEF5] p-6 sm:p-8 md:p-10 flex flex-col lg:flex-row items-center justify-between gap-6 text-left transition-all duration-300 hover:border-[#DDD9F3]">

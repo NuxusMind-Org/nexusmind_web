@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppIcon } from '@/components';
+import { AppIcon, Skeleton, SkeletonGroup } from '@/components';
 import { doctorsApi } from '@/api/doctors.api';
 import type { AvailableSlotDto, AppointmentMode } from '@/api/types';
 
@@ -314,9 +314,6 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
           <h4 className="text-sm sm:text-base font-semibold text-white capitalize">
             {formatWeekRange(weekDays[0], weekDays[6], locale)}
           </h4>
-          {isLoading && (
-            <div className="w-3.5 h-3.5 border-2 border-[#A682FF]/30 border-t-[#A682FF] rounded-full animate-spin" />
-          )}
         </div>
         <div className="flex items-center gap-1.5">
           {!isCurrentWeek && (
@@ -438,10 +435,14 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
         </span>
 
         {isLoading ? (
-          <div className="py-6 flex items-center justify-center gap-2 text-white/60 text-xs">
-            <div className="w-4 h-4 border-2 border-[#A682FF]/30 border-t-[#A682FF] rounded-full animate-spin" />
-            <span>{t('webapp.calendar.loadingHours', 'Mövcud saatlar yüklənir...')}</span>
-          </div>
+          <SkeletonGroup
+            label={t('webapp.calendar.loadingHours', 'Mövcud saatlar yüklənir...')}
+            className="grid grid-cols-3 sm:grid-cols-4 gap-2"
+          >
+            {Array.from({ length: 8 }).map((_, i) => (
+              <Skeleton key={i} className="h-[34px] !rounded-xl" />
+            ))}
+          </SkeletonGroup>
         ) : selectedDate && availableHours.length > 0 ? (
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
             {availableHours.map((timeStr: string) => {

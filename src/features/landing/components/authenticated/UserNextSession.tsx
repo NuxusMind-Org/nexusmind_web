@@ -5,6 +5,7 @@ import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import presentingNexie from '@/assets/svg/presenting_nexie.svg';
 import { psychologists } from '@/features/landing/data/psychologists';
+import { SessionCardSkeleton } from '../skeletons';
 import { useSessionStore } from '@/store/sessionStore';
 import {
   isSessionUpcomingOrActive,
@@ -86,12 +87,7 @@ export const UserNextSession = () => {
   }, [nextSession]);
 
   if (loading) {
-    return (
-      <div className="w-full bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex items-center justify-center min-h-[120px] text-white/70">
-        <AppIcon icon="lucide:loader-2" size={24} className="animate-spin text-[#00f2ff] mr-2" />
-        <span className="text-sm">{t('common.loading', 'Yüklənir...')}</span>
-      </div>
-    );
+    return <SessionCardSkeleton tone="dark" />;
   }
 
   // Active / Upcoming appointment state

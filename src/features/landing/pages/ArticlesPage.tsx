@@ -3,6 +3,7 @@ import { AppIcon } from '@/components';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
+import { CardGridSkeleton } from '../components/skeletons';
 import { Input } from '@/components/input';
 import { ArticlesGrid, ArticlesPagination, SubscriptionCard } from '../components/articles';
 import { ARTICLE_ITEMS, type ArticleItem } from '../constants/articles';
@@ -14,6 +15,7 @@ export const ArticlesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [realArticles, setRealArticles] = useState<ArticleItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 6;
 
   useEffect(() => {
@@ -28,6 +30,9 @@ export const ArticlesPage = () => {
       })
       .catch((err) => {
         console.warn('[LandingArticlesPage] Failed to fetch articles from backend:', err);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
       });
 
     return () => {
@@ -96,15 +101,20 @@ export const ArticlesPage = () => {
             />
           </div>
 
-          {/* Grid section */}
-          <ArticlesGrid items={paginatedArticles} />
+          {isLoading ? (
+            <CardGridSkeleton count={itemsPerPage} />
+          ) : (
+            <>
+              <ArticlesGrid items={paginatedArticles} />
 
-          {/* Pagination Controls */}
-          <ArticlesPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+              {/* Pagination Controls */}
+              <ArticlesPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            </>
+          )}
 
           {/* Newsletter Subscription Card */}
           <SubscriptionCard />

@@ -442,15 +442,22 @@ class Media {
       this.plane.position.y = 0;
       this.plane.rotation.z = 0;
     } else {
-      const B_abs = Math.abs(this.bend);
+      const screenW = this.screen?.width || window.innerWidth;
+      const isMobile = screenW < 640;
+      const isTablet = screenW < 1024;
+      const bendFactor = isMobile ? 0.65 : isTablet ? 0.85 : 1.0;
+      const effectiveBend = this.bend * bendFactor;
+      const B_abs = Math.abs(effectiveBend);
       const R = (H * H + B_abs * B_abs) / (2 * B_abs);
       const effectiveX = Math.min(Math.abs(x), H);
 
       const arc = R - Math.sqrt(Math.max(0, R * R - effectiveX * effectiveX));
-      if (this.bend > 0) {
-        this.plane.position.y = -arc;
+      if (effectiveBend > 0) {
+        // Arch (convex): center card is elevated, cards slope smoothly downward toward edges
+        this.plane.position.y = -arc + B_abs * 0.35;
       } else {
-        this.plane.position.y = arc;
+        // Cradle (concave): center card is lower, cards slope smoothly upward toward edges
+        this.plane.position.y = arc - B_abs * 0.35;
       }
       // Keep cards upright and stable without weird tilting or rotation
       this.plane.rotation.z = 0;

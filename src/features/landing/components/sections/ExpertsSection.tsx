@@ -10,6 +10,7 @@ import { mapDoctorToPsychologist } from '@/utils/mappers';
 import type { Psychologist } from '../../types/psychologist.types';
 import { useAuthStore } from '@/store/authStore';
 import { NextSessionSection } from './NextSessionSection';
+import { ExpertGallerySkeleton } from '../skeletons';
 
 export const ExpertsSection = () => {
   const { t, i18n } = useTranslation();
@@ -96,16 +97,11 @@ export const ExpertsSection = () => {
           className="w-full h-[480px] sm:h-[560px] md:h-[620px] relative my-2 sm:my-4 flex items-center justify-center"
         >
           {isLoading && experts.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-3">
-              <div className="w-10 h-10 border-3 border-[#4A1FA8]/20 border-t-[#4A1FA8] rounded-full animate-spin" />
-              <p className="text-[#4A1FA8]/70 text-sm font-medium">
-                {t('common.loading', 'Yüklənir...')}
-              </p>
-            </div>
+            <ExpertGallerySkeleton />
           ) : (
             <CircularGallery
               items={galleryItems}
-              bend={0}
+              bend={-1.2}
               textColor="#4A1FA8"
               borderRadius={0.07}
               scrollEase={0.075}

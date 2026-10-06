@@ -631,11 +631,6 @@
       "passwordSuccess": "Password updated successfully!",
       "passwordError": "Failed to update password. Please check your current password."
     },
-    "notifications": {
-      "title": "Notifications",
-      "subtitle": "Check your latest notifications and session reminders.",
-      "comingSoon": "Notifications section will be available soon."
-    },
     "mediaPage": {
       "title": "Media Library",
       "subtitle": "Listen to calming music, meditation sounds, and insightful videos.",

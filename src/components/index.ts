@@ -17,6 +17,9 @@ export type { GradientBackgroundProps } from './background';
 export { BorderGlow } from './BorderGlow';
 export type { BorderGlowProps } from './BorderGlow';
 
+export { Skeleton, SkeletonGroup } from './skeleton';
+export type { SkeletonProps, SkeletonGroupProps } from './skeleton';
+
 export { AppIcon, Icon } from './common/AppIcon';
 export type { AppIconProps } from './common/AppIcon';
 

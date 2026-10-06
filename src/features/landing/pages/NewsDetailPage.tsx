@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
+import { DetailPageSkeleton } from '../components/skeletons/DetailPageSkeleton';
 import { LandingNavbar } from '../components/LandingNavbar';
 import {
   NewsDetailHeader,
@@ -113,14 +114,7 @@ export const NewsDetailPage = () => {
       <LandingNavbar activePage="news" />
 
       {/* State 1: Loading */}
-      {isLoading && (
-        <main className="flex-1 w-full px-4 sm:px-8 md:px-12 lg:px-[72px] pt-[60px] pb-[80px] flex flex-col items-center justify-center">
-          <div className="flex flex-col items-center gap-4 text-white/80">
-            <AppIcon icon="lucide:loader-2" className="w-10 h-10 animate-spin text-[#2dd4bf]" />
-            <p className="text-base font-medium">{t('news.loading')}</p>
-          </div>
-        </main>
-      )}
+      {isLoading && <DetailPageSkeleton />}
 
       {/* State 2: Error / Not Found */}
       {!isLoading && (isError || !article || !news) && (

@@ -631,11 +631,6 @@
       "passwordSuccess": "Şifrəniz uğurla yeniləndi!",
       "passwordError": "Şifrəni dəyişmək mümkün olmadı. Hazırkı şifrənizi yoxlayın."
     },
-    "notifications": {
-      "title": "Bildirişlər",
-      "subtitle": "Son bildirişlərinizi və seans xatırlatmalarını oxuyun.",
-      "comingSoon": "Bildirişlər bölməsi tezliklə aktiv olacaq."
-    },
     "mediaPage": {
       "title": "Media Kitabxanası",
       "subtitle": "Sakitləşdirici musiqilər, meditasiya səsləri və faydalı videolara baxın.",

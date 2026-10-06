@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
+import { CardGridSkeleton } from '../components/skeletons';
 import {
   GalleryHeader,
   GalleryFilters,
@@ -17,6 +18,7 @@ export const GalleryPage = () => {
   const [activeSort, setActiveSort] = useState<SortOption>('popularity');
   const [visibleLimit, setVisibleLimit] = useState(4);
   const [realGallery, setRealGallery] = useState<GalleryItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -30,6 +32,9 @@ export const GalleryPage = () => {
       })
       .catch((err) => {
         console.warn('[LandingGalleryPage] Failed to fetch gallery items from backend:', err);
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
       });
 
     return () => {
@@ -101,11 +106,20 @@ export const GalleryPage = () => {
             activeSort={activeSort}
             onSortChange={handleSortChange}
           />
-          <GalleryGrid
-            items={paginatedItems}
-            hasMore={hasMore}
-            onLoadMore={handleLoadMore}
-          />
+          {isLoading ? (
+            <CardGridSkeleton
+              count={4}
+              withBody={false}
+              imageAspect="aspect-[4/3]"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8"
+            />
+          ) : (
+            <GalleryGrid
+              items={paginatedItems}
+              hasMore={hasMore}
+              onLoadMore={handleLoadMore}
+            />
+          )}
         </div>
       </main>
 
