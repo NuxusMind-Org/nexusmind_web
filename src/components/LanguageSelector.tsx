@@ -89,8 +89,8 @@ export const LanguageSelector = ({
             : 'opacity-0 scale-95 pointer-events-none'
         }`}
       >
-        <div className="glass-card rounded-lg p-3 flex flex-col gap-1 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-          <div role="listbox" aria-label="Languages" className="flex flex-col gap-1">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-2.5 flex flex-col gap-1 shadow-[0_12px_36px_rgba(0,0,0,0.16)]">
+          <div role="listbox" aria-label="Languages" className="flex flex-col gap-0.5">
             {SUPPORTED_LANGUAGES.map((lang) => {
               const isSelected = currentLang.code === lang.code;
               return (
@@ -98,12 +98,18 @@ export const LanguageSelector = ({
                   key={lang.code}
                   type="button"
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`group/item flex items-center justify-between hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none ${
-                    isSelected ? 'text-white' : 'text-white/80'
+                  className={`group/item flex items-center justify-between rounded-lg py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none ${
+                    isSelected
+                      ? 'text-[#6700FF] bg-purple-50 font-semibold'
+                      : 'text-slate-700 hover:text-[#6700FF] hover:bg-purple-50'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className={`text-[13px] font-semibold transition-opacity ${isSelected ? 'opacity-100 text-white' : 'opacity-70'}`}>
+                    <span
+                      className={`text-[13px] font-semibold transition-opacity ${
+                        isSelected ? 'opacity-100 text-[#6700FF]' : 'opacity-60 text-slate-500'
+                      }`}
+                    >
                       {lang.shortLabel}
                     </span>
                     <span className="ponnala-nudge">{lang.label}</span>
@@ -112,13 +118,13 @@ export const LanguageSelector = ({
                     <AppIcon
                       icon="lucide:check"
                       size={14}
-                      className="text-white/80 group-hover/item:text-[#00f2ff] transition-colors shrink-0 ml-2"
+                      className="shrink-0 ml-2 transition-colors text-[#6700FF]"
                     />
                   ) : (
                     <AppIcon
                       icon="lucide:chevron-right"
                       size={14}
-                      className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]"
+                      className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#6700FF]"
                     />
                   )}
                 </button>

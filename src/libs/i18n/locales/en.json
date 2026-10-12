@@ -23,7 +23,7 @@
     "feature3": "Notice your progress by writing daily notes!"
   },
   "experts": {
-    "title": "Our Experts :",
+    "title": "Our Experts:",
     "subtitle1": "Psychologists, Life Guides, Mindfulness Therapists, and more.",
     "subtitle2": "Learn to enjoy life again with us!",
     "perSession": "/session",
@@ -50,9 +50,21 @@
   "roadmap": {
     "title": "How you will use it:",
     "subtitle": "Learn to enjoy life again with us",
-    "card1Title": "Overcome difficulties with the help of experts!",
-    "card2Title": "With VR consultation, you don't even need to leave home!",
-    "card3Title": "Overcome difficulties with the help of experts!",
+    "card1Badge": "Step 01",
+    "card1Title": "Find Your Path",
+    "card1Subtitle": "Everything begins with understanding yourself.",
+    "card1Desc": "Discover your emotional state through short tests and daily reflections. Our system evaluates your stress level and suggests personalized first steps. Nexie is ready to be your guide on this journey!",
+    "card1Cta": "Discover Yourself",
+    "card2Badge": "Step 02",
+    "card2Title": "You Are Not Alone",
+    "card2Subtitle": "You don't have to face challenges by yourself.",
+    "card2Desc": "Connect whenever you want with empathetic professionals in total confidentiality and safety. Online, in-person, or VR consultation — the choice is yours.",
+    "card2Cta": "Specialists",
+    "card3Badge": "Step 03",
+    "card3Title": "Renew & Move Forward",
+    "card3Subtitle": "Small steps create big changes.",
+    "card3Desc": "Calm your mind with breathing techniques, share your voice or words anytime in the \"Share Your Story\" section. Track your growth with the smart notebook and restore your inner balance.",
+    "card3Cta": "Smart Journal",
     "ctaPsychologists": "Psychologists",
     "ctaVrTherapy": "VR therapy"
   },
@@ -92,7 +104,7 @@
     "t2Role": "Occupation: Economist"
   },
   "cta": {
-    "title": "Join Now !",
+    "title": "Join Now!",
     "subtitle": "Send your email and we'll deliver your initial complimentary plan.",
     "placeholder": "Your email address",
     "button": "Send"
@@ -225,7 +237,7 @@
     "science": "Science",
     "announcements": "Announcements",
     "internships": "Internship Programs",
-    "sortBy": "Sort by :",
+    "sortBy": "Sort by:",
     "filter": "Filter",
     "sortByPopularity": "By Popularity",
     "sortByNewest": "Newest",
@@ -252,7 +264,7 @@
     "terapiyalar": "Therapies",
     "otaqlar": "Rooms",
     "telimler": "Trainings",
-    "sortBy": "Sort by :",
+    "sortBy": "Sort by:",
     "filter": "Filter",
     "sortByPopularity": "By Popularity",
     "sortByNewest": "Newest",
@@ -284,7 +296,7 @@
       "gallery": "Gallery",
       "news": "News",
       "profile": "Profile",
-      "recentSearches": "Recent searches :"
+      "recentSearches": "Recent searches:"
     },
     "bottomNav": {
       "home": "Home",
@@ -431,7 +443,7 @@
       "priceDesc": "Price: High to Low",
       "noExpertsFound": "No experts matched your search.",
       "education": "Education",
-      "certifications": "Participated Trainings",
+      "certifications": "Attended Trainings",
       "directions": "Practice Areas",
       "methods": "Therapy Methods",
       "bookConsultation": "Book Consultation",

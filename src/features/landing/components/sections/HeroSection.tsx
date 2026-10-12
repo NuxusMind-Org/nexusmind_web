@@ -21,7 +21,7 @@ export const HeroSection = () => {
               {t('hero.title', 'Özünü kəşf etməyə hazırsan?')}
             </h1>
             <p className="text-[14px] min-[400px]:text-[16px] sm:text-[20px] md:text-[24px] lg:text-[28px] xl:text-[32px] text-white/95 whitespace-nowrap max-w-none leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] ponnala-nudge">
-              {t('hero.subtitle', 'Sıxıntıdan qurtul, rahat nəfəs al, və həyatdan zövq al!')}
+              {t('hero.subtitle', 'Sıxıntıdan qurtul, rahat nəfəs al və həyatdan zövq al!')}
             </p>
           </div>
 

@@ -277,7 +277,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
         pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
       }}
     >
-      <div className="glass-card rounded-2xl p-2.5 sm:p-3 shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col gap-1 w-full max-w-lg mx-auto">
+      <div className="bg-white/30 backdrop-blur-[72px] border border-white/20 rounded-2xl p-2.5 sm:p-3 shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col gap-1 w-full max-w-lg mx-auto">
         <nav className="flex flex-col gap-1">
           {navItems.map((item, index) => {
             if (item.type === 'dropdown') {
@@ -507,15 +507,19 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
 
                   {/* pt-2 is a hover bridge so the pointer never leaves the group between trigger and card */}
                   <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-48 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto transition-opacity duration-200 z-50">
-                    <div className="glass-card rounded-lg p-3 flex flex-col gap-1 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                    <div className="bg-white border border-slate-200/80 shadow-[0_12px_36px_rgba(0,0,0,0.16)] rounded-xl p-2.5 flex flex-col gap-1">
                       {item.items.map((subItem) => (
                         <button
                           key={subItem.path}
                           onClick={() => navigate(subItem.path)}
-                          className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none"
+                          className="group/item flex items-center justify-between rounded-lg py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none text-slate-700 hover:text-[#6700FF] hover:bg-purple-50"
                         >
                           <span className="ponnala-nudge">{subItem.label}</span>
-                          <AppIcon icon="lucide:chevron-right" size={14} className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]" />
+                          <AppIcon
+                            icon="lucide:chevron-right"
+                            size={14}
+                            className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#6700FF]"
+                          />
                         </button>
                       ))}
                     </div>
@@ -583,9 +587,9 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
 
                 {/* Dropdown Menu */}
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-60 glass-card rounded-lg p-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.3)] z-50 text-white flex flex-col gap-1 animate-fade-in">
+                  <div className="absolute right-0 top-full mt-2 w-60 rounded-xl p-2.5 z-50 flex flex-col gap-1 animate-fade-in bg-white border border-slate-200/80 shadow-[0_12px_36px_rgba(0,0,0,0.16)] text-slate-800">
                     {/* User Info Header */}
-                    <div className="px-3 py-2 border-b border-white/10 flex items-center gap-2.5 mb-1">
+                    <div className="px-3 py-2 border-b border-slate-100 flex items-center gap-2.5 mb-1">
                       <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-gradient-to-tr from-[#9f5bff] to-[#00f2ff] p-[1.5px] shrink-0">
                         {user?.profileImageUrl ? (
                           <img
@@ -600,8 +604,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         )}
                       </div>
                       <div className="flex flex-col min-w-0 flex-1">
-                        <span className="text-[14px] font-semibold text-white truncate">{userName}</span>
-                        <span className="text-[12px] text-white/50 truncate">{user?.email || ''}</span>
+                        <span className="text-[14px] font-semibold truncate text-slate-900">{userName}</span>
+                        <span className="text-[12px] truncate text-slate-500">{user?.email || ''}</span>
                       </div>
                     </div>
 
@@ -611,16 +615,20 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         setIsUserMenuOpen(false);
                         navigate(PATHS.PROFILE);
                       }}
-                      className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md"
+                      className="group/item flex items-center justify-between py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md text-slate-700 hover:text-[#6700FF] hover:bg-purple-50"
                     >
                       <div className="flex items-center gap-2.5">
-                        <AppIcon icon="lucide:user" size={15} className="text-white/60 group-hover/item:text-[#00f2ff] transition-colors" />
+                        <AppIcon
+                          icon="lucide:user"
+                          size={15}
+                          className="transition-colors text-slate-400 group-hover/item:text-[#6700FF]"
+                        />
                         <span className="ponnala-nudge">{t('webapp.sidebar.profile', 'Profilim')}</span>
                       </div>
                       <AppIcon
                         icon="lucide:chevron-right"
                         size={14}
-                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]"
+                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#6700FF]"
                       />
                     </button>
 
@@ -629,16 +637,20 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         setIsUserMenuOpen(false);
                         navigate(PATHS.SESSIONS);
                       }}
-                      className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md"
+                      className="group/item flex items-center justify-between py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md text-slate-700 hover:text-[#6700FF] hover:bg-purple-50"
                     >
                       <div className="flex items-center gap-2.5">
-                        <AppIcon icon="lucide:calendar" size={15} className="text-white/60 group-hover/item:text-[#00f2ff] transition-colors" />
+                        <AppIcon
+                          icon="lucide:calendar"
+                          size={15}
+                          className="transition-colors text-slate-400 group-hover/item:text-[#6700FF]"
+                        />
                         <span className="ponnala-nudge">{t('webapp.sidebar.sessions', 'Seanslarım')}</span>
                       </div>
                       <AppIcon
                         icon="lucide:chevron-right"
                         size={14}
-                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]"
+                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#6700FF]"
                       />
                     </button>
 
@@ -647,20 +659,24 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         setIsUserMenuOpen(false);
                         navigate(PATHS.SETTINGS);
                       }}
-                      className="group/item flex items-center justify-between text-white/80 hover:text-[#00f2ff] py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md"
+                      className="group/item flex items-center justify-between py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md text-slate-700 hover:text-[#6700FF] hover:bg-purple-50"
                     >
                       <div className="flex items-center gap-2.5">
-                        <AppIcon icon="lucide:settings" size={15} className="text-white/60 group-hover/item:text-[#00f2ff] transition-colors" />
+                        <AppIcon
+                          icon="lucide:settings"
+                          size={15}
+                          className="transition-colors text-slate-400 group-hover/item:text-[#6700FF]"
+                        />
                         <span className="ponnala-nudge">{t('webapp.sidebar.settings', 'Tənzimləmələr')}</span>
                       </div>
                       <AppIcon
                         icon="lucide:chevron-right"
                         size={14}
-                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#00f2ff]"
+                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-[#6700FF]"
                       />
                     </button>
 
-                    <div className="h-[1px] bg-white/10 my-1" />
+                    <div className="h-[1px] my-1 bg-slate-100" />
 
                     <button
                       onClick={() => {
@@ -668,16 +684,20 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                         logout();
                         navigate(PATHS.HOME);
                       }}
-                      className="group/item flex items-center justify-between text-white/80 hover:text-rose-400 py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md"
+                      className="group/item flex items-center justify-between py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none rounded-md text-slate-700 hover:text-rose-600 hover:bg-rose-50"
                     >
                       <div className="flex items-center gap-2.5">
-                        <AppIcon icon="lucide:log-out" size={15} className="text-white/60 group-hover/item:text-rose-400 transition-colors" />
+                        <AppIcon
+                          icon="lucide:log-out"
+                          size={15}
+                          className="transition-colors text-slate-400 group-hover/item:text-rose-600"
+                        />
                         <span className="ponnala-nudge">{t('webapp.settings.logout', 'Çıxış et')}</span>
                       </div>
                       <AppIcon
                         icon="lucide:chevron-right"
                         size={14}
-                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-rose-400"
+                        className="opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-rose-600"
                       />
                     </button>
                   </div>
