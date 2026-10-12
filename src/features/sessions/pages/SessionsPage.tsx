@@ -149,10 +149,31 @@ export const SessionsPage = () => {
 
             <button
               onClick={() => navigate(PATHS.EXPERTS)}
-              className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#9f5bff] to-[#00f2ff] hover:opacity-90 text-white font-semibold text-xs sm:text-sm flex items-center gap-1.5 shadow-md transition-all cursor-pointer whitespace-nowrap"
+              className="group relative px-5 py-2.5 rounded-2xl bg-[#4A148F] hover:bg-[#5b1ab0] text-white font-semibold text-xs sm:text-sm flex items-center gap-1.5 shadow-[0_4px_20px_rgba(74,20,143,0.45)] transition-all duration-300 ease-out active:scale-[0.98] cursor-pointer whitespace-nowrap overflow-hidden"
             >
-              <AppIcon icon="lucide:plus" size={16} />
-              <span>{t('webapp.sessions.newSession', 'Yeni Seans')}</span>
+              {/* Animated Border */}
+              <div
+                className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden"
+                style={{
+                  padding: '2px',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                }}
+              >
+                <div
+                  className="absolute left-1/2 top-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out group-hover:rotate-90"
+                  style={{
+                    background:
+                      'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
+                  }}
+                />
+              </div>
+
+              <span className="relative z-10 flex items-center gap-1.5">
+                <AppIcon icon="lucide:plus" size={16} />
+                <span>{t('webapp.sessions.newSession', 'Yeni Seans')}</span>
+              </span>
             </button>
           </div>
         </div>
@@ -182,11 +203,10 @@ export const SessionsPage = () => {
                 return (
                   <div
                     key={session.id}
-                    className={`w-full backdrop-blur-xl rounded-3xl p-5 sm:p-6 lg:p-7 shadow-xl transition-all duration-300 flex flex-col lg:flex-row lg:items-center justify-between gap-6 border ${
-                      isJoinable
+                    className={`w-full backdrop-blur-xl rounded-3xl p-5 sm:p-6 lg:p-7 shadow-xl transition-all duration-300 flex flex-col lg:flex-row lg:items-center justify-between gap-6 border ${isJoinable
                         ? 'bg-gradient-to-r from-emerald-950/30 via-white/10 to-[#16122d]/80 border-emerald-500/40 shadow-[0_0_35px_rgba(16,185,129,0.18)] hover:border-emerald-500/60'
                         : 'bg-white/10 border-white/15 hover:border-[#00f2ff]/40 shadow-black/20'
-                    }`}
+                      }`}
                   >
                     {/* Left: Doctor Details */}
                     <div className="flex items-center gap-4 sm:gap-5 min-w-0">
@@ -194,9 +214,8 @@ export const SessionsPage = () => {
                         <img
                           src={docImg}
                           alt={docName}
-                          className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shadow-md border-2 ${
-                            isJoinable ? 'border-emerald-400/60' : 'border-white/20'
-                          }`}
+                          className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shadow-md border-2 ${isJoinable ? 'border-emerald-400/60' : 'border-white/20'
+                            }`}
                         />
                         {isJoinable && (
                           <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
@@ -243,11 +262,10 @@ export const SessionsPage = () => {
 
                       <button
                         onClick={() => navigate(PATHS.SESSION_VERIFY_FACE.replace(':id', String(session.id)))}
-                        className={`px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer shadow-md whitespace-nowrap ${
-                          isJoinable
+                        className={`px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer shadow-md whitespace-nowrap ${isJoinable
                             ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-bold shadow-[0_0_24px_rgba(16,185,129,0.45)] hover:opacity-95 hover:scale-[1.02] active:scale-[0.98]'
                             : 'bg-white/10 hover:bg-white/20 text-white border border-white/15'
-                        }`}
+                          }`}
                       >
                         <AppIcon icon="lucide:video" size={16} />
                         <span>{isJoinable ? t('webapp.sessions.joinCall', 'Qoşul') : t('webapp.sessions.details', 'Ətraflı')}</span>
@@ -275,9 +293,28 @@ export const SessionsPage = () => {
 
               <button
                 onClick={() => navigate(PATHS.EXPERTS)}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-[#9f5bff] to-[#00f2ff] hover:opacity-90 text-white font-semibold text-xs sm:text-sm transition-all cursor-pointer whitespace-nowrap shadow-md"
+                className="group relative w-full sm:w-auto px-6 py-3 rounded-xl bg-[#4A148F] hover:bg-[#5b1ab0] text-white font-semibold text-xs sm:text-sm transition-all duration-300 ease-out active:scale-[0.98] cursor-pointer whitespace-nowrap shadow-[0_4px_20px_rgba(74,20,143,0.45)] overflow-hidden flex items-center justify-center"
               >
-                {t('landing.bookSessionNow', 'Yeni Seans Təyin Et')}
+                {/* Animated Border */}
+                <div
+                  className="absolute inset-0 rounded-xl pointer-events-none overflow-hidden"
+                  style={{
+                    padding: '2px',
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    maskComposite: 'exclude',
+                  }}
+                >
+                  <div
+                    className="absolute left-1/2 top-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out group-hover:rotate-90"
+                    style={{
+                      background:
+                        'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
+                    }}
+                  />
+                </div>
+
+                <span className="relative z-10">{t('landing.bookSessionNow', 'Yeni Seans Təyin Et')}</span>
               </button>
             </div>
           )}
