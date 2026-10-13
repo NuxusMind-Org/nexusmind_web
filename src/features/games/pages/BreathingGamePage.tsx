@@ -219,11 +219,32 @@ export const BreathingGamePage = () => {
 
               <button
                 onClick={handleStartToggle}
-                className="px-10 py-3.5 bg-gradient-to-r from-purple-600 to-[#03C6B2] hover:opacity-90 text-white font-semibold text-base sm:text-lg rounded-full shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                className="group relative px-10 py-3.5 bg-[#4A148F] hover:bg-[#5b1ab0] text-white font-semibold text-base sm:text-lg rounded-full shadow-[0_4px_20px_rgba(74,20,143,0.45)] transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98] cursor-pointer overflow-hidden flex items-center justify-center"
               >
-                {isBreathingActive
-                  ? t('webapp.miniGames.breathingGame.pause', 'Dayandır')
-                  : t('webapp.miniGames.breathingGame.start', 'Başla')}
+                {/* Animated Border */}
+                <div
+                  className="absolute inset-0 rounded-full pointer-events-none overflow-hidden"
+                  style={{
+                    padding: '2px',
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    maskComposite: 'exclude',
+                  }}
+                >
+                  <div
+                    className="absolute left-1/2 top-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out group-hover:rotate-90"
+                    style={{
+                      background:
+                        'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
+                    }}
+                  />
+                </div>
+
+                <span className="relative z-10">
+                  {isBreathingActive
+                    ? t('webapp.miniGames.breathingGame.pause', 'Dayandır')
+                    : t('webapp.miniGames.breathingGame.start', 'Başla')}
+                </span>
               </button>
 
               <div className="w-12 h-12 rounded-full bg-white/10 border border-white/15 flex items-center justify-center shadow-lg">

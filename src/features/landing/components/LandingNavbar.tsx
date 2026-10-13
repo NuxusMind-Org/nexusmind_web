@@ -453,9 +453,28 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                 setOpenDropdownId(null);
                 navigate(PATHS.LOGIN);
               }}
-              className="w-full py-3.5 rounded-xl text-center text-white text-[15px] font-semibold bg-gradient-to-r from-[#9f5bff] to-[#00f2ff] hover:opacity-95 active:opacity-90 transition-opacity cursor-pointer shadow-[0_8px_24px_rgba(159,91,255,0.25)] border-0 outline-none"
+              className="group relative w-full py-3.5 rounded-xl text-center text-white text-[15px] font-semibold bg-[#4A148F] hover:bg-[#5b1ab0] transition-all duration-300 ease-out active:scale-[0.98] cursor-pointer shadow-[0_4px_20px_rgba(74,20,143,0.45)] border-0 outline-none overflow-hidden flex items-center justify-center"
             >
-              <span className="inline-block ponnala-nudge">{t('nav.login', 'Giriş et')}</span>
+              {/* Animated Border */}
+              <div
+                className="absolute inset-0 rounded-xl pointer-events-none overflow-hidden"
+                style={{
+                  padding: '1.5px',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                }}
+              >
+                <div
+                  className="absolute left-1/2 top-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out group-hover:rotate-90"
+                  style={{
+                    background:
+                      'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
+                  }}
+                />
+              </div>
+
+              <span className="relative z-10 inline-block ponnala-nudge">{t('nav.login', 'Giriş et')}</span>
             </button>
           </div>
         )}

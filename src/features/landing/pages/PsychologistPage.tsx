@@ -128,59 +128,71 @@ export const PsychologistPage = () => {
             {/* Left Column */}
             <div className="flex-1 flex flex-col gap-6">
 
-            {/* Profile Card */}
-            <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col sm:flex-row gap-6 sm:gap-8 relative items-center sm:items-start text-center sm:text-left">
-              <div className="relative shrink-0">
-                <img src={psych.image} alt={psych.name} className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full object-cover border-4 border-white/20 shadow-lg mx-auto" />
-                <div className="absolute -bottom-3 right-0 bg-[#03C6B2] text-[#111] px-3 py-1 rounded-full text-[12px] font-light flex items-center gap-1 shadow-md">
-                  <AppIcon icon="lucide:star" size={12} fill="currentColor" /> {psych.rating}
-                </div>
-              </div>
-
-              <div className="flex flex-col flex-1 w-full">
-                <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start mb-2 gap-3 sm:gap-0">
-                  <div>
-                    <h2 className="text-[24px] sm:text-[32px] font-light text-white leading-tight">{psych.name}</h2>
-                    <p className="text-white/70 text-[14px]">{psych.experience} • {psych.title}</p>
-                  </div>
-                  <div className="text-[#03C6B2] font-light text-[24px] sm:text-[28px] text-center sm:text-right">
-                    ${psych.price}<span className="text-[14px] text-white/70 font-normal"> {t('psychologist.perSession', '/seans')}</span>
+              {/* Profile Card */}
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col sm:flex-row gap-6 sm:gap-8 relative items-center sm:items-start text-center sm:text-left">
+                <div className="relative shrink-0">
+                  <img src={psych.image} alt={psych.name} className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full object-cover border-4 border-white/20 shadow-lg mx-auto" />
+                  <div className="absolute -bottom-3 right-0 bg-[#03C6B2] text-[#111] px-3 py-1 rounded-full text-[12px] font-light flex items-center gap-1 shadow-md">
+                    <AppIcon icon="lucide:star" size={12} fill="currentColor" /> {psych.rating}
                   </div>
                 </div>
 
-                <p className="text-white/80 text-[15px] leading-relaxed mt-4 mb-6">
-                  {psych.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-start mt-auto">
-                  {psych.languages.map(lang => (
-                    <span key={lang} className="px-3 sm:px-4 py-1.5 rounded-full border border-[#03C6B2]/20 bg-[#03C6B2]/5 text-[#03C6B2] text-[12px] sm:text-[13px]">{lang}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Education and Fəaliyyət istiqamətləri */}
-            <div className="flex flex-col md:flex-row gap-6">
-              
-              {/* Education */}
-              <div className="flex-1 bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
-                <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
-                  <AppIcon icon="lucide:graduation-cap" className="text-white/80" size={20} /> {t('psychologist.education', 'Təhsil')}
-                </h3>
-                <div className="flex flex-col gap-5">
-                  {psych.education.map((edu, i) => (
-                    <div key={i} className="border-l-2 border-white/20 pl-4">
-                      <h4 className="text-white font-light mb-1">{edu.uni}</h4>
-                      <p className="text-white/60 text-[13px]">{edu.degree}</p>
+                <div className="flex flex-col flex-1 w-full">
+                  <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start mb-2 gap-3 sm:gap-0">
+                    <div>
+                      <h2 className="text-[24px] sm:text-[32px] font-light text-white leading-tight">{psych.name}</h2>
+                      <p className="text-white/70 text-[14px]">{psych.experience} • {psych.title}</p>
                     </div>
-                  ))}
+                    <div className="text-[#03C6B2] font-light text-[24px] sm:text-[28px] text-center sm:text-right">
+                      ${psych.price}<span className="text-[14px] text-white/70 font-normal"> {t('psychologist.perSession', '/seans')}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-white/80 text-[15px] leading-relaxed mt-4 mb-6">
+                    {psych.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-start mt-auto">
+                    {psych.languages.map(lang => (
+                      <span key={lang} className="px-3 sm:px-4 py-1.5 rounded-full border border-[#03C6B2]/20 bg-[#03C6B2]/5 text-[#03C6B2] text-[12px] sm:text-[13px]">{lang}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* Fəaliyyət istiqamətləri */}
-              <div className="flex-1 bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
-                <h3 className="text-white text-[18px] font-light mb-6">{t('psychologist.directions', 'Fəaliyyət istiqamətləri')}</h3>
+              {/* Education and Fəaliyyət istiqamətləri */}
+              <div className="flex flex-col md:flex-row gap-6">
+
+                {/* Education */}
+                <div className="flex-1 bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
+                  <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
+                    <AppIcon icon="lucide:graduation-cap" className="text-white/80" size={20} /> {t('psychologist.education', 'Təhsil')}
+                  </h3>
+                  <div className="flex flex-col gap-5">
+                    {psych.education.map((edu, i) => (
+                      <div key={i} className="border-l-2 border-white/20 pl-4">
+                        <h4 className="text-white font-light mb-1">{edu.uni}</h4>
+                        <p className="text-white/60 text-[13px]">{edu.degree}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Fəaliyyət istiqamətləri */}
+                <div className="flex-1 bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
+                  <h3 className="text-white text-[18px] font-light mb-6">{t('psychologist.directions', 'Fəaliyyət istiqamətləri')}</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {psych.tags.map(tag => (
+                      <span key={tag} className="px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white/90 text-[14px]">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Terapiya metodları */}
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
+                <h3 className="text-white text-[18px] font-light mb-6">{t('psychologist.methods', 'Terapiya metodları')}</h3>
                 <div className="flex flex-wrap gap-3">
                   {psych.tags.map(tag => (
                     <span key={tag} className="px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white/90 text-[14px]">{tag}</span>
@@ -188,152 +200,140 @@ export const PsychologistPage = () => {
                 </div>
               </div>
 
-            </div>
+              {/* İştirak Etdiyi Təlimlər and Sertifikatlar - one column */}
+              <div className="flex flex-col gap-6">
 
-            {/* Terapiya metodları */}
-            <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl">
-              <h3 className="text-white text-[18px] font-light mb-6">{t('psychologist.methods', 'Terapiya metodları')}</h3>
-              <div className="flex flex-wrap gap-3">
-                {psych.tags.map(tag => (
-                  <span key={tag} className="px-4 py-2 rounded-lg bg-white/10 border border-white/10 text-white/90 text-[14px]">{tag}</span>
-                ))}
-              </div>
-            </div>
-
-            {/* İştirak Etdiyi Təlimlər and Sertifikatlar - one column */}
-            <div className="flex flex-col gap-6">
-
-              {/* İştirak Etdiyi Təlimlər */}
-              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
-                <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
-                  <AppIcon icon="lucide:award" className="text-white/80" size={20} /> {t('psychologist.certifications', 'İştirak Etdiyi Təlimlər')}
-                </h3>
-                <div className="flex flex-col gap-3 mb-4">
-                  {psych.certifications.map((cert, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
-                      <AppIcon icon="lucide:check-circle-2" size={18} className="text-[#00f2ff]" />
-                      <span className="text-white/80 text-[13px]">{cert}</span>
-                    </div>
-                  ))}
-                </div>
-                <button className="mt-auto self-end bg-[#51237a] hover:bg-[#632a93] text-white px-5 py-2 rounded-lg text-[14px] font-medium transition-colors shadow-md cursor-pointer">
-                  {t('psychologist.readMore', 'Davamını oxu')}
-                </button>
-              </div>
-
-              {/* Sertifikatlar */}
-              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
-                <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
-                  <AppIcon icon="lucide:award" className="text-white/80" size={20} /> {t('psychologist.certificates', 'Sertifikatlar')}
-                </h3>
-                <div className="flex flex-col gap-3 mb-4">
-                  {psych.certifications.map((cert, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
-                      <AppIcon icon="lucide:check-circle-2" size={18} className="text-[#c084fc]" />
-                      <span className="text-white/80 text-[13px]">{cert}</span>
-                    </div>
-                  ))}
-                </div>
-                <button className="mt-auto self-end bg-[#51237a] hover:bg-[#632a93] text-white px-5 py-2 rounded-lg text-[14px] font-medium transition-colors shadow-md cursor-pointer">
-                  {t('psychologist.readMore', 'Davamını oxu')}
-                </button>
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* Right Column */}
-          <div className="w-full lg:w-[350px] xl:w-[400px] flex flex-col gap-6 sticky top-28">
-
-            {/* Interactive Calendar or Summary Booking Box */}
-            {showCalendar ? (
-              <div className="flex flex-col gap-4">
-                {bookingError && (
-                  <div className="p-3.5 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-200 text-xs flex items-center justify-between shadow-lg">
-                    <span>{bookingError}</span>
-                    <button onClick={() => setBookingError(null)} className="text-white/60 hover:text-white font-bold ml-2">✕</button>
-                  </div>
-                )}
-
-                {bookingSuccess ? (
-                  <div className="bg-[#2D3E50]/80 backdrop-blur-xl rounded-3xl p-8 border border-emerald-500/30 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-fade-in">
-                    <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center text-emerald-400">
-                      <AppIcon icon="lucide:check" size={32} />
-                    </div>
-                    <h3 className="text-white text-xl font-bold">
-                      {t('webapp.sessions.bookedSuccessTitle', 'Seansınız Uğurla Təyin Edildi!')}
-                    </h3>
-                    <p className="text-white/70 text-sm">
-                      {t('webapp.sessions.redirectingToSessions', 'Seanslar səhifəsinə yönləndirilirsiniz...')}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="relative">
-                    {isBooking && (
-                      <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-md rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center gap-3">
-                        <div className="w-10 h-10 border-3 border-purple-500/20 border-t-[#8B5CF6] rounded-full animate-spin" />
-                        <span className="text-white text-sm font-medium">{t('webapp.sessions.bookingSession', 'Seans təyin edilir...')}</span>
+                {/* İştirak Etdiyi Təlimlər */}
+                <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
+                  <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
+                    <AppIcon icon="lucide:award" className="text-white/80" size={20} /> {t('psychologist.certifications', 'İştirak Etdiyi Təlimlər')}
+                  </h3>
+                  <div className="flex flex-col gap-3 mb-4">
+                    {psych.certifications.map((cert, i) => (
+                      <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
+                        <AppIcon icon="lucide:check-circle-2" size={18} className="text-[#00f2ff]" />
+                        <span className="text-white/80 text-[13px]">{cert}</span>
                       </div>
-                    )}
-                    <CalendarWidget
-                      psychologistId={psych.id}
-                      psychologistName={psych.name}
-                      onBack={() => setShowCalendar(false)}
-                      onConfirm={handleConfirmBooking}
-                    />
+                    ))}
                   </div>
-                )}
-              </div>
-            ) : (
-              /* Booking Box */
-              <div className="bg-[#2D3E50]/60 backdrop-blur-xl rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
-                <h3 className="text-white text-[20px] font-medium mb-6">{t('psychologist.bookingTitle', 'Məsləhət Təyin Edin')}</h3>
-
-                <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-6 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 bg-[#03C6B2]/20 text-[#03C6B2] text-[10px] font-light px-2 py-1 rounded-bl-lg tracking-wider">
-                    {t('psychologist.soon', 'TEZLİKLƏ')}
-                  </div>
-                  <p className="text-white/60 text-[13px] mb-1">{t('psychologist.nextAvailable', 'Növbəti mövcud vaxt:')}</p>
-                  <p className="text-white font-medium text-[16px]">{t('psychologist.nextTime', 'Sabah, 14:00 - 15:00')}</p>
+                  <button className="mt-auto self-end bg-[#51237a] hover:bg-[#632a93] text-white px-5 py-2 rounded-lg text-[14px] font-medium transition-colors shadow-md cursor-pointer">
+                    {t('psychologist.readMore', 'Davamını oxu')}
+                  </button>
                 </div>
 
-                <div className="flex flex-col gap-4 mb-8">
-                  <div className="flex items-center gap-3">
-                    <AppIcon icon="lucide:video" size={18} className="text-white/70" />
-                    <span className="text-white/80 text-[14px]">{t('psychologist.onlineVideo', 'Onlayn Video Seans')}</span>
+                {/* Sertifikatlar */}
+                <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
+                  <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
+                    <AppIcon icon="lucide:award" className="text-white/80" size={20} /> {t('psychologist.certificates', 'Sertifikatlar')}
+                  </h3>
+                  <div className="flex flex-col gap-3 mb-4">
+                    {psych.certifications.map((cert, i) => (
+                      <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
+                        <AppIcon icon="lucide:check-circle-2" size={18} className="text-[#c084fc]" />
+                        <span className="text-white/80 text-[13px]">{cert}</span>
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex items-center gap-3">
-                    <AppIcon icon="lucide:clock" size={18} className="text-white/70" />
-                    <span className="text-white/80 text-[14px]">{t('psychologist.duration', '45 dəqiqəlik görüş')}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <AppIcon icon="lucide:lock" size={18} className="text-white/70" />
-                    <span className="text-white/80 text-[14px]">{t('psychologist.confidential', 'Məxfi və Təhlükəsiz')}</span>
-                  </div>
+                  <button className="mt-auto self-end bg-[#51237a] hover:bg-[#632a93] text-white px-5 py-2 rounded-lg text-[14px] font-medium transition-colors shadow-md cursor-pointer">
+                    {t('psychologist.readMore', 'Davamını oxu')}
+                  </button>
                 </div>
 
-                <button
-                  className="w-full py-4 bg-[#c084fc] hover:bg-[#a855f7] active:scale-[0.98] text-[#1e1b4b] font-medium text-[16px] rounded-lg transition-all shadow-lg cursor-pointer"
-                  onClick={handleScheduleClick}
-                >
-                  {t('psychologist.bookSession', 'Seans Təyin Et')}
-                </button>
               </div>
-            )}
 
-            {/* VR Consultation Mini Box */}
-            <div className="w-full h-[180px] rounded-lg overflow-hidden relative group cursor-pointer shadow-xl border border-white/10">
-              <img src={vrConsultation} alt="VR Consultation" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110" />
-              <div className="absolute bottom-4 left-4 right-4 bg-[#eeb3b3]/30 backdrop-blur-xl border border-white/20 rounded-lg p-4">
-                <h4 className="text-[14px] font-light text-[#111] mb-1">{t('vr.title', 'VR KONSULTASİYA')}</h4>
-                <p className="text-[9px] text-[#222] font-light line-clamp-2">{t('vr.description', 'Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.')}</p>
+            </div>
+
+            {/* Right Column */}
+            <div className="w-full lg:w-[350px] xl:w-[400px] flex flex-col gap-6 sticky top-28">
+
+              {/* Interactive Calendar or Summary Booking Box */}
+              {showCalendar ? (
+                <div className="flex flex-col gap-4">
+                  {bookingError && (
+                    <div className="p-3.5 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-200 text-xs flex items-center justify-between shadow-lg">
+                      <span>{bookingError}</span>
+                      <button onClick={() => setBookingError(null)} className="text-white/60 hover:text-white font-bold ml-2">✕</button>
+                    </div>
+                  )}
+
+                  {bookingSuccess ? (
+                    <div className="bg-[#2D3E50]/80 backdrop-blur-xl rounded-3xl p-8 border border-emerald-500/30 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-fade-in">
+                      <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center text-emerald-400">
+                        <AppIcon icon="lucide:check" size={32} />
+                      </div>
+                      <h3 className="text-white text-xl font-bold">
+                        {t('webapp.sessions.bookedSuccessTitle', 'Seansınız Uğurla Təyin Edildi!')}
+                      </h3>
+                      <p className="text-white/70 text-sm">
+                        {t('webapp.sessions.redirectingToSessions', 'Seanslar səhifəsinə yönləndirilirsiniz...')}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="relative">
+                      {isBooking && (
+                        <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-md rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center gap-3">
+                          <div className="w-10 h-10 border-3 border-purple-500/20 border-t-[#8B5CF6] rounded-full animate-spin" />
+                          <span className="text-white text-sm font-medium">{t('webapp.sessions.bookingSession', 'Seans təyin edilir...')}</span>
+                        </div>
+                      )}
+                      <CalendarWidget
+                        psychologistId={psych.id}
+                        psychologistName={psych.name}
+                        onBack={() => setShowCalendar(false)}
+                        onConfirm={handleConfirmBooking}
+                      />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* Booking Box */
+                <div className="bg-[#2D3E50]/60 backdrop-blur-xl rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
+                  <h3 className="text-white text-[20px] font-medium mb-6">{t('psychologist.bookingTitle', 'Məsləhət Təyin Edin')}</h3>
+
+                  <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-6 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 bg-[#03C6B2]/20 text-[#03C6B2] text-[10px] font-light px-2 py-1 rounded-bl-lg tracking-wider">
+                      {t('psychologist.soon', 'TEZLİKLƏ')}
+                    </div>
+                    <p className="text-white/60 text-[13px] mb-1">{t('psychologist.nextAvailable', 'Növbəti mövcud vaxt:')}</p>
+                    <p className="text-white font-medium text-[16px]">{t('psychologist.nextTime', 'Sabah, 14:00 - 15:00')}</p>
+                  </div>
+
+                  <div className="flex flex-col gap-4 mb-8">
+                    <div className="flex items-center gap-3">
+                      <AppIcon icon="lucide:video" size={18} className="text-white/70" />
+                      <span className="text-white/80 text-[14px]">{t('psychologist.onlineVideo', 'Onlayn Video Seans')}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <AppIcon icon="lucide:clock" size={18} className="text-white/70" />
+                      <span className="text-white/80 text-[14px]">{t('psychologist.duration', '45 dəqiqəlik görüş')}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <AppIcon icon="lucide:lock" size={18} className="text-white/70" />
+                      <span className="text-white/80 text-[14px]">{t('psychologist.confidential', 'Məxfi və Təhlükəsiz')}</span>
+                    </div>
+                  </div>
+
+                  <button
+                    className="w-full py-4 bg-[#c084fc] hover:bg-[#a855f7] active:scale-[0.98] text-[#1e1b4b] font-medium text-[16px] rounded-lg transition-all shadow-lg cursor-pointer"
+                    onClick={handleScheduleClick}
+                  >
+                    {t('psychologist.bookSession', 'Seans Təyin Et')}
+                  </button>
+                </div>
+              )}
+
+              {/* VR Consultation Mini Box */}
+              <div className="w-full h-[180px] rounded-lg overflow-hidden relative group cursor-pointer shadow-xl border border-white/10">
+                <img src={vrConsultation} alt="VR Consultation" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110" />
+                <div className="absolute bottom-4 left-4 right-4 bg-[#eeb3b3]/30 backdrop-blur-xl border border-white/20 rounded-lg p-4">
+                  <h4 className="text-[14px] font-light text-[#111] mb-1">{t('vr.title', 'VR KONSULTASİYA')}</h4>
+                  <p className="text-[9px] text-[#222] font-light line-clamp-2">{t('vr.description', 'Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.')}</p>
+                </div>
               </div>
+
             </div>
 
           </div>
-
-        </div>
         )}
       </div>
 

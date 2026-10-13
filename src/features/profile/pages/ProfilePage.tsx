@@ -467,10 +467,31 @@ export const ProfilePage = () => {
               <button
                 onClick={handleSaveAllChanges}
                 disabled={updateUserMutation.isPending}
-                className="px-8 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-[#03C6B2] text-white hover:opacity-90 text-sm font-semibold transition-all shadow-lg shadow-purple-900/40 cursor-pointer flex items-center gap-2"
+                className="group relative px-8 py-3 rounded-2xl bg-[#4A148F] hover:bg-[#5b1ab0] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#4A148F] disabled:shadow-none disabled:active:scale-100 text-white text-sm font-semibold transition-all duration-300 ease-out active:scale-[0.98] shadow-[0_4px_20px_rgba(74,20,143,0.45)] cursor-pointer flex items-center justify-center gap-2 overflow-hidden"
               >
-                {updateUserMutation.isPending && <AppIcon icon="lucide:loader-2" size={16} className="animate-spin" />}
-                <span>{t('webapp.profile.saveChanges', 'Yadda saxla')}</span>
+                {/* Animated Border */}
+                <div
+                  className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden"
+                  style={{
+                    padding: '2px',
+                    WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    WebkitMaskComposite: 'xor',
+                    maskComposite: 'exclude',
+                  }}
+                >
+                  <div
+                    className="absolute left-1/2 top-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out group-hover:rotate-90"
+                    style={{
+                      background:
+                        'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
+                    }}
+                  />
+                </div>
+
+                <span className="relative z-10 flex items-center gap-2">
+                  {updateUserMutation.isPending && <AppIcon icon="lucide:loader-2" size={16} className="animate-spin" />}
+                  <span>{t('webapp.profile.saveChanges', 'Yadda saxla')}</span>
+                </span>
               </button>
             </div>
           </div>
@@ -580,10 +601,31 @@ export const ProfilePage = () => {
                   <button
                     onClick={handleSavePasswordChange}
                     disabled={isChangingPassword}
-                    className="px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-[#03C6B2] text-white font-semibold text-sm hover:opacity-90 transition-all shadow-lg shadow-purple-900/40 cursor-pointer flex items-center gap-2"
+                    className="group relative px-6 py-3 rounded-2xl bg-[#4A148F] hover:bg-[#5b1ab0] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#4A148F] disabled:shadow-none disabled:active:scale-100 text-white font-semibold text-sm transition-all duration-300 ease-out active:scale-[0.98] shadow-[0_4px_20px_rgba(74,20,143,0.45)] cursor-pointer flex items-center justify-center gap-2 overflow-hidden"
                   >
-                    {isChangingPassword && <AppIcon icon="lucide:loader-2" size={16} className="animate-spin" />}
-                    <span>{t('webapp.profile.updatePassword', 'Şifrəni yenilə')}</span>
+                    {/* Animated Border */}
+                    <div
+                      className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden"
+                      style={{
+                        padding: '2px',
+                        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                        WebkitMaskComposite: 'xor',
+                        maskComposite: 'exclude',
+                      }}
+                    >
+                      <div
+                        className="absolute left-1/2 top-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 transition-transform duration-700 ease-out group-hover:rotate-90"
+                        style={{
+                          background:
+                            'conic-gradient(from 315deg, #6700FF 0%, rgba(255, 255, 255, 0.04) 25%, #FFFFFF 50%, rgba(255, 255, 255, 0.07) 75%, #6700FF 100%)',
+                        }}
+                      />
+                    </div>
+
+                    <span className="relative z-10 flex items-center gap-2">
+                      {isChangingPassword && <AppIcon icon="lucide:loader-2" size={16} className="animate-spin" />}
+                      <span>{t('webapp.profile.updatePassword', 'Şifrəni yenilə')}</span>
+                    </span>
                   </button>
                 </div>
               </div>
