@@ -3,9 +3,17 @@ import type {
   MeqaleRequestDto,
   MeqaleResponseDto,
   PageMeqaleResponseDto,
-  XeberStatus,
   Pageable,
 } from './types';
+
+export interface ArticleSearchParams {
+  keyword?: string;
+  query?: string; // legacy alias
+  page?: number;
+  size?: number;
+  sort?: string[];
+  pageable?: Pageable;
+}
 
 export const articlesApi = {
   getAll: async (): Promise<MeqaleResponseDto[]> => {
@@ -32,25 +40,30 @@ export const articlesApi = {
     await apiClient.delete(`/meqale/${id}`);
   },
 
-  search: async (params?: {
-    query?: string;
-    category?: string;
-    status?: XeberStatus;
-    page?: number;
-    size?: number;
-    sort?: string[];
-  }): Promise<PageMeqaleResponseDto> => {
-    const response = await apiClient.get<PageMeqaleResponseDto>('/meqale/search', { params });
+  search: async (params: ArticleSearchParams = {}): Promise<PageMeqaleResponseDto> => {
+    const keyword = params.keyword || params.query || '';
+    const pageable = params.pageable || {
+      page: params.page ?? 0,
+      size: params.size ?? 10,
+      sort: params.sort,
+    };
+    const response = await apiClient.get<PageMeqaleResponseDto>('/meqale/search', {
+      params: { keyword, pageable },
+    });
     return response.data;
   },
 
-  getByCategory: async (category: string): Promise<MeqaleResponseDto[]> => {
-    const response = await apiClient.get<MeqaleResponseDto[]>(`/meqale/category/${category}`);
+  getByCategory: async (category: string, pageable?: Pageable): Promise<PageMeqaleResponseDto> => {
+    const response = await apiClient.get<PageMeqaleResponseDto>(`/meqale/category/${category}`, {
+      params: { pageable: pageable || { page: 0, size: 10 } },
+    });
     return response.data;
   },
 
-  getAdminAll: async (params?: Pageable): Promise<PageMeqaleResponseDto> => {
-    const response = await apiClient.get<PageMeqaleResponseDto>('/meqale/admin/all', { params });
+  getAdminAll: async (pageable?: Pageable): Promise<PageMeqaleResponseDto> => {
+    const response = await apiClient.get<PageMeqaleResponseDto>('/meqale/admin/all', {
+      params: { pageable: pageable || { page: 0, size: 10 } },
+    });
     return response.data;
   },
 };

@@ -3,7 +3,17 @@ import type {
   BlogRequest,
   BlogResponse,
   PageBlogResponse,
+  Pageable,
 } from './types';
+
+export interface BlogSearchParams {
+  keyword?: string;
+  query?: string; // legacy alias
+  page?: number;
+  size?: number;
+  sort?: string[];
+  pageable?: Pageable;
+}
 
 export const blogsApi = {
   getAll: async (): Promise<BlogResponse[]> => {
@@ -30,19 +40,23 @@ export const blogsApi = {
     await apiClient.delete(`/blog/${id}`);
   },
 
-  search: async (params?: {
-    query?: string;
-    category?: string;
-    page?: number;
-    size?: number;
-    sort?: string[];
-  }): Promise<PageBlogResponse> => {
-    const response = await apiClient.get<PageBlogResponse>('/blog/search', { params });
+  search: async (params: BlogSearchParams = {}): Promise<PageBlogResponse> => {
+    const keyword = params.keyword || params.query || '';
+    const pageable = params.pageable || {
+      page: params.page ?? 0,
+      size: params.size ?? 10,
+      sort: params.sort,
+    };
+    const response = await apiClient.get<PageBlogResponse>('/blog/search', {
+      params: { keyword, pageable },
+    });
     return response.data;
   },
 
-  getByCategory: async (category: string): Promise<BlogResponse[]> => {
-    const response = await apiClient.get<BlogResponse[]>(`/blog/category/${category}`);
+  getByCategory: async (category: string, pageable?: Pageable): Promise<PageBlogResponse> => {
+    const response = await apiClient.get<PageBlogResponse>(`/blog/category/${category}`, {
+      params: { pageable: pageable || { page: 0, size: 10 } },
+    });
     return response.data;
   },
 };

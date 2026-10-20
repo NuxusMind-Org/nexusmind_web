@@ -6,6 +6,7 @@ import type {
   SessionNoteDto,
   AppointmentStatsDto,
   AppointmentStatus,
+  UpdateUserStatusRequest,
   JoinTokenResponse,
 } from './types';
 
@@ -14,6 +15,7 @@ export const appointmentsApi = {
     const response = await apiClient.post<JoinTokenResponse>(`/appointments/${id}/join-token`);
     return response.data;
   },
+
   getMyAppointments: async (range?: string): Promise<AppointmentDto[]> => {
     const response = await apiClient.get<AppointmentDto[]>('/appointments', {
       params: { range },
@@ -31,6 +33,11 @@ export const appointmentsApi = {
     return response.data;
   },
 
+  getByDoctorId: async (doctorId: number): Promise<AppointmentDto[]> => {
+    const response = await apiClient.get<AppointmentDto[]>(`/appointments/${doctorId}`);
+    return response.data;
+  },
+
   getNote: async (id: number): Promise<SessionNoteDto> => {
     const response = await apiClient.get<SessionNoteDto>(`/appointments/${id}/notes`);
     return response.data;
@@ -41,19 +48,40 @@ export const appointmentsApi = {
     return response.data;
   },
 
-  updateStatus: async (id: number, status: AppointmentStatus): Promise<AppointmentDto> => {
-    const response = await apiClient.patch<AppointmentDto>(`/appointments/${id}/status`, null, {
-      params: { status },
-    });
+  updateStatus: async (
+    id: number,
+    status: AppointmentStatus | UpdateUserStatusRequest
+  ): Promise<AppointmentDto> => {
+    const payload = typeof status === 'string' ? { status } : status;
+    const response = await apiClient.patch<AppointmentDto>(`/appointments/${id}/status`, payload);
     return response.data;
   },
 
-  cancel: async (id: number): Promise<void> => {
-    await apiClient.patch(`/appointments/${id}/cancel`);
+  cancel: async (id: number): Promise<AppointmentDto> => {
+    const response = await apiClient.patch<AppointmentDto>(`/appointments/${id}/cancel`);
+    return response.data;
   },
 
   getStats: async (): Promise<AppointmentStatsDto> => {
     const response = await apiClient.get<AppointmentStatsDto>('/appointments/stats');
+    return response.data;
+  },
+
+  getDoctorStats: async (): Promise<AppointmentStatsDto> => {
+    const response = await apiClient.get<AppointmentStatsDto>('/appointments/doctor/stats');
+    return response.data;
+  },
+
+  uploadDoctorProfileImage: async (file: File | Blob): Promise<Record<string, string>> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await apiClient.post<Record<string, string>>(
+      '/appointments/doctors/me/profile-image',
+      formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }
+    );
     return response.data;
   },
 

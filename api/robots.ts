@@ -46,7 +46,7 @@ export async function resolveRobotsTxt(): Promise<string> {
   const backendBaseUrl = (
     process.env.BACKEND_API_URL ||
     process.env.VITE_API_BASE_URL ||
-    'https://nexusmind-889936615032.europe-west3.run.app'
+    'https://api.nexusmind.az'
   ).replace(/\/+$/, '');
 
   // Server-side authentication token (never exposed to client bundle)

@@ -1,6 +1,6 @@
 # NexusMind API - Swagger Controllers & Services Reference
 
-**Server URL:** `https://nexusmind-889936615032.europe-west3.run.app`
+**Server URL:** `https://api.nexusmind.az`
 **OpenAPI Version:** `3.1.0`
 **API Version:** `v1.0`  
 
@@ -143,6 +143,23 @@
 | Status Code | Description | Schema |
 | --- | --- | --- |
 | `200` | OK | `object` |
+
+---
+
+### `POST` /appointments/compare-face
+
+**Operation ID:** `comparePatientFace`  
+
+#### Request Body
+
+- **Content-Type:** `multipart/form-data`
+- **Schema:** `object`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `boolean` |
 
 ---
 
@@ -386,7 +403,7 @@
 | Name | In | Required | Type | Description |
 | --- | --- | --- | --- | --- |
 | `patientId` | `path` | ✅ Yes | `integer` | - |
-| `mood` | `query` | ✅ Yes | `string` | - |
+| `mood` | `query` | ✅ Yes | `"SAD"` \| `"HAPPY"` \| `"TIRED"` \| `"CALM"` \| `"NORMAL"` | - |
 
 #### Responses
 
@@ -469,6 +486,23 @@
 
 - **Content-Type:** `application/json`
 - **Schema:** `ChangePasswordRequest`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `string` |
+
+---
+
+### `POST` /auth/upload
+
+**Operation ID:** `uploadRegistrationImage`  
+
+#### Request Body
+
+- **Content-Type:** `multipart/form-data`
+- **Schema:** `object`
 
 #### Responses
 
@@ -929,12 +963,6 @@
 
 **Operation ID:** `uploadImage`  
 
-#### Parameters
-
-| Name | In | Required | Type | Description |
-| --- | --- | --- | --- | --- |
-| `folder` | `query` | ❌ No | `string` | - |
-
 #### Request Body
 
 - **Content-Type:** `multipart/form-data`
@@ -944,7 +972,43 @@
 
 | Status Code | Description | Schema |
 | --- | --- | --- |
-| `200` | OK | `FileUploadResponseDto` |
+| `200` | OK | `string` |
+
+---
+
+### `GET` /upload/{filename}
+
+**Operation ID:** `download`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `filename` | `path` | ✅ Yes | `string` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `string` |
+
+---
+
+### `DELETE` /upload/{filename}
+
+**Operation ID:** `delete_5`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `filename` | `path` | ✅ Yes | `string` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | void |
 
 ---
 
@@ -1068,7 +1132,7 @@
 
 ### `DELETE` /journal/{id}
 
-**Operation ID:** `delete_5`  
+**Operation ID:** `delete_6`  
 
 #### Parameters
 
@@ -1654,7 +1718,7 @@
 
 | Name | In | Required | Type | Description |
 | --- | --- | --- | --- | --- |
-| `type` | `query` | ❌ No | `string` | - |
+| `type` | `query` | ❌ No | `"ONLINE"` \| `"IN_PERSON"` | - |
 | `search` | `query` | ❌ No | `string` | - |
 | `pageable` | `query` | ✅ Yes | `Pageable` | - |
 
@@ -1914,16 +1978,16 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `title` | `TitleDto` | - | ✅ Yes |
-| `shortDescription` | `string` | - | ❌ No |
-| `introText` | `string` | - | ❌ No |
-| `sections` | `Array<BlogSectionRequest>` | Array<`BlogSectionRequest`> | ❌ No |
+| `shortDescription` | `TitleDto` | - | ❌ No |
+| `introText` | `TitleDto` | - | ❌ No |
+| `sections` | Array<`BlogSectionRequest`> | - | ❌ No |
 | `imageUrl` | `string` | - | ❌ No |
 | `category` | `string` | - | ❌ No |
 | `authorName` | `string` | - | ❌ No |
 | `schemaMarkup` | `string` | - | ❌ No |
-| `metaKeywords` | `Array<string>` | Array<`string`> | ❌ No |
+| `metaKeywords` | Array<`string`> | - | ❌ No |
 | `metaTitle` | `string` | - | ❌ No |
-| `metaDescription` | `string` | - | ❌ No |
+| `metaDescription` | `TitleDto` | - | ❌ No |
 | `slug` | `string` | - | ❌ No |
 
 ### BlogResponse
@@ -1932,18 +1996,18 @@
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
 | `title` | `TitleDto` | - | ❌ No |
-| `shortDescription` | `string` | - | ❌ No |
-| `introText` | `string` | - | ❌ No |
-| `sections` | `Array<BlogSectionResponse>` | Array<`BlogSectionResponse`> | ❌ No |
+| `shortDescription` | `TitleDto` | - | ❌ No |
+| `introText` | `TitleDto` | - | ❌ No |
+| `sections` | Array<`BlogSectionResponse`> | - | ❌ No |
 | `imageUrl` | `string` | - | ❌ No |
 | `category` | `string` | - | ❌ No |
 | `authorName` | `string` | - | ❌ No |
 | `createdAt` | `string` | `date-time` | ❌ No |
 | `updatedAt` | `string` | `date-time` | ❌ No |
 | `schemaMarkup` | `string` | - | ❌ No |
-| `metaKeywords` | `Array<string>` | Array<`string`> | ❌ No |
+| `metaKeywords` | Array<`string`> | - | ❌ No |
 | `metaTitle` | `string` | - | ❌ No |
-| `metaDescription` | `string` | - | ❌ No |
+| `metaDescription` | `TitleDto` | - | ❌ No |
 | `slug` | `string` | - | ❌ No |
 
 ### BlogSectionRequest
@@ -1951,14 +2015,14 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `title` | `TitleDto` | - | ✅ Yes |
-| `text` | `string` | - | ✅ Yes |
+| `text` | `TitleDto` | - | ✅ Yes |
 
 ### BlogSectionResponse
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `title` | `TitleDto` | - | ❌ No |
-| `text` | `string` | - | ❌ No |
+| `text` | `TitleDto` | - | ❌ No |
 | `order` | `integer` | `int32` | ❌ No |
 
 ### ChangePasswordRequest
@@ -2003,7 +2067,7 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `dayOfWeek` | `string` | `"MONDAY"` \| `"TUESDAY"` \| `"WEDNESDAY"` \| `"THURSDAY"` \| `"FRIDAY"` \| `"SATURDAY"` \| `"SUNDAY"` | ❌ No |
-| `hours` | `Array<integer>` | Array<`int32`> | ❌ No |
+| `hours` | Array<`integer`> | - | ❌ No |
 
 ### DoctorDto
 
@@ -2012,16 +2076,16 @@
 | `id` | `integer` | `int64` | ❌ No |
 | `username` | `string` | - | ❌ No |
 | `fullName` | `string` | - | ❌ No |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `price` | `number` | `double` | ❌ No |
 | `experienceYear` | `integer` | `int32` | ❌ No |
 | `rating` | `number` | `double` | ❌ No |
-| `bio` | `string` | - | ❌ No |
+| `bio` | `TitleDto` | - | ❌ No |
 | `imageUrl` | `string` | - | ❌ No |
-| `languages` | `Array<string>` | Array<`string`> | ❌ No |
-| `education` | `Array<string>` | Array<`string`> | ❌ No |
-| `certificates` | `Array<string>` | Array<`string`> | ❌ No |
-| `specializations` | `Array<string>` | Array<`string`> | ❌ No |
+| `languages` | Array<`string`> | - | ❌ No |
+| `education` | Array<`string`> | - | ❌ No |
+| `certificates` | Array<`string`> | - | ❌ No |
+| `specializations` | Array<`string`> | - | ❌ No |
 
 ### DoctorEntity
 
@@ -2033,22 +2097,22 @@
 | `surname` | `string` | - | ❌ No |
 | `fatherName` | `string` | - | ❌ No |
 | `university` | `string` | - | ❌ No |
-| `major` | `string` | - | ❌ No |
+| `major` | `TitleDto` | - | ❌ No |
 | `imageURl` | `string` | - | ❌ No |
-| `bio` | `string` | - | ❌ No |
+| `bio` | `TitleDto` | - | ❌ No |
 | `price` | `number` | `double` | ❌ No |
 | `age` | `integer` | `int32` | ❌ No |
 | `experienceYear` | `integer` | `int32` | ❌ No |
 | `profileImageUrl` | `string` | - | ❌ No |
 | `email` | `string` | - | ❌ No |
 | `password` | `string` | - | ❌ No |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `rating` | `number` | `double` | ❌ No |
 | `role` | `string` | `"SUPER_ADMIN"` \| `"BPM"` \| `"DOCTOR"` \| `"PATIENT"` \| `"SEO"` | ❌ No |
-| `languages` | `Array<string>` | Array<`string`> | ❌ No |
-| `education` | `Array<string>` | Array<`string`> | ❌ No |
-| `certificates` | `Array<string>` | Array<`string`> | ❌ No |
-| `specializations` | `Array<string>` | Array<`string`> | ❌ No |
+| `languages` | Array<`string`> | - | ❌ No |
+| `education` | Array<`string`> | - | ❌ No |
+| `certificates` | Array<`string`> | - | ❌ No |
+| `specializations` | Array<`string`> | - | ❌ No |
 
 ### DoctorLoginRequest
 
@@ -2079,12 +2143,9 @@
 | `age` | `integer` | `int32` | ❌ No |
 | `phone` | `string` | - | ❌ No |
 | `cvUrl` | `string` | - | ❌ No |
-
-### FileUploadResponseDto
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `imageUrl` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
+| `bio` | `TitleDto` | - | ❌ No |
+| `major` | `TitleDto` | - | ❌ No |
 
 ### ForgotPasswordRequest
 
@@ -2096,24 +2157,24 @@
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `string` | - | ✅ Yes |
+| `title` | `TitleDto` | - | ✅ Yes |
 | `thumbnailUrl` | `string` | - | ✅ Yes |
 | `mediaUrl` | `string` | - | ❌ No |
 | `mediaType` | `string` | `"IMAGE"` \| `"VIDEO"` | ✅ Yes |
 | `category` | `string` | `"TERAPIYALAR"` \| `"OTAQLAR"` \| `"TELIMLER"` | ✅ Yes |
-| `altText` | `string` | - | ❌ No |
+| `altText` | `TitleDto` | - | ❌ No |
 
 ### GalleryItemResponse
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
-| `title` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
 | `thumbnailUrl` | `string` | - | ❌ No |
 | `mediaUrl` | `string` | - | ❌ No |
 | `mediaType` | `string` | - | ❌ No |
 | `category` | `string` | - | ❌ No |
-| `altText` | `string` | - | ❌ No |
+| `altText` | `TitleDto` | - | ❌ No |
 | `categoryLabel` | `string` | - | ❌ No |
 | `popularityScore` | `integer` | `int64` | ❌ No |
 | `createdAt` | `string` | `date-time` | ❌ No |
@@ -2123,7 +2184,7 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `mood` | `string` | `"VERY_LOW"` \| `"LOW"` \| `"NEUTRAL"` \| `"GOOD"` \| `"VERY_GOOD"` | ✅ Yes |
-| `thoughts` | `string` | - | ❌ No |
+| `thoughts` | `TitleDto` | - | ❌ No |
 
 ### JournalEntryResponse
 
@@ -2134,7 +2195,7 @@
 | `mood` | `string` | - | ❌ No |
 | `moodLabel` | `string` | - | ❌ No |
 | `moodScore` | `integer` | `int32` | ❌ No |
-| `thoughts` | `string` | - | ❌ No |
+| `thoughts` | `TitleDto` | - | ❌ No |
 | `createdAt` | `string` | `date-time` | ❌ No |
 | `updatedAt` | `string` | `date-time` | ❌ No |
 
@@ -2176,19 +2237,20 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `title` | `TitleDto` | - | ✅ Yes |
-| `shortDescription` | `string` | - | ❌ No |
-| `introText` | `string` | - | ❌ No |
-| `sections` | `Array<MeqaleSectionRequestDto>` | Array<`MeqaleSectionRequestDto`> | ❌ No |
+| `shortDescription` | `TitleDto` | - | ❌ No |
+| `introText` | `TitleDto` | - | ❌ No |
+| `sections` | Array<`MeqaleSectionRequestDto`> | - | ❌ No |
 | `quote` | `string` | - | ❌ No |
-| `highlightCards` | `Array<MeqaleHighlightCardRequestDto>` | Array<`MeqaleHighlightCardRequestDto`> | ❌ No |
+| `highlightCards` | Array<`MeqaleHighlightCardRequestDto`> | - | ❌ No |
 | `imageUrl` | `string` | - | ❌ No |
 | `category` | `string` | - | ❌ No |
 | `doctorId` | `integer` | `int64` | ❌ No |
 | `status` | `string` | `"DRAFT"` \| `"PUBLISHED"` \| `"ARCHIVED"` | ❌ No |
+| `keywords` | `string` | - | ❌ No |
 | `schemaMarkup` | `string` | - | ❌ No |
-| `metaKeywords` | `Array<string>` | Array<`string`> | ❌ No |
+| `metaKeywords` | Array<`string`> | - | ❌ No |
 | `metaTitle` | `string` | - | ❌ No |
-| `metaDescription` | `string` | - | ❌ No |
+| `metaDescription` | `TitleDto` | - | ❌ No |
 | `slug` | `string` | - | ❌ No |
 
 ### MeqaleResponseDto
@@ -2196,37 +2258,38 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
-| `titleDto` | `TitleDto` | - | ❌ No |
-| `shortDescription` | `string` | - | ❌ No |
-| `introText` | `string` | - | ❌ No |
-| `sections` | `Array<MeqaleSectionResponseDto>` | Array<`MeqaleSectionResponseDto`> | ❌ No |
+| `title` | `TitleDto` | - | ❌ No |
+| `shortDescription` | `TitleDto` | - | ❌ No |
+| `introText` | `TitleDto` | - | ❌ No |
+| `sections` | Array<`MeqaleSectionResponseDto`> | - | ❌ No |
 | `quote` | `string` | - | ❌ No |
-| `highlightCards` | `Array<MeqaleHighlightCardResponseDto>` | Array<`MeqaleHighlightCardResponseDto`> | ❌ No |
+| `highlightCards` | Array<`MeqaleHighlightCardResponseDto`> | - | ❌ No |
 | `imageUrl` | `string` | - | ❌ No |
 | `category` | `string` | - | ❌ No |
 | `doctorId` | `integer` | `int64` | ❌ No |
 | `status` | `string` | `"DRAFT"` \| `"PUBLISHED"` \| `"ARCHIVED"` | ❌ No |
 | `createdAt` | `string` | `date-time` | ❌ No |
 | `updatedAt` | `string` | `date-time` | ❌ No |
+| `keywords` | `string` | - | ❌ No |
 | `schemaMarkup` | `string` | - | ❌ No |
-| `metaKeywords` | `Array<string>` | Array<`string`> | ❌ No |
+| `metaKeywords` | Array<`string`> | - | ❌ No |
 | `metaTitle` | `string` | - | ❌ No |
-| `metaDescription` | `string` | - | ❌ No |
+| `metaDescription` | `TitleDto` | - | ❌ No |
 | `slug` | `string` | - | ❌ No |
 
 ### MeqaleSectionRequestDto
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `title` | `TitleDto` | - | ❌ No |
-| `text` | `string` | - | ❌ No |
+| `title` | `TitleDto` | - | ✅ Yes |
+| `text` | `TitleDto` | - | ✅ Yes |
 
 ### MeqaleSectionResponseDto
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `title` | `TitleDto` | - | ❌ No |
-| `text` | `string` | - | ❌ No |
+| `text` | `TitleDto` | - | ❌ No |
 | `sectionOrder` | `integer` | `int32` | ❌ No |
 
 ### OnboardingRequest
@@ -2239,8 +2302,8 @@
 | `childCount` | `integer` | `int32` | ❌ No |
 | `femaleCount` | `integer` | `int32` | ❌ No |
 | `maleCount` | `integer` | `int32` | ❌ No |
-| `environments` | `Array<string>` | Array<`string`> | ✅ Yes |
-| `concerns` | `Array<string>` | Array<`string`> | ✅ Yes |
+| `environments` | Array<`string`> | - | ✅ Yes |
+| `concerns` | Array<`string`> | - | ✅ Yes |
 
 ### OnboardingResponse
 
@@ -2253,8 +2316,8 @@
 | `childCount` | `integer` | `int32` | ❌ No |
 | `femaleCount` | `integer` | `int32` | ❌ No |
 | `maleCount` | `integer` | `int32` | ❌ No |
-| `environments` | `Array<string>` | Array<`string`> | ❌ No |
-| `concerns` | `Array<string>` | Array<`string`> | ❌ No |
+| `environments` | Array<`string`> | - | ❌ No |
+| `concerns` | Array<`string`> | - | ❌ No |
 | `completed` | `boolean` | - | ❌ No |
 
 ### PageBlogResponse
@@ -2265,7 +2328,7 @@
 | `totalPages` | `integer` | `int32` | ❌ No |
 | `pageable` | `PageableObject` | - | ❌ No |
 | `size` | `integer` | `int32` | ❌ No |
-| `content` | `Array<BlogResponse>` | Array<`BlogResponse`> | ❌ No |
+| `content` | Array<`BlogResponse`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
 | `numberOfElements` | `integer` | `int32` | ❌ No |
@@ -2281,7 +2344,7 @@
 | `totalPages` | `integer` | `int32` | ❌ No |
 | `pageable` | `PageableObject` | - | ❌ No |
 | `size` | `integer` | `int32` | ❌ No |
-| `content` | `Array<GalleryItemResponse>` | Array<`GalleryItemResponse`> | ❌ No |
+| `content` | Array<`GalleryItemResponse`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
 | `numberOfElements` | `integer` | `int32` | ❌ No |
@@ -2297,7 +2360,7 @@
 | `totalPages` | `integer` | `int32` | ❌ No |
 | `pageable` | `PageableObject` | - | ❌ No |
 | `size` | `integer` | `int32` | ❌ No |
-| `content` | `Array<JournalEntryResponse>` | Array<`JournalEntryResponse`> | ❌ No |
+| `content` | Array<`JournalEntryResponse`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
 | `numberOfElements` | `integer` | `int32` | ❌ No |
@@ -2313,7 +2376,7 @@
 | `totalPages` | `integer` | `int32` | ❌ No |
 | `pageable` | `PageableObject` | - | ❌ No |
 | `size` | `integer` | `int32` | ❌ No |
-| `content` | `Array<MeqaleResponseDto>` | Array<`MeqaleResponseDto`> | ❌ No |
+| `content` | Array<`MeqaleResponseDto`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
 | `numberOfElements` | `integer` | `int32` | ❌ No |
@@ -2329,7 +2392,7 @@
 | `totalPages` | `integer` | `int32` | ❌ No |
 | `pageable` | `PageableObject` | - | ❌ No |
 | `size` | `integer` | `int32` | ❌ No |
-| `content` | `Array<TrainingResponse>` | Array<`TrainingResponse`> | ❌ No |
+| `content` | Array<`TrainingResponse`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
 | `numberOfElements` | `integer` | `int32` | ❌ No |
@@ -2345,7 +2408,7 @@
 | `totalPages` | `integer` | `int32` | ❌ No |
 | `pageable` | `PageableObject` | - | ❌ No |
 | `size` | `integer` | `int32` | ❌ No |
-| `content` | `Array<XeberResponseDto>` | Array<`XeberResponseDto`> | ❌ No |
+| `content` | Array<`XeberResponseDto`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
 | `numberOfElements` | `integer` | `int32` | ❌ No |
@@ -2359,7 +2422,7 @@
 | --- | --- | --- | --- |
 | `page` | `integer` | `int32` | ❌ No |
 | `size` | `integer` | `int32` | ❌ No |
-| `sort` | `Array<string>` | Array<`string`> | ❌ No |
+| `sort` | Array<`string`> | - | ❌ No |
 
 ### PageableObject
 
@@ -2383,6 +2446,7 @@
 | `email` | `string` | - | ✅ Yes |
 | `password` | `string` | - | ✅ Yes |
 | `phone` | `string` | - | ❌ No |
+| `registrationImageUrl` | `string` | - | ❌ No |
 
 ### PasientRegisterEntity
 
@@ -2399,10 +2463,11 @@
 | `mood` | `string` | `"SAD"` \| `"HAPPY"` \| `"TIRED"` \| `"CALM"` \| `"NORMAL"` | ❌ No |
 | `moodUpdatedDate` | `string` | `date` | ❌ No |
 | `profileImageUrl` | `string` | - | ❌ No |
+| `registrationImageUrl` | `string` | - | ❌ No |
 | `status` | `string` | `"TELEBE"` \| `"ISCI"` \| `"DIGER"` | ❌ No |
 | `language` | `string` | `"AZ"` \| `"EN"` \| `"RU"` | ❌ No |
 | `twoFactorEnabled` | `boolean` | - | ❌ No |
-| `appointments` | `Array<AppointmentEntity>` | Array<`AppointmentEntity`> | ❌ No |
+| `appointments` | Array<`AppointmentEntity`> | - | ❌ No |
 | `verified` | `boolean` | - | ❌ No |
 
 ### ProfileResponse
@@ -2437,7 +2502,7 @@
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `days` | `Array<DayTemplate>` | Array<`DayTemplate`> | ❌ No |
+| `days` | Array<`DayTemplate`> | - | ❌ No |
 
 ### SessionNote
 
@@ -2483,16 +2548,16 @@
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `az` | `string` | - | ✅ Yes |
-| `en` | `string` | - | ✅ Yes |
-| `ru` | `string` | - | ✅ Yes |
+| `az` | `string` | - | ❌ No |
+| `en` | `string` | - | ❌ No |
+| `ru` | `string` | - | ❌ No |
 
 ### TrainingRequest
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `title` | `string` | - | ✅ Yes |
-| `tags` | `Array<string>` | Array<`string`> | ❌ No |
+| `tags` | Array<`string`> | - | ❌ No |
 | `type` | `string` | `"ONLINE"` \| `"IN_PERSON"` | ✅ Yes |
 | `trainingDate` | `string` | `date` | ✅ Yes |
 | `trainingTime` | `LocalTime` | - | ✅ Yes |
@@ -2507,7 +2572,7 @@
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
 | `title` | `string` | - | ❌ No |
-| `tags` | `Array<string>` | Array<`string`> | ❌ No |
+| `tags` | Array<`string`> | - | ❌ No |
 | `type` | `string` | - | ❌ No |
 | `typeLabel` | `string` | - | ❌ No |
 | `trainingDate` | `string` | `date` | ❌ No |
@@ -2568,9 +2633,9 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `title` | `TitleDto` | - | ✅ Yes |
-| `shortDescription` | `string` | - | ❌ No |
-| `introText` | `string` | - | ❌ No |
-| `sections` | `Array<XeberSectionRequestDto>` | Array<`XeberSectionRequestDto`> | ❌ No |
+| `shortDescription` | `TitleDto` | - | ❌ No |
+| `introText` | `TitleDto` | - | ❌ No |
+| `sections` | Array<`XeberSectionRequestDto`> | - | ❌ No |
 | `quote` | `string` | - | ❌ No |
 | `quoteAuthor` | `string` | - | ❌ No |
 | `imageUrl` | `string` | - | ❌ No |
@@ -2578,10 +2643,10 @@
 | `readTimeMinutes` | `integer` | `int32` | ❌ No |
 | `status` | `string` | `"DRAFT"` \| `"PUBLISHED"` \| `"ARCHIVED"` | ❌ No |
 | `metaTitle` | `string` | - | ❌ No |
-| `metaDescription` | `string` | - | ❌ No |
+| `metaDescription` | `TitleDto` | - | ❌ No |
 | `slug` | `string` | - | ❌ No |
 | `schemaMarkup` | `string` | - | ❌ No |
-| `metaKeywords` | `Array<string>` | Array<`string`> | ❌ No |
+| `metaKeywords` | Array<`string`> | - | ❌ No |
 
 ### XeberResponseDto
 
@@ -2589,35 +2654,36 @@
 | --- | --- | --- | --- |
 | `id` | `integer` | `int64` | ❌ No |
 | `title` | `TitleDto` | - | ❌ No |
-| `shortDescription` | `string` | - | ❌ No |
-| `introText` | `string` | - | ❌ No |
-| `sections` | `Array<XeberSectionResponseDto>` | Array<`XeberSectionResponseDto`> | ❌ No |
+| `shortDescription` | `TitleDto` | - | ❌ No |
+| `introText` | `TitleDto` | - | ❌ No |
+| `sections` | Array<`XeberSectionResponseDto`> | - | ❌ No |
 | `quote` | `string` | - | ❌ No |
 | `quoteAuthor` | `string` | - | ❌ No |
+| `keywords` | `string` | - | ❌ No |
 | `imageUrl` | `string` | - | ❌ No |
 | `category` | `string` | - | ❌ No |
 | `readTimeMinutes` | `integer` | `int32` | ❌ No |
 | `viewCount` | `integer` | `int64` | ❌ No |
+| `metaTitle` | `string` | - | ❌ No |
+| `metaDescription` | `TitleDto` | - | ❌ No |
+| `slug` | `string` | - | ❌ No |
+| `schemaMarkup` | `string` | - | ❌ No |
+| `metaKeywords` | Array<`string`> | - | ❌ No |
 | `status` | `string` | `"DRAFT"` \| `"PUBLISHED"` \| `"ARCHIVED"` | ❌ No |
 | `createdAt` | `string` | `date-time` | ❌ No |
 | `updatedAt` | `string` | `date-time` | ❌ No |
-| `metaTitle` | `string` | - | ❌ No |
-| `metaDescription` | `string` | - | ❌ No |
-| `slug` | `string` | - | ❌ No |
-| `schemaMarkup` | `string` | - | ❌ No |
-| `metaKeywords` | `Array<string>` | Array<`string`> | ❌ No |
 
 ### XeberSectionRequestDto
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `title` | `TitleDto` | - | ❌ No |
-| `text` | `string` | - | ❌ No |
+| `text` | `TitleDto` | - | ❌ No |
 
 ### XeberSectionResponseDto
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `title` | `TitleDto` | - | ❌ No |
-| `text` | `string` | - | ❌ No |
+| `text` | `TitleDto` | - | ❌ No |
 | `sectionOrder` | `integer` | `int32` | ❌ No |

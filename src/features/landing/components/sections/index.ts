@@ -7,3 +7,4 @@ export { PartnersSection } from './PartnersSection';
 export { VrConsultationSection } from './VrConsultationSection';
 export { CtaSection } from './CtaSection';
 export { ExpertsSection } from './ExpertsSection';
+export { HeroActiveCard } from './HeroActiveCard';

@@ -1,6 +1,8 @@
 // NexusMind API - Core Types & DTO Definitions
+// Generated and synchronized with OpenAPI 3.1.0 specification (https://api.nexusmind.az)
 
-// --- Common & Pagination ---
+// ── Common & Pagination ──────────────────────────────────────
+
 export interface Pageable {
   page?: number;
   size?: number;
@@ -42,12 +44,25 @@ export interface TitleDto {
   ru?: string;
 }
 
-// --- Auth DTOs ---
-export type Role = 'SUPER_ADMIN' | 'BPM' | 'DOCTOR' | 'PATIENT';
+export interface LocalTime {
+  hour?: number;
+  minute?: number;
+  second?: number;
+  nano?: number;
+}
+
+// ── Auth DTOs ────────────────────────────────────────────────
+
+export type Role = 'SUPER_ADMIN' | 'BPM' | 'DOCTOR' | 'PATIENT' | 'SEO';
 export type PatientMood = 'SAD' | 'HAPPY' | 'TIRED' | 'CALM' | 'NORMAL';
 
 export interface LoginRequest {
   email: string;
+  password?: string;
+}
+
+export interface DoctorLoginRequest {
+  email?: string;
   password?: string;
 }
 
@@ -63,6 +78,7 @@ export interface RefreshTokenRequest {
 }
 
 export interface PasientRegisterDto {
+  id?: number;
   name: string;
   surname: string;
   age: number;
@@ -111,15 +127,18 @@ export interface PasientRegisterEntity {
   mood?: PatientMood;
   moodUpdatedDate?: string;
   profileImageUrl?: string;
+  registrationImageUrl?: string;
   status?: string;
   language?: string;
   twoFactorEnabled?: boolean;
+  appointments?: AppointmentEntity[];
   verified?: boolean;
 }
 
-// --- Profile DTOs ---
+// ── Profile DTOs ─────────────────────────────────────────────
+
 export interface UpdateProfileStatusRequest {
-  status?: string;
+  status?: 'TELEBE' | 'ISCI' | 'DIGER' | string;
 }
 
 export interface UpdateNameRequest {
@@ -128,11 +147,12 @@ export interface UpdateNameRequest {
 }
 
 export interface UpdateLanguageRequest {
-  language?: string;
+  language?: 'AZ' | 'EN' | 'RU' | string;
 }
 
 export interface UpdateEmailRequest {
-  email?: string;
+  newEmail?: string;
+  email?: string; // backward-compatibility alias
 }
 
 export interface ProfileResponse {
@@ -140,30 +160,32 @@ export interface ProfileResponse {
   name?: string;
   surname?: string;
   email?: string;
-  status?: string;
-  language?: string;
   profileImageUrl?: string;
+  status?: 'TELEBE' | 'ISCI' | 'DIGER' | string;
+  language?: 'AZ' | 'EN' | 'RU' | string;
   twoFactorEnabled?: boolean;
 }
 
-// --- News (Xeber) DTOs ---
+// ── News (Xeber) DTOs ────────────────────────────────────────
+
 export type XeberStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 
 export interface XeberSectionRequestDto {
-  title?: string;
-  text?: string;
+  title?: string | TitleDto;
+  text?: string | TitleDto;
 }
 
 export interface XeberSectionResponseDto {
-  title?: string;
-  text?: string;
-  order?: number;
+  title?: string | TitleDto;
+  text?: string | TitleDto;
+  sectionOrder?: number;
+  order?: number; // legacy alias
 }
 
 export interface XeberRequestDto {
-  title?: string;
-  shortDescription?: string;
-  introText?: string;
+  title?: string | TitleDto;
+  shortDescription?: string | TitleDto;
+  introText?: string | TitleDto;
   sections?: XeberSectionRequestDto[];
   quote?: string;
   quoteAuthor?: string;
@@ -171,9 +193,9 @@ export interface XeberRequestDto {
   category?: string;
   readTimeMinutes?: number;
   status?: XeberStatus;
-  slug?: string;
   metaTitle?: string;
-  metaDescription?: string;
+  metaDescription?: string | TitleDto;
+  slug?: string;
   schemaMarkup?: string;
   metaKeywords?: string[];
 }
@@ -181,35 +203,46 @@ export interface XeberRequestDto {
 export interface XeberResponseDto {
   id?: number;
   title?: string | TitleDto;
-  titleDto?: TitleDto;
-  shortDescription?: string;
-  introText?: string;
+  titleDto?: TitleDto; // legacy helper
+  shortDescription?: string | TitleDto;
+  introText?: string | TitleDto;
   sections?: XeberSectionResponseDto[];
   quote?: string;
   quoteAuthor?: string;
+  keywords?: string;
   imageUrl?: string;
   category?: string;
   readTimeMinutes?: number;
+  viewCount?: number;
+  metaTitle?: string;
+  metaDescription?: string | TitleDto;
+  slug?: string;
+  schemaMarkup?: string;
+  metaKeywords?: string[];
   status?: XeberStatus;
   createdAt?: string;
   updatedAt?: string;
-  slug?: string;
-  metaTitle?: string;
-  metaDescription?: string;
-  schemaMarkup?: string;
-  metaKeywords?: string[];
 }
 
 export type PageXeberResponseDto = PaginatedResponse<XeberResponseDto>;
 
-// --- Training DTOs ---
+// ── Training DTOs ────────────────────────────────────────────
+
 export type TrainingType = 'ONLINE' | 'IN_PERSON';
 
 export interface TrainingRequest {
   title?: string;
+  tags?: string[];
+  type?: TrainingType;
+  trainingDate?: string;
+  trainingTime?: LocalTime;
+  location?: string;
+  priceAzn?: number;
+  imageUrl?: string;
+  live?: boolean;
+  // Legacy / convenience optional fields
   shortDescription?: string;
   fullDescription?: string;
-  location?: string;
   organizerName?: string;
   startDate?: string;
   endDate?: string;
@@ -217,17 +250,24 @@ export interface TrainingRequest {
   seats?: number;
   availableSeats?: number;
   price?: number;
-  type?: TrainingType;
   coverImageUrl?: string;
-  tags?: string[];
 }
 
 export interface TrainingResponse {
   id?: number;
   title?: string;
+  tags?: string[];
+  type?: TrainingType | string;
+  typeLabel?: string;
+  trainingDate?: string;
+  trainingTime?: LocalTime;
+  location?: string;
+  priceAzn?: number;
+  imageUrl?: string;
+  live?: boolean;
+  // Legacy / convenience optional fields
   shortDescription?: string;
   fullDescription?: string;
-  location?: string;
   organizerName?: string;
   startDate?: string;
   endDate?: string;
@@ -235,9 +275,7 @@ export interface TrainingResponse {
   seats?: number;
   availableSeats?: number;
   price?: number;
-  type?: TrainingType;
   coverImageUrl?: string;
-  tags?: string[];
   registeredUsersCount?: number;
   createdAt?: string;
   updatedAt?: string;
@@ -251,173 +289,186 @@ export interface TrainingTypeCountResponse {
   count?: number;
 }
 
-// --- Article (Meqale) DTOs ---
+// ── Article (Meqale) DTOs ────────────────────────────────────
+
 export interface MeqaleSectionRequestDto {
-  title?: string;
-  text?: string;
+  title?: string | TitleDto;
+  text?: string | TitleDto;
   sectionOrder?: number;
 }
 
 export interface MeqaleSectionResponseDto {
-  title?: string;
-  text?: string;
+  title?: string | TitleDto;
+  text?: string | TitleDto;
   sectionOrder?: number;
 }
 
 export interface MeqaleHighlightCardRequestDto {
+  icon?: string;
   title?: string;
   text?: string;
 }
 
 export interface MeqaleHighlightCardResponseDto {
   id?: number;
+  icon?: string;
   title?: string;
   text?: string;
+  cardOrder?: number;
 }
 
 export interface MeqaleRequestDto {
-  title?: string;
-  shortDescription?: string;
-  introText?: string;
+  title?: string | TitleDto;
+  shortDescription?: string | TitleDto;
+  introText?: string | TitleDto;
   sections?: MeqaleSectionRequestDto[];
-  highlightCard?: MeqaleHighlightCardRequestDto;
   quote?: string;
-  quoteAuthor?: string;
+  highlightCards?: MeqaleHighlightCardRequestDto[];
   imageUrl?: string;
   category?: string;
-  readTimeMinutes?: number;
   doctorId?: number;
   status?: XeberStatus;
-  slug?: string;
-  metaTitle?: string;
-  metaDescription?: string;
+  keywords?: string;
   schemaMarkup?: string;
   metaKeywords?: string[];
+  metaTitle?: string;
+  metaDescription?: string | TitleDto;
+  slug?: string;
+  // Legacy alias
+  highlightCard?: MeqaleHighlightCardRequestDto;
+  readTimeMinutes?: number;
 }
 
 export interface MeqaleResponseDto {
   id?: number;
   title?: string | TitleDto;
-  titleDto?: TitleDto;
-  shortDescription?: string;
-  introText?: string;
+  titleDto?: TitleDto; // legacy helper
+  shortDescription?: string | TitleDto;
+  introText?: string | TitleDto;
   sections?: MeqaleSectionResponseDto[];
-  highlightCard?: MeqaleHighlightCardResponseDto;
   quote?: string;
-  quoteAuthor?: string;
+  highlightCards?: MeqaleHighlightCardResponseDto[];
   imageUrl?: string;
   category?: string;
-  readTimeMinutes?: number;
   doctorId?: number;
   status?: XeberStatus;
   createdAt?: string;
   updatedAt?: string;
-  slug?: string;
-  metaTitle?: string;
-  metaDescription?: string;
+  keywords?: string;
   schemaMarkup?: string;
   metaKeywords?: string[];
+  metaTitle?: string;
+  metaDescription?: string | TitleDto;
+  slug?: string;
+  // Legacy alias
+  highlightCard?: MeqaleHighlightCardResponseDto;
+  readTimeMinutes?: number;
 }
 
 export type PageMeqaleResponseDto = PaginatedResponse<MeqaleResponseDto>;
 
-// --- Blog DTOs ---
+// ── Blog DTOs ────────────────────────────────────────────────
+
 export interface BlogSectionRequest {
-  title?: string;
-  text?: string;
+  title?: string | TitleDto;
+  text?: string | TitleDto;
 }
 
 export interface BlogSectionResponse {
-  title?: string;
-  text?: string;
+  title?: string | TitleDto;
+  text?: string | TitleDto;
   order?: number;
 }
 
 export interface BlogRequest {
-  title?: string;
-  shortDescription?: string;
-  introText?: string;
+  title?: string | TitleDto;
+  shortDescription?: string | TitleDto;
+  introText?: string | TitleDto;
   sections?: BlogSectionRequest[];
   imageUrl?: string;
   category?: string;
   authorName?: string;
-  slug?: string;
-  metaTitle?: string;
-  metaDescription?: string;
   schemaMarkup?: string;
   metaKeywords?: string[];
+  metaTitle?: string;
+  metaDescription?: string | TitleDto;
+  slug?: string;
 }
 
 export interface BlogResponse {
   id?: number;
   title?: string | TitleDto;
   titleDto?: TitleDto;
-  shortDescription?: string;
-  introText?: string;
+  shortDescription?: string | TitleDto;
+  introText?: string | TitleDto;
   sections?: BlogSectionResponse[];
   imageUrl?: string;
   category?: string;
   authorName?: string;
   createdAt?: string;
   updatedAt?: string;
-  slug?: string;
-  metaTitle?: string;
-  metaDescription?: string;
   schemaMarkup?: string;
   metaKeywords?: string[];
+  metaTitle?: string;
+  metaDescription?: string | TitleDto;
+  slug?: string;
 }
 
 export type PageBlogResponse = PaginatedResponse<BlogResponse>;
 
-// --- Gallery DTOs ---
+// ── Gallery DTOs ─────────────────────────────────────────────
+
 export type MediaType = 'IMAGE' | 'VIDEO';
 export type GalleryCategory = 'TERAPIYALAR' | 'OTAQLAR' | 'TELIMLER';
 
 export interface GalleryItemRequest {
-  title?: string;
+  title?: string | TitleDto;
   thumbnailUrl?: string;
   mediaUrl?: string;
   mediaType?: MediaType;
   category?: GalleryCategory;
+  altText?: string | TitleDto;
 }
 
 export interface GalleryItemResponse {
   id?: number;
-  title?: string;
+  title?: string | TitleDto;
   thumbnailUrl?: string;
   mediaUrl?: string;
-  mediaType?: MediaType;
-  category?: GalleryCategory;
+  mediaType?: MediaType | string;
+  category?: GalleryCategory | string;
+  altText?: string | TitleDto;
   categoryLabel?: string;
   popularityScore?: number;
-  altText?: string;
   createdAt?: string;
 }
 
 export type PageGalleryItemResponse = PaginatedResponse<GalleryItemResponse>;
 
-// --- Journal DTOs ---
+// ── Journal DTOs ─────────────────────────────────────────────
+
 export type JournalMood = 'VERY_LOW' | 'LOW' | 'NEUTRAL' | 'GOOD' | 'VERY_GOOD';
 
 export interface JournalEntryRequest {
   mood?: JournalMood;
-  thoughts?: string;
+  thoughts?: string | TitleDto;
 }
 
 export interface JournalEntryResponse {
   id?: number;
   entryDate?: string;
-  mood?: JournalMood;
+  mood?: JournalMood | string;
   moodLabel?: string;
   moodScore?: number;
-  thoughts?: string;
+  thoughts?: string | TitleDto;
   createdAt?: string;
   updatedAt?: string;
 }
 
 export type PageJournalEntryResponse = PaginatedResponse<JournalEntryResponse>;
 
-// --- Onboarding DTOs ---
+// ── Onboarding DTOs ──────────────────────────────────────────
+
 export type AddressType = 'XANIM' | 'BEY';
 export type TherapyFormat = 'TEK' | 'CUTLUK' | 'AILE' | 'DOSTLAR';
 
@@ -445,25 +496,26 @@ export interface OnboardingResponse {
   completed?: boolean;
 }
 
-// --- Doctor DTOs ---
+// ── Doctor & Working Hour DTOs ───────────────────────────────
+
 export interface DoctorRegisterDto {
   name?: string;
   surname?: string;
   fatherName?: string;
   age?: number;
   phone?: string;
-  cv?: string;
+  cv?: string | File | Blob;
 }
 
 export interface DoctorDto {
   id?: number;
   username?: string;
   fullName?: string;
-  title?: string;
+  title?: string | TitleDto;
   price?: number;
   experienceYear?: number;
   rating?: number;
-  bio?: string;
+  bio?: string | TitleDto;
   imageUrl?: string;
   languages?: string[];
   education?: string[];
@@ -479,55 +531,74 @@ export interface DoctorResponseDto {
   age?: number;
   phone?: string;
   cvUrl?: string;
+  title?: string | TitleDto;
+  bio?: string | TitleDto;
+  major?: string | TitleDto;
 }
 
-export interface LocalTime {
-  hour: number;
-  minute: number;
-  second: number;
-  nano: number;
+export interface DoctorEntity {
+  id?: number;
+  username?: string;
+  name?: string;
+  surname?: string;
+  fatherName?: string;
+  university?: string;
+  major?: string | TitleDto;
+  imageURl?: string;
+  bio?: string | TitleDto;
+  price?: number;
+  age?: number;
+  experienceYear?: number;
+  profileImageUrl?: string;
+  email?: string;
+  password?: string;
+  title?: string | TitleDto;
+  rating?: number;
+  role?: Role;
+  languages?: string[];
+  education?: string[];
+  certificates?: string[];
+  specializations?: string[];
+}
+
+export type DayOfWeek =
+  | 'MONDAY'
+  | 'TUESDAY'
+  | 'WEDNESDAY'
+  | 'THURSDAY'
+  | 'FRIDAY'
+  | 'SATURDAY'
+  | 'SUNDAY';
+
+export interface DayTemplate {
+  dayOfWeek?: DayOfWeek;
+  hours?: number[];
+}
+
+export interface SaveWeeklyTemplateRequest {
+  days?: DayTemplate[];
 }
 
 export interface AvailableSlotDto {
   date: string;
-  time: string;
+  time: string | LocalTime;
   booked: boolean;
 }
 
-// --- Appointment DTOs ---
+// ── Appointment DTOs ─────────────────────────────────────────
+
 export type AppointmentStatus = 'SCHEDULED' | 'WAITING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 export type AppointmentMode = 'VR' | 'VIDEO_CALL' | 'APP';
+
+export interface UpdateUserStatusRequest {
+  status: AppointmentStatus;
+}
 
 export interface CreateAppointmentRequest {
   doctorId?: number;
   appointmentDate?: string;
-  appointmentTime?: string;
+  appointmentTime?: string | LocalTime;
   mode?: AppointmentMode;
-}
-
-export interface AppointmentDto {
-  id?: number;
-  patientName?: string;
-  doctorName?: string;
-  appointmentDate?: string;
-  appointmentTime?: string;
-  status?: AppointmentStatus;
-  mode?: AppointmentMode;
-  roomUrl?: string;
-  hasNote?: boolean;
-}
-
-export interface JoinTokenResponse {
-  token: string;
-  serverUrl: string;
-  roomName: string;
-}
-
-export interface CreateSessionNoteRequest {
-  subjective?: string;
-  objective?: string;
-  assessment?: string;
-  plan?: string;
 }
 
 export interface SessionNoteDto {
@@ -536,6 +607,57 @@ export interface SessionNoteDto {
   objective?: string;
   assessment?: string;
   plan?: string;
+}
+
+export interface CreateSessionNoteRequest {
+  subjective: string;
+  objective: string;
+  assessment: string;
+  plan: string;
+}
+
+export interface SessionNote {
+  id?: number;
+  appointment?: AppointmentEntity;
+  subjective?: string;
+  objective?: string;
+  assessment?: string;
+  plan?: string;
+  createdAt?: string;
+}
+
+export interface AppointmentDto {
+  id?: number;
+  patientId?: number;
+  patientName?: string;
+  doctorId?: number;
+  doctorName?: string;
+  doctorProfileImageUrl?: string;
+  appointmentDate?: string;
+  appointmentTime?: string | LocalTime;
+  status?: AppointmentStatus;
+  mode?: AppointmentMode;
+  roomUrl?: string;
+  hasNote?: boolean;
+}
+
+export interface AppointmentEntity {
+  id?: number;
+  pasient?: PasientRegisterEntity;
+  doctor?: DoctorEntity;
+  appointmentDate?: string;
+  appointmentTime?: string | LocalTime;
+  finishTime?: string;
+  status?: AppointmentStatus;
+  mode?: AppointmentMode;
+  roomUrl?: string;
+  note?: SessionNote;
+}
+
+export interface JoinTokenResponse {
+  token: string;
+  serverUrl: string;
+  roomName: string;
 }
 
 export interface AppointmentStatsDto {
@@ -553,7 +675,8 @@ export interface ChatMessageResponseDto {
   sentAt?: string;
 }
 
-// --- Site Settings DTOs ---
+// ── Site Settings DTOs ───────────────────────────────────────
+
 export type PostKeywordType = 'ARTICLE' | 'BLOG' | 'NEWS';
 
 export interface SiteSettingsRequestDto {

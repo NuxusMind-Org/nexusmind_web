@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
-import nexie from '@/assets/nexie/nexie_pointer.png';
+import nexie from '@/assets/nexie/nexie_pointer_new.png';
 import { ScrollReveal } from '../ScrollReveal';
 
 interface UserHeroSectionProps {
@@ -28,12 +28,12 @@ export const UserHeroSection = ({ children }: UserHeroSectionProps = {}) => {
         </div>
       </ScrollReveal>
 
-      {/* Nexie Mascot — right side */}
-      <div className="absolute right-[-80px] sm:right-0 bottom-0 md:bottom-[48px] lg:bottom-[56px] lg:right-[3%] z-[15] pointer-events-none origin-bottom">
+      {/* Nexie Mascot — responsive half-height anchored to bottom waves */}
+      <div className="absolute right-[-10px] sm:right-0 md:right-2 lg:right-[3%] bottom-0 md:bottom-[40px] lg:bottom-[48px] z-[15] pointer-events-none origin-bottom flex items-end justify-end h-[55%] sm:h-[65%] md:h-[70%] max-h-[675px] max-w-[60vw] sm:max-w-[52vw] lg:max-w-[675px] aspect-square">
         <img
           src={nexie}
           alt="Nexie Mascot"
-          className="h-[48vh] w-auto sm:h-auto sm:w-[220px] md:w-[460px] lg:w-[540px] object-contain origin-bottom"
+          className="w-full h-full object-contain object-bottom pointer-events-none select-none"
         />
       </div>
     </section>

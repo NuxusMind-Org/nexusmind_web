@@ -13,3 +13,7 @@ export * from './journal.api';
 export * from './doctors.api';
 export * from './appointments.api';
 export * from './site-settings.api';
+export * from './upload.api';
+export * from './working-hours.api';
+export * from './chat.api';
+export * from './admin.api';

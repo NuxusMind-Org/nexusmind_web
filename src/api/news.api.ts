@@ -3,9 +3,17 @@ import type {
   XeberRequestDto,
   XeberResponseDto,
   PageXeberResponseDto,
-  XeberStatus,
   Pageable,
 } from './types';
+
+export interface NewsSearchParams {
+  keyword?: string;
+  query?: string; // legacy alias
+  page?: number;
+  size?: number;
+  sort?: string[];
+  pageable?: Pageable;
+}
 
 export const newsApi = {
   getAll: async (): Promise<XeberResponseDto[]> => {
@@ -32,25 +40,30 @@ export const newsApi = {
     await apiClient.delete(`/xeber/${id}`);
   },
 
-  search: async (params?: {
-    query?: string;
-    category?: string;
-    status?: XeberStatus;
-    page?: number;
-    size?: number;
-    sort?: string[];
-  }): Promise<PageXeberResponseDto> => {
-    const response = await apiClient.get<PageXeberResponseDto>('/xeber/search', { params });
+  search: async (params: NewsSearchParams = {}): Promise<PageXeberResponseDto> => {
+    const keyword = params.keyword || params.query || '';
+    const pageable = params.pageable || {
+      page: params.page ?? 0,
+      size: params.size ?? 10,
+      sort: params.sort,
+    };
+    const response = await apiClient.get<PageXeberResponseDto>('/xeber/search', {
+      params: { keyword, pageable },
+    });
     return response.data;
   },
 
-  getByCategory: async (category: string): Promise<XeberResponseDto[]> => {
-    const response = await apiClient.get<XeberResponseDto[]>(`/xeber/category/${category}`);
+  getByCategory: async (category: string, pageable?: Pageable): Promise<PageXeberResponseDto> => {
+    const response = await apiClient.get<PageXeberResponseDto>(`/xeber/category/${category}`, {
+      params: { pageable: pageable || { page: 0, size: 10 } },
+    });
     return response.data;
   },
 
-  getAdminAll: async (params?: Pageable): Promise<PageXeberResponseDto> => {
-    const response = await apiClient.get<PageXeberResponseDto>('/xeber/admin/all', { params });
+  getAdminAll: async (pageable?: Pageable): Promise<PageXeberResponseDto> => {
+    const response = await apiClient.get<PageXeberResponseDto>('/xeber/admin/all', {
+      params: { pageable: pageable || { page: 0, size: 10 } },
+    });
     return response.data;
   },
 };

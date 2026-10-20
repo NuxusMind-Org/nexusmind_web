@@ -7,8 +7,8 @@ export const onboardingApi = {
     return response.data;
   },
 
-  getStatus: async (): Promise<OnboardingResponse> => {
-    const response = await apiClient.get<OnboardingResponse>('/onboarding/status');
+  getStatus: async (): Promise<boolean> => {
+    const response = await apiClient.get<boolean>('/onboarding/status');
     return response.data;
   },
 
