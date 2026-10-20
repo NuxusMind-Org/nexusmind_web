@@ -133,7 +133,7 @@ export const BlogDetailPage = () => {
         <>
           <SEO
             metaTitle={blog.metaTitle || blogTitle}
-            metaDescription={blog.metaDescription || blog.shortDescription}
+            metaDescription={getLocalizedTitle(blog.metaDescription || blog.shortDescription, 'az', '')}
             slug={blog.slug || blog.id}
             schemaMarkup={blog.schemaMarkup}
             metaKeywords={blog.metaKeywords}

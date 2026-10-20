@@ -64,7 +64,7 @@ export function mapXeberToNewsItem(dto: XeberResponseDto): NewsItem {
     categoryLabel,
     date: formatDateAz(dto.createdAt),
     title: getLocalizedTitle(dto.title || dto.titleDto, 'az', 'Yenilik və Xəbər'),
-    description: dto.shortDescription || dto.introText || '',
+    description: getLocalizedTitle(dto.shortDescription || dto.introText, 'az', ''),
     views: 120,
     isFeatured: false,
   };
@@ -80,7 +80,7 @@ export function mapMeqaleToArticleItem(dto: MeqaleResponseDto): ArticleItem {
     readTime: `${dto.readTimeMinutes || 5} dəq oxu`,
     views: 95,
     title: getLocalizedTitle(dto.title || dto.titleDto, 'az', 'Elmi Məqalə'),
-    description: dto.shortDescription || dto.introText || '',
+    description: getLocalizedTitle(dto.shortDescription || dto.introText, 'az', ''),
     author: {
       name: 'Dr. NexusMind Psixoloq',
       title: 'Klinik Psixoloq',
@@ -103,7 +103,7 @@ export function mapBlogToSimilarBlogCard(dto: BlogResponse): SimilarBlogCard {
     badge: dto.category || 'Psixologiya',
     image: dto.imageUrl || newsBrainArt,
     title: getLocalizedTitle(dto.title || dto.titleDto, 'az', 'Bloq Məqaləsi'),
-    description: dto.shortDescription || dto.introText || '',
+    description: getLocalizedTitle(dto.shortDescription || dto.introText, 'az', ''),
     date: formatDateAz(dto.createdAt),
   };
 }

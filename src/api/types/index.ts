@@ -581,7 +581,7 @@ export interface SaveWeeklyTemplateRequest {
 
 export interface AvailableSlotDto {
   date: string;
-  time: string | LocalTime;
+  time: string;
   booked: boolean;
 }
 
@@ -597,7 +597,7 @@ export interface UpdateUserStatusRequest {
 export interface CreateAppointmentRequest {
   doctorId?: number;
   appointmentDate?: string;
-  appointmentTime?: string | LocalTime;
+  appointmentTime?: string;
   mode?: AppointmentMode;
 }
 
@@ -634,7 +634,7 @@ export interface AppointmentDto {
   doctorName?: string;
   doctorProfileImageUrl?: string;
   appointmentDate?: string;
-  appointmentTime?: string | LocalTime;
+  appointmentTime?: string;
   status?: AppointmentStatus;
   mode?: AppointmentMode;
   roomUrl?: string;
@@ -646,7 +646,7 @@ export interface AppointmentEntity {
   pasient?: PasientRegisterEntity;
   doctor?: DoctorEntity;
   appointmentDate?: string;
-  appointmentTime?: string | LocalTime;
+  appointmentTime?: string;
   finishTime?: string;
   status?: AppointmentStatus;
   mode?: AppointmentMode;

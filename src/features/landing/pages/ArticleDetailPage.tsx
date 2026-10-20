@@ -85,7 +85,7 @@ export const ArticleDetailPage = () => {
       readTime: meqale.readTimeMinutes ? `${meqale.readTimeMinutes} ${t('articles.readTime')}` : defaultItem.readTime,
       views: defaultItem.views,
       title: getLocalizedTitle(meqale.title || meqale.titleDto, i18n.language as 'az' | 'en' | 'ru', defaultItem.title),
-      description: meqale.shortDescription || meqale.introText || defaultItem.description,
+      description: getLocalizedTitle(meqale.shortDescription || meqale.introText, i18n.language as 'az' | 'en' | 'ru', defaultItem.description),
       author: defaultItem.author,
     };
   }, [meqale, id, i18n.language, t]);
@@ -131,7 +131,7 @@ export const ArticleDetailPage = () => {
         <>
           <SEO
             metaTitle={meqale.metaTitle || article.title}
-            metaDescription={meqale.metaDescription || meqale.shortDescription}
+            metaDescription={getLocalizedTitle(meqale.metaDescription || meqale.shortDescription, i18n.language as 'az' | 'en' | 'ru', '')}
             slug={meqale.slug || meqale.id}
             schemaMarkup={meqale.schemaMarkup}
             metaKeywords={meqale.metaKeywords}

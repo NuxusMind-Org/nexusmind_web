@@ -101,10 +101,11 @@ export const NewsDetailPage = () => {
       categoryLabel: news.category || 'Psixoloji Sağlamlıq',
       date: formattedDate,
       title: getLocalizedTitle(news.title || news.titleDto, i18n.language as 'az' | 'en' | 'ru', 'Bakı Psixologiya Mərkəzində: 3 Aylıq Mentorluq Proqramı'),
-      description:
-        news.shortDescription ||
-        news.introText ||
-        'Yanvarın 15-də Bakı Psixologiya Mərkəzi Mentorluq proqramına başlayıb.',
+      description: getLocalizedTitle(
+        news.shortDescription || news.introText,
+        i18n.language as 'az' | 'en' | 'ru',
+        'Yanvarın 15-də Bakı Psixologiya Mərkəzi Mentorluq proqramına başlayıb.'
+      ),
       views: 120,
     };
   }, [news, id, i18n.language]);
@@ -150,7 +151,7 @@ export const NewsDetailPage = () => {
         <>
           <SEO
             metaTitle={news.metaTitle || article.title}
-            metaDescription={news.metaDescription || news.shortDescription}
+            metaDescription={getLocalizedTitle(news.metaDescription || news.shortDescription, i18n.language as 'az' | 'en' | 'ru', '')}
             slug={news.slug || news.id}
             schemaMarkup={news.schemaMarkup}
             metaKeywords={news.metaKeywords}
