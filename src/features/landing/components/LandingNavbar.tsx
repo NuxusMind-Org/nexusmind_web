@@ -21,7 +21,9 @@ type ActivePage =
   | 'sessions'
   | 'profile'
   | 'settings'
-  | 'mini-games';
+  | 'mini-games'
+  | 'about'
+  | 'faq';
 
 interface LandingNavbarProps {
   activePage: ActivePage;

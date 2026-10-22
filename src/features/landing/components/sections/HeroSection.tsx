@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import nexie from '@/assets/nexie/nexie_pointer_new.png';
+import nexiePoster from '@/assets/nexie/nexie_pointer_new.png';
+import nexieWebm from '@/assets/nexie/Nexie_reversed_transparent.webm';
+import nexieHevc from '@/assets/nexie/Nexie_reversed_transparent.mov';
 import { ScrollReveal } from '../ScrollReveal';
 import { HeroActiveCard } from './HeroActiveCard';
 
@@ -109,11 +111,24 @@ export const HeroSection = () => {
        * even at 125%+ browser zoom or on short laptop viewports.
        */}
       <div className="absolute right-[-10px] sm:right-0 md:right-2 lg:right-[3%] bottom-0 md:bottom-[40px] lg:bottom-[48px] z-[15] pointer-events-none origin-bottom flex items-end justify-end h-[55%] sm:h-[65%] md:h-[70%] max-h-[675px] max-w-[60vw] sm:max-w-[52vw] lg:max-w-[675px] aspect-square">
-        <img
-          src={nexie}
-          alt="Nexie Mascot"
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster={nexiePoster}
           className="w-full h-full object-contain object-bottom pointer-events-none select-none"
-        />
+          aria-label="Nexie Mascot"
+        >
+          <source src={nexieHevc} type='video/mp4; codecs="hvc1"' />
+          <source src={nexieWebm} type="video/webm" />
+          <img
+            src={nexiePoster}
+            alt="Nexie Mascot"
+            className="w-full h-full object-contain object-bottom pointer-events-none select-none"
+          />
+        </video>
       </div>
 
     </section>

@@ -653,5 +653,65 @@
       "subtitle": "Discover yourself, explore insightful articles, and broaden your horizons.",
       "comingSoon": "Education section will be available soon."
     }
+  },
+  "aboutPage": {
+    "badge": "About Us",
+    "section1": {
+      "badge": "Inner Sanctuary",
+      "title": "More Than a Company, We Are a Sanctuary.",
+      "desc": "Being human means occasionally getting tired, lost among unanswered questions, and battling inner storms. NexusMind is not an ordinary digital platform or corporate project; we are a safe inner sanctuary where you can take a deep breath in the fast pace of modern life. Our goal is to transform psychological support into an accessible, understandable, and judgment-free experience for everyone."
+    },
+    "section2": {
+      "badge": "Real Challenges",
+      "title": "Silent Struggles and Barriers Are the Reality of Life",
+      "desc": "Financial constraints, lack of time, stereotypes, or simply wondering 'who would understand me?'... Unfortunately, millions hesitate to take the first step when they need peace of mind. Traditional psychological help can feel cold, difficult to find, or financially burdensome. We saw that individuals are left alone with their challenges and need intuitive, genuine support to restore their inner balance."
+    },
+    "section3": {
+      "badge": "Our Vision",
+      "title": "The Harmony of Human Warmth and Digital Innovation Is Our Signature Idea.",
+      "desc": "NexusMind was created to break down these barriers. We brought together our AI guide Nexie, VR (Virtual Reality) consultation environments, and a network of professional psychologists into a single ecosystem. Whether you find calm in your virtual comfort zone without leaving home, open your heart in the 'Share Your Story' section, or connect in total confidentiality with certified specialists, we use technology not as a cold instrument, but as a warm helping hand extended to you."
+    },
+    "section4": {
+      "badge": "The Journey Ahead",
+      "title": "Be the Hero of Your Own Story",
+      "desc": "Our ultimate mission is not merely to be an application — it is to become your most trusted companion on your journey of self-discovery. We believe mental well-being is not a luxury, but a fundamental human right. With NexusMind, you are not alone: here, every emotion matters, and every step leads toward a stronger, more balanced, and peaceful 'You'.",
+      "ctaExperts": "Meet Our Experts",
+      "ctaStart": "Get Started"
+    }
+  },
+  "faqPage": {
+    "badge": "Help Center",
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about the NexusMind platform, our services, and data privacy.",
+    "items": [
+      {
+        "id": 1,
+        "question": "1. How is my personal data protected?",
+        "answer": "In compliance with international GDPR standards, we fully guarantee the security and confidentiality of your data. Your information is never shared with third parties."
+      },
+      {
+        "id": 2,
+        "question": "2. Who can use the NexusMind platform?",
+        "answer": "Our platform is designed for both individual users (students, professionals, etc.) and corporate partners (psychology and business centers, educational institutions)."
+      },
+      {
+        "id": 3,
+        "question": "3. How can I register on the platform?",
+        "answer": "Click the \"Sign In\" button and enter your email address. Once you enter the verification code sent to your email and answer a few quick onboarding questions, your account will be ready."
+      },
+      {
+        "id": 4,
+        "question": "4. Will my payment be refunded if I cancel a session?",
+        "answer": "If you cancel at least 24 hours (1 day) prior to the session, your payment will be fully refunded. Cancellations made on the day of the session are non-refundable."
+      },
+      {
+        "id": 5,
+        "question": "5. How do I book a session?",
+        "answer": "Select your preferred date and time on the calendar and complete the payment. Your reservation is confirmed once payment is approved."
+      }
+    ],
+    "stillHaveQuestions": "Still have questions?",
+    "stillHaveQuestionsDesc": "Our support team is always ready to assist you. Reach out to us anytime.",
+    "contactUs": "Contact Us"
   }
 }

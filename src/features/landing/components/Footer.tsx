@@ -28,10 +28,10 @@ export const Footer = () => {
                 <h4 className="font-bold text-[16px] sm:text-[17px] mb-2 tracking-wide ponnala-nudge">
                   {t('footer.quickLinks', 'Cəld Keçidlər')}
                 </h4>
-                <Link to="#faq" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
+                <Link to={PATHS.FAQ} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
                   {t('footer.faq', 'FAQ')}
                 </Link>
-                <Link to={PATHS.HOME} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
+                <Link to={PATHS.ABOUT} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
                   {t('footer.about', 'Haqqımızda')}
                 </Link>
                 <Link to="#experts" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">

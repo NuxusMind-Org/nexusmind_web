@@ -653,5 +653,65 @@
       "subtitle": "Özünüzü kəşf edin, məqalələr oxuyun və müdrik fikirlərlə tanış olun.",
       "comingSoon": "Maarifləndirmə bölməsi tezliklə aktiv olacaq."
     }
+  },
+  "aboutPage": {
+    "badge": "Haqqımızda",
+    "section1": {
+      "badge": "Daxili Sığınacaq",
+      "title": "Biz Şirkətdən daha çox, Bir Sığınacağıq.",
+      "desc": "İnsan olmaq — bəzən yorulmaq, cavabsız suallar arasında itmək və daxili fırtınalarla mübarizə aparmaq deməkdir. NexusMind sıradan bir rəqəmsal platforma və ya korporativ layihə deyil; biz müasir həyatın sürətli ritmində dərindən nəfəs ala biləcəyin təhlükəsiz bir daxili sığınacağıq. Məqsədimiz psixoloji dəstəyi hər bir insan üçün əlçatan, anlaşılan və hər növ mühakimədən uzaq bir təcrübəyə çevirməkdir."
+    },
+    "section2": {
+      "badge": "Real Çətinliklər",
+      "title": "Səssiz mübarizələr və baryerlər həyatın real üzüdür",
+      "desc": "Maddiyyat, vaxt darlığı, stereotiplər və ya sadəcə \"məni kim anlar ki?\" düşüncəsi... Təəssüf ki, milyonlarla insan ruhi rahatlığa ehtiyacı olduğu halda ilk addımı atmaqdan çəkinir. Ənənəvi psixoloji yardım metodları bəzən soyuq, çətin tapılan və ya büdcəyə ağır gələn bir prosesə çevrilir. Biz gördük ki, insanlar problemləri ilə baş-başa qalır və daxili balanslarını bərpa etmək üçün intuitiv, həqiqi dəstəyə ehtiyac duyurlar."
+    },
+    "section3": {
+      "badge": "Bizim İdeyamız",
+      "title": "İnsan İstiliyi və Rəqəmsal İnnovasiyanın Vəhdəti- Bizim İdea imzamızdır.",
+      "desc": "NexusMind bu baryerləri yıxmaq üçün yaradıldı. Biz süni intellekt bələdçimiz Neksi, VR (Virtual Reallıq) konsultasiya mühitləri və peşəkar psixoloq şəbəkəsini tek bir ekosistemdə birləşdirdik. İstər evindən çıxmadan virtual rahatlıq zonanda sakitlik tap, istər \"Hekayəni paylaş\" bölməsində içini boşalt, istərsə də sahəsinin peşəkarı olan mütəxəssislərlə tam məxfi şəkildə əlaqə qur. Biz texnologiyanı soyuq alət kimi deyil, sənə uzanan isti bir kömək əli kimi istifadə edirik."
+    },
+    "section4": {
+      "badge": "Gələcəyə Doğru",
+      "title": "Öz Hekayənin Qəhrəmanı Ol",
+      "desc": "Bizim ümumi hədəfimiz sadəcə bir tətbiq olmaq deyil — insanın özünü kəşf etmə səyahətində onun ən etibarlı yoldaşına çevrilməkdir. İnanırıq ki, psixoloji sağlamlıq lüks deyil, hər bir insanın təməl haqqıdır. NexusMind ilə sən yalnız deyilsən: burada hər emosiyanın dəyəri var, hər addımın isə daha güclü, balanslı və hüzurlu bir \"Sən\"ə doğru atılan addımdır.",
+      "ctaExperts": "Mütəxəssislərimizlə Tanış Ol",
+      "ctaStart": "İndi Başla"
+    }
+  },
+  "faqPage": {
+    "badge": "Kömək Mərkəzi",
+    "title": "Tez-tez Verilən Suallar",
+    "subtitle": "NexusMind platforması, xidmətlərimiz və təhlükəsizlik haqqında ən çox maraqlanılan sualların cavabları.",
+    "items": [
+      {
+        "id": 1,
+        "question": "1. Mənim fərdi məlumatlarım necə qorunur?",
+        "answer": "Beynəlxalq GDPR standartlarına uyğun olaraq məlumatlarınızın təhlükəsizliyinə və məxfiliyinə tam zəmanət veririk. Məlumatlarınız üçüncü tərəflərlə paylaşılmır."
+      },
+      {
+        "id": 2,
+        "question": "2. NexusMind platformasından kimlər istifadə edə bilər?",
+        "answer": "Platformamız həm fərdi istifadəçilər (tələbələr, işçilər və s.), həm də korporativ tərəfdaşlar (psixologiya və biznes mərkəzləri, təhsil müəssisələri) üçün nəzərdə tutulub."
+      },
+      {
+        "id": 3,
+        "question": "3. Platformada necə qeydiyyatdan keçə bilərəm?",
+        "answer": "\"Daxil ol\" düyməsinə klikləyib e-poçt ünvanınızı yazın. E-poçtunuza gələn təsdiq kodunu daxil etdikdən və qısa yönləndirmə suallarını cavablandırdıqdan sonra hesabınız hazır olacaq."
+      },
+      {
+        "id": 4,
+        "question": "4. Seansı ləğv etsəm, ödənişim geri qaytarılırmı?",
+        "answer": "Seansa ən azı 24 saat (1 gün) qalmış ləğv etdikdə ödənişiniz tam geri qaytarılır. Seans günü edilən ləğvlərdə isə ödəniş qaytarılmır."
+      },
+      {
+        "id": 5,
+        "question": "5. Seans rezervasiyası necə edilir?",
+        "answer": "Təqvim üzərindən sizə uyğun tarix və saatı seçib ödənişi tamamlayırsınız. Ödəniş təsdiqləndikdə rezervasiyanız həyata keçirilir."
+      }
+    ],
+    "stillHaveQuestions": "Hələ də sualınız var?",
+    "stillHaveQuestionsDesc": "Komandamız sizə kömək etməyə hər zaman hazırdır. Bizimlə birbaşa əlaqə saxlayın.",
+    "contactUs": "Bizimlə Əlaqə"
   }
 }

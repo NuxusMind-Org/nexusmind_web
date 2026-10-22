@@ -20,6 +20,8 @@ import { NewsPage } from '@/features/landing/pages/NewsPage';
 import { NewsDetailPage } from '@/features/landing/pages/NewsDetailPage';
 import { GalleryPage } from '@/features/landing/pages/GalleryPage';
 import { TrainingsPage } from '@/features/landing/pages/TrainingsPage';
+import { AboutPage } from '@/features/landing/pages/AboutPage';
+import { FaqPage } from '@/features/landing/pages/FaqPage';
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute';
 import { SessionsPage } from '@/features/sessions/pages/SessionsPage';
 import { SessionCallPage } from '@/features/sessions/pages/SessionCallPage';
@@ -95,6 +97,14 @@ const router = createBrowserRouter([
       {
         path: PATHS.TRAININGS,
         element: <TrainingsPage />,
+      },
+      {
+        path: PATHS.ABOUT,
+        element: <AboutPage />,
+      },
+      {
+        path: PATHS.FAQ,
+        element: <FaqPage />,
       },
 
       // Auth Routes

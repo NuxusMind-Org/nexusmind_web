@@ -19,6 +19,8 @@ export const PATHS = {
   TRAININGS: '/trainings',
   EXPERTS: '/experts',
   JOURNAL: '/journal', // Public Landing Page Journal
+  ABOUT: '/about',
+  FAQ: '/faq',
 
   // Unified App Paths
   SESSIONS: '/sessions',
