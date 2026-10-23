@@ -21,6 +21,9 @@ export const PATHS = {
   JOURNAL: '/journal', // Public Landing Page Journal
   ABOUT: '/about',
   FAQ: '/faq',
+  PAYMENT_SUCCESS: '/success_payment',
+  PAYMENT_ERROR: '/error_payment',
+  PAYMENT_RESULT: '/result_payment',
 
   // Unified App Paths
   SESSIONS: '/sessions',

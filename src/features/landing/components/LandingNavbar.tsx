@@ -23,10 +23,11 @@ type ActivePage =
   | 'settings'
   | 'mini-games'
   | 'about'
-  | 'faq';
+  | 'faq'
+  | 'payment';
 
 interface LandingNavbarProps {
-  activePage: ActivePage;
+  activePage?: ActivePage;
   activeSection?: number | string;
   scrollToSection?: (id: string) => void;
 }

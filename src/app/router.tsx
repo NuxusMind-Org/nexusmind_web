@@ -22,6 +22,11 @@ import { GalleryPage } from '@/features/landing/pages/GalleryPage';
 import { TrainingsPage } from '@/features/landing/pages/TrainingsPage';
 import { AboutPage } from '@/features/landing/pages/AboutPage';
 import { FaqPage } from '@/features/landing/pages/FaqPage';
+import {
+  PaymentSuccessPage,
+  PaymentErrorPage,
+  PaymentResultPage,
+} from '@/features/payment';
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute';
 import { SessionsPage } from '@/features/sessions/pages/SessionsPage';
 import { SessionCallPage } from '@/features/sessions/pages/SessionCallPage';
@@ -105,6 +110,18 @@ const router = createBrowserRouter([
       {
         path: PATHS.FAQ,
         element: <FaqPage />,
+      },
+      {
+        path: PATHS.PAYMENT_SUCCESS,
+        element: <PaymentSuccessPage />,
+      },
+      {
+        path: PATHS.PAYMENT_ERROR,
+        element: <PaymentErrorPage />,
+      },
+      {
+        path: PATHS.PAYMENT_RESULT,
+        element: <PaymentResultPage />,
       },
 
       // Auth Routes
