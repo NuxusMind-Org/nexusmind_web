@@ -37,6 +37,9 @@ export const Footer = () => {
                 <Link to="#experts" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
                   {t('footer.experts', 'Mütəxəssislər')}
                 </Link>
+                <Link to={PATHS.TERMS} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
+                  {t('footer.terms', 'İstifadə şərtləri')}
+                </Link>
               </div>
 
               {/* Column 2: Contact Info */}

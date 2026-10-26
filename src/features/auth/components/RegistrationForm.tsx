@@ -28,7 +28,10 @@ export const RegistrationForm = () => {
   } = useForm<RegistrationFormValues>({
     resolver: zodResolver(registrationSchema),
     mode: 'onTouched',
-    defaultValues: initialFormData || undefined,
+    defaultValues: {
+      agreeTerms: false,
+      ...(initialFormData || {}),
+    },
   });
 
   const passwordValue = useWatch({
@@ -153,6 +156,32 @@ export const RegistrationForm = () => {
             </button>
           }
         />
+
+        {/* Terms and Conditions Agreement Checkbox */}
+        <div className="flex flex-col gap-1.5 mt-1">
+          <label className="flex items-start gap-2.5 cursor-pointer text-[13px] text-ui-muted select-none group">
+            <input
+              type="checkbox"
+              {...register('agreeTerms')}
+              className="mt-0.5 w-4 h-4 rounded border-white/20 bg-ui-surface text-[#6700FF] focus:ring-[#6700FF] focus:ring-offset-0 focus:outline-none cursor-pointer"
+            />
+            <span className="leading-snug">
+              <Link
+                to={PATHS.TERMS}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-white hover:text-accent underline transition-colors"
+              >
+                İstifadə şərtləri və qaydaları
+              </Link>
+              {' '}ilə tanış oldum və razıyam
+            </span>
+          </label>
+          {errors.agreeTerms && (
+            <span className="text-red-400 text-xs ml-1">{errors.agreeTerms.message}</span>
+          )}
+        </div>
 
         <div className="relative mt-2 w-full group">
           <div

@@ -21,6 +21,7 @@ export const PATHS = {
   JOURNAL: '/journal', // Public Landing Page Journal
   ABOUT: '/about',
   FAQ: '/faq',
+  TERMS: '/terms',
   PAYMENT_SUCCESS: '/success_payment',
   PAYMENT_ERROR: '/error_payment',
   PAYMENT_RESULT: '/result_payment',

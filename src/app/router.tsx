@@ -22,6 +22,7 @@ import { GalleryPage } from '@/features/landing/pages/GalleryPage';
 import { TrainingsPage } from '@/features/landing/pages/TrainingsPage';
 import { AboutPage } from '@/features/landing/pages/AboutPage';
 import { FaqPage } from '@/features/landing/pages/FaqPage';
+import { TermsPage } from '@/features/landing/pages/TermsPage';
 import {
   PaymentSuccessPage,
   PaymentErrorPage,
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
       {
         path: PATHS.FAQ,
         element: <FaqPage />,
+      },
+      {
+        path: PATHS.TERMS,
+        element: <TermsPage />,
       },
       {
         path: PATHS.PAYMENT_SUCCESS,

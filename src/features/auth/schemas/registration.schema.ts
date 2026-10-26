@@ -20,6 +20,9 @@ export const registrationSchema = z
         'Şifrədə ən azı bir rəqəm, bir kiçik və bir böyük hərf olmalıdır'
       ),
     passwordConfirmation: z.string().min(8, 'Şifrəni təsdiq edin'),
+    agreeTerms: z.boolean().refine((val) => val === true, {
+      message: 'İstifadə şərtlərini qəbul etməlisiniz',
+    }),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: 'Şifrələr uyğun gəlmir',
