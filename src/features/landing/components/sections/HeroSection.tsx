@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import nexiePoster from '@/assets/nexie/nexie_pointer_new.png';
-import nexieWebm from '@/assets/nexie/Nexie_reversed_transparent.webm';
-import nexieHevc from '@/assets/nexie/Nexie_reversed_transparent.mov';
+import nexiePoster from '@/assets/nexie/Nexie_1x1_video_v04_poster.webp';
+import nexieWebm from '@/assets/nexie/Nexie_1x1_video_v04_transparent.webm';
+import nexieHevc from '@/assets/nexie/Nexie_1x1_video_v04_transparent.mov';
 import { ScrollReveal } from '../ScrollReveal';
 import { HeroActiveCard } from './HeroActiveCard';
 
@@ -110,7 +110,7 @@ export const HeroSection = () => {
        * Constrained to ~50% of hero section height so it never overlaps the navbar
        * even at 125%+ browser zoom or on short laptop viewports.
        */}
-      <div className="absolute right-[-10px] sm:right-0 md:right-2 lg:right-[3%] bottom-0 md:bottom-[40px] lg:bottom-[48px] z-[15] pointer-events-none origin-bottom flex items-end justify-end h-[55%] sm:h-[65%] md:h-[70%] max-h-[675px] max-w-[60vw] sm:max-w-[52vw] lg:max-w-[675px] aspect-square">
+      <div className="absolute right-[-25px] min-[390px]:right-[-100px] sm:right-0 md:right-2 lg:right-[3%] bottom-5 md:bottom-[40px] lg:bottom-[48px] z-[15] pointer-events-none origin-bottom flex items-end justify-end h-[52%] min-[400px]:h-[54%] sm:h-[65%] md:h-[70%] max-h-[675px] w-auto max-w-none sm:max-w-[52vw] lg:max-w-[675px] aspect-square">
         <video
           autoPlay
           loop
