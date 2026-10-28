@@ -44,9 +44,6 @@ export const PsychologistPage = () => {
   const [showCalendar, setShowCalendar] = useState<boolean>(() => {
     return Boolean((location.state as { autoOpenBooking?: boolean } | null)?.autoOpenBooking);
   });
-  const [isBooking, setIsBooking] = useState(false);
-  const [bookingError, setBookingError] = useState<string | null>(null);
-  const [bookingSuccess, setBookingSuccess] = useState(false);
 
   // Pending booking & payment modal state
   const [pendingBooking, setPendingBooking] = useState<{
@@ -373,41 +370,14 @@ export const PsychologistPage = () => {
               {/* Interactive Calendar or Summary Booking Box */}
               {showCalendar ? (
                 <div className="flex flex-col gap-4">
-                  {bookingError && (
-                    <div className="p-3.5 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-200 text-xs flex items-center justify-between shadow-lg">
-                      <span>{bookingError}</span>
-                      <button onClick={() => setBookingError(null)} className="text-white/60 hover:text-white font-bold ml-2">✕</button>
-                    </div>
-                  )}
-
-                  {bookingSuccess ? (
-                    <div className="bg-[#2D3E50]/80 backdrop-blur-xl rounded-3xl p-8 border border-emerald-500/30 shadow-2xl flex flex-col items-center justify-center text-center gap-4 animate-fade-in">
-                      <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center text-emerald-400">
-                        <AppIcon icon="lucide:check" size={32} />
-                      </div>
-                      <h3 className="text-white text-xl font-bold">
-                        {t('webapp.sessions.bookedSuccessTitle', 'Seansınız Uğurla Təyin Edildi!')}
-                      </h3>
-                      <p className="text-white/70 text-sm">
-                        {t('webapp.sessions.redirectingToSessions', 'Seanslar səhifəsinə yönləndirilirsiniz...')}
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="relative">
-                      {isBooking && (
-                        <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-md rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center gap-3">
-                          <div className="w-10 h-10 border-3 border-purple-500/20 border-t-[#8B5CF6] rounded-full animate-spin" />
-                          <span className="text-white text-sm font-medium">{t('webapp.sessions.bookingSession', 'Seans təyin edilir...')}</span>
-                        </div>
-                      )}
-                      <CalendarWidget
-                        psychologistId={psych.id}
-                        psychologistName={psych.name}
-                        onBack={() => setShowCalendar(false)}
-                        onConfirm={handleSelectSession}
-                      />
-                    </div>
-                  )}
+                  <div className="relative">
+                    <CalendarWidget
+                      psychologistId={psych.id}
+                      psychologistName={psych.name}
+                      onBack={() => setShowCalendar(false)}
+                      onConfirm={handleSelectSession}
+                    />
+                  </div>
                 </div>
               ) : (
                 /* Booking Box */
