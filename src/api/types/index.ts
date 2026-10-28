@@ -699,3 +699,33 @@ export interface PostKeywordsRequestDto {
   type?: PostKeywordType;
   keywords?: string[];
 }
+
+// ── Doctor Price & Payment DTOs ──────────────────────────────
+
+export interface DoctorPriceResponse {
+  id?: number;
+  doctorId?: number;
+  label?: string;
+  minAge?: number;
+  maxAge?: number;
+  sessionType?: string;
+  durationMin?: number;
+  durationMax?: number;
+  amount?: number;
+  currency?: string;
+}
+
+export interface StartPaymentRequest {
+  amount?: number;
+  description?: string;
+}
+
+export interface StartPaymentResponse {
+  url?: string;
+  redirectUrl?: string;
+  redirect_url?: string;
+  paymentUrl?: string;
+  payment_url?: string;
+  link?: string;
+  [key: string]: unknown;
+}

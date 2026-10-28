@@ -753,6 +753,13 @@
     "tip1": "Ensure your card balance is sufficient for this transaction.",
     "tip2": "Verify that your 3D Secure OTP was entered correctly and before expiry.",
     "tip3": "Confirm that your card is activated for online and international transactions.",
-    "tip4": "If the issue persists, contact your bank or our support team."
+    "tip4": "If the issue persists, contact your bank or our support team.",
+    "sessionOrderTitle": "Session Order & Payment",
+    "sessionOrderSubtitle": "Please review session details and proceed to payment",
+    "patient": "Patient",
+    "totalToPay": "Total to pay:",
+    "checkout": "Proceed to Checkout",
+    "processing": "Redirecting...",
+    "startFailed": "Failed to initiate payment. Please try again."
   }
 }

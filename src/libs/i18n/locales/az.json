@@ -753,6 +753,13 @@
     "tip1": "Kart balansınızın əməliyyat məbləğinə kifayət etdiyindən əmin olun.",
     "tip2": "3D Secure OTP kodunu düzgün və vaxtında daxil etdiyinizi yoxlayın.",
     "tip3": "Kartınızın internet və ya onlayn ödənişlərə açıq olduğunu dəqiqləşdirin.",
-    "tip4": "Problem davam edərsə, bankınız və ya dəstək komandamızla əlaqə saxlayın."
+    "tip4": "Problem davam edərsə, bankınız və ya dəstək komandamızla əlaqə saxlayın.",
+    "sessionOrderTitle": "Seans Sifarişi və Ödəniş",
+    "sessionOrderSubtitle": "Zəhmət olmasa seans məlumatlarını yoxlayın və ödənişə keçin",
+    "patient": "Pasient",
+    "totalToPay": "Ödəniləcək məbləğ:",
+    "checkout": "Ödənişə keç",
+    "processing": "Keçid edilir...",
+    "startFailed": "Ödəniş başladılarkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
   }
 }

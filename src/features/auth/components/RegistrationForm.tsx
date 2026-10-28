@@ -34,10 +34,17 @@ export const RegistrationForm = () => {
     },
   });
 
-  const passwordValue = useWatch({
-    control,
-    name: 'password',
-  });
+  const formValues = useWatch({ control });
+
+  const isFormComplete = Boolean(
+    formValues?.fullName?.trim() &&
+    formValues?.email?.trim() &&
+    formValues?.age?.trim() &&
+    formValues?.phoneNumber?.trim() &&
+    formValues?.password &&
+    formValues?.passwordConfirmation &&
+    formValues?.agreeTerms
+  );
 
   const normalizePhone = (phone: string): string => {
     const digits = phone.replace(/[^\d+]/g, '');
@@ -136,7 +143,7 @@ export const RegistrationForm = () => {
               </button>
             }
           />
-          <PasswordStrengthIndicator password={passwordValue} />
+          <PasswordStrengthIndicator password={formValues?.password || ''} />
         </div>
 
         <Input
@@ -183,9 +190,18 @@ export const RegistrationForm = () => {
           )}
         </div>
 
-        <div className="relative mt-2 w-full group">
+        <div
+          className={`relative mt-2 w-full group transition-all duration-300 ${
+            isFormComplete
+              ? 'opacity-100 cursor-pointer'
+              : 'opacity-40 cursor-not-allowed'
+          }`}
+          title={!isFormComplete ? 'Davam etmək üçün bütün xanaları doldurun və şərtləri qəbul edin' : undefined}
+        >
           <div
-            className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity group-hover:opacity-80"
+            className={`absolute inset-0 rounded-lg bg-gradient-to-r from-purple-600 via-indigo-500 to-white/90 pointer-events-none transition-opacity duration-300 ${
+              isFormComplete ? 'opacity-100 group-hover:opacity-80' : 'opacity-40'
+            }`}
             style={{
               padding: '1.5px',
               WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -197,7 +213,12 @@ export const RegistrationForm = () => {
             type="submit"
             variant="glass"
             size="lg"
-            className="w-full !border-0 !rounded-lg bg-white/5 hover:bg-white/10"
+            disabled={!isFormComplete || isSubmitting}
+            className={`w-full !border-0 !rounded-lg bg-white/5 transition-all duration-300 ${
+              isFormComplete
+                ? 'hover:bg-white/10 cursor-pointer'
+                : 'disabled:!opacity-100 !pointer-events-none'
+            }`}
             isLoading={isSubmitting}
           >
             Növbəti

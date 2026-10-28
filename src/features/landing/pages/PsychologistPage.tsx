@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
@@ -8,13 +8,16 @@ import { LandingNavbar } from '../components/LandingNavbar';
 import { psychologists } from '../data/psychologists';
 import { PATHS } from '@/routes/paths';
 import { doctorsApi } from '@/api/doctors.api';
+import { paymentsApi } from '@/api/payments.api';
 import { mapDoctorToPsychologist } from '@/utils/mappers';
 import type { Psychologist } from '../types/psychologist.types';
 import { CalendarWidget } from '@/features/experts/components/CalendarWidget';
 import { PsychologistSkeleton } from '@/features/experts/components/PsychologistSkeleton';
+import { SessionPaymentModal } from '@/features/experts/components/SessionPaymentModal';
 import { useAuthStore } from '@/store/authStore';
 import { useSessionStore } from '@/store/sessionStore';
-import type { AppointmentMode } from '@/api/types';
+import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
+import type { AppointmentMode, DoctorPriceResponse } from '@/api/types';
 
 export const PsychologistPage = () => {
   const { t, i18n } = useTranslation();
@@ -23,10 +26,20 @@ export const PsychologistPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
   const { bookSession } = useSessionStore();
+  const { data: currentUser } = useCurrentUser();
+
+  const userAge = currentUser?.age ? Number(currentUser.age) : undefined;
+  const patientName =
+    [currentUser?.name, currentUser?.surname].filter(Boolean).join(' ') ||
+    currentUser?.email ||
+    t('payment.patient', 'Pasient');
 
   const psychologistId = id ? parseInt(id, 10) : 1;
   const [psych, setPsych] = useState<Psychologist | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Doctor dynamic prices based on age & ID
+  const [doctorPrices, setDoctorPrices] = useState<DoctorPriceResponse[]>([]);
 
   const [showCalendar, setShowCalendar] = useState<boolean>(() => {
     return Boolean((location.state as { autoOpenBooking?: boolean } | null)?.autoOpenBooking);
@@ -35,10 +48,21 @@ export const PsychologistPage = () => {
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
+  // Pending booking & payment modal state
+  const [pendingBooking, setPendingBooking] = useState<{
+    appointmentDate: string;
+    appointmentTime: string;
+    mode: AppointmentMode;
+  } | null>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
+  const [isProcessingPayment, setIsProcessingPayment] = useState<boolean>(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
+
   useEffect(() => {
     setShowCalendar(Boolean((location.state as { autoOpenBooking?: boolean } | null)?.autoOpenBooking));
   }, [location.state, psychologistId]);
 
+  // Fetch Doctor profile
   useEffect(() => {
     let isMounted = true;
     setIsLoading(true);
@@ -74,6 +98,45 @@ export const PsychologistPage = () => {
     };
   }, [psychologistId, i18n.language]);
 
+  // Fetch Doctor dynamic prices based on user's registration age and doctor ID
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchPrices = async () => {
+      try {
+        const prices = await doctorsApi.getPrices(psychologistId, userAge);
+        if (isMounted && prices && prices.length > 0) {
+          setDoctorPrices(prices);
+        }
+      } catch (err) {
+        console.warn('Could not fetch doctor prices:', err);
+      }
+    };
+
+    fetchPrices();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [psychologistId, userAge]);
+
+  // Compute active price tailored to the user's age
+  const activePriceObj = useMemo(() => {
+    if (!doctorPrices.length) return null;
+    if (userAge !== undefined) {
+      const match = doctorPrices.find((p) => {
+        const min = p.minAge ?? 0;
+        const max = p.maxAge ?? 100;
+        return userAge >= min && userAge <= max;
+      });
+      if (match) return match;
+    }
+    return doctorPrices[0];
+  }, [doctorPrices, userAge]);
+
+  const effectivePrice = activePriceObj?.amount ?? psych?.price ?? 50;
+  const effectiveCurrency = activePriceObj?.currency ?? 'AZN';
+
   const handleScheduleClick = () => {
     if (!isAuthenticated) {
       navigate(PATHS.LOGIN, { state: { from: location.pathname } });
@@ -82,30 +145,90 @@ export const PsychologistPage = () => {
     setShowCalendar(true);
   };
 
-  const handleConfirmBooking = async (
+  // Called when user clicks "Qəbul et və davam et" in the CalendarWidget
+  const handleSelectSession = (
     appointmentDate: string,
     appointmentTime: string,
     mode: AppointmentMode
   ) => {
     if (!psych) return;
-    setIsBooking(true);
-    setBookingError(null);
+    setPendingBooking({
+      appointmentDate,
+      appointmentTime,
+      mode,
+    });
+    setPaymentError(null);
+    setShowPaymentModal(true);
+  };
+
+  // Called when user clicks "Ləğv et" (Cancel) on the pop up card
+  // Cancels the session purchase order immediately before any backend call
+  const handleCancelPaymentModal = () => {
+    setShowPaymentModal(false);
+    setPendingBooking(null);
+    setPaymentError(null);
+  };
+
+  // Called when user clicks "Ödənişə keç" (Checkout) on the pop up card
+  const handleProceedToCheckout = async () => {
+    if (!psych || !pendingBooking) return;
+    setIsProcessingPayment(true);
+    setPaymentError(null);
+
+    const timeOnly = pendingBooking.appointmentTime.slice(0, 5);
+    const description = `Seans: ${pendingBooking.appointmentDate} ${timeOnly}, Həkim: ${psych.name}, Pasient: ${patientName}`;
+    const amount = Number(effectivePrice);
+
     try {
-      await bookSession({
-        doctorId: psych.id,
-        appointmentDate,
-        appointmentTime,
-        mode,
+      // 1. Optionally register/book the appointment in the session store so backend has the record
+      try {
+        await bookSession({
+          doctorId: psych.id,
+          appointmentDate: pendingBooking.appointmentDate,
+          appointmentTime: pendingBooking.appointmentTime,
+          mode: pendingBooking.mode,
+        });
+      } catch (bookErr) {
+        console.warn('Booking session note:', bookErr);
+      }
+
+      // 2. Call payments/start controller
+      const paymentResponse = await paymentsApi.start({
+        amount,
+        description,
       });
-      setBookingSuccess(true);
-      setTimeout(() => {
-        navigate(PATHS.SESSIONS);
-      }, 1200);
-    } catch (err) {
-      console.error('Failed to book session:', err);
-      setBookingError(t('webapp.sessions.bookingError', 'Seansı təyin etmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin.'));
+
+      // 3. Extract the redirect URL for e-point checkout
+      const redirectUrl =
+        paymentResponse?.url ||
+        paymentResponse?.redirectUrl ||
+        paymentResponse?.redirect_url ||
+        paymentResponse?.paymentUrl ||
+        paymentResponse?.payment_url ||
+        paymentResponse?.link ||
+        (typeof paymentResponse === 'string' ? paymentResponse : null);
+
+      if (redirectUrl && typeof redirectUrl === 'string' && redirectUrl.startsWith('http')) {
+        // Redirect user to the external e-point payment page
+        window.location.href = redirectUrl;
+      } else {
+        // Fallback: navigate to internal payment result page
+        setShowPaymentModal(false);
+        navigate(
+          `/result_payment?amount=${amount}&currency=${effectiveCurrency}&item=${encodeURIComponent(
+            `Seans: ${psych.name} (${pendingBooking.appointmentDate} ${timeOnly})`
+          )}`
+        );
+      }
+    } catch (err: any) {
+      console.error('Failed to initiate payment with payments/start:', err);
+      const errMsg =
+        err?.response?.data?.message ||
+        err?.message ||
+        t('payment.startFailed', 'Ödəniş başladılarkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.');
+      setPaymentError(errMsg);
     } finally {
-      setIsBooking(false);
+      setIsProcessingPayment(false);
     }
   };
 
@@ -144,7 +267,8 @@ export const PsychologistPage = () => {
                       <p className="text-white/70 text-[14px]">{psych.experience} • {psych.title}</p>
                     </div>
                     <div className="text-[#03C6B2] font-light text-[24px] sm:text-[28px] text-center sm:text-right">
-                      ${psych.price}<span className="text-[14px] text-white/70 font-normal"> {t('psychologist.perSession', '/seans')}</span>
+                      {effectivePrice} {effectiveCurrency}
+                      <span className="text-[14px] text-white/70 font-normal"> {t('psychologist.perSession', '/seans')}</span>
                     </div>
                   </div>
 
@@ -280,7 +404,7 @@ export const PsychologistPage = () => {
                         psychologistId={psych.id}
                         psychologistName={psych.name}
                         onBack={() => setShowCalendar(false)}
-                        onConfirm={handleConfirmBooking}
+                        onConfirm={handleSelectSession}
                       />
                     </div>
                   )}
@@ -336,6 +460,31 @@ export const PsychologistPage = () => {
           </div>
         )}
       </div>
+
+      {/* Session Details & Checkout Modal */}
+      {psych && pendingBooking && (
+        <SessionPaymentModal
+          isOpen={showPaymentModal}
+          onClose={handleCancelPaymentModal}
+          onCheckout={handleProceedToCheckout}
+          psychologist={{
+            id: psych.id,
+            name: psych.name,
+            title: psych.title,
+            image: psych.image,
+            rating: psych.rating,
+          }}
+          patientName={patientName}
+          patientAge={userAge}
+          appointmentDate={pendingBooking.appointmentDate}
+          appointmentTime={pendingBooking.appointmentTime}
+          mode={pendingBooking.mode}
+          amount={Number(effectivePrice)}
+          currency={effectiveCurrency}
+          isProcessing={isProcessingPayment}
+          error={paymentError}
+        />
+      )}
 
       {/* Footer — full width */}
       <Footer />

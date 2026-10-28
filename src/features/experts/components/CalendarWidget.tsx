@@ -540,7 +540,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
             </div>
           )}
           <span className="relative z-10 ponnala-nudge">
-            {t('webapp.calendar.confirmBooking', 'Təsdiq et və Seansı Təyin Et')}
+            {t('webapp.calendar.acceptAndContinue', 'Qəbul et və davam et')}
           </span>
         </button>
       </div>
