@@ -66,10 +66,6 @@ export const PartnersSection = () => {
           {renderTrack('track2', true)}
         </div>
       </div>
-
-      <div className="relative w-full z-[10] pointer-events-none -mt-1">
-        <WaveDivider reverse />
-      </div>
     </section>
   );
 };

@@ -19,7 +19,7 @@ export const PillarsSection = () => {
     <section id="pillars" className="relative w-full scroll-mt-20">
       <div
         className="relative w-full z-[10] pointer-events-none"
-        style={{ marginTop: 'clamp(-50px, -3.6vw, -28px)' }}
+        style={{ marginTop: 'clamp(-220px, -19vw, -110px)' }}
       >
         <WaveDivider />
       </div>
@@ -80,10 +80,6 @@ export const PillarsSection = () => {
             })}
           </div>
         </ScrollReveal>
-      </div>
-
-      <div className="relative w-full z-[10] pointer-events-none -mt-1">
-        <WaveDivider reverse />
       </div>
     </section>
   );

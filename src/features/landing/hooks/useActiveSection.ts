@@ -11,8 +11,9 @@ const SECTIONS: Section[] = [
   { id: 'experts', index: 9 },
   { id: 'vr', index: 7 },
   { id: 'roadmap', index: 4 },
-  { id: 'features', index: 1 },
+  { id: 'feelings-matter', index: 1 },
   { id: 'pillars', index: 2 },
+  { id: 'daily-rituals', index: 5 },
   { id: 'testimonials', index: 3 },
   { id: 'cta', index: 8 },
 ];

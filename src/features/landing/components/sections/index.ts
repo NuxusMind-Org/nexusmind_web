@@ -1,5 +1,6 @@
 export { HeroSection } from './HeroSection';
-export { FeaturesSection } from './FeaturesSection';
+export { FeelingsMatterSection } from './FeelingsMatterSection';
+export { DailyRitualsSection } from './DailyRitualsSection';
 export { PillarsSection } from './PillarsSection';
 export { TestimonialsSection } from './TestimonialsSection';
 export { RoadmapSection } from './RoadmapSection';

@@ -4,7 +4,8 @@ export { ScrollReveal } from './ScrollReveal';
 
 export {
   HeroSection,
-  FeaturesSection,
+  FeelingsMatterSection,
+  DailyRitualsSection,
   PillarsSection,
   TestimonialsSection,
   RoadmapSection,

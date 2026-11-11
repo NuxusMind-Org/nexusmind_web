@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
-import nexusLogo from '@/assets/svg/UpdatedNexusMindNavbarLogo.svg';
+import nexusLogo from '@/assets/svg/nexusmind_new_logo.svg';
 import { useTranslation } from 'react-i18next';
 import { LanguageSelector, AppIcon } from '@/components';
 import { useAuthStore } from '@/store/authStore';
@@ -291,11 +291,10 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                   <button
                     type="button"
                     onClick={() => handleItemClick(item)}
-                    className={`text-left py-3 px-3.5 rounded-xl flex items-center justify-between transition-colors cursor-pointer w-full bg-transparent border-0 outline-none ${
-                      isDropdownActive
-                        ? 'bg-white/10 text-white font-semibold'
-                        : 'text-white/80 hover:text-white hover:bg-white/5 active:bg-white/10'
-                    }`}
+                    className={`text-left py-3 px-3.5 rounded-xl flex items-center justify-between transition-colors cursor-pointer w-full bg-transparent border-0 outline-none ${isDropdownActive
+                      ? 'bg-white/10 text-white font-semibold'
+                      : 'text-white/80 hover:text-white hover:bg-white/5 active:bg-white/10'
+                      }`}
                     style={{
                       transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(12px)',
                       opacity: isMobileMenuOpen ? 1 : 0,
@@ -306,16 +305,14 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                     <AppIcon
                       icon="lucide:chevron-down"
                       size={16}
-                      className={`transition-transform duration-300 ${
-                        isDropdownOpen ? 'rotate-180 text-white' : 'text-white/50'
-                      }`}
+                      className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180 text-white' : 'text-white/50'
+                        }`}
                     />
                   </button>
 
                   <div
-                    className={`transition-all duration-300 ease-in-out overflow-hidden flex flex-col gap-0.5 rounded-lg bg-white/[0.03] px-1 py-0.5 my-1 ${
-                      isDropdownOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
-                    }`}
+                    className={`transition-all duration-300 ease-in-out overflow-hidden flex flex-col gap-0.5 rounded-lg bg-white/[0.03] px-1 py-0.5 my-1 ${isDropdownOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+                      }`}
                   >
                     {item.items.map((subItem) => {
                       const isSubActive = activePage === subItem.page;
@@ -328,11 +325,10 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                             setOpenDropdownId(null);
                             navigate(subItem.path);
                           }}
-                          className={`text-left py-2.5 px-3.5 text-[14px] rounded-lg transition-colors flex items-center justify-between w-full bg-transparent border-0 outline-none cursor-pointer ${
-                            isSubActive
-                              ? 'text-white font-semibold bg-white/10'
-                              : 'text-white/70 hover:text-white hover:bg-white/5 active:bg-white/10'
-                          }`}
+                          className={`text-left py-2.5 px-3.5 text-[14px] rounded-lg transition-colors flex items-center justify-between w-full bg-transparent border-0 outline-none cursor-pointer ${isSubActive
+                            ? 'text-white font-semibold bg-white/10'
+                            : 'text-white/70 hover:text-white hover:bg-white/5 active:bg-white/10'
+                            }`}
                         >
                           <span className="ponnala-nudge">{subItem.label}</span>
                           {isSubActive ? (
@@ -351,19 +347,18 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
             const isActive = item.type === 'scroll'
               ? (activePage === 'landing' && (activeSection === item.index || (activeSection as any) === item.id)) || (activePage === item.id)
               : item.type === 'route'
-              ? activePage === item.page
-              : activePage === 'journal';
+                ? activePage === item.page
+                : activePage === 'journal';
 
             return (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => handleItemClick(item)}
-                className={`text-left py-3 px-3.5 rounded-xl transition-colors cursor-pointer w-full bg-transparent border-0 outline-none flex items-center justify-between ${
-                  isActive
-                    ? 'bg-white/10 text-white font-semibold'
-                    : 'text-white/80 hover:text-white hover:bg-white/5 active:bg-white/10'
-                }`}
+                className={`text-left py-3 px-3.5 rounded-xl transition-colors cursor-pointer w-full bg-transparent border-0 outline-none flex items-center justify-between ${isActive
+                  ? 'bg-white/10 text-white font-semibold'
+                  : 'text-white/80 hover:text-white hover:bg-white/5 active:bg-white/10'
+                  }`}
                 style={{
                   transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(12px)',
                   opacity: isMobileMenuOpen ? 1 : 0,
@@ -492,11 +487,10 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     <>
       <header
         ref={headerRef}
-        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out ${
-          isSolid
-            ? 'bg-[#16122d]/85 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/25'
-            : 'bg-transparent border-b border-transparent'
-        }`}
+        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out ${isSolid
+          ? 'bg-[#16122d]/85 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/25'
+          : 'bg-transparent border-b border-transparent'
+          }`}
       >
         <div
           onClick={() => {
@@ -508,9 +502,12 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
               navigate(PATHS.HOME);
             }
           }}
-          className="flex items-center gap-2 cursor-pointer z-50 relative pointer-events-auto"
+          className="flex items-center gap-2 sm:gap-2.5 cursor-pointer z-50 relative pointer-events-auto select-none"
         >
-          <img src={nexusLogo} alt="Nexus Mind" className="h-10 sm:h-12 md:h-14 w-auto" />
+          <img src={nexusLogo} alt="Nexus Mind" className="h-10 sm:h-12 md:h-14 w-auto object-contain" />
+          <span className="font-title  font-['Caveat',cursive] text-[26px] sm:text-[30px] md:text-[34px] font-bold tracking-tight text-[#F9F4EB] leading-none">
+            NexusMind
+          </span>
         </div>
 
         <nav className="hidden md:flex items-center gap-8 text-[15px] font-medium z-50 relative">
@@ -553,8 +550,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
             const isActive = item.type === 'scroll'
               ? (activePage === 'landing' && (activeSection === item.index || (activeSection as any) === item.id)) || (activePage === item.id)
               : item.type === 'route'
-              ? activePage === item.page
-              : activePage === 'journal';
+                ? activePage === item.page
+                : activePage === 'journal';
 
             return (
               <button
@@ -601,9 +598,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                   <AppIcon
                     icon="lucide:chevron-down"
                     size={14}
-                    className={`text-white/60 transition-transform duration-200 ${
-                      isUserMenuOpen ? 'rotate-180 text-white' : ''
-                    }`}
+                    className={`text-white/60 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180 text-white' : ''
+                      }`}
                   />
                 </button>
 

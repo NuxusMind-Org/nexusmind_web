@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { LandingNavbar } from '../components/LandingNavbar';
 import {
   HeroSection,
-  FeaturesSection,
+  FeelingsMatterSection,
+  DailyRitualsSection,
   PillarsSection,
   TestimonialsSection,
   RoadmapSection,
@@ -79,8 +80,15 @@ export const LandingPage = () => {
 
             <RoadmapSection />
             <PartnersSection />
-            <FeaturesSection />
+            <FeelingsMatterSection />
             <PillarsSection />
+            <DailyRitualsSection />
+            <div
+              className="relative w-full z-[10] pointer-events-none"
+              style={{ marginTop: 'clamp(-42px, -2.8vw, -28px)' }}
+            >
+              <WaveDivider variant="single" />
+            </div>
             <TestimonialsSection />
             {!isAuthenticated && <CtaSection />}
             <Footer />

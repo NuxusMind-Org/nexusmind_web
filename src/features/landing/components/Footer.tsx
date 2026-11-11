@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AppIcon } from '@/components';
-import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
+import nexusLogo from '@/assets/svg/nexusmind_new_logo.svg';
 import qrCodeDemo from '@/assets/svg/qrCodeDemo.svg';
 import appInterface from '@/assets/nexusmindAppInterface.jpeg';
 import { PATHS } from '@/routes/paths';
@@ -16,8 +16,11 @@ export const Footer = () => {
           <div className="w-full lg:w-[65%] xl:w-[60%] flex flex-col">
             {/* Header Logo */}
             <div className="flex items-center mb-10">
-              <Link to={PATHS.HOME} className="inline-block">
-                <img src={nexusLogo} alt="Nexus Mind Logo" className="h-[55px] sm:h-[65px] w-auto object-contain" />
+              <Link to={PATHS.HOME} className="flex items-center gap-2 sm:gap-2.5 select-none">
+                <img src={nexusLogo} alt="Nexus Mind Logo" className="h-[48px] sm:h-[58px] w-auto object-contain" />
+                <span className="font-title font-['Caveat',cursive] text-[30px] sm:text-[36px] font-bold tracking-tight text-[#F9F4EB] leading-none">
+                  NexusMind
+                </span>
               </Link>
             </div>
 
