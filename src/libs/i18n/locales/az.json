@@ -15,7 +15,7 @@
   },
   "hero": {
     "title": "Özünü kəşf etməyə hazırsan?",
-    "subtitle": "Sıxıntıdan qurtul, rahat nəfəs al və həyatdan zövq al!",
+    "subtitle": "Peşəkar psixoloqla online seansı seç, daxili rahatlığı tap.",
     "cta": "İndi başla",
     "secondary_cta": "Psixoloqlara bax",
     "feature1": "Mütəxəssislər köməyilə çətinliklərdən azad ol!",
@@ -118,6 +118,7 @@
     "terms": "İstifadə şərtləri",
     "contact": "Əlaqə",
     "address": "Bakı şəhəri, Neftçilər prospekti 123, AZ1000",
+    "vacancyCv": "Vakansiya / CV qəbulu (BPM):",
     "downloadApp": "Tətbiqi yükləyin",
     "followUs": "Bizi izləyin",
     "copyright": "© 2026 NexusMind | Bütün hüquqlar qorunur"
@@ -704,7 +705,7 @@
       {
         "id": 4,
         "question": "4. Seansı ləğv etsəm, ödənişim geri qaytarılırmı?",
-        "answer": "Seansa ən azı 24 saat (1 gün) qalmış ləğv etdikdə ödənişiniz tam geri qaytarılır. Seans günü edilən ləğvlərdə isə ödəniş qaytarılmır."
+        "answer": "Seansa ən azı 12 saat qalmış ləğv etdikdə ödənişiniz tam geri qaytarılır. 12 saatdan az müddət qalmış edilən ləğvlərdə isə ödənilmiş məbləğin 50%-i geri qaytarılır."
       },
       {
         "id": 5,

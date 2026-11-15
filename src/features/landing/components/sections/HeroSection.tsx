@@ -20,8 +20,8 @@ export const HeroSection = () => {
             <h1 className="text-[36px] sm:text-[60px] md:text-[72px] lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)] font-title">
               {t('hero.title', 'Özünü kəşf etməyə hazırsan?')}
             </h1>
-            <p className="text-[14px] min-[400px]:text-[16px] sm:text-[20px] md:text-[24px] lg:text-[28px] xl:text-[32px] text-white/95 whitespace-nowrap max-w-none leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] ponnala-nudge">
-              {t('hero.subtitle', 'Sıxıntıdan qurtul, rahat nəfəs al və həyatdan zövq al!')}
+            <p className="text-[14px] min-[400px]:text-[15px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[26px] text-white/95 max-w-xl md:max-w-2xl lg:max-w-3xl leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] ponnala-nudge">
+              {t('hero.subtitle', 'Peşəkar psixoloqla online seansı seç, daxili rahatlığı tap.')}
             </p>
           </div>
 

@@ -83,47 +83,6 @@ export const PsychologistSkeleton: React.FC = () => {
           </div>
         </div>
 
-        {/* Trainings and Certificates Skeleton */}
-        <div className="flex flex-col gap-6">
-
-          {/* İştirak Etdiyi Təlimlər */}
-          <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
-            <div className="h-5 w-48 bg-white/20 rounded-md mb-6 animate-pulse" />
-            <div className="flex flex-col gap-3 mb-4">
-              <div className="h-11 rounded-lg bg-white/5 border border-white/5 px-4 flex items-center gap-3 animate-pulse">
-                <div className="w-4 h-4 rounded-full bg-[#00f2ff]/30 shrink-0" />
-                <div className="h-3.5 w-52 bg-white/15 rounded" />
-              </div>
-              <div className="h-11 rounded-lg bg-white/5 border border-white/5 px-4 flex items-center gap-3 animate-pulse">
-                <div className="w-4 h-4 rounded-full bg-[#00f2ff]/30 shrink-0" />
-                <div className="h-3.5 w-60 bg-white/15 rounded" />
-              </div>
-              <div className="h-11 rounded-lg bg-white/5 border border-white/5 px-4 flex items-center gap-3 animate-pulse">
-                <div className="w-4 h-4 rounded-full bg-[#00f2ff]/30 shrink-0" />
-                <div className="h-3.5 w-44 bg-white/15 rounded" />
-              </div>
-            </div>
-            <div className="h-9 w-28 bg-[#51237a]/50 rounded-lg self-end mt-auto animate-pulse" />
-          </div>
-
-          {/* Sertifikatlar */}
-          <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
-            <div className="h-5 w-40 bg-white/20 rounded-md mb-6 animate-pulse" />
-            <div className="flex flex-col gap-3 mb-4">
-              <div className="h-11 rounded-lg bg-white/5 border border-white/5 px-4 flex items-center gap-3 animate-pulse">
-                <div className="w-4 h-4 rounded-full bg-[#c084fc]/30 shrink-0" />
-                <div className="h-3.5 w-56 bg-white/15 rounded" />
-              </div>
-              <div className="h-11 rounded-lg bg-white/5 border border-white/5 px-4 flex items-center gap-3 animate-pulse">
-                <div className="w-4 h-4 rounded-full bg-[#c084fc]/30 shrink-0" />
-                <div className="h-3.5 w-48 bg-white/15 rounded" />
-              </div>
-            </div>
-            <div className="h-9 w-28 bg-[#51237a]/50 rounded-lg self-end mt-auto animate-pulse" />
-          </div>
-
-        </div>
-
       </div>
 
       {/* Right Column Sticky Skeleton */}

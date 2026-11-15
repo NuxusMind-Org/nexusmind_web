@@ -23,6 +23,9 @@ export const UserHeroSection = ({ children }: UserHeroSectionProps = {}) => {
           <h1 className="text-[40px] sm:text-[60px] md:text-[72px] lg:text-[84px] font-bold text-white tracking-tight leading-[1.1] max-w-4xl text-left font-title font-['Caveat',cursive] drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]">
             {t('webapp.dashboard.greeting', { name: displayName })}
           </h1>
+          <p className="text-[14px] min-[400px]:text-[15px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[26px] text-white/95 max-w-xl md:max-w-2xl lg:max-w-3xl leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] ponnala-nudge">
+            {t('hero.subtitle', 'Peşəkar psixoloqla online seansı seç, daxili rahatlığı tap.')}
+          </p>
 
           {children && <div className="w-full max-w-5xl flex flex-col gap-6 mt-4">{children}</div>}
         </div>

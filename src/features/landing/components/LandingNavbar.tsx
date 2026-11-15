@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
-import nexusLogo from '@/assets/svg/nexusmind_new_logo.svg';
+import nexusLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import { useTranslation } from 'react-i18next';
 import { LanguageSelector, AppIcon } from '@/components';
 import { useAuthStore } from '@/store/authStore';
@@ -504,10 +504,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           }}
           className="flex items-center gap-2 sm:gap-2.5 cursor-pointer z-50 relative pointer-events-auto select-none"
         >
-          <img src={nexusLogo} alt="Nexus Mind" className="h-10 sm:h-12 md:h-14 w-auto object-contain" />
-          <span className="font-title  font-['Caveat',cursive] text-[26px] sm:text-[30px] md:text-[34px] font-bold tracking-tight text-[#F9F4EB] leading-none">
-            NexusMind
-          </span>
+          <img src={nexusLogo} alt="NexusMind" className="h-10 sm:h-12 md:h-14 w-auto object-contain" />
         </div>
 
         <nav className="hidden md:flex items-center gap-8 text-[15px] font-medium z-50 relative">

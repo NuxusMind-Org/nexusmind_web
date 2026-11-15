@@ -102,7 +102,7 @@ export const PaymentActions: React.FC<PaymentActionsProps> = ({
           {/* Secondary Actions Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
             <a
-              href="mailto:nexusmind.net@gmail.com"
+              href="mailto:info@nexusmind.az"
               className="w-full h-[46px] rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-white/90 hover:text-white text-sm font-medium transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <AppIcon icon="lucide:life-buoy" size={16} />

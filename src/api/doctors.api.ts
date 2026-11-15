@@ -8,6 +8,11 @@ import type {
   DoctorPriceResponse,
 } from './types';
 
+const isMockDoctor = (doctor: Pick<DoctorDto, 'id' | 'username' | 'fullName'>): boolean =>
+  doctor.id === 2 ||
+  doctor.username?.toLowerCase() === 'ayla.cafarova' ||
+  doctor.fullName?.toLowerCase() === 'ayla cafarova';
+
 export const doctorsApi = {
   registerDoctor: async (data: DoctorRegisterDto): Promise<string> => {
     const formData = new FormData();
@@ -28,7 +33,7 @@ export const doctorsApi = {
 
   getAll: async (): Promise<DoctorDto[]> => {
     const response = await apiClient.get<DoctorDto[]>('/doctors');
-    return response.data;
+    return response.data.filter((doctor) => !isMockDoctor(doctor));
   },
 
   getById: async (id: number): Promise<DoctorDto> => {

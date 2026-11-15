@@ -321,47 +321,6 @@ export const PsychologistPage = () => {
                 </div>
               </div>
 
-              {/* İştirak Etdiyi Təlimlər and Sertifikatlar - one column */}
-              <div className="flex flex-col gap-6">
-
-                {/* İştirak Etdiyi Təlimlər */}
-                <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
-                  <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
-                    <AppIcon icon="lucide:award" className="text-white/80" size={20} /> {t('psychologist.certifications', 'İştirak Etdiyi Təlimlər')}
-                  </h3>
-                  <div className="flex flex-col gap-3 mb-4">
-                    {psych.certifications.map((cert, i) => (
-                      <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
-                        <AppIcon icon="lucide:check-circle-2" size={18} className="text-[#00f2ff]" />
-                        <span className="text-white/80 text-[13px]">{cert}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <button className="mt-auto self-end bg-[#51237a] hover:bg-[#632a93] text-white px-5 py-2 rounded-lg text-[14px] font-medium transition-colors shadow-md cursor-pointer">
-                    {t('psychologist.readMore', 'Davamını oxu')}
-                  </button>
-                </div>
-
-                {/* Sertifikatlar */}
-                <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col">
-                  <h3 className="text-white text-[18px] font-light flex items-center gap-2 mb-6">
-                    <AppIcon icon="lucide:award" className="text-white/80" size={20} /> {t('psychologist.certificates', 'Sertifikatlar')}
-                  </h3>
-                  <div className="flex flex-col gap-3 mb-4">
-                    {psych.certifications.map((cert, i) => (
-                      <div key={i} className="flex items-center gap-3 bg-white/5 px-4 py-3 rounded-lg border border-white/5">
-                        <AppIcon icon="lucide:check-circle-2" size={18} className="text-[#c084fc]" />
-                        <span className="text-white/80 text-[13px]">{cert}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <button className="mt-auto self-end bg-[#51237a] hover:bg-[#632a93] text-white px-5 py-2 rounded-lg text-[14px] font-medium transition-colors shadow-md cursor-pointer">
-                    {t('psychologist.readMore', 'Davamını oxu')}
-                  </button>
-                </div>
-
-              </div>
-
             </div>
 
             {/* Right Column */}

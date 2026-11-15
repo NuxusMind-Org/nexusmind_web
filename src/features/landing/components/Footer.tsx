@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AppIcon } from '@/components';
-import nexusLogo from '@/assets/svg/nexusmind_new_logo.svg';
+import nexusLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import qrCodeDemo from '@/assets/svg/qrCodeDemo.svg';
 import appInterface from '@/assets/nexusmindAppInterface.jpeg';
 import { PATHS } from '@/routes/paths';
@@ -17,10 +17,7 @@ export const Footer = () => {
             {/* Header Logo */}
             <div className="flex items-center mb-10">
               <Link to={PATHS.HOME} className="flex items-center gap-2 sm:gap-2.5 select-none">
-                <img src={nexusLogo} alt="Nexus Mind Logo" className="h-[48px] sm:h-[58px] w-auto object-contain" />
-                <span className="font-title font-['Caveat',cursive] text-[30px] sm:text-[36px] font-bold tracking-tight text-[#F9F4EB] leading-none">
-                  NexusMind
-                </span>
+                <img src={nexusLogo} alt="NexusMind Logo" className="h-[48px] sm:h-[58px] w-auto object-contain" />
               </Link>
             </div>
 
@@ -62,8 +59,8 @@ export const Footer = () => {
                 </div>
                 <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
                   <AppIcon icon="lucide:mail" size={18} className="shrink-0 text-white/90" />
-                  <a href="mailto:nexusmind.net@gmail.com" className="hover:text-white transition-colors ponnala-nudge">
-                    nexusmind.net@gmail.com
+                  <a href="mailto:info@nexusmind.az" className="hover:text-white transition-colors ponnala-nudge">
+                    info@nexusmind.az
                   </a>
                 </div>
               </div>
@@ -122,7 +119,7 @@ export const Footer = () => {
               <div className="flex items-center gap-3">
                 {/* Instagram */}
                 <a
-                  href="https://www.instagram.com/nexusmind.offical/"
+                  href="https://www.instagram.com/nexusmind.az/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
@@ -133,20 +130,9 @@ export const Footer = () => {
                   </svg>
                 </a>
 
-                {/* Facebook */}
-                <a
-                  href="#"
-                  aria-label="Facebook"
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center text-white"
-                >
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                  </svg>
-                </a>
-
                 {/* LinkedIn */}
                 <a
-                  href="https://www.linkedin.com/company/135324814/admin/dashboard/"
+                  href="https://www.linkedin.com/company/135324814/admin/page-posts/published/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"

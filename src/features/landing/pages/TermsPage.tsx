@@ -69,7 +69,7 @@ export const TermsPage = () => {
                     <strong className="text-white">1.2.</strong> Platforma daxilində təqdim olunan məzmun və interfeyslər Azərbaycan, ingilis və rus dillərində əlçatandır.
                   </p>
                   <p>
-                    <strong className="text-white">1.3.</strong> NexusMind MMC birbaşa tibb mərkəzi, psixoloji müayinə və ya müalicə müəssisəsi deyil; pasiyent yönləndirilməsi, seansların idarə olunması, ödəniş ekosistemi və əməliyyat koordinasiyasını təmin edən yüksək texnologiyalı teletelerapiya və rəqəmsal mental rifah platformasıdır.
+                    <strong className="text-white">1.3.</strong> NexusMind MMC birbaşa tibb mərkəzi, psixoloji müayinə və ya müalicə müəssisəsi deyil; pasiyent yönləndirilməsi, seansların idarə olunması, ödəniş ekosistemi və əməliyyat koordinasiyasını təmin edən yüksək texnologiyalı teleterapiya və rəqəmsal mental rifah platformasıdır.
                   </p>
                 </div>
               </section>
@@ -81,7 +81,7 @@ export const TermsPage = () => {
                 </h2>
                 <div className="flex flex-col gap-2.5 text-[15px] sm:text-[16px] text-white/85">
                   <p>
-                    <strong className="text-white">2.1.</strong> NexusMind platformasında təqdim olunan teletelerapiya və canlı psixoloji konsultasiya xidmətləri bizim eksklüziv strateji tərəfdaşımız olan Bakı Psixologiya Mərkəzi (BPM) tərəfindən həyata keçirilir.
+                    <strong className="text-white">2.1.</strong> NexusMind platformasında təqdim olunan teleterapiya və canlı psixoloji konsultasiya xidmətləri bizim eksklüziv strateji tərəfdaşımız olan Bakı Psixologiya Mərkəzi (BPM) tərəfindən həyata keçirilir.
                   </p>
                   <p>
                     <strong className="text-white">2.2.</strong> Platforma daxilində fəaliyyət göstərən bütün mütəxəssislər yalnız Bakı Psixologiya Mərkəzinin xüsusi seçim və müsahibə prosedurundan keçmiş, təsdiq edilmiş, sertifikatlaşdırılmış və təcrübəli psixoloqlarıdır.
@@ -108,7 +108,7 @@ export const TermsPage = () => {
                     <strong className="text-white">3.1.</strong> NexusMind rəqəmsal alətləri və VR interfeysləri psixoloji rifahı dəstəkləmək üçün nəzərdə tutulub və standart şəraitdə stasionar təcili tibbi müdaxiləni əvəz etmir.
                   </p>
                   <p>
-                    <strong className="text-white">3.2. Kəskin Hallar və Pasiyent Təhlükəsizliyi:</strong> Əgər istifadəçinin emosional və ya psixoloji vəziyyəti kəskin dərəcədə pisləşərsə, böhran anında platforma daxilində göstərilən xüsusi təcili əlaqə nömrəsi vasitəsilə birbaşa Bakı Psixologiya Mərkəzinin (BPM) növbətçi psixoloq heyəti və həkim mütəxəssisləri ilə dərhal əlaqə saxlamaq mümkündür. Bundan əlavə, NexusMind platformada pasiyentin həyat və sağlamlığı üçün təcili təhlükə yarada biləcək hal aşkar etdikdə, məsələni dərhal BPM-in müvafiq məsul şəxsinə yönləndirir. Təcili müdaxiləyə dair peşəkar qərar BPM və müvafiq psixoloqun səlahiyyətindədir. Həyati təhlükə anında dərhal Dövlət Təcili Tibbi Yardım xidmətinə (103) müraciət edilməlidir.
+                    <strong className="text-white">3.2. Kəskin Hallar və Pasiyent Təhlükəsizliyi:</strong> NexusMind platformada pasiyentin həyat və sağlamlığı üçün təcili təhlükə yarada biləcək hal aşkar etdikdə, məsələni dərhal Bakı Psixologiya Mərkəzinin (BPM) müvafiq məsul şəxsinə yönləndirir. Təcili müdaxiləyə dair peşəkar qərar BPM və müvafiq psixoloqun səlahiyyətindədir. Həyati təhlükə anında dərhal Dövlət Təcili Tibbi Yardım xidmətinə (103) müraciət edilməlidir.
                   </p>
                   <p>
                     <strong className="text-white">3.3. VR İstifadəsi üçün Yaş Həddi:</strong> Virtual Reallıq (VR) interfeyslərimizdən və avadanlıqlarından istifadə üçün minimum yaş həddi 13 yaşdır. 13–18 yaş arası istifadəçilər VR xidmətlərindən yalnız valideynlərinin və ya qanuni qəyyumlarının razılığı və nəzarəti altında istifadə edə bilərlər.
@@ -153,10 +153,10 @@ export const TermsPage = () => {
                     <strong className="text-white">5.1.</strong> Bakı Psixologiya Mərkəzinin mütəxəssisləri ilə görüş saatları Platforma vasitəsilə onlayn bron edilir və konsultasiya haqqı NexusMind-in daxili ödəniş sistemi vasitəsilə ödənilir.
                   </p>
                   <p>
-                    <strong className="text-white">5.2. 24 saatdan əvvəl ləğv etmə:</strong> Təyin olunmuş seansın başlama vaxtına 24 saat və ya daha çox müddət qalmış edilən ləğvlərdə ödənilmiş məbləğin 100%-i geri qaytarılır və ya seans başqa vaxta keçirilir.
+                    <strong className="text-white">5.2. 12 saatdan əvvəl ləğv etmə:</strong> Təyin olunmuş seansın başlama vaxtına 12 saat və ya daha çox müddət qalmış edilən ləğvlərdə ödənilmiş məbləğin 100%-i geri qaytarılır və ya seans başqa vaxta keçirilir.
                   </p>
                   <p>
-                    <strong className="text-white">5.3. 24 saatdan az qalmış ləğv etmə:</strong> İstifadəçi konsultasiyanı seansın başlanmasına 24 saatdan az müddət qalmış ləğv edərsə, ödənilmiş məbləğin 50%-i geri qaytarılır.
+                    <strong className="text-white">5.3. 12 saatdan az qalmış ləğv etmə:</strong> İstifadəçi konsultasiyanı seansın başlanmasına 12 saatdan az müddət qalmış ləğv edərsə, ödənilmiş məbləğin 50%-i geri qaytarılır.
                   </p>
                   <p>
                     <strong className="text-white">5.4. Gəlməmə (&quot;No-Show&quot;):</strong> Əgər istifadəçi əvvəlcədən xəbərdarlıq etmədən və üzrlü səbəb olmadan təyin olunmuş seans vaxtında görüşə qoşulmazsa (&quot;No-show&quot;), ödənilmiş seans haqqı geri qaytarılmır və xidmət göstərilmiş hesab olunur.
@@ -224,25 +224,36 @@ export const TermsPage = () => {
                   <p>
                     İstifadə Şərtləri, texniki dəstək və ya müraciətlərlə bağlı suallarınız üçün:
                   </p>
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 mt-1">
+                  <div className="flex flex-col gap-2 mt-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                      <p>
+                        E-poçt:{' '}
+                        <a
+                          href="mailto:info@nexusmind.az"
+                          className="text-white hover:text-accent font-medium underline transition-colors"
+                        >
+                          info@nexusmind.az
+                        </a>
+                      </p>
+                      <p>
+                        Veb-sayt:{' '}
+                        <a
+                          href="https://www.nexusmind.az"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-white hover:text-accent font-medium underline transition-colors"
+                        >
+                          www.nexusmind.az
+                        </a>
+                      </p>
+                    </div>
                     <p>
-                      E-poçt:{' '}
+                      Vakansiya və CV qəbulu (Bakı Psixologiya Mərkəzi):{' '}
                       <a
-                        href="mailto:info@nexusmind.az"
+                        href="mailto:info@bakupsychologycenter.az"
                         className="text-white hover:text-accent font-medium underline transition-colors"
                       >
-                        info@nexusmind.az
-                      </a>
-                    </p>
-                    <p>
-                      Veb-sayt:{' '}
-                      <a
-                        href="https://www.nexusmind.az"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-white hover:text-accent font-medium underline transition-colors"
-                      >
-                        www.nexusmind.az
+                        info@bakupsychologycenter.az
                       </a>
                     </p>
                   </div>

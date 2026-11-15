@@ -15,7 +15,7 @@
   },
   "hero": {
     "title": "Ready to discover yourself?",
-    "subtitle": "Break free from stress, breathe freely, and enjoy life!",
+    "subtitle": "Choose an online session with a professional psychologist, find inner peace.",
     "cta": "Get Started",
     "secondary_cta": "View psychologists",
     "feature1": "Overcome difficulties with the help of experts!",
@@ -118,6 +118,7 @@
     "terms": "Terms & Conditions",
     "contact": "Contact",
     "address": "Baku city, Neftchilar Avenue 123, AZ1000",
+    "vacancyCv": "Vacancies / CV submission (BPM):",
     "downloadApp": "Download the App",
     "followUs": "Follow Us",
     "copyright": "© 2026 NexusMind | All rights reserved"
@@ -704,7 +705,7 @@
       {
         "id": 4,
         "question": "4. Will my payment be refunded if I cancel a session?",
-        "answer": "If you cancel at least 24 hours (1 day) prior to the session, your payment will be fully refunded. Cancellations made on the day of the session are non-refundable."
+        "answer": "If you cancel at least 12 hours prior to the session, your payment will be fully refunded. For cancellations made less than 12 hours before the session, 50% of the paid amount is refunded."
       },
       {
         "id": 5,

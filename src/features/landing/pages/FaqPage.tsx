@@ -48,7 +48,7 @@ export const FaqPage = () => {
           id: 4,
           question: '4. Seansı ləğv etsəm, ödənişim geri qaytarılırmı?',
           answer:
-            'Seansa ən azı 24 saat (1 gün) qalmış ləğv etdikdə ödənişiniz tam geri qaytarılır. Seans günü edilən ləğvlərdə isə ödəniş qaytarılmır.',
+            'Seansa ən azı 12 saat qalmış ləğv etdikdə ödənişiniz tam geri qaytarılır. 12 saatdan az müddət qalmış edilən ləğvlərdə isə ödənilmiş məbləğin 50%-i geri qaytarılır.',
         },
         {
           id: 5,
@@ -174,7 +174,7 @@ export const FaqPage = () => {
               </div>
 
               <a
-                href="mailto:nexusmind.net@gmail.com"
+                href="mailto:info@nexusmind.az"
                 className="group relative w-full sm:w-auto px-6 sm:px-8 h-[48px] sm:h-[50px] bg-[#4A148F] text-white font-semibold text-[15px] rounded-full flex items-center justify-center gap-2 transition-transform duration-300 ease-out active:scale-95 cursor-pointer shadow-[0_4px_20px_rgba(74,20,143,0.45)] shrink-0 overflow-hidden"
               >
                 {/* Animated Conic Border */}

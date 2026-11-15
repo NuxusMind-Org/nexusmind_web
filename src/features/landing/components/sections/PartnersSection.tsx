@@ -1,6 +1,6 @@
 import { WaveDivider } from '@/components/WaveDivider';
 import bpmPurpleLogo from '@/assets/purple_bpm_logo_new.jpeg';
-import nexusmindPurpleLogo from '@/assets/nexusmind_purple_logo.jpeg';
+import nexusmindFullLogo from '@/assets/svg/new_nexusmind_logo_full_bg_removed_purple.svg';
 
 interface Partner {
   id: string;
@@ -13,7 +13,7 @@ const PARTNER_LOGOS: Partner[] = [
   {
     id: 'nexusmind',
     name: 'NexusMind',
-    logo: nexusmindPurpleLogo,
+    logo: nexusmindFullLogo,
     className: 'h-9 sm:h-11 md:h-12 max-w-[190px] sm:max-w-[230px] md:max-w-[270px]',
   },
   {

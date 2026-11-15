@@ -1,13 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import vrNexie from '@/assets/svg/VR_Nexie.png';
-import { PATHS } from '@/routes/paths';
 import { ScrollReveal } from '../ScrollReveal';
 import { WaveDivider } from '@/components/WaveDivider';
 
+const VR_CONSULTATION_VIDEO_URL = 'https://youtu.be/Vb68KcP-Aa4';
+
 export const VrConsultationSection = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   return (
     <section
@@ -67,13 +66,14 @@ export const VrConsultationSection = () => {
             )}
           </p>
 
-          <button
-            type="button"
-            onClick={() => navigate(PATHS.REGISTER)}
+          <a
+            href={VR_CONSULTATION_VIDEO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center bg-black hover:bg-neutral-900 active:scale-95 text-white font-medium text-[16px] sm:text-[18px] px-8 sm:px-10 py-3 sm:py-3.5 rounded-full border border-white/20 hover:border-white/50 shadow-[0_6px_25px_rgba(0,0,0,0.6)] transition-all duration-300 cursor-pointer select-none"
           >
             <span>{t('vr.cta', 'İndi başla')}</span>
-          </button>
+          </a>
         </div>
       </ScrollReveal>
     </section>
