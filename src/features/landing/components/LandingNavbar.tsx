@@ -38,6 +38,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const headerElementRef = useRef<HTMLElement | null>(null);
+  const [headerTop, setHeaderTop] = useState(0);
   const [headerBottom, setHeaderBottom] = useState(73);
   const [isScrolled, setIsScrolled] = useState(false);
   const { isAuthenticated, logout } = useAuthStore();
@@ -177,6 +178,9 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     if (!node) return;
 
     const measure = () => {
+      const rootEl = document.getElementById('root');
+      const nextTop = rootEl ? Math.max(0, Math.round(rootEl.getBoundingClientRect().top)) : 0;
+      setHeaderTop(nextTop);
       setHeaderBottom(node.getBoundingClientRect().bottom);
     };
 
@@ -185,13 +189,18 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
 
     const ro = new ResizeObserver(measure);
     ro.observe(node);
+    ro.observe(document.body);
 
-    // Also update on scroll because `sticky` moves the bounding rect
+    // Also update on scroll and window load (e.g. external banner image load)
     window.addEventListener('scroll', measure, { passive: true });
+    window.addEventListener('resize', measure, { passive: true });
+    window.addEventListener('load', measure);
 
     return () => {
       ro.disconnect();
       window.removeEventListener('scroll', measure);
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('load', measure);
     };
   }, []);
 
@@ -487,7 +496,8 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     <>
       <header
         ref={headerRef}
-        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 fixed top-0 left-0 right-0 transition-all duration-300 ease-in-out ${isSolid
+        style={{ top: `${headerTop}px` }}
+        className={`w-full px-4 sm:px-8 md:px-[72px] py-4 flex items-center justify-between z-50 fixed left-0 right-0 transition-colors duration-300 ease-in-out ${isSolid
           ? 'bg-[#16122d]/85 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/25'
           : 'bg-transparent border-b border-transparent'
           }`}
