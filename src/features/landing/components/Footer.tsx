@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AppIcon } from '@/components';
 import nexusLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
@@ -8,6 +9,21 @@ import { useTranslation } from 'react-i18next';
 
 export const Footer = () => {
   const { t } = useTranslation();
+  const millinetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const slot = document.getElementById('millinet-banner-slot');
+    const target = millinetRef.current;
+    if (slot && target) {
+      target.appendChild(slot);
+    }
+    return () => {
+      if (slot && target && slot.parentNode === target) {
+        document.body.appendChild(slot);
+      }
+    };
+  }, []);
+
   return (
     <footer className="w-full bg-[#3D2A6B] text-white relative mt-12 sm:mt-24 z-20 rounded-t-[40px] sm:rounded-t-[64px] shadow-2xl overflow-visible">
       <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-12 md:px-16 pt-12 md:pt-16 pb-8 relative overflow-visible">
@@ -189,10 +205,12 @@ export const Footer = () => {
         <div className="w-full border-t border-white/20 mb-3 relative z-10" />
 
         {/* Copyright Footer Bar */}
-        <div className="w-full flex items-center justify-start relative z-10">
+        <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
           <p className="text-white/70 text-[13px] sm:text-[14px] ponnala-nudge">
             {t('footer.copyright', '© 2026 NexusMind | Bütün hüquqlar qorunur')}
           </p>
+          {/* MilliNet Banner */}
+          <div ref={millinetRef} className="flex items-center shrink-0 mr-0 sm:mr-6 lg:mr-[48px]" />
         </div>
       </div>
     </footer>
