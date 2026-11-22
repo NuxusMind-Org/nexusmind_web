@@ -662,29 +662,29 @@
     }
   },
   "aboutPage": {
-    "badge": "Haqqımızda",
-    "section1": {
-      "badge": "Daxili Sığınacaq",
-      "title": "Biz Şirkətdən daha çox, Bir Sığınacağıq.",
-      "desc": "İnsan olmaq — bəzən yorulmaq, cavabsız suallar arasında itmək və daxili fırtınalarla mübarizə aparmaq deməkdir. NexusMind sıradan bir rəqəmsal platforma və ya korporativ layihə deyil; biz müasir həyatın sürətli ritmində dərindən nəfəs ala biləcəyin təhlükəsiz bir daxili sığınacağıq. Məqsədimiz psixoloji dəstəyi hər bir insan üçün əlçatan, anlaşılan və hər növ mühakimədən uzaq bir təcrübəyə çevirməkdir."
-    },
-    "section2": {
-      "badge": "Real Çətinliklər",
-      "title": "Səssiz mübarizələr və baryerlər həyatın real üzüdür",
-      "desc": "Maddiyyat, vaxt darlığı, stereotiplər və ya sadəcə \"məni kim anlar ki?\" düşüncəsi... Təəssüf ki, milyonlarla insan ruhi rahatlığa ehtiyacı olduğu halda ilk addımı atmaqdan çəkinir. Ənənəvi psixoloji yardım metodları bəzən soyuq, çətin tapılan və ya büdcəyə ağır gələn bir prosesə çevrilir. Biz gördük ki, insanlar problemləri ilə baş-başa qalır və daxili balanslarını bərpa etmək üçün intuitiv, həqiqi dəstəyə ehtiyac duyurlar."
-    },
-    "section3": {
-      "badge": "Bizim İdeyamız",
-      "title": "İnsan İstiliyi və Rəqəmsal İnnovasiyanın Vəhdəti- Bizim İdea imzamızdır.",
-      "desc": "NexusMind bu baryerləri yıxmaq üçün yaradıldı. Biz süni intellekt bələdçimiz Neksi, VR (Virtual Reallıq) konsultasiya mühitləri və peşəkar psixoloq şəbəkəsini tek bir ekosistemdə birləşdirdik. İstər evindən çıxmadan virtual rahatlıq zonanda sakitlik tap, istər \"Hekayəni paylaş\" bölməsində içini boşalt, istərsə də sahəsinin peşəkarı olan mütəxəssislərlə tam məxfi şəkildə əlaqə qur. Biz texnologiyanı soyuq alət kimi deyil, sənə uzanan isti bir kömək əli kimi istifadə edirik."
-    },
-    "section4": {
-      "badge": "Gələcəyə Doğru",
-      "title": "Öz Hekayənin Qəhrəmanı Ol",
-      "desc": "Bizim ümumi hədəfimiz sadəcə bir tətbiq olmaq deyil — insanın özünü kəşf etmə səyahətində onun ən etibarlı yoldaşına çevrilməkdir. İnanırıq ki, psixoloji sağlamlıq lüks deyil, hər bir insanın təməl haqqıdır. NexusMind ilə sən yalnız deyilsən: burada hər emosiyanın dəyəri var, hər addımın isə daha güclü, balanslı və hüzurlu bir \"Sən\"ə doğru atılan addımdır.",
-      "ctaExperts": "Mütəxəssislərimizlə Tanış Ol",
-      "ctaStart": "İndi Başla"
-    }
+    "badge": "HAQQIMIZDA",
+    "title": "ETİBAR EDƏ BİLƏCƏYİNİZ PEŞƏKAR VƏ İXTİSASLAŞMIŞ RƏQƏMSAL PSİXOLOGİYA PLATFORMASI",
+    "intro": "Sağlam düşüncə tərzi və daxili balans insanların psixoloji sağlamlığını və həyat keyfiyyətini müəyyən edir. Peşəkar komandamız gündəlik həyatın çətinlikləri ilə üzləşən, daxili rahatlığını bərpa etmək, yaxud özünü daha dərindən kəşf etmək istəyən fərdlərə ən etibarlı online seans dəstəyini təqdim etmək üçün çalışır. Emosional və psixoloji rifahınızı inkişaf etdirməniz üçün müasir rəqəmsal mühitdə yanınızdayıq.",
+    "teamImageAlt": "NexusMind Peşəkar Komandası",
+    "teamImageLabel": "Komandamızın Şəkli",
+    "teamImageHint": "Komanda şəkli sahəsi",
+    "missionTitle": "1. MİSSİYAMIZ",
+    "missionDesc": "Fərdlərə həyatın müxtəlif mərhələlərində peşəkar psixoloji bələdçilik etmək, rəqəmsal texnologiyaların gücü ilə psixi sağlamlıq xidmətlərini hər kəs üçün əlçatan etmək. Biz həyat boyu inkişaf və daxili harmoniya prinsipi ilə psixososial rifahın yaxşılaşdırılması üçün çalışırıq.",
+    "visionTitle": "2. VİZYONUMUZ",
+    "visionItems": [
+      "Beynəlxalq standartlara uyğun və sübuta əsaslanan xidmətləri əlçatan etmək.",
+      "Cəmiyyətdə psixi sağlamlıq üzrə maarifləndirmə və psixososial rifahın dəstəklənməsində aktiv rol oynamaq.",
+      "Mütəxəssislərin peşəkar inkişafını və təcrübə mübadiləsini dəstəkləmək."
+    ],
+    "differenceTitle": "Fərqimiz nədir?",
+    "differenceItems": [
+      "Güvənli və rahat online mühit",
+      "Etik kodekslərə sadiqlik və məxfilik",
+      "Peşəkar və ixtisaslı komanda",
+      "Fərdi yanaşma",
+      "Müasir rəqəmsal standartlar"
+    ],
+    "ctaStart": "İndi başla"
   },
   "faqPage": {
     "badge": "Kömək Mərkəzi",
@@ -767,5 +767,89 @@
     "checkout": "Ödənişə keç",
     "processing": "Keçid edilir...",
     "startFailed": "Ödəniş başladılarkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
+  },
+  "termsPage": {
+    "metaTitle": "İstifadə Şərtləri və Qaydaları | NexusMind",
+    "metaDescription": "NexusMind MMC istifadə şərtləri, xidmət qaydaları, hüquq və öhdəliklər haqqında rəsmi məlumat.",
+    "badge": "Hüquqi Məlumat",
+    "title": "İSTİFADƏ ŞƏRTLƏRİ VƏ QAYDALARI",
+    "lastUpdatedLabel": "Son yenilənmə tarixi:",
+    "lastUpdatedDate": "26 oktyabr 2026",
+    "companyLabel": "Şirkət:",
+    "companyValue": "NexusMind MMC",
+    "websiteLabel": "Veb-sayt:",
+    "websiteValue": "www.nexusmind.az",
+    "section1": {
+      "title": "1. Əhatə Dairəsi və Xidmətin Tərifi",
+      "p1": "NexusMind MMC rəqəmsal mental sağlamlıq sahəsində xidmətlər təqdim edən, veb, mobil və Virtual Reallıq (VR) interfeysləri vasitəsilə istifadəçilərə dəstək alətləri təmin edən texnologiya platformasıdır.",
+      "p2": "Platforma daxilində təqdim olunan məzmun və interfeyslər Azərbaycan, ingilis və rus dillərində əlçatandır.",
+      "p3": "NexusMind MMC birbaşa tibb mərkəzi, psixoloji müayinə və ya müalicə müəssisəsi deyil; pasiyent yönləndirilməsi, seansların idarə olunması, ödəniş ekosistemi və əməliyyat koordinasiyasını təmin edən yüksək texnologiyalı teleterapiya və rəqəmsal mental rifah platformasıdır."
+    },
+    "section2": {
+      "title": "2. Eksklüziv Tərəfdaşlıq, Psixoloq Seçimi və Peşəkar Xidmətlər",
+      "p1": "NexusMind platformasında təqdim olunan teleterapiya və canlı psixoloji konsultasiya xidmətləri bizim eksklüziv strateji tərəfdaşımız olan Bakı Psixologiya Mərkəzi (BPM) tərəfindən həyata keçirilir.",
+      "p2": "Platforma daxilində fəaliyyət göstərən bütün mütəxəssislər yalnız Bakı Psixologiya Mərkəzinin xüsusi seçim və müsahibə prosedurundan keçmiş, təsdiq edilmiş, sertifikatlaşdırılmış və təcrübəli psixoloqlarıdır.",
+      "p3Label": "2.3. Mütəxəssis Seçimi və Dəyişdirilməsi:",
+      "p3Text": "İstifadəçi (pasiyent) platformada təqdim olunan BPM mütəxəssisləri siyahısından öz psixoloqunu müstəqil şəkildə seçir. İstifadəçi seçdiyi psixoloqdan narazı qaldıqda və ya başqa mütəxəssislə davam etmək istədikdə, NexusMind-a müraciət edərək psixoloqun digər təsdiq edilmiş BPM mütəxəssisi ilə dəyişdirilməsini tələb edə bilər. Həmçinin, psixoloq əsaslı səbəbdən konsultasiyanı keçirə bilmədikdə, NexusMind istifadəçini digər BPM psixoloquna yönləndirə bilər.",
+      "p4Label": "2.4. Peşəkar Müstəqillik:",
+      "p4Text": "Psixoloji seanslar zamanı göstərilən peşəkar xidmət, məsləhətlər və məxfilik (psixoloji konfidensiallıq) BPM-in peşəkar etik kodeksinə və Azərbaycan Respublikasının qanunvericiliyinə uyğun olaraq mütəxəssislər tərəfindən təmin edilir. NexusMind psixoloji xidmətin məzmununa, psixoloqun peşəkar qərarlarına, konsultasiyanın metod və nəticələrinə heç bir halda müdaxilə etmir.",
+      "p5": "NexusMind MMC rəqəmsal infrastrukturun (veb, mobil, VR) fasiləsiz və təhlükəsiz fəaliyyətinə, onlayn seansların texniki təşkilinə və ödənişlərin qəbuluna cavabdehdir."
+    },
+    "section3": {
+      "title": "3. Tibbi Məsuliyyətdən İmtina, VR Yaş Məhdudiyyəti və Təcili Böhran Halları",
+      "p1": "NexusMind rəqəmsal alətləri və VR interfeysləri psixoloji rifahı dəstəkləmək üçün nəzərdə tutulub və standart şəraitdə stasionar təcili tibbi müdaxiləni əvəz etmir.",
+      "p2Label": "3.2. Kəskin Hallar və Pasiyent Təhlükəsizliyi:",
+      "p2Text": "NexusMind platformada pasiyentin həyat və sağlamlığı üçün təcili təhlükə yarada biləcək hal aşkar etdikdə, məsələni dərhal Bakı Psixologiya Mərkəzinin (BPM) müvafiq məsul şəxsinə yönləndirir. Təcili müdaxiləyə dair peşəkar qərar BPM və müvafiq psixoloqun səlahiyyətindədir. Həyati təhlükə anında dərhal Dövlət Təcili Tibbi Yardım xidmətinə (103) müraciət edilməlidir.",
+      "p3Label": "3.3. VR İstifadəsi üçün Yaş Həddi:",
+      "p3Text": "Virtual Reallıq (VR) interfeyslərimizdən və avadanlıqlarından istifadə üçün minimum yaş həddi 13 yaşdır. 13–18 yaş arası istifadəçilər VR xidmətlərindən yalnız valideynlərinin və ya qanuni qəyyumlarının razılığı və nəzarəti altında istifadə edə bilərlər.",
+      "p4": "VR interfeyslərindən istifadə zamanı başgicəllənmə, hərəkət xəstəliyi (motion sickness) və ya fiziki narahatlıq hiss edildikdə seans dərhal dayandırılmalıdır."
+    },
+    "section4": {
+      "title": "4. Qeydiyyat, Hesab Təhlükəsizliyi, Məxfilik və Süni İntellekt (AI)",
+      "p1": "Platformadan istifadə etmək üçün tələb olunan qeydiyyat məlumatlarının dəqiqliyinə və hesabınızın (şifrə, daxilolma məlumatları) təhlükəsizliyinə görə birbaşa siz məsuliyyət daşıyırsınız.",
+      "p2": "Şəxsi məlumatların və seans qeydlərinin qorunması qaydaları Məxfilik Siyasəti (Privacy Policy) sənədi və Azərbaycan Respublikasının qanunvericiliyi ilə nizamlanır.",
+      "p3Label": "4.3. Məlumatların İstifadəsi Məhdudiyyəti:",
+      "p3Text": "İstifadəçilərə aid şəxsi, psixoloji və sağlamlıq məlumatları yalnız xidmətin təşkili məqsədilə işlənilir. Bu məlumatlar istifadəçinin açıq razılığı olmadan reklam, marketinq və ya üçüncü şəxslərin kommersiya maraqları üçün istifadə edilə bilməz.",
+      "p4Label": "4.4. Audio və Video Yazıların Qadağan Edilməsi:",
+      "p4Text": "Psixoloji konsultasiyaların audio və ya video formatında qeydə alınması (yazılması) həyata keçirilmir. Seansın audio və ya video yazısının aparılması yalnız ayrıca hüquqi əsas və tərəflərin yazılı razılığı olduqda mümkündür.",
+      "p5Label": "4.5. Süni İntellekt (AI) Funksiyaları:",
+      "p5Text": "Platformada tətbiq edilən süni intellekt əsaslı funksiyalar psixoloqun peşəkar qərarını əvəz etmir və AI tərəfindən yaradılan hər hansı tövsiyə, xülasə və ya analiz psixoloqun peşəkar qiymətləndirməsi olmadan yekun psixoloji rəy hesab edilə bilməz. İstifadəçinin şəxsiyyətini müəyyən etməyə imkan verən fərdi məlumatlar AI modellərinin təlimi (training) və ya kommersiya məqsədləri üçün istifadə edilmir."
+    },
+    "section5": {
+      "title": "5. Seansların Təyin Olunması, Ödənişlər, Ləğv və \"No-Show\" (Gəlməmə) Qaydaları",
+      "p1": "Bakı Psixologiya Mərkəzinin mütəxəssisləri ilə görüş saatları platforma vasitəsilə onlayn bron edilir və konsultasiya haqqı NexusMind-ın daxili ödəniş sistemi vasitəsilə ödənilir.",
+      "p2Label": "5.2. Seansa 12 saat və ya daha çox qalmış ləğvetmə:",
+      "p2Text": "Təyin olunmuş seansın başlama vaxtına 12 saat və ya daha çox müddət qalmış edilən ləğvlərdə ödənilmiş məbləğin 100%-i geri qaytarılır və ya seans başqa vaxta keçirilir.",
+      "p3Label": "5.3. Seansa 12 saatdan az qalmış ləğvetmə:",
+      "p3Text": "İstifadəçi konsultasiyanı seansın başlanmasına 12 saatdan az müddət qalmış ləğv edərsə, ödənilmiş məbləğin 50%-i geri qaytarılır.",
+      "p4Label": "5.4. Gəlməmə (\"No-Show\"):",
+      "p4Text": "Əgər istifadəçi əvvəlcədən xəbərdarlıq etmədən və üzrlü səbəb olmadan təyin olunmuş seans vaxtında görüşə qoşulmazsa (\"No-Show\"), ödənilmiş seans haqqı geri qaytarılmır və xidmət göstərilmiş hesab olunur.",
+      "p5Label": "5.5. Psixoloq və ya Texniki Nasazlıq Səbəbindən Baş Tutmayan Seanslar:",
+      "p5Text": "Psixoloq konsultasiyada iştirak etmədikdə və ya birbaşa NexusMind-ın məsuliyyət dairəsində olan texniki nasazlıq səbəbindən konsultasiya baş tutmadıqda, istifadəçiyə ödənilmiş məbləğin 100%-nin geri qaytarılması və ya istifadəçinin razılığı ilə seansın başqa vaxtda təşkili variantlarından biri təqdim edilir."
+    },
+    "section6": {
+      "title": "6. Əqli Mülkiyyət Hüquqları",
+      "p1": "www.nexusmind.az platformasında, mobil tətbiqdə və VR mühitlərində yerləşən bütün proqram təminatı, dizaynlar, metodologiyalar, brend elementləri və audio-vizual məzmunlar NexusMind MMC-nin mülkiyyətidir (tərəfdaşımız Bakı Psixologiya Mərkəzinə məxsus brend, loqo və materiallar istisna olmaqla) və Azərbaycan Respublikasının Əqli Mülkiyyət Agentliyi tərəfindən müəlliflik şəhadətnaməsi ilə qorunur.",
+      "p2": "Bu materialların icazəsiz kopyalanması, yayılması və ya kommersiya məqsədilə istifadəsi qəti qadağandır."
+    },
+    "section7": {
+      "title": "7. Şikayətlərin İdarə Edilməsi və Məsuliyyətin Məhdudlaşdırılması",
+      "p1": "NexusMind MMC texniki infrastrukturun fasiləsizliyini təmin etmək üçün bütün ağlabatan tədbirləri görür, lakin istifadəçinin internet bağlantısı, istifadəçi cihazlarından qaynaqlanan problemlər və ya NexusMind-ın nəzarətində olmayan üçüncü tərəf infrastrukturlarının (bulud serverləri, ödəniş şlüzləri, internet provayderləri) qlobal texniki kəsintilərinə görə cavabdehlik daşımır.",
+      "p2": "Tərəfdaş psixoloqlar tərəfindən aparılan konsultasiyaların keyfiyyəti, peşəkar məzmunu və etik davranış qaydalarına riayət olunması üzrə birbaşa məsuliyyəti xidməti təqdim edən mütəxəssis və Bakı Psixologiya Mərkəzi daşıyır.",
+      "p3Label": "7.3. Şikayətlərə Baxılması:",
+      "p3Text": "İstifadəçilərdən daxil olan bütün ilkin müraciət və şikayətlər NexusMind tərəfindən qəbul edilir. Texniki xarakterli şikayətlər birbaşa NexusMind tərəfindən araşdırılır və həll olunur. Psixoloqun peşəkar fəaliyyəti, etik davranışı və konsultasiyanın məzmunu ilə bağlı şikayətlər isə araşdırılması və müvafiq tədbir görülməsi üçün NexusMind tərəfindən Bakı Psixologiya Mərkəzinə (BPM) yönləndirilir."
+    },
+    "section8": {
+      "title": "8. Dəyişikliklər və Tətbiq Edilən Qanunvericilik",
+      "p1": "NexusMind MMC bu İstifadə Şərtlərini istənilən vaxt yeniləmək hüququnu özündə saxlayır. Dəyişikliklər saytda dərc edildiyi andan qüvvəyə minir.",
+      "p2": "Bu Şərtlər Azərbaycan Respublikasının qanunvericiliyinə tabedir və yaranan mübahisələr ilk növbədə danışıqlar yolu ilə, mümkün olmadıqda isə Bakı şəhərinin müvafiq məhkəmələrində həll olunur."
+    },
+    "section9": {
+      "title": "9. Əlaqə",
+      "intro": "İstifadə Şərtləri, texniki dəstək və ya müraciətlərlə bağlı suallarınız üçün:",
+      "emailLabel": "E-poçt:",
+      "websiteLabel": "Veb-sayt:",
+      "vacancyLabel": "Vakansiya və CV qəbulu (Bakı Psixologiya Mərkəzi):"
+    }
   }
 }

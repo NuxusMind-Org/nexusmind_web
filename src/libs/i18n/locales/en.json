@@ -662,29 +662,29 @@
     }
   },
   "aboutPage": {
-    "badge": "About Us",
-    "section1": {
-      "badge": "Inner Sanctuary",
-      "title": "More Than a Company, We Are a Sanctuary.",
-      "desc": "Being human means occasionally getting tired, lost among unanswered questions, and battling inner storms. NexusMind is not an ordinary digital platform or corporate project; we are a safe inner sanctuary where you can take a deep breath in the fast pace of modern life. Our goal is to transform psychological support into an accessible, understandable, and judgment-free experience for everyone."
-    },
-    "section2": {
-      "badge": "Real Challenges",
-      "title": "Silent Struggles and Barriers Are the Reality of Life",
-      "desc": "Financial constraints, lack of time, stereotypes, or simply wondering 'who would understand me?'... Unfortunately, millions hesitate to take the first step when they need peace of mind. Traditional psychological help can feel cold, difficult to find, or financially burdensome. We saw that individuals are left alone with their challenges and need intuitive, genuine support to restore their inner balance."
-    },
-    "section3": {
-      "badge": "Our Vision",
-      "title": "The Harmony of Human Warmth and Digital Innovation Is Our Signature Idea.",
-      "desc": "NexusMind was created to break down these barriers. We brought together our AI guide Nexie, VR (Virtual Reality) consultation environments, and a network of professional psychologists into a single ecosystem. Whether you find calm in your virtual comfort zone without leaving home, open your heart in the 'Share Your Story' section, or connect in total confidentiality with certified specialists, we use technology not as a cold instrument, but as a warm helping hand extended to you."
-    },
-    "section4": {
-      "badge": "The Journey Ahead",
-      "title": "Be the Hero of Your Own Story",
-      "desc": "Our ultimate mission is not merely to be an application — it is to become your most trusted companion on your journey of self-discovery. We believe mental well-being is not a luxury, but a fundamental human right. With NexusMind, you are not alone: here, every emotion matters, and every step leads toward a stronger, more balanced, and peaceful 'You'.",
-      "ctaExperts": "Meet Our Experts",
-      "ctaStart": "Get Started"
-    }
+    "badge": "ABOUT US",
+    "title": "A PROFESSIONAL AND SPECIALIZED DIGITAL PSYCHOLOGY PLATFORM YOU CAN TRUST",
+    "intro": "A healthy mindset and inner balance define people's psychological well-being and quality of life. Our professional team works to provide the most reliable online session support to individuals facing daily life challenges, seeking to restore their inner peace, or wishing to discover themselves more deeply. We are by your side in a modern digital environment to help you nurture your emotional and psychological well-being.",
+    "teamImageAlt": "NexusMind Professional Team",
+    "teamImageLabel": "Our Team Photo",
+    "teamImageHint": "Team photo area",
+    "missionTitle": "1. OUR MISSION",
+    "missionDesc": "To provide individuals with professional psychological guidance at various stages of life, making mental health services accessible to everyone through the power of digital technology. Guided by the principles of lifelong growth and inner harmony, we work to improve psychosocial well-being.",
+    "visionTitle": "2. OUR VISION",
+    "visionItems": [
+      "To make evidence-based services that meet international standards accessible to all.",
+      "To play an active role in raising mental health awareness and supporting psychosocial well-being in society.",
+      "To support the professional development and knowledge exchange of specialists."
+    ],
+    "differenceTitle": "What Makes Us Different?",
+    "differenceItems": [
+      "Safe and comfortable online environment",
+      "Commitment to ethical codes and confidentiality",
+      "Professional and qualified team",
+      "Personalized approach",
+      "Modern digital standards"
+    ],
+    "ctaStart": "Get Started"
   },
   "faqPage": {
     "badge": "Help Center",
@@ -767,5 +767,89 @@
     "checkout": "Proceed to Checkout",
     "processing": "Redirecting...",
     "startFailed": "Failed to initiate payment. Please try again."
+  },
+  "termsPage": {
+    "metaTitle": "Terms & Conditions | NexusMind",
+    "metaDescription": "Official information regarding NexusMind LLC Terms & Conditions, service rules, rights, and obligations.",
+    "badge": "Legal Information",
+    "title": "TERMS AND CONDITIONS OF USE",
+    "lastUpdatedLabel": "Last updated:",
+    "lastUpdatedDate": "October 26, 2026",
+    "companyLabel": "Company:",
+    "companyValue": "NexusMind LLC",
+    "websiteLabel": "Website:",
+    "websiteValue": "www.nexusmind.az",
+    "section1": {
+      "title": "1. Scope and Definition of Service",
+      "p1": "NexusMind LLC is a technology platform providing digital mental health services and user support tools through web, mobile, and Virtual Reality (VR) interfaces.",
+      "p2": "The content and interfaces provided within the platform are available in Azerbaijani, English, and Russian.",
+      "p3": "NexusMind LLC is not a direct medical center, psychological examination, or treatment facility; it is a high-tech teletherapy and digital mental wellness platform that provides patient referral, session management, a payment ecosystem, and operational coordination."
+    },
+    "section2": {
+      "title": "2. Exclusive Partnership, Psychologist Selection, and Professional Services",
+      "p1": "The teletherapy and live psychological consultation services offered on the NexusMind platform are delivered by our exclusive strategic partner, Baku Psychology Center (BPM).",
+      "p2": "All specialists operating within the platform are verified, certified, and experienced psychologists who have passed the specialized selection and interview process of Baku Psychology Center.",
+      "p3Label": "2.3. Specialist Selection and Replacement:",
+      "p3Text": "The user (patient) independently selects their psychologist from the list of BPM specialists available on the platform. If the user is dissatisfied with their chosen psychologist or wishes to continue with another specialist, they may contact NexusMind to request a replacement with another verified BPM specialist. Furthermore, if a psychologist is unable to conduct a consultation for a valid reason, NexusMind may refer the user to another BPM psychologist.",
+      "p4Label": "2.4. Professional Independence:",
+      "p4Text": "Professional services, advice, and confidentiality (psychological confidentiality) provided during psychological sessions are ensured by the specialists in accordance with BPM's Code of Professional Ethics and the legislation of the Republic of Azerbaijan. Under no circumstances does NexusMind interfere with the content of the psychological service, the professional decisions of the psychologist, or the methods and outcomes of the consultation.",
+      "p5": "NexusMind LLC is responsible for the uninterrupted and secure operation of the digital infrastructure (web, mobile, VR), the technical organization of online sessions, and payment processing."
+    },
+    "section3": {
+      "title": "3. Medical Disclaimer, VR Age Restriction, and Emergency Crisis Situations",
+      "p1": "NexusMind digital tools and VR interfaces are designed to support psychological well-being and do not replace inpatient or emergency medical intervention under standard conditions.",
+      "p2Label": "3.2. Acute Cases and Patient Safety:",
+      "p2Text": "If NexusMind detects a situation on the platform that may pose an immediate threat to a patient's life or health, it immediately refers the matter to the designated responsible officer at Baku Psychology Center (BPM). Professional decisions regarding emergency intervention fall under the authority of BPM and the respective psychologist. In the event of a life-threatening emergency, the State Emergency Medical Service (103) must be contacted immediately.",
+      "p3Label": "3.3. Age Limit for VR Usage:",
+      "p3Text": "The minimum age requirement for using our Virtual Reality (VR) interfaces and equipment is 13 years. Users aged 13–18 may only use VR services with the consent and supervision of their parents or legal guardians.",
+      "p4": "If dizziness, motion sickness, or physical discomfort occurs while using VR interfaces, the session must be discontinued immediately."
+    },
+    "section4": {
+      "title": "4. Registration, Account Security, Privacy, and Artificial Intelligence (AI)",
+      "p1": "You are directly responsible for the accuracy of the registration information required to use the platform and for safeguarding your account credentials (password and login details).",
+      "p2": "The protection of personal data and session records is governed by the Privacy Policy and the legislation of the Republic of Azerbaijan.",
+      "p3Label": "4.3. Data Usage Restrictions:",
+      "p3Text": "Users' personal, psychological, and health-related data are processed solely for the purpose of delivering the service. Such data may not be used for advertising, marketing, or the commercial interests of third parties without the explicit consent of the user.",
+      "p4Label": "4.4. Prohibition of Audio and Video Recordings:",
+      "p4Text": "Psychological consultations are not recorded in audio or video format. Audio or video recording of a session is only permissible when there is a separate legal basis and written consent from both parties.",
+      "p5Label": "4.5. Artificial Intelligence (AI) Features:",
+      "p5Text": "AI-powered features implemented on the platform do not replace a psychologist's professional judgment, and any recommendation, summary, or analysis generated by AI cannot be considered a final psychological assessment without professional evaluation by a psychologist. Personally identifiable user data is not used for training AI models or for commercial purposes."
+    },
+    "section5": {
+      "title": "5. Session Scheduling, Payments, Cancellation, and \"No-Show\" Policy",
+      "p1": "Appointments with Baku Psychology Center specialists are booked online via the platform, and consultation fees are paid through NexusMind's internal payment system.",
+      "p2Label": "5.2. Cancellation 12 Hours or More in Advance:",
+      "p2Text": "For cancellations made 12 hours or more prior to the scheduled session start time, 100% of the paid amount is refunded, or the session is rescheduled to another time.",
+      "p3Label": "5.3. Cancellation Less Than 12 Hours in Advance:",
+      "p3Text": "If the user cancels the consultation less than 12 hours before the session begins, 50% of the paid amount is refunded.",
+      "p4Label": "5.4. Non-Attendance (\"No-Show\"):",
+      "p4Text": "If the user fails to join the session at the scheduled appointment time without prior notice and without a valid excuse (\"No-Show\"), the paid session fee is non-refundable and the service is deemed rendered.",
+      "p5Label": "5.5. Sessions Unfulfilled Due to Psychologist or Technical Failure:",
+      "p5Text": "If a consultation does not take place due to the psychologist's absence or a technical failure directly within NexusMind's scope of responsibility, the user is offered either a 100% refund of the paid amount or, with the user's consent, rescheduling of the session to another time."
+    },
+    "section6": {
+      "title": "6. Intellectual Property Rights",
+      "p1": "All software, designs, methodologies, brand elements, and audiovisual content located on the www.nexusmind.az platform, mobile application, and VR environments are the property of NexusMind LLC (excluding the brand, logo, and materials belonging to our partner Baku Psychology Center) and are protected by copyright certificates issued by the Intellectual Property Agency of the Republic of Azerbaijan.",
+      "p2": "Unauthorized copying, distribution, or commercial use of these materials is strictly prohibited."
+    },
+    "section7": {
+      "title": "7. Complaint Management and Limitation of Liability",
+      "p1": "NexusMind LLC takes all reasonable measures to ensure the continuity of its technical infrastructure, but assumes no liability for issues arising from the user's internet connection, user devices, or global technical outages of third-party infrastructures beyond NexusMind's control (cloud servers, payment gateways, internet service providers).",
+      "p2": "Direct responsibility for the quality, professional content, and compliance with ethical conduct during consultations conducted by partner psychologists lies with the specialist providing the service and Baku Psychology Center.",
+      "p3Label": "7.3. Handling of Complaints:",
+      "p3Text": "All initial inquiries and complaints submitted by users are received by NexusMind. Technical complaints are investigated and resolved directly by NexusMind. Complaints regarding a psychologist's professional performance, ethical conduct, or the content of a consultation are forwarded by NexusMind to Baku Psychology Center (BPM) for investigation and appropriate action."
+    },
+    "section8": {
+      "title": "8. Amendments and Applicable Law",
+      "p1": "NexusMind LLC reserves the right to update these Terms of Use at any time. Amendments take effect immediately upon publication on the website.",
+      "p2": "These Terms are governed by the legislation of the Republic of Azerbaijan, and any disputes arising hereunder shall first be resolved through negotiations, or if unresolved, in the competent courts of Baku city."
+    },
+    "section9": {
+      "title": "9. Contact",
+      "intro": "For questions regarding these Terms of Use, technical support, or inquiries:",
+      "emailLabel": "Email:",
+      "websiteLabel": "Website:",
+      "vacancyLabel": "Vacancies & CV Submissions (Baku Psychology Center):"
+    }
   }
 }

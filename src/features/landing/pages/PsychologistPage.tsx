@@ -39,7 +39,10 @@ export const PsychologistPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Doctor dynamic prices based on age & ID
-  const [doctorPrices, setDoctorPrices] = useState<DoctorPriceResponse[]>([]);
+  const [doctorPricesState, setDoctorPricesState] = useState<{
+    doctorId: number;
+    prices: DoctorPriceResponse[];
+  }>({ doctorId: psychologistId, prices: [] });
 
   const [showCalendar, setShowCalendar] = useState<boolean>(() => {
     return Boolean((location.state as { autoOpenBooking?: boolean } | null)?.autoOpenBooking);
@@ -102,11 +105,17 @@ export const PsychologistPage = () => {
     const fetchPrices = async () => {
       try {
         const prices = await doctorsApi.getPrices(psychologistId, userAge);
-        if (isMounted && prices && prices.length > 0) {
-          setDoctorPrices(prices);
+        if (isMounted) {
+          setDoctorPricesState({
+            doctorId: psychologistId,
+            prices: prices && prices.length > 0 ? prices : [],
+          });
         }
       } catch (err) {
         console.warn('Could not fetch doctor prices:', err);
+        if (isMounted) {
+          setDoctorPricesState({ doctorId: psychologistId, prices: [] });
+        }
       }
     };
 
@@ -119,6 +128,8 @@ export const PsychologistPage = () => {
 
   // Compute active price tailored to the user's age
   const activePriceObj = useMemo(() => {
+    const doctorPrices =
+      doctorPricesState.doctorId === psychologistId ? doctorPricesState.prices : [];
     if (!doctorPrices.length) return null;
     if (userAge !== undefined) {
       const match = doctorPrices.find((p) => {
@@ -129,7 +140,7 @@ export const PsychologistPage = () => {
       if (match) return match;
     }
     return doctorPrices[0];
-  }, [doctorPrices, userAge]);
+  }, [doctorPricesState, psychologistId, userAge]);
 
   const effectivePrice = activePriceObj?.amount ?? psych?.price ?? 50;
   const effectiveCurrency = activePriceObj?.currency ?? 'AZN';

@@ -45,7 +45,13 @@ export const SessionsPage = () => {
         if (isMounted && doctors && doctors.length > 0) {
           const currentLang = (i18n.language?.slice(0, 2) as 'az' | 'en' | 'ru') || 'az';
           const mapped = doctors.map((doc) => mapDoctorToPsychologist(doc, currentLang));
-          setRecommendedExperts(mapped.slice(0, 4));
+          const topFour = mapped.slice(0, 4);
+          const testDoctor = mapped.find((doc) => doc.id === 2);
+          if (testDoctor && !topFour.some((doc) => doc.id === 2)) {
+            setRecommendedExperts([...topFour.slice(0, 3), testDoctor]);
+          } else {
+            setRecommendedExperts(topFour);
+          }
         } else if (isMounted) {
           setRecommendedExperts(psychologists.slice(0, 4));
         }

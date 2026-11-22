@@ -8,10 +8,7 @@ import type {
   DoctorPriceResponse,
 } from './types';
 
-const isMockDoctor = (doctor: Pick<DoctorDto, 'id' | 'username' | 'fullName'>): boolean =>
-  doctor.id === 2 ||
-  doctor.username?.toLowerCase() === 'ayla.cafarova' ||
-  doctor.fullName?.toLowerCase() === 'ayla cafarova';
+const TEST_DOCTOR_ID = 2;
 
 export const doctorsApi = {
   registerDoctor: async (data: DoctorRegisterDto): Promise<string> => {
@@ -33,7 +30,20 @@ export const doctorsApi = {
 
   getAll: async (): Promise<DoctorDto[]> => {
     const response = await apiClient.get<DoctorDto[]>('/doctors');
-    return response.data.filter((doctor) => !isMockDoctor(doctor));
+    const doctors = Array.isArray(response.data) ? [...response.data] : [];
+
+    if (!doctors.some((doctor) => doctor.id === TEST_DOCTOR_ID)) {
+      try {
+        const testDoctor = await doctorsApi.getById(TEST_DOCTOR_ID);
+        if (testDoctor && !doctors.some((doctor) => doctor.id === testDoctor.id)) {
+          doctors.push(testDoctor);
+        }
+      } catch (error) {
+        console.warn(`Failed to fetch test doctor (id=${TEST_DOCTOR_ID}):`, error);
+      }
+    }
+
+    return doctors;
   },
 
   getById: async (id: number): Promise<DoctorDto> => {
