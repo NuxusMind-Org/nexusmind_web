@@ -22,10 +22,14 @@ export const FeelingsMatterSection = () => {
   return (
     <section
       id="feelings-matter"
-      className="relative w-full min-h-[600px] sm:min-h-[700px] md:min-h-[860px] lg:min-h-[900px] flex items-center justify-start overflow-hidden scroll-mt-20 pt-36 pb-36 sm:pt-44 sm:pb-44 md:pt-52 md:pb-52 -mt-1"
+      className="relative z-[15] w-full min-h-[600px] sm:min-h-[700px] md:min-h-[860px] lg:min-h-[900px] flex items-center justify-start overflow-hidden scroll-mt-20 pt-36 pb-36 sm:pt-44 sm:pb-44 md:pt-52 md:pb-52"
+      style={{ marginTop: 'calc(clamp(110px, 19vw, 220px) * -0.45)' }}
     >
-      {/* ── Background Image ──────────────────────────────────────── */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0">
+      {/* ── Background Image (starts strictly beneath the opaque wave bands) ── */}
+      <div
+        className="absolute inset-x-0 bottom-0 overflow-hidden pointer-events-none select-none z-0"
+        style={{ top: 'calc(clamp(110px, 19vw, 220px) * 0.373)' }}
+      >
         <img
           src={feelingsBg}
           alt={t('features.card1Title', 'Sənin hisslərin önəmlidir.')}
@@ -37,9 +41,9 @@ export const FeelingsMatterSection = () => {
         <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-b from-transparent to-black/30 pointer-events-none" />
       </div>
 
-      {/* ── Top Wave Divider Overlapping the Background Image ─────── */}
+      {/* ── Top Wave Divider Overlapping the Partnership Artwork Above ── */}
       <div className="absolute top-0 left-0 w-full z-10 pointer-events-none">
-        <WaveDivider reverse />
+        <WaveDivider reverse transparentTop />
       </div>
 
       {/* ── Left-Aligned Foreground Content ───────────────────────── */}

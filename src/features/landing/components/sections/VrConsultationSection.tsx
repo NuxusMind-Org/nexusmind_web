@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import vrNexie from '@/assets/svg/VR_Nexie.png';
 import { ScrollReveal } from '../ScrollReveal';
 import { WaveDivider } from '@/components/WaveDivider';
+import { VrConsultationModal } from './VrConsultationModal';
 
-const VR_CONSULTATION_VIDEO_URL = 'https://youtu.be/Vb68KcP-Aa4';
+const VR_CONSULTATION_VIDEO_ID = 'WUpqV8gN-d4';
 
 export const VrConsultationSection = () => {
   const { t } = useTranslation();
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
   return (
     <section
@@ -66,16 +69,21 @@ export const VrConsultationSection = () => {
             )}
           </p>
 
-          <a
-            href={VR_CONSULTATION_VIDEO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center bg-black hover:bg-neutral-900 active:scale-95 text-white font-medium text-[16px] sm:text-[18px] px-8 sm:px-10 py-3 sm:py-3.5 rounded-full border border-white/20 hover:border-white/50 shadow-[0_6px_25px_rgba(0,0,0,0.6)] transition-all duration-300 cursor-pointer select-none"
+          <button
+            type="button"
+            onClick={() => setIsVideoModalOpen(true)}
+            className="inline-flex items-center justify-center bg-black hover:bg-neutral-900 active:scale-95 text-white font-medium text-[16px] sm:text-[18px] px-8 sm:px-10 py-3 sm:py-3.5 rounded-full border border-white/20 hover:border-white/50 shadow-[0_6px_25px_rgba(0,0,0,0.6)] transition-all duration-300 cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
           >
             <span>{t('vr.cta', 'İndi başla')}</span>
-          </a>
+          </button>
         </div>
       </ScrollReveal>
+
+      <VrConsultationModal
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        videoId={VR_CONSULTATION_VIDEO_ID}
+      />
     </section>
   );
 };

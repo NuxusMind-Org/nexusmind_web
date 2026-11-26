@@ -59,7 +59,11 @@
     "title": "VR Consultation",
     "description": "Choose your desired comfort zone without leaving home and relax by spending peaceful time there.",
     "cta": "Start Now",
-    "watchDemo": "Watch Demo"
+    "watchDemo": "Watch Demo",
+    "comingSoon": "Coming Soon",
+    "modalSubtitle": "VR consultation is launching soon. In the meantime, watch our preview video.",
+    "videoTitle": "NexusMind VR Consultation preview video",
+    "close": "Close"
   },
   "roadmap": {
     "title": "How you will use it:",

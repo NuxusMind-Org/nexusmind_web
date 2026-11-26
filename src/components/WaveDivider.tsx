@@ -41,6 +41,7 @@ interface WaveDividerProps {
   className?: string;
   reverse?: boolean;
   variant?: 'multi' | 'single' | 'single-to-white';
+  transparentTop?: boolean;
 }
 
 const STAGGER_MS = 220;
@@ -125,6 +126,7 @@ export const WaveDivider = ({
   className = '',
   reverse = false,
   variant = 'multi',
+  transparentTop = false,
 }: WaveDividerProps) => {
   const reducedMotion = usePrefersReducedMotion();
   const { ref, visible } = useDividerVisible();
@@ -271,19 +273,21 @@ export const WaveDivider = ({
                 Sequence: White (#FFFFFF) → Light (#EFEAEA) → Lavender (#B6BBD9) → Dark (#6B69A8)
                 ============================================================ */}
 
-            {/* 1. TOP WHITE BASE: Connects seamlessly with white ExpertsSection */}
-            <path
-              d="
-                M -20 0
-                L 1291 0
-                L 1291 60
-                C 1120 65 920 86 700 80
-                C 420 72 180 50 -20 45
-                Z
-              "
-              fill="#FFFFFF"
-              style={{ opacity: 1 }}
-            />
+            {/* 1. TOP WHITE BASE: Connects seamlessly with white section above (omitted when overlapping an image) */}
+            {!transparentTop && (
+              <path
+                d="
+                  M -20 0
+                  L 1291 0
+                  L 1291 60
+                  C 1120 65 920 86 700 80
+                  C 420 72 180 50 -20 45
+                  Z
+                "
+                fill="#FFFFFF"
+                style={{ opacity: 1 }}
+              />
+            )}
 
             {/* 2. 1ST WAVE (Warm Off-White) — Stays still as the primary divider */}
             <path
@@ -300,7 +304,7 @@ export const WaveDivider = ({
               style={{ opacity: 1 }}
             />
 
-            {/* 3. 2ND WAVE (Light Lavender) — Fades in first */}
+            {/* 3. 2ND WAVE (Light Lavender) — Fades in first (solid when transparentTop hides seam) */}
             <path
               d="
                 M -20 59
@@ -312,10 +316,10 @@ export const WaveDivider = ({
                 Z
               "
               fill="#B6BBD9"
-              style={animatedBandStyle(0, visible, reducedMotion)}
+              style={transparentTop ? { opacity: 1 } : animatedBandStyle(0, visible, reducedMotion)}
             />
 
-            {/* 4. 3RD WAVE (Dark Purple / Blue) — Fades in second */}
+            {/* 4. 3RD WAVE (Dark Purple / Blue) — Fades in second (solid when transparentTop hides seam) */}
             <path
               d="
                 M -20 72
@@ -327,7 +331,7 @@ export const WaveDivider = ({
                 Z
               "
               fill="#6B69A8"
-              style={animatedBandStyle(1, visible, reducedMotion)}
+              style={transparentTop ? { opacity: 1 } : animatedBandStyle(1, visible, reducedMotion)}
             />
           </>
         ) : (

@@ -59,7 +59,11 @@
     "title": "VR konsultasiya",
     "description": "Burada evdən çölə çıxmadan istədiyin komfort zonasını seçə və orada vaxt keçirərək sakitləşə bilərsən.",
     "cta": "İndi başla",
-    "watchDemo": "Demo-nu İzlə"
+    "watchDemo": "Demo-nu İzlə",
+    "comingSoon": "Tezliklə",
+    "modalSubtitle": "VR konsultasiya xidməti tezliklə istifadəyə veriləcək. Hələlik tanıtım videosunu izləyə bilərsiniz.",
+    "videoTitle": "NexusMind VR konsultasiya tanıtım videosu",
+    "close": "Bağla"
   },
   "roadmap": {
     "title": "Necə istifadə edəcəksən?",

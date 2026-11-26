@@ -268,6 +268,30 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
 
   const navItems: NavItem[] = [
     { id: 'hero', label: t('nav.home', 'Əsas səhifə'), type: 'scroll', index: 0 },
+    ...(isAuthenticated
+      ? [{ id: 'sessions', label: t('webapp.sidebar.sessions', 'Seanslarım'), type: 'route' as const, path: PATHS.SESSIONS, page: 'sessions' as const }]
+      : []),
+    {
+      id: 'media',
+      label: t('nav.media', 'Media'),
+      type: 'dropdown',
+      items: [
+        { id: 'news', label: t('nav.news', 'Xəbərlər'), type: 'route', path: PATHS.NEWS, page: 'news' },
+        { id: 'gallery', label: t('nav.gallery', 'Qalereya'), type: 'route', path: PATHS.GALLERY, page: 'gallery' },
+      ]
+    },
+    {
+      id: 'pillars',
+      label: t('nav.education', 'Maariflənmə'),
+      type: 'dropdown',
+      items: [
+        { id: 'blog', label: t('nav.blog', 'Blog'), type: 'route', path: PATHS.BLOG, page: 'blog' },
+        { id: 'articles', label: t('nav.articles', 'Məqalələr'), type: 'route', path: PATHS.ARTICLE, page: 'articles' },
+        { id: 'trainings', label: t('nav.trainings', 'Təlimlər'), type: 'route', path: PATHS.TRAININGS, page: 'trainings' },
+      ]
+    },
+    { id: 'journal', label: t('nav.journal', 'Qeydlərim'), type: 'navigate' },
+    { id: 'vr', label: t('nav.vrConsultation', 'Vr konsultasiya'), type: 'scroll', index: 7 },
     {
       id: 'about',
       label: t('nav.about', 'Haqqımızda'),
@@ -297,30 +321,6 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
         },
       ],
     },
-    ...(isAuthenticated
-      ? [{ id: 'sessions', label: t('webapp.sidebar.sessions', 'Seanslarım'), type: 'route' as const, path: PATHS.SESSIONS, page: 'sessions' as const }]
-      : []),
-    {
-      id: 'media',
-      label: t('nav.media', 'Media'),
-      type: 'dropdown',
-      items: [
-        { id: 'news', label: t('nav.news', 'Xəbərlər'), type: 'route', path: PATHS.NEWS, page: 'news' },
-        { id: 'gallery', label: t('nav.gallery', 'Qalereya'), type: 'route', path: PATHS.GALLERY, page: 'gallery' },
-      ]
-    },
-    {
-      id: 'pillars',
-      label: t('nav.education', 'Maariflənmə'),
-      type: 'dropdown',
-      items: [
-        { id: 'blog', label: t('nav.blog', 'Blog'), type: 'route', path: PATHS.BLOG, page: 'blog' },
-        { id: 'articles', label: t('nav.articles', 'Məqalələr'), type: 'route', path: PATHS.ARTICLE, page: 'articles' },
-        { id: 'trainings', label: t('nav.trainings', 'Təlimlər'), type: 'route', path: PATHS.TRAININGS, page: 'trainings' },
-      ]
-    },
-    { id: 'journal', label: t('nav.journal', 'Qeydlərim'), type: 'navigate' },
-    { id: 'vr', label: t('nav.vrConsultation', 'Vr konsultasiya'), type: 'scroll', index: 7 },
   ];
 
   const isSubItemActive = (subItem: DropdownSubItem) => {
