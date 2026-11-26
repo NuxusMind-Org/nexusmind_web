@@ -16,5 +16,6 @@ export const mapDoctorToPsychologist = (doc: DoctorDto, lang: 'az' | 'en' | 'ru'
   languages: doc.languages || [],
   tags: doc.specializations || [],
   education: (doc.education || []).map(edu => ({ uni: edu, degree: '' })),
-  certifications: doc.certificates || []
+  certifications: doc.certificates || [],
+  trainings: doc.trainings || []
 });

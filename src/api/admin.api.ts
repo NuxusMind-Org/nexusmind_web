@@ -1,8 +1,8 @@
 import { apiClient } from './client';
 import type {
   PasientRegisterEntity,
+  PasientResponseDto,
   DoctorResponseDto,
-  DoctorEntity,
 } from './types';
 
 export const bpmApi = {
@@ -18,13 +18,13 @@ export const bpmApi = {
 };
 
 export const superAdminApi = {
-  getAllPatients: async (): Promise<Record<string, unknown>[]> => {
-    const response = await apiClient.get<Record<string, unknown>[]>('/nexusmind/patients');
+  getAllPatients: async (): Promise<PasientResponseDto[]> => {
+    const response = await apiClient.get<PasientResponseDto[]>('/nexusmind/patients');
     return response.data;
   },
 
-  getAllDoctors: async (): Promise<DoctorEntity[]> => {
-    const response = await apiClient.get<DoctorEntity[]>('/nexusmind/doctors');
+  getAllDoctors: async (): Promise<DoctorResponseDto[]> => {
+    const response = await apiClient.get<DoctorResponseDto[]>('/nexusmind/doctors');
     return response.data;
   },
 

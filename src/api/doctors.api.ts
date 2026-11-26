@@ -3,7 +3,7 @@ import type {
   DoctorRegisterDto,
   DoctorDto,
   DoctorResponseDto,
-  PasientRegisterEntity,
+  PasientResponseDto,
   AvailableSlotDto,
   DoctorPriceResponse,
 } from './types';
@@ -51,8 +51,8 @@ export const doctorsApi = {
     return response.data;
   },
 
-  getMyPatients: async (): Promise<PasientRegisterEntity[]> => {
-    const response = await apiClient.get<PasientRegisterEntity[]>('/doctors/me/patients');
+  getMyPatients: async (): Promise<PasientResponseDto[]> => {
+    const response = await apiClient.get<PasientResponseDto[]>('/doctors/me/patients');
     return response.data;
   },
 

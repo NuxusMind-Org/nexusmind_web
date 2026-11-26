@@ -38,7 +38,7 @@ export const trainingsApi = {
   },
 
   unregister: async (trainingId: number): Promise<void> => {
-    await apiClient.delete(`/trainings/${trainingId}/unregister`);
+    await apiClient.delete(`/trainings/${trainingId}/register`);
   },
 
   getTypeCounts: async (): Promise<TrainingTypeCountResponse[]> => {

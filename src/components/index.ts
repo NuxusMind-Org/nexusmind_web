@@ -11,6 +11,9 @@ export type { SEOProps } from './SEO';
 
 export { LanguageSelector } from './LanguageSelector';
 
+export { GlobalSearchModal } from './GlobalSearchModal';
+export type { GlobalSearchModalProps } from './GlobalSearchModal';
+
 export { GradientBackground } from './background';
 export type { GradientBackgroundProps } from './background';
 

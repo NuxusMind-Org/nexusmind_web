@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
 import nexusLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import { useTranslation } from 'react-i18next';
-import { LanguageSelector, AppIcon } from '@/components';
+import { LanguageSelector, AppIcon, GlobalSearchModal } from '@/components';
 import { useAuthStore } from '@/store/authStore';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 
@@ -26,6 +26,29 @@ type ActivePage =
   | 'faq'
   | 'payment';
 
+type DropdownSubItem =
+  | {
+    id: string;
+    label: string;
+    type: 'route';
+    path: string;
+    page: ActivePage;
+    activePages?: ActivePage[];
+  }
+  | {
+    id: string;
+    label: string;
+    type: 'scroll';
+    scrollId: string;
+    sectionIndex: number;
+  };
+
+type NavItem =
+  | { id: string; label: string; type: 'scroll'; index: number }
+  | { id: string; label: string; type: 'route'; path: string; page: ActivePage }
+  | { id: string; label: string; type: 'navigate' }
+  | { id: string; label: string; type: 'dropdown'; items: DropdownSubItem[] };
+
 interface LandingNavbarProps {
   activePage?: ActivePage;
   activeSection?: number | string;
@@ -36,6 +59,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const headerElementRef = useRef<HTMLElement | null>(null);
   const [headerTop, setHeaderTop] = useState(0);
@@ -204,9 +228,9 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     };
   }, []);
 
-  // Prevent body scroll when menu is open
+  // Prevent body scroll when mobile menu or search modal is open
   useEffect(() => {
-    if (isMobileMenuOpen) {
+    if (isMobileMenuOpen || isSearchOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -214,38 +238,124 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, isSearchOpen]);
 
-  const navItems = [
-    { id: 'hero', label: t('nav.home', 'Əsas səhifə'), type: 'scroll' as const, index: 0 },
-    { id: 'experts', label: t('nav.experts', 'Mütəxəssislər'), type: 'scroll' as const, index: 9 },
+  // Global keyboard shortcut (Cmd+K / Ctrl+K) to open search popup
+  useEffect(() => {
+    const handleGlobalSearchShortcut = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        const target = event.target as HTMLElement | null;
+        const isEditable =
+          target &&
+          (target.tagName === 'INPUT' ||
+            target.tagName === 'TEXTAREA' ||
+            target.isContentEditable);
+        if (isEditable && !isSearchOpen) return;
+
+        event.preventDefault();
+        setIsMobileMenuOpen(false);
+        setOpenDropdownId(null);
+        setIsUserMenuOpen(false);
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalSearchShortcut);
+    return () => {
+      window.removeEventListener('keydown', handleGlobalSearchShortcut);
+    };
+  }, [isSearchOpen]);
+
+  const navItems: NavItem[] = [
+    { id: 'hero', label: t('nav.home', 'Əsas səhifə'), type: 'scroll', index: 0 },
+    {
+      id: 'about',
+      label: t('nav.about', 'Haqqımızda'),
+      type: 'dropdown',
+      items: [
+        {
+          id: 'experts',
+          label: t('nav.experts', 'Mütəxəssislər'),
+          type: 'route',
+          path: PATHS.EXPERTS,
+          page: 'experts',
+          activePages: ['experts', 'psychologist'],
+        },
+        {
+          id: 'nexusmind',
+          label: t('nav.nexusmind', 'NexusMind'),
+          type: 'route',
+          path: PATHS.ABOUT,
+          page: 'about',
+        },
+        {
+          id: 'partners',
+          label: t('nav.partners', 'Tərəfdaşlar'),
+          type: 'scroll',
+          scrollId: 'partners',
+          sectionIndex: 10,
+        },
+      ],
+    },
     ...(isAuthenticated
       ? [{ id: 'sessions', label: t('webapp.sidebar.sessions', 'Seanslarım'), type: 'route' as const, path: PATHS.SESSIONS, page: 'sessions' as const }]
       : []),
     {
       id: 'media',
       label: t('nav.media', 'Media'),
-      type: 'dropdown' as const,
+      type: 'dropdown',
       items: [
-        { label: t('nav.news', 'Xəbərlər'), path: PATHS.NEWS, page: 'news' as const },
-        { label: t('nav.gallery', 'Qalereya'), path: PATHS.GALLERY, page: 'gallery' as const },
+        { id: 'news', label: t('nav.news', 'Xəbərlər'), type: 'route', path: PATHS.NEWS, page: 'news' },
+        { id: 'gallery', label: t('nav.gallery', 'Qalereya'), type: 'route', path: PATHS.GALLERY, page: 'gallery' },
       ]
     },
     {
       id: 'pillars',
       label: t('nav.education', 'Maariflənmə'),
-      type: 'dropdown' as const,
+      type: 'dropdown',
       items: [
-        { label: t('nav.blog', 'Blog'), path: PATHS.BLOG, page: 'blog' as const },
-        { label: t('nav.articles', 'Məqalələr'), path: PATHS.ARTICLE, page: 'articles' as const },
-        { label: t('nav.trainings', 'Təlimlər'), path: PATHS.TRAININGS, page: 'trainings' as const },
+        { id: 'blog', label: t('nav.blog', 'Blog'), type: 'route', path: PATHS.BLOG, page: 'blog' },
+        { id: 'articles', label: t('nav.articles', 'Məqalələr'), type: 'route', path: PATHS.ARTICLE, page: 'articles' },
+        { id: 'trainings', label: t('nav.trainings', 'Təlimlər'), type: 'route', path: PATHS.TRAININGS, page: 'trainings' },
       ]
     },
-    { id: 'journal', label: t('nav.journal', 'Qeydlərim'), type: 'navigate' as const },
-    { id: 'vr', label: t('nav.vrConsultation', 'Vr konsultasiya'), type: 'scroll' as const, index: 7 },
+    { id: 'journal', label: t('nav.journal', 'Qeydlərim'), type: 'navigate' },
+    { id: 'vr', label: t('nav.vrConsultation', 'Vr konsultasiya'), type: 'scroll', index: 7 },
   ];
 
-  const handleItemClick = (item: any) => {
+  const isSubItemActive = (subItem: DropdownSubItem) => {
+    if (subItem.type === 'scroll') {
+      return (
+        activePage === 'landing' &&
+        (activeSection === subItem.sectionIndex || activeSection === subItem.scrollId)
+      );
+    }
+    if (subItem.activePages) {
+      return activePage ? subItem.activePages.includes(activePage) : false;
+    }
+    return activePage === subItem.page;
+  };
+
+  const handleSubItemClick = (
+    subItem: DropdownSubItem,
+    event?: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event?.currentTarget.blur();
+    setIsMobileMenuOpen(false);
+    setOpenDropdownId(null);
+
+    if (subItem.type === 'scroll') {
+      if (activePage === 'landing' && scrollToSection) {
+        scrollToSection(subItem.scrollId);
+      } else {
+        navigate(`${PATHS.HOME}#${subItem.scrollId}`);
+      }
+    } else {
+      navigate(subItem.path);
+    }
+  };
+
+  const handleItemClick = (item: NavItem) => {
     if (item.type === 'dropdown') {
       setOpenDropdownId(prev => prev === item.id ? null : item.id);
       return;
@@ -293,7 +403,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
         <nav className="flex flex-col gap-1">
           {navItems.map((item, index) => {
             if (item.type === 'dropdown') {
-              const isDropdownActive = item.items.some(subItem => subItem.page === activePage);
+              const isDropdownActive = item.items.some(isSubItemActive);
               const isDropdownOpen = openDropdownId === item.id;
               return (
                 <div key={item.id} className="w-full flex flex-col">
@@ -324,16 +434,12 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                       }`}
                   >
                     {item.items.map((subItem) => {
-                      const isSubActive = activePage === subItem.page;
+                      const isSubActive = isSubItemActive(subItem);
                       return (
                         <button
-                          key={subItem.path}
+                          key={subItem.id}
                           type="button"
-                          onClick={() => {
-                            setIsMobileMenuOpen(false);
-                            setOpenDropdownId(null);
-                            navigate(subItem.path);
-                          }}
+                          onClick={(e) => handleSubItemClick(subItem, e)}
                           className={`text-left py-2.5 px-3.5 text-[14px] rounded-lg transition-colors flex items-center justify-between w-full bg-transparent border-0 outline-none cursor-pointer ${isSubActive
                             ? 'text-white font-semibold bg-white/10'
                             : 'text-white/70 hover:text-white hover:bg-white/5 active:bg-white/10'
@@ -354,7 +460,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
             }
 
             const isActive = item.type === 'scroll'
-              ? (activePage === 'landing' && (activeSection === item.index || (activeSection as any) === item.id)) || (activePage === item.id)
+              ? (activePage === 'landing' && (activeSection === item.index || activeSection === item.id)) || (activePage === item.id)
               : item.type === 'route'
                 ? activePage === item.page
                 : activePage === 'journal';
@@ -520,10 +626,11 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
         <nav className="hidden md:flex items-center gap-8 text-[15px] font-medium z-50 relative">
           {navItems.map((item) => {
             if (item.type === 'dropdown') {
-              const isDropdownActive = item.items.some(subItem => subItem.page === activePage);
+              const isDropdownActive = item.items.some(isSubItemActive);
               return (
                 <div key={item.id} className="relative group py-2">
                   <button
+                    type="button"
                     className={`transition-colors relative after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:w-full after:h-0.5 after:bg-[#00f2ff] hover:after:opacity-100 z-50 cursor-pointer pointer-events-auto flex items-center gap-1.5 ${isDropdownActive ? 'text-white after:opacity-100' : 'text-white/60 hover:text-white after:opacity-0'
                       }`}
                   >
@@ -536,8 +643,9 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
                     <div className="bg-white border border-slate-200/80 shadow-[0_12px_36px_rgba(0,0,0,0.16)] rounded-xl p-2.5 flex flex-col gap-1">
                       {item.items.map((subItem) => (
                         <button
-                          key={subItem.path}
-                          onClick={() => navigate(subItem.path)}
+                          key={subItem.id}
+                          type="button"
+                          onClick={(e) => handleSubItemClick(subItem, e)}
                           className="group/item flex items-center justify-between rounded-lg py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none text-slate-700 hover:text-[#6700FF] hover:bg-purple-50"
                         >
                           <span className="ponnala-nudge">{subItem.label}</span>
@@ -555,7 +663,7 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
             }
 
             const isActive = item.type === 'scroll'
-              ? (activePage === 'landing' && (activeSection === item.index || (activeSection as any) === item.id)) || (activePage === item.id)
+              ? (activePage === 'landing' && (activeSection === item.index || activeSection === item.id)) || (activePage === item.id)
               : item.type === 'route'
                 ? activePage === item.page
                 : activePage === 'journal';
@@ -573,8 +681,21 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           })}
         </nav>
 
-        {/* Desktop Actions: Language Selector + (Profile OR Login Button) */}
-        <div className="hidden md:flex items-center gap-4 z-50">
+        {/* Desktop Actions: Search + Language Selector + (Profile OR Login Button) */}
+        <div className="hidden md:flex items-center gap-3 z-50">
+          <button
+            type="button"
+            onClick={() => {
+              setIsUserMenuOpen(false);
+              setIsSearchOpen(true);
+            }}
+            aria-label={t('search.openAriaLabel', 'Axtarış')}
+            title={`${t('search.openAriaLabel', 'Axtarış')} (⌘K / Ctrl+K)`}
+            className="flex items-center justify-center w-9 h-9 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#00F2FF]"
+          >
+            <AppIcon icon="lucide:search" size={19} />
+          </button>
+
           <LanguageSelector direction="down" />
 
           {isAuthenticated ? (
@@ -778,8 +899,21 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
           )}
         </div>
 
-        {/* Mobile Header Actions (Language Selector + Hamburger) */}
+        {/* Mobile Header Actions (Search + Language Selector + Hamburger) */}
         <div className="flex md:hidden items-center gap-1 z-50">
+          <button
+            type="button"
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              setOpenDropdownId(null);
+              setIsSearchOpen(true);
+            }}
+            aria-label={t('search.openAriaLabel', 'Axtarış')}
+            className="p-2 text-white/85 hover:text-[#00f2ff] transition-colors cursor-pointer w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 outline-none"
+          >
+            <AppIcon icon="lucide:search" size={20} />
+          </button>
+
           <LanguageSelector direction="down" />
 
           <button
@@ -828,6 +962,14 @@ export const LandingNavbar = ({ activePage, activeSection, scrollToSection }: La
 
       {/* Mobile drawer rendered into document.body via Portal */}
       {mobileDrawer}
+
+      {/* Centered global search popup rendered into document.body via Portal */}
+      <GlobalSearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        activePage={activePage}
+        scrollToSection={scrollToSection}
+      />
     </>
   );
 };

@@ -1,21 +1,29 @@
 import { apiClient } from './client';
 import type {
-  DayTemplate,
-  SaveWeeklyTemplateRequest,
+  WorkingHourRangeRequest,
+  WorkingHoursBatchRequest,
+  WorkingRangeDto,
   AvailableSlotDto,
 } from './types';
 
 export const workingHoursApi = {
-  getMyTemplate: async (): Promise<DayTemplate[]> => {
-    const response = await apiClient.get<DayTemplate[]>('/doctors/me/working-hours/template');
+  getMyRanges: async (from: string, to: string): Promise<WorkingRangeDto[]> => {
+    const response = await apiClient.get<WorkingRangeDto[]>('/doctors/me/working-hours', {
+      params: { from, to },
+    });
     return response.data;
   },
 
-  saveMyTemplate: async (
-    data: DayTemplate[] | SaveWeeklyTemplateRequest
-  ): Promise<void> => {
-    const payload = Array.isArray(data) ? { days: data } : data;
-    await apiClient.post('/doctors/me/working-hours/template', payload);
+  addMyRange: async (data: WorkingHourRangeRequest): Promise<void> => {
+    await apiClient.post('/doctors/me/working-hours', data);
+  },
+
+  addMyWorkingHoursBatch: async (data: WorkingHoursBatchRequest): Promise<void> => {
+    await apiClient.post('/doctors/me/working-hours/batch', data);
+  },
+
+  deleteMyRange: async (rangeId: number): Promise<void> => {
+    await apiClient.delete(`/doctors/me/working-hours/${rangeId}`);
   },
 
   getAvailableSlots: async (

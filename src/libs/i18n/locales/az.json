@@ -1,7 +1,10 @@
 {
   "nav": {
     "home": "Əsas səhifə",
+    "about": "Haqqımızda",
     "experts": "Mütəxəssislər",
+    "nexusmind": "NexusMind",
+    "partners": "Tərəfdaşlar",
     "media": "Media",
     "news": "Xəbərlər",
     "gallery": "Qalereya",
@@ -13,11 +16,22 @@
     "vrConsultation": "Vr konsultasiya",
     "login": "Giriş et"
   },
+  "search": {
+    "openAriaLabel": "Axtarış",
+    "placeholder": "Mütəxəssislər, məqalələr, təlimlər axtarın...",
+    "quickSearches": "Sürətli axtarış:",
+    "popularPosts": "Populyar bloq və xəbərlər",
+    "results": "Nəticələr",
+    "emptyTitle": "Nəticə tapılmadı",
+    "emptyDescription": "Axtarış sözünü dəyişdirərək yenidən cəhd edin.",
+    "clear": "Axtarışı təmizlə",
+    "close": "Bağla"
+  },
   "hero": {
     "title": "Özünü kəşf etməyə hazırsan?",
     "subtitle": "Peşəkar psixoloqla online seansı seç, daxili rahatlığı tap.",
     "cta": "İndi başla",
-    "secondary_cta": "Psixoloqlara bax",
+    "secondary_cta": "Psixoloqunu seç",
     "feature1": "Mütəxəssislər köməyilə çətinliklərdən azad ol!",
     "feature2": "Vr konsultasiya ilə evdən çıxmağa belə ehtiyac yoxdur!",
     "feature3": "Günlük notlar qeyd edərək səndə öz inkişafını gör!"

@@ -61,10 +61,12 @@ export const UserNextSession = () => {
     }
   };
 
-  // Find next upcoming valid appointment
+  // Find next upcoming valid confirmed appointment
   const nextSession = useMemo(() => {
     if (!sessions || sessions.length === 0) return null;
-    const upcoming = sessions.filter((s) => isSessionUpcomingOrActive(s, currentTime));
+    const upcoming = sessions.filter((s) =>
+      isSessionUpcomingOrActive(s, currentTime, { excludePendingPayment: true })
+    );
     const sorted = sortSessionsChronologically(upcoming);
     return sorted[0] || null;
   }, [sessions, currentTime]);

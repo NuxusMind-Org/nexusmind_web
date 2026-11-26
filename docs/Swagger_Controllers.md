@@ -14,16 +14,22 @@
 - [auth-controller](#auth-controller)
 - [blog-controller](#blog-controller)
 - [bpm-controller](#bpm-controller)
+- [call-invite-controller](#call-invite-controller)
 - [chat-rest-controller](#chat-rest-controller)
 - [doctor-controller](#doctor-controller)
+- [doctor-price-controller](#doctor-price-controller)
 - [doctor-profile-controller](#doctor-profile-controller)
 - [file-upload-controller](#file-upload-controller)
 - [gallery-controller](#gallery-controller)
 - [journal-controller](#journal-controller)
 - [news-controller](#news-controller)
+- [notification-controller](#notification-controller)
 - [onboarding-controller](#onboarding-controller)
 - [otp-controller](#otp-controller)
+- [password-reset-controller](#password-reset-controller)
+- [payment-controller](#payment-controller)
 - [profile-controller](#profile-controller)
+- [search-controller](#search-controller)
 - [site-settings-controller](#site-settings-controller)
 - [super-admin-controller](#super-admin-controller)
 - [training-controller](#training-controller)
@@ -55,7 +61,7 @@
 
 ### `POST` /appointments
 
-**Operation ID:** `create_5`  
+**Operation ID:** `create_6`  
 
 #### Request Body
 
@@ -729,7 +735,7 @@
 
 ### `PUT` /blog/{id}
 
-**Operation ID:** `update_4`  
+**Operation ID:** `update_5`  
 
 #### Parameters
 
@@ -752,7 +758,7 @@
 
 ### `DELETE` /blog/{id}
 
-**Operation ID:** `delete_4`  
+**Operation ID:** `delete_5`  
 
 #### Parameters
 
@@ -782,7 +788,7 @@
 
 ### `POST` /blog
 
-**Operation ID:** `create_4`  
+**Operation ID:** `create_5`  
 
 #### Request Body
 
@@ -861,6 +867,67 @@
 
 ---
 
+## call-invite-controller
+
+### `POST` /api/calls/{appointmentId}/invite
+
+**Operation ID:** `invite`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `appointmentId` | `path` | ✅ Yes | `integer` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `object` |
+
+---
+
+### `POST` /api/calls/{appointmentId}/extend
+
+**Operation ID:** `extend`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `appointmentId` | `path` | ✅ Yes | `integer` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | void |
+
+---
+
+### `POST` /api/calls/join/{inviteToken}
+
+**Operation ID:** `join`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `inviteToken` | `path` | ✅ Yes | `string` | - |
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `object`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `object` |
+
+---
+
 ## chat-rest-controller
 
 ### `GET` /chat/{appointmentId}/messages
@@ -909,7 +976,7 @@
 
 | Status Code | Description | Schema |
 | --- | --- | --- |
-| `200` | OK | Array<`PasientRegisterEntity`> |
+| `200` | OK | Array<`PasientResponseDto`> |
 
 ---
 
@@ -922,6 +989,93 @@
 | Status Code | Description | Schema |
 | --- | --- | --- |
 | `200` | OK | Array<`DoctorResponseDto`> |
+
+---
+
+## doctor-price-controller
+
+### `PUT` /doctors/{doctorId}/prices/{priceId}
+
+**Operation ID:** `update_4`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `doctorId` | `path` | ✅ Yes | `integer` | - |
+| `priceId` | `path` | ✅ Yes | `integer` | - |
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `DoctorPriceRequest`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `DoctorPriceResponse` |
+
+---
+
+### `DELETE` /doctors/{doctorId}/prices/{priceId}
+
+**Operation ID:** `delete_4`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `doctorId` | `path` | ✅ Yes | `integer` | - |
+| `priceId` | `path` | ✅ Yes | `integer` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `204` | No Content | void |
+
+---
+
+### `GET` /doctors/{doctorId}/prices
+
+**Operation ID:** `getPrices`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `doctorId` | `path` | ✅ Yes | `integer` | - |
+| `age` | `query` | ❌ No | `integer` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | Array<`DoctorPriceResponse`> |
+
+---
+
+### `POST` /doctors/{doctorId}/prices
+
+**Operation ID:** `create_4`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `doctorId` | `path` | ✅ Yes | `integer` | - |
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `DoctorPriceRequest`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `201` | Created | `DoctorPriceResponse` |
 
 ---
 
@@ -996,7 +1150,7 @@
 
 ### `DELETE` /upload/{filename}
 
-**Operation ID:** `delete_5`  
+**Operation ID:** `delete_6`  
 
 #### Parameters
 
@@ -1132,7 +1286,7 @@
 
 ### `DELETE` /journal/{id}
 
-**Operation ID:** `delete_6`  
+**Operation ID:** `delete_7`  
 
 #### Parameters
 
@@ -1325,6 +1479,37 @@
 
 ---
 
+## notification-controller
+
+### `POST` /api/notifications/email
+
+**Operation ID:** `sendEmail`  
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `EmailNotificationRequest`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `EmailNotificationResponse` |
+
+---
+
+### `GET` /api/notifications/templates
+
+**Operation ID:** `getTemplates`  
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | Array<`string`> |
+
+---
+
 ## onboarding-controller
 
 ### `POST` /onboarding/submit
@@ -1402,6 +1587,78 @@
 | Status Code | Description | Schema |
 | --- | --- | --- |
 | `200` | OK | `string` |
+
+---
+
+## password-reset-controller
+
+### `POST` /api/auth/reset-password
+
+**Operation ID:** `resetPassword_1`  
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `ResetPasswordRequest`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `object` |
+
+---
+
+### `POST` /api/auth/forgot-password
+
+**Operation ID:** `forgotPassword_1`  
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `ForgotPasswordRequest`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `object` |
+
+---
+
+## payment-controller
+
+### `POST` /api/payments/start
+
+**Operation ID:** `start`  
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `StartPaymentRequest`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | `object` |
+
+---
+
+### `POST` /api/payments/callback
+
+**Operation ID:** `callback`  
+
+#### Request Body
+
+- **Content-Type:** `application/x-www-form-urlencoded`
+- **Schema:** `object`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | void |
 
 ---
 
@@ -1522,6 +1779,68 @@
 
 ---
 
+## search-controller
+
+### `GET` /search/journal
+
+**Operation ID:** `searchJournal`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `q` | `query` | ✅ Yes | `string` | - |
+| `page` | `query` | ❌ No | `integer` | - |
+| `size` | `query` | ❌ No | `integer` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | Array<`JournalEntryResponse`> |
+
+---
+
+### `GET` /search/doctors
+
+**Operation ID:** `searchDoctors`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `q` | `query` | ✅ Yes | `string` | - |
+| `lang` | `query` | ❌ No | `string` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | Array<`DoctorSearchResult`> |
+
+---
+
+### `GET` /search/content
+
+**Operation ID:** `searchContent`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `q` | `query` | ✅ Yes | `string` | - |
+| `lang` | `query` | ❌ No | `string` | - |
+| `page` | `query` | ❌ No | `integer` | - |
+| `size` | `query` | ❌ No | `integer` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | Array<`ContentSearchResult`> |
+
+---
+
 ## site-settings-controller
 
 ### `GET` /sitemap.xml
@@ -1633,7 +1952,7 @@
 
 | Status Code | Description | Schema |
 | --- | --- | --- |
-| `200` | OK | Array<`object`> |
+| `200` | OK | Array<`PasientResponseDto`> |
 
 ---
 
@@ -1645,7 +1964,7 @@
 
 | Status Code | Description | Schema |
 | --- | --- | --- |
-| `200` | OK | Array<`DoctorEntity`> |
+| `200` | OK | Array<`DoctorResponseDto`> |
 
 ---
 
@@ -1859,26 +2178,50 @@
 
 ## working-hour-controller
 
-### `GET` /doctors/me/working-hours/template
+### `GET` /doctors/me/working-hours
 
-**Operation ID:** `getMyTemplate`  
+**Operation ID:** `getMyRanges`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `from` | `query` | ✅ Yes | `string` | - |
+| `to` | `query` | ✅ Yes | `string` | - |
 
 #### Responses
 
 | Status Code | Description | Schema |
 | --- | --- | --- |
-| `200` | OK | Array<`DayTemplate`> |
+| `200` | OK | Array<`WorkingRangeDto`> |
 
 ---
 
-### `POST` /doctors/me/working-hours/template
+### `POST` /doctors/me/working-hours
 
-**Operation ID:** `saveMyTemplate`  
+**Operation ID:** `addMyRange`  
 
 #### Request Body
 
 - **Content-Type:** `application/json`
-- **Schema:** `SaveWeeklyTemplateRequest`
+- **Schema:** `WorkingHourRangeRequest`
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | void |
+
+---
+
+### `POST` /doctors/me/working-hours/batch
+
+**Operation ID:** `addMyWorkingHoursBatch`  
+
+#### Request Body
+
+- **Content-Type:** `application/json`
+- **Schema:** `WorkingHoursBatchRequest`
 
 #### Responses
 
@@ -1908,6 +2251,24 @@
 
 ---
 
+### `DELETE` /doctors/me/working-hours/{rangeId}
+
+**Operation ID:** `deleteMyRange`  
+
+#### Parameters
+
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| `rangeId` | `path` | ✅ Yes | `integer` | - |
+
+#### Responses
+
+| Status Code | Description | Schema |
+| --- | --- | --- |
+| `200` | OK | void |
+
+---
+
 ## Schemas & Data Models
 
 ### AdminLoginRequest
@@ -1929,7 +2290,7 @@
 | `doctorProfileImageUrl` | `string` | - | ❌ No |
 | `appointmentDate` | `string` | `date` | ❌ No |
 | `appointmentTime` | `LocalTime` | - | ❌ No |
-| `status` | `string` | `"SCHEDULED"` \| `"WAITING"` \| `"IN_PROGRESS"` \| `"COMPLETED"` \| `"CANCELLED"` | ❌ No |
+| `status` | `string` | `"SCHEDULED"` \| `"WAITING"` \| `"IN_PROGRESS"` \| `"COMPLETED"` \| `"CANCELLED"` \| `"PENDING_PAYMENT"` | ❌ No |
 | `mode` | `string` | `"VR"` \| `"VIDEO_CALL"` \| `"APP"` | ❌ No |
 | `roomUrl` | `string` | - | ❌ No |
 | `hasNote` | `boolean` | - | ❌ No |
@@ -1944,9 +2305,12 @@
 | `appointmentDate` | `string` | `date` | ❌ No |
 | `appointmentTime` | `LocalTime` | - | ❌ No |
 | `finishTime` | `string` | `date-time` | ❌ No |
-| `status` | `string` | `"SCHEDULED"` \| `"WAITING"` \| `"IN_PROGRESS"` \| `"COMPLETED"` \| `"CANCELLED"` | ❌ No |
+| `durationMinutes` | `integer` | `int32` | ❌ No |
+| `sessionsType` | `string` | `"INDIVIDUAL"` \| `"COUPLE"` | ❌ No |
+| `status` | `string` | `"SCHEDULED"` \| `"WAITING"` \| `"IN_PROGRESS"` \| `"COMPLETED"` \| `"CANCELLED"` \| `"PENDING_PAYMENT"` | ❌ No |
 | `mode` | `string` | `"VR"` \| `"VIDEO_CALL"` \| `"APP"` | ❌ No |
 | `roomUrl` | `string` | - | ❌ No |
+| `createdAt` | `string` | `date-time` | ❌ No |
 | `note` | `SessionNote` | - | ❌ No |
 
 ### AppointmentStatsDto
@@ -2044,14 +2408,24 @@
 | `content` | `string` | - | ❌ No |
 | `sentAt` | `string` | `date-time` | ❌ No |
 
+### ContentSearchResult
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `type` | `string` | - | ❌ No |
+| `id` | `integer` | `int64` | ❌ No |
+| `title` | `string` | - | ❌ No |
+
 ### CreateAppointmentRequest
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `doctorId` | `integer` | `int64` | ✅ Yes |
 | `appointmentDate` | `string` | `date` | ✅ Yes |
-| `appointmentTime` | `LocalTime` | - | ✅ Yes |
+| `appointmentTime` | `string` | `time` | ✅ Yes |
 | `mode` | `string` | `"VR"` \| `"VIDEO_CALL"` \| `"APP"` | ✅ Yes |
+| `durationMinutes` | `integer` | `int32` | ❌ No |
+| `sessionsType` | `string` | `"INDIVIDUAL"` \| `"COUPLE"` | ❌ No |
 
 ### CreateSessionNoteRequest
 
@@ -2061,13 +2435,6 @@
 | `objective` | `string` | - | ✅ Yes |
 | `assessment` | `string` | - | ✅ Yes |
 | `plan` | `string` | - | ✅ Yes |
-
-### DayTemplate
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `dayOfWeek` | `string` | `"MONDAY"` \| `"TUESDAY"` \| `"WEDNESDAY"` \| `"THURSDAY"` \| `"FRIDAY"` \| `"SATURDAY"` \| `"SUNDAY"` | ❌ No |
-| `hours` | Array<`integer`> | - | ❌ No |
 
 ### DoctorDto
 
@@ -2086,6 +2453,7 @@
 | `education` | Array<`string`> | - | ❌ No |
 | `certificates` | Array<`string`> | - | ❌ No |
 | `specializations` | Array<`string`> | - | ❌ No |
+| `trainings` | Array<`string`> | - | ❌ No |
 
 ### DoctorEntity
 
@@ -2095,24 +2463,20 @@
 | `username` | `string` | - | ❌ No |
 | `name` | `string` | - | ❌ No |
 | `surname` | `string` | - | ❌ No |
-| `fatherName` | `string` | - | ❌ No |
 | `university` | `string` | - | ❌ No |
 | `major` | `TitleDto` | - | ❌ No |
 | `imageURl` | `string` | - | ❌ No |
 | `bio` | `TitleDto` | - | ❌ No |
-| `price` | `number` | `double` | ❌ No |
-| `age` | `integer` | `int32` | ❌ No |
 | `experienceYear` | `integer` | `int32` | ❌ No |
 | `profileImageUrl` | `string` | - | ❌ No |
 | `email` | `string` | - | ❌ No |
 | `password` | `string` | - | ❌ No |
-| `title` | `TitleDto` | - | ❌ No |
-| `rating` | `number` | `double` | ❌ No |
 | `role` | `string` | `"SUPER_ADMIN"` \| `"BPM"` \| `"DOCTOR"` \| `"PATIENT"` \| `"SEO"` | ❌ No |
 | `languages` | Array<`string`> | - | ❌ No |
 | `education` | Array<`string`> | - | ❌ No |
-| `certificates` | Array<`string`> | - | ❌ No |
 | `specializations` | Array<`string`> | - | ❌ No |
+| `trainings` | Array<`string`> | - | ❌ No |
+| `prices` | Array<`DoctorPriceEntity`> | - | ❌ No |
 
 ### DoctorLoginRequest
 
@@ -2120,6 +2484,62 @@
 | --- | --- | --- | --- |
 | `email` | `string` | - | ❌ No |
 | `password` | `string` | - | ❌ No |
+
+### DoctorPriceDto
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `label` | `string` | - | ❌ No |
+| `minAge` | `integer` | `int32` | ❌ No |
+| `maxAge` | `integer` | `int32` | ❌ No |
+| `sessionType` | `string` | - | ❌ No |
+| `durationMin` | `integer` | `int32` | ❌ No |
+| `durationMax` | `integer` | `int32` | ❌ No |
+| `amount` | `number` | - | ❌ No |
+| `currency` | `string` | - | ❌ No |
+
+### DoctorPriceEntity
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `id` | `integer` | `int64` | ❌ No |
+| `doctor` | `DoctorEntity` | - | ❌ No |
+| `label` | `string` | - | ❌ No |
+| `minAge` | `integer` | `int32` | ❌ No |
+| `maxAge` | `integer` | `int32` | ❌ No |
+| `sessionType` | `string` | - | ❌ No |
+| `durationMin` | `integer` | `int32` | ❌ No |
+| `durationMax` | `integer` | `int32` | ❌ No |
+| `amount` | `number` | - | ❌ No |
+| `currency` | `string` | - | ❌ No |
+
+### DoctorPriceRequest
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `label` | `string` | - | ✅ Yes |
+| `minAge` | `integer` | `int32` | ❌ No |
+| `maxAge` | `integer` | `int32` | ❌ No |
+| `sessionType` | `string` | - | ❌ No |
+| `durationMin` | `integer` | `int32` | ❌ No |
+| `durationMax` | `integer` | `int32` | ❌ No |
+| `amount` | `number` | - | ✅ Yes |
+| `currency` | `string` | - | ❌ No |
+
+### DoctorPriceResponse
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `id` | `integer` | `int64` | ❌ No |
+| `doctorId` | `integer` | `int64` | ❌ No |
+| `label` | `string` | - | ❌ No |
+| `minAge` | `integer` | `int32` | ❌ No |
+| `maxAge` | `integer` | `int32` | ❌ No |
+| `sessionType` | `string` | - | ❌ No |
+| `durationMin` | `integer` | `int32` | ❌ No |
+| `durationMax` | `integer` | `int32` | ❌ No |
+| `amount` | `number` | - | ❌ No |
+| `currency` | `string` | - | ❌ No |
 
 ### DoctorRegisterDto
 
@@ -2139,13 +2559,36 @@
 | `id` | `integer` | `int64` | ❌ No |
 | `name` | `string` | - | ❌ No |
 | `surname` | `string` | - | ❌ No |
-| `fatherName` | `string` | - | ❌ No |
-| `age` | `integer` | `int32` | ❌ No |
-| `phone` | `string` | - | ❌ No |
-| `cvUrl` | `string` | - | ❌ No |
-| `title` | `TitleDto` | - | ❌ No |
+| `username` | `string` | - | ❌ No |
+| `profileImageUrl` | `string` | - | ❌ No |
 | `bio` | `TitleDto` | - | ❌ No |
 | `major` | `TitleDto` | - | ❌ No |
+| `prices` | Array<`DoctorPriceDto`> | - | ❌ No |
+
+### DoctorSearchResult
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `id` | `integer` | `int64` | ❌ No |
+| `fullName` | `string` | - | ❌ No |
+| `bio` | `string` | - | ❌ No |
+
+### EmailNotificationRequest
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `to` | `string` | - | ✅ Yes |
+| `template` | `string` | `"SESSION_REMINDER_24H"` \| `"SESSION_REMINDER_3H"` \| `"SESSION_REMINDER_30MIN"` \| `"OTP_CODE"` \| `"SESSION_CONFIRMED"` \| `"RESCHEDULE_CONFIRMED"` \| `"RESCHEDULE_REQUEST"` \| `"SPECIALIST_AVAILABILITY"` \| `"PAYMENT_RECEIPT"` \| `"SESSION_FEEDBACK"` \| `"RECOMMENDED_MATERIALS"` \| `"MILESTONE"` \| `"HABIT_DAILY"` \| `"MOOD_CHECK"` \| `"BREATHING"` \| `"JOURNAL"` \| `"PSYCH_FACT"` \| `"DAILY_RECOMMENDATION"` \| `"PODCAST_AND_BOOK_OF_DAY"` \| `"SCHEDULE_UPDATED"` \| `"FAVORITE_AVAILABLE"` \| `"WELCOME"` \| `"GUIDE_NEKSI"` \| `"FIRST_SESSION"` \| `"INACTIVE_15_DAYS"` \| `"INACTIVE_30_DAYS"` \| `"INACTIVE_60_DAYS"` \| `"NEW_SPECIALISTS"` | ✅ Yes |
+| `params` | `object` | - | ❌ No |
+
+### EmailNotificationResponse
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `success` | `boolean` | - | ❌ No |
+| `message` | `string` | - | ❌ No |
+| `template` | `string` | `"SESSION_REMINDER_24H"` \| `"SESSION_REMINDER_3H"` \| `"SESSION_REMINDER_30MIN"` \| `"OTP_CODE"` \| `"SESSION_CONFIRMED"` \| `"RESCHEDULE_CONFIRMED"` \| `"RESCHEDULE_REQUEST"` \| `"SPECIALIST_AVAILABILITY"` \| `"PAYMENT_RECEIPT"` \| `"SESSION_FEEDBACK"` \| `"RECOMMENDED_MATERIALS"` \| `"MILESTONE"` \| `"HABIT_DAILY"` \| `"MOOD_CHECK"` \| `"BREATHING"` \| `"JOURNAL"` \| `"PSYCH_FACT"` \| `"DAILY_RECOMMENDATION"` \| `"PODCAST_AND_BOOK_OF_DAY"` \| `"SCHEDULE_UPDATED"` \| `"FAVORITE_AVAILABLE"` \| `"WELCOME"` \| `"GUIDE_NEKSI"` \| `"FIRST_SESSION"` \| `"INACTIVE_15_DAYS"` \| `"INACTIVE_30_DAYS"` \| `"INACTIVE_60_DAYS"` \| `"NEW_SPECIALISTS"` | ❌ No |
+| `sentAt` | `string` | `date-time` | ❌ No |
 
 ### ForgotPasswordRequest
 
@@ -2184,7 +2627,7 @@
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
 | `mood` | `string` | `"VERY_LOW"` \| `"LOW"` \| `"NEUTRAL"` \| `"GOOD"` \| `"VERY_GOOD"` | ✅ Yes |
-| `thoughts` | `TitleDto` | - | ❌ No |
+| `thoughts` | `string` | - | ❌ No |
 
 ### JournalEntryResponse
 
@@ -2195,7 +2638,7 @@
 | `mood` | `string` | - | ❌ No |
 | `moodLabel` | `string` | - | ❌ No |
 | `moodScore` | `integer` | `int32` | ❌ No |
-| `thoughts` | `TitleDto` | - | ❌ No |
+| `thoughts` | `string` | - | ❌ No |
 | `createdAt` | `string` | `date-time` | ❌ No |
 | `updatedAt` | `string` | `date-time` | ❌ No |
 
@@ -2302,8 +2745,8 @@
 | `childCount` | `integer` | `int32` | ❌ No |
 | `femaleCount` | `integer` | `int32` | ❌ No |
 | `maleCount` | `integer` | `int32` | ❌ No |
-| `environments` | Array<`string`> | - | ✅ Yes |
-| `concerns` | Array<`string`> | - | ✅ Yes |
+| `environments` | Array<`string`> | `"SESSIZ"` \| `"YARADICI"` \| `"TEBIET"` \| `"KITABXANA"` \| `"MINIMALIST"` \| `"SEMIMI"` | ✅ Yes |
+| `concerns` | Array<`string`> | `"AILE_PROBLEMLERI"` \| `"SEVGI_PROBLEMLERI"` \| `"TEKLIK"` \| `"GELECEK_QAYGISI"` \| `"AGIR_DEPRESSIYA"` \| `"XRONIKI_YORGUNLUQ"` | ✅ Yes |
 
 ### OnboardingResponse
 
@@ -2316,8 +2759,8 @@
 | `childCount` | `integer` | `int32` | ❌ No |
 | `femaleCount` | `integer` | `int32` | ❌ No |
 | `maleCount` | `integer` | `int32` | ❌ No |
-| `environments` | Array<`string`> | - | ❌ No |
-| `concerns` | Array<`string`> | - | ❌ No |
+| `environments` | Array<`string`> | `"SESSIZ"` \| `"YARADICI"` \| `"TEBIET"` \| `"KITABXANA"` \| `"MINIMALIST"` \| `"SEMIMI"` | ❌ No |
+| `concerns` | Array<`string`> | `"AILE_PROBLEMLERI"` \| `"SEVGI_PROBLEMLERI"` \| `"TEKLIK"` \| `"GELECEK_QAYGISI"` \| `"AGIR_DEPRESSIYA"` \| `"XRONIKI_YORGUNLUQ"` | ❌ No |
 | `completed` | `boolean` | - | ❌ No |
 
 ### PageBlogResponse
@@ -2331,9 +2774,9 @@
 | `content` | Array<`BlogResponse`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `first` | `boolean` | - | ❌ No |
 | `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `empty` | `boolean` | - | ❌ No |
 
 ### PageGalleryItemResponse
@@ -2347,9 +2790,9 @@
 | `content` | Array<`GalleryItemResponse`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `first` | `boolean` | - | ❌ No |
 | `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `empty` | `boolean` | - | ❌ No |
 
 ### PageJournalEntryResponse
@@ -2363,9 +2806,9 @@
 | `content` | Array<`JournalEntryResponse`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `first` | `boolean` | - | ❌ No |
 | `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `empty` | `boolean` | - | ❌ No |
 
 ### PageMeqaleResponseDto
@@ -2379,9 +2822,9 @@
 | `content` | Array<`MeqaleResponseDto`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `first` | `boolean` | - | ❌ No |
 | `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `empty` | `boolean` | - | ❌ No |
 
 ### PageTrainingResponse
@@ -2395,9 +2838,9 @@
 | `content` | Array<`TrainingResponse`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `first` | `boolean` | - | ❌ No |
 | `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `empty` | `boolean` | - | ❌ No |
 
 ### PageXeberResponseDto
@@ -2411,9 +2854,9 @@
 | `content` | Array<`XeberResponseDto`> | - | ❌ No |
 | `number` | `integer` | `int32` | ❌ No |
 | `sort` | `SortObject` | - | ❌ No |
-| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `first` | `boolean` | - | ❌ No |
 | `last` | `boolean` | - | ❌ No |
+| `numberOfElements` | `integer` | `int32` | ❌ No |
 | `empty` | `boolean` | - | ❌ No |
 
 ### Pageable
@@ -2470,6 +2913,20 @@
 | `appointments` | Array<`AppointmentEntity`> | - | ❌ No |
 | `verified` | `boolean` | - | ❌ No |
 
+### PasientResponseDto
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `id` | `integer` | `int64` | ❌ No |
+| `username` | `string` | - | ❌ No |
+| `name` | `string` | - | ❌ No |
+| `surname` | `string` | - | ❌ No |
+| `email` | `string` | - | ❌ No |
+| `age` | `integer` | `int32` | ❌ No |
+| `phone` | `string` | - | ❌ No |
+| `role` | `string` | `"SUPER_ADMIN"` \| `"BPM"` \| `"DOCTOR"` \| `"PATIENT"` \| `"SEO"` | ❌ No |
+| `verified` | `boolean` | - | ❌ No |
+
 ### ProfileResponse
 
 | Property | Type | Format / Ref | Required |
@@ -2489,6 +2946,13 @@
 | --- | --- | --- | --- |
 | `refreshToken` | `string` | - | ❌ No |
 
+### ResetPasswordRequest
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `token` | `string` | - | ❌ No |
+| `newPassword` | `string` | - | ❌ No |
+
 ### ResetPasswordWithOtpRequest
 
 | Property | Type | Format / Ref | Required |
@@ -2497,12 +2961,6 @@
 | `otp` | `string` | - | ✅ Yes |
 | `newPassword` | `string` | - | ✅ Yes |
 | `confirmPassword` | `string` | - | ✅ Yes |
-
-### SaveWeeklyTemplateRequest
-
-| Property | Type | Format / Ref | Required |
-| --- | --- | --- | --- |
-| `days` | Array<`DayTemplate`> | - | ❌ No |
 
 ### SessionNote
 
@@ -2543,6 +3001,14 @@
 | `sorted` | `boolean` | - | ❌ No |
 | `empty` | `boolean` | - | ❌ No |
 | `unsorted` | `boolean` | - | ❌ No |
+
+### StartPaymentRequest
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `appointmentId` | `integer` | `int64` | ❌ No |
+| `amount` | `number` | - | ❌ No |
+| `description` | `string` | - | ❌ No |
 
 ### TitleDto
 
@@ -2619,7 +3085,7 @@
 
 | Property | Type | Format / Ref | Required |
 | --- | --- | --- | --- |
-| `status` | `string` | `"SCHEDULED"` \| `"WAITING"` \| `"IN_PROGRESS"` \| `"COMPLETED"` \| `"CANCELLED"` | ✅ Yes |
+| `status` | `string` | `"SCHEDULED"` \| `"WAITING"` \| `"IN_PROGRESS"` \| `"COMPLETED"` \| `"CANCELLED"` \| `"PENDING_PAYMENT"` | ✅ Yes |
 
 ### VerifyOtpRequest
 
@@ -2627,6 +3093,36 @@
 | --- | --- | --- | --- |
 | `email` | `string` | - | ❌ No |
 | `otp` | `string` | - | ❌ No |
+
+### WorkingDayRequest
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `date` | `string` | `date` | ❌ No |
+| `times` | Array<`LocalTime`> | - | ❌ No |
+
+### WorkingHourRangeRequest
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `date` | `string` | `date` | ❌ No |
+| `startTime` | `string` | - | ❌ No |
+| `endTime` | `string` | - | ❌ No |
+
+### WorkingHoursBatchRequest
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `days` | Array<`WorkingDayRequest`> | - | ❌ No |
+
+### WorkingRangeDto
+
+| Property | Type | Format / Ref | Required |
+| --- | --- | --- | --- |
+| `id` | `integer` | `int64` | ❌ No |
+| `date` | `string` | - | ❌ No |
+| `startTime` | `string` | - | ❌ No |
+| `endTime` | `string` | - | ❌ No |
 
 ### XeberRequestDto
 

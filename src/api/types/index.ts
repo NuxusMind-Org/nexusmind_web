@@ -135,6 +135,18 @@ export interface PasientRegisterEntity {
   verified?: boolean;
 }
 
+export interface PasientResponseDto {
+  id?: number;
+  username?: string;
+  name?: string;
+  surname?: string;
+  email?: string;
+  age?: number;
+  phone?: string;
+  role?: Role;
+  verified?: boolean;
+}
+
 // ── Profile DTOs ─────────────────────────────────────────────
 
 export interface UpdateProfileStatusRequest {
@@ -450,8 +462,8 @@ export type PageGalleryItemResponse = PaginatedResponse<GalleryItemResponse>;
 export type JournalMood = 'VERY_LOW' | 'LOW' | 'NEUTRAL' | 'GOOD' | 'VERY_GOOD';
 
 export interface JournalEntryRequest {
-  mood?: JournalMood;
-  thoughts?: string | TitleDto;
+  mood: JournalMood;
+  thoughts?: string;
 }
 
 export interface JournalEntryResponse {
@@ -460,7 +472,7 @@ export interface JournalEntryResponse {
   mood?: JournalMood | string;
   moodLabel?: string;
   moodScore?: number;
-  thoughts?: string | TitleDto;
+  thoughts?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -471,6 +483,20 @@ export type PageJournalEntryResponse = PaginatedResponse<JournalEntryResponse>;
 
 export type AddressType = 'XANIM' | 'BEY';
 export type TherapyFormat = 'TEK' | 'CUTLUK' | 'AILE' | 'DOSTLAR';
+export type OnboardingEnvironment =
+  | 'SESSIZ'
+  | 'YARADICI'
+  | 'TEBIET'
+  | 'KITABXANA'
+  | 'MINIMALIST'
+  | 'SEMIMI';
+export type OnboardingConcern =
+  | 'AILE_PROBLEMLERI'
+  | 'SEVGI_PROBLEMLERI'
+  | 'TEKLIK'
+  | 'GELECEK_QAYGISI'
+  | 'AGIR_DEPRESSIYA'
+  | 'XRONIKI_YORGUNLUQ';
 
 export interface OnboardingRequest {
   addressType?: AddressType | null;
@@ -479,8 +505,8 @@ export interface OnboardingRequest {
   childCount?: number;
   femaleCount?: number;
   maleCount?: number;
-  environments?: string[];
-  concerns?: string[];
+  environments?: OnboardingEnvironment[];
+  concerns?: OnboardingConcern[];
 }
 
 export interface OnboardingResponse {
@@ -491,8 +517,8 @@ export interface OnboardingResponse {
   childCount?: number;
   femaleCount?: number;
   maleCount?: number;
-  environments?: string[];
-  concerns?: string[];
+  environments?: OnboardingEnvironment[];
+  concerns?: OnboardingConcern[];
   completed?: boolean;
 }
 
@@ -521,19 +547,53 @@ export interface DoctorDto {
   education?: string[];
   certificates?: string[];
   specializations?: string[];
+  trainings?: string[];
+}
+
+export interface DoctorPriceDto {
+  label?: string;
+  minAge?: number;
+  maxAge?: number;
+  sessionType?: string;
+  durationMin?: number;
+  durationMax?: number;
+  amount?: number;
+  currency?: string;
+}
+
+export interface DoctorPriceEntity {
+  id?: number;
+  doctor?: DoctorEntity;
+  label?: string;
+  minAge?: number;
+  maxAge?: number;
+  sessionType?: string;
+  durationMin?: number;
+  durationMax?: number;
+  amount?: number;
+  currency?: string;
+}
+
+export interface DoctorPriceRequest {
+  label: string;
+  minAge?: number;
+  maxAge?: number;
+  sessionType?: string;
+  durationMin?: number;
+  durationMax?: number;
+  amount: number;
+  currency?: string;
 }
 
 export interface DoctorResponseDto {
   id?: number;
+  username?: string;
   name?: string;
   surname?: string;
-  fatherName?: string;
-  age?: number;
-  phone?: string;
-  cvUrl?: string;
-  title?: string | TitleDto;
+  profileImageUrl?: string;
   bio?: string | TitleDto;
   major?: string | TitleDto;
+  prices?: DoctorPriceDto[];
 }
 
 export interface DoctorEntity {
@@ -541,42 +601,42 @@ export interface DoctorEntity {
   username?: string;
   name?: string;
   surname?: string;
-  fatherName?: string;
   university?: string;
   major?: string | TitleDto;
   imageURl?: string;
   bio?: string | TitleDto;
-  price?: number;
-  age?: number;
   experienceYear?: number;
   profileImageUrl?: string;
   email?: string;
   password?: string;
-  title?: string | TitleDto;
-  rating?: number;
   role?: Role;
   languages?: string[];
   education?: string[];
-  certificates?: string[];
   specializations?: string[];
+  trainings?: string[];
+  prices?: DoctorPriceEntity[];
 }
 
-export type DayOfWeek =
-  | 'MONDAY'
-  | 'TUESDAY'
-  | 'WEDNESDAY'
-  | 'THURSDAY'
-  | 'FRIDAY'
-  | 'SATURDAY'
-  | 'SUNDAY';
-
-export interface DayTemplate {
-  dayOfWeek?: DayOfWeek;
-  hours?: number[];
+export interface WorkingHourRangeRequest {
+  date?: string;
+  startTime?: string;
+  endTime?: string;
 }
 
-export interface SaveWeeklyTemplateRequest {
-  days?: DayTemplate[];
+export interface WorkingDayRequest {
+  date?: string;
+  times?: LocalTime[];
+}
+
+export interface WorkingHoursBatchRequest {
+  days?: WorkingDayRequest[];
+}
+
+export interface WorkingRangeDto {
+  id?: number;
+  date?: string;
+  startTime?: string;
+  endTime?: string;
 }
 
 export interface AvailableSlotDto {
@@ -587,18 +647,27 @@ export interface AvailableSlotDto {
 
 // ── Appointment DTOs ─────────────────────────────────────────
 
-export type AppointmentStatus = 'SCHEDULED' | 'WAITING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+export type AppointmentStatus =
+  | 'SCHEDULED'
+  | 'WAITING'
+  | 'IN_PROGRESS'
+  | 'COMPLETED'
+  | 'CANCELLED'
+  | 'PENDING_PAYMENT';
 export type AppointmentMode = 'VR' | 'VIDEO_CALL' | 'APP';
+export type SessionType = 'INDIVIDUAL' | 'COUPLE';
 
 export interface UpdateUserStatusRequest {
   status: AppointmentStatus;
 }
 
 export interface CreateAppointmentRequest {
-  doctorId?: number;
-  appointmentDate?: string;
-  appointmentTime?: string;
-  mode?: AppointmentMode;
+  doctorId: number;
+  appointmentDate: string;
+  appointmentTime: string;
+  mode: AppointmentMode;
+  durationMinutes?: number;
+  sessionsType?: SessionType;
 }
 
 export interface SessionNoteDto {
@@ -648,9 +717,12 @@ export interface AppointmentEntity {
   appointmentDate?: string;
   appointmentTime?: string;
   finishTime?: string;
+  durationMinutes?: number;
+  sessionsType?: SessionType;
   status?: AppointmentStatus;
   mode?: AppointmentMode;
   roomUrl?: string;
+  createdAt?: string;
   note?: SessionNote;
 }
 
@@ -716,6 +788,7 @@ export interface DoctorPriceResponse {
 }
 
 export interface StartPaymentRequest {
+  appointmentId?: number;
   amount?: number;
   description?: string;
 }

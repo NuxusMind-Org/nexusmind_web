@@ -40,7 +40,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 interface WaveDividerProps {
   className?: string;
   reverse?: boolean;
-  variant?: 'multi' | 'single';
+  variant?: 'multi' | 'single' | 'single-to-white';
 }
 
 const STAGGER_MS = 220;
@@ -128,6 +128,62 @@ export const WaveDivider = ({
 }: WaveDividerProps) => {
   const reducedMotion = usePrefersReducedMotion();
   const { ref, visible } = useDividerVisible();
+
+  if (variant === 'single-to-white') {
+    return (
+      <div
+        ref={ref}
+        className={`
+          w-full
+          overflow-hidden
+          leading-[0]
+          pointer-events-none
+          select-none
+          ${className}
+        `}
+        aria-hidden="true"
+      >
+        <svg
+          viewBox="0 0 1271 80"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          className="w-full block"
+          style={{
+            height: 'clamp(52px, 5.8vw, 82px)',
+          }}
+        >
+          {/* Seamless white base directly beneath the purple wave */}
+          <path
+            d="
+              M -20 56
+              C 180 53 420 41 700 49
+              C 920 55 1120 45 1291 41
+              L 1291 82
+              L -20 82
+              Z
+            "
+            fill="#FFFFFF"
+            style={{ opacity: 1 }}
+          />
+
+          {/* Single Purple Wave (#6B69A8) */}
+          <path
+            d="
+              M -20 45
+              C 180 38 420 2 700 8
+              C 920 14 1120 32 1291 30
+              L 1291 42
+              C 1120 46 920 56 700 50
+              C 420 42 180 54 -20 57
+              Z
+            "
+            fill="#6B69A8"
+            style={{ opacity: 1 }}
+          />
+        </svg>
+      </div>
+    );
+  }
 
   if (variant === 'single') {
     return (

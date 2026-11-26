@@ -11,7 +11,7 @@ export const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-[calc(100vh-80px)] flex items-start justify-start px-4 sm:px-8 md:px-12 lg:px-0 lg:pl-[80px] pt-[100px] sm:pt-[120px] lg:pt-[160px] pb-0 scroll-mt-20 overflow-hidden"
+      className="relative w-full min-h-[calc(100vh-110px)] sm:min-h-[calc(100vh-120px)] flex items-start justify-start px-4 sm:px-8 md:px-12 lg:px-0 lg:pl-[80px] pt-[100px] sm:pt-[120px] lg:pt-[148px] pb-0 scroll-mt-20 overflow-hidden"
     >
       <ScrollReveal className="w-full max-w-[1300px] flex flex-col relative z-20">
         {/* Title & CTA Buttons */}
@@ -78,7 +78,7 @@ export const HeroSection = () => {
                   }}
                 />
               </div>
-              <span className="relative z-10 ponnala-nudge">{t('hero.secondary_cta', 'Psixoloqlara bax')}</span>
+              <span className="relative z-10 ponnala-nudge">{t('hero.secondary_cta', 'Psixoloqunu seç')}</span>
             </button>
           </div>
         </div>
@@ -89,7 +89,7 @@ export const HeroSection = () => {
        * Constrained to ~50% of hero section height so it never overlaps the navbar
        * even at 125%+ browser zoom or on short laptop viewports.
        */}
-      <div className="absolute right-[-25px] min-[390px]:right-[-100px] sm:right-0 md:right-2 lg:right-[3%] bottom-5 md:bottom-[40px] lg:bottom-[48px] z-[15] pointer-events-none origin-bottom flex items-end justify-end h-[52%] min-[400px]:h-[54%] sm:h-[65%] md:h-[70%] max-h-[675px] w-auto max-w-none sm:max-w-[52vw] lg:max-w-[675px] aspect-square">
+      <div className="absolute right-[-25px] min-[390px]:right-[-100px] sm:right-0 md:right-2 lg:right-[3%] bottom-0 md:bottom-[-10px] xl:bottom-[-8px] z-[15] pointer-events-none origin-bottom flex items-end justify-end h-[52%] min-[400px]:h-[54%] sm:h-[65%] md:h-[70%] max-h-[675px] w-auto max-w-none sm:max-w-[52vw] lg:max-w-[675px] aspect-square">
         <img
           src={nexiePointer}
           alt="Nexie Mascot"

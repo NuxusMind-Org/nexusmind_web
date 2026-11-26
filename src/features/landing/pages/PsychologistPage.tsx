@@ -17,7 +17,7 @@ import { SessionPaymentModal } from '@/features/experts/components/SessionPaymen
 import { useAuthStore } from '@/store/authStore';
 import { useSessionStore } from '@/store/sessionStore';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
-import type { AppointmentMode, DoctorPriceResponse } from '@/api/types';
+import type { AppointmentMode, DoctorPriceResponse, SessionType } from '@/api/types';
 
 export const PsychologistPage = () => {
   const { t, i18n } = useTranslation();
@@ -53,6 +53,7 @@ export const PsychologistPage = () => {
     appointmentDate: string;
     appointmentTime: string;
     mode: AppointmentMode;
+    appointmentId?: number;
   } | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState<boolean>(false);
@@ -144,6 +145,10 @@ export const PsychologistPage = () => {
 
   const effectivePrice = activePriceObj?.amount ?? psych?.price ?? 50;
   const effectiveCurrency = activePriceObj?.currency ?? 'AZN';
+  const effectiveDurationMinutes =
+    activePriceObj?.durationMin ?? activePriceObj?.durationMax ?? 45;
+  const effectiveSessionsType: SessionType =
+    activePriceObj?.sessionType?.toUpperCase() === 'COUPLE' ? 'COUPLE' : 'INDIVIDUAL';
 
   const handleScheduleClick = () => {
     if (!isAuthenticated) {
@@ -188,20 +193,24 @@ export const PsychologistPage = () => {
     const amount = Number(effectivePrice);
 
     try {
-      // 1. Optionally register/book the appointment in the session store so backend has the record
-      try {
-        await bookSession({
+      // 1. Create the appointment first (or reuse the pending appointment ID on retry)
+      let appointmentId = pendingBooking.appointmentId;
+      if (!appointmentId) {
+        const createdAppointment = await bookSession({
           doctorId: psych.id,
           appointmentDate: pendingBooking.appointmentDate,
           appointmentTime: pendingBooking.appointmentTime,
           mode: pendingBooking.mode,
+          durationMinutes: effectiveDurationMinutes,
+          sessionsType: effectiveSessionsType,
         });
-      } catch (bookErr) {
-        console.warn('Booking session note:', bookErr);
+        appointmentId = createdAppointment.id;
+        setPendingBooking((prev) => (prev ? { ...prev, appointmentId } : prev));
       }
 
-      // 2. Call payments/start controller
+      // 2. Call payments/start controller with appointmentId
       const paymentResponse = await paymentsApi.start({
+        appointmentId,
         amount,
         description,
       });

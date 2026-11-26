@@ -45,14 +45,18 @@ export const parseSessionDateTime = (dateStr?: string, timeStr?: string): Date |
 /**
  * Determines whether a session should be rendered on the Sessions page.
  * Conditions:
- * 1. Status must NOT be CANCELLED or COMPLETED.
+ * 1. Status must NOT be CANCELLED or COMPLETED (and optionally excludes PENDING_PAYMENT).
  * 2. Session must be in the future, OR if it has already started, no more than 1 hour (60 mins) has elapsed.
  */
 export const isSessionUpcomingOrActive = (
   session: AppointmentDto,
-  now: Date = new Date()
+  now: Date = new Date(),
+  options?: { excludePendingPayment?: boolean }
 ): boolean => {
   if (session.status === 'COMPLETED' || session.status === 'CANCELLED') {
+    return false;
+  }
+  if (options?.excludePendingPayment && session.status === 'PENDING_PAYMENT') {
     return false;
   }
 
@@ -79,7 +83,13 @@ export const checkIsJoinable = (
   session: AppointmentDto,
   now: Date = new Date()
 ): boolean => {
-  if (session.status === 'COMPLETED' || session.status === 'CANCELLED') return false;
+  if (
+    session.status === 'COMPLETED' ||
+    session.status === 'CANCELLED' ||
+    session.status === 'PENDING_PAYMENT'
+  ) {
+    return false;
+  }
   if (session.status === 'IN_PROGRESS') return true;
 
   const sessionDateObj = parseSessionDateTime(session.appointmentDate, session.appointmentTime);

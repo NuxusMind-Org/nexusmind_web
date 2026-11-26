@@ -17,3 +17,4 @@ export * from './upload.api';
 export * from './working-hours.api';
 export * from './chat.api';
 export * from './admin.api';
+export * from './payments.api';

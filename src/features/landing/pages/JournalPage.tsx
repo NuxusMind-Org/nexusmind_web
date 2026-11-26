@@ -15,7 +15,6 @@ import {
   useDeleteJournal,
 } from '@/hooks/useJournal';
 import type { JournalEntryResponse, JournalMood } from '@/api/types';
-import { getLocalizedTitle } from '@/utils/multilingual';
 
 export const JournalPage = () => {
   const navigate = useNavigate();
@@ -120,7 +119,7 @@ export const JournalPage = () => {
   useEffect(() => {
     if (todayEntry) {
       if (!hasInitializedText.current) {
-        setNoteText(getLocalizedTitle(todayEntry.thoughts, (i18n.language as any) || 'az', ''));
+        setNoteText(todayEntry.thoughts ?? '');
         hasInitializedText.current = true;
       }
       if (todayEntry.mood) {
@@ -307,7 +306,7 @@ export const JournalPage = () => {
                         {formatNoteDate(item.createdAt)}
                       </p>
                       <p className="text-white/80 text-[13px] line-clamp-2 leading-relaxed group-hover:text-white">
-                        {getLocalizedTitle(item.thoughts, (i18n.language as any) || 'az', '') || t('journal.emptyThought', '(Boş qeyd)')}
+                        {item.thoughts || t('journal.emptyThought', '(Boş qeyd)')}
                       </p>
                     </div>
                   ))
@@ -386,7 +385,7 @@ export const JournalPage = () => {
                     <div
                       className="flex-1 cursor-pointer"
                       onClick={() => {
-                        setNoteText(getLocalizedTitle(item.thoughts, (i18n.language as any) || 'az', ''));
+                        setNoteText(item.thoughts ?? '');
                         setIsHistoryModalOpen(false);
                       }}
                     >
@@ -394,7 +393,7 @@ export const JournalPage = () => {
                         {formatNoteDate(item.createdAt)}
                       </span>
                       <p className="text-sm text-white/90 line-clamp-3 leading-relaxed">
-                        {getLocalizedTitle(item.thoughts, (i18n.language as any) || 'az', '') || '(Boş qeyd)'}
+                        {item.thoughts || '(Boş qeyd)'}
                       </p>
                     </div>
 
@@ -456,12 +455,12 @@ export const JournalPage = () => {
               </button>
             </div>
             <p className="my-6 text-sm text-white/90 leading-relaxed whitespace-pre-wrap max-h-[60vh] overflow-y-auto">
-              {getLocalizedTitle(selectedNote.thoughts, (i18n.language as any) || 'az', '')}
+              {selectedNote.thoughts ?? ''}
             </p>
             <div className="flex justify-end gap-3 pt-3 border-t border-white/10">
               <button
                 onClick={() => {
-                  setNoteText(getLocalizedTitle(selectedNote.thoughts, (i18n.language as any) || 'az', ''));
+                  setNoteText(selectedNote.thoughts ?? '');
                   setSelectedNote(null);
                 }}
                 className="px-5 py-2.5 rounded-xl bg-[#d8b4fe] text-[#2D1B44] font-semibold text-xs hover:bg-[#c084fc] transition-colors"

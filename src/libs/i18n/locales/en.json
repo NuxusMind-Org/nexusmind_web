@@ -1,7 +1,10 @@
 {
   "nav": {
     "home": "Home",
+    "about": "About Us",
     "experts": "Experts",
+    "nexusmind": "NexusMind",
+    "partners": "Partners",
     "media": "Media",
     "news": "News",
     "gallery": "Gallery",
@@ -13,11 +16,22 @@
     "vrConsultation": "VR Consultation",
     "login": "Sign In"
   },
+  "search": {
+    "openAriaLabel": "Search",
+    "placeholder": "Search experts, articles, trainings...",
+    "quickSearches": "Quick search:",
+    "popularPosts": "Popular blogs & news",
+    "results": "Results",
+    "emptyTitle": "No results found",
+    "emptyDescription": "Try adjusting your search query.",
+    "clear": "Clear search",
+    "close": "Close"
+  },
   "hero": {
     "title": "Ready to discover yourself?",
     "subtitle": "Choose an online session with a professional psychologist, find inner peace.",
     "cta": "Get Started",
-    "secondary_cta": "View psychologists",
+    "secondary_cta": "Choose your psychologist",
     "feature1": "Overcome difficulties with the help of experts!",
     "feature2": "With VR consultation, you don't even need to leave home!",
     "feature3": "Notice your progress by writing daily notes!"

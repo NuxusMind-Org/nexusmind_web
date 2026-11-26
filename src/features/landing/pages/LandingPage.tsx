@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { LandingNavbar } from '../components/LandingNavbar';
 import {
   HeroSection,
@@ -14,6 +15,7 @@ import {
 } from '../components/sections';
 import { UserHeroSection } from '../components/authenticated';
 import { Footer } from '../components/Footer';
+import { PartnersTicker } from '../components/PartnersTicker';
 import { useActiveSection } from '../hooks/useActiveSection';
 import { GradientBackground } from '@/components';
 import { WaveDivider } from '@/components/WaveDivider';
@@ -31,14 +33,14 @@ const scrollToSection = (id: string) => {
 export const LandingPage = () => {
   const activeSection = useActiveSection();
   const { isAuthenticated } = useAuthStore();
+  const { hash } = useLocation();
 
-  // Handle deep-link hash on initial load
+  // Handle deep-link hash on initial load and hash navigation
   useEffect(() => {
-    const hash = window.location.hash;
     if (hash) {
       scrollToSection(hash.replace('#', ''));
     }
-  }, []);
+  }, [hash]);
 
   return (
     <div className="w-full min-h-screen flex flex-col relative font-sans bg-white text-slate-900">
@@ -59,11 +61,20 @@ export const LandingPage = () => {
           )}
         </div>
       </div>
+      {/* Single purple wave transitioning seamlessly into the white partners slider strip */}
       <div
         className="relative w-full z-[5]"
-        style={{ marginTop: 'clamp(-130px, -7.5vw, -72px)' }}
+        style={{ marginTop: 'clamp(-66px, -4.6vw, -44px)' }}
       >
-        <WaveDivider />
+        <WaveDivider variant="single-to-white" />
+      </div>
+
+      {/* Hero-bottom Partners Slider (above ExpertsSection) */}
+      <div
+        className="relative z-20 w-full bg-white -mt-px py-3 sm:py-4 md:py-5"
+        aria-label="Partners"
+      >
+        <PartnersTicker compact />
       </div>
 
       <main className="flex-1 w-full relative">
