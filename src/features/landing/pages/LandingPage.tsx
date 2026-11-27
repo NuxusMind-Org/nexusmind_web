@@ -9,7 +9,6 @@ import {
   TestimonialsSection,
   RoadmapSection,
   VrConsultationSection,
-  CtaSection,
   ExpertsSection,
   PartnersSection,
 } from '../components/sections';
@@ -104,7 +103,6 @@ export const LandingPage = () => {
               <WaveDivider variant="single" />
             </div>
             <TestimonialsSection />
-            {!isAuthenticated && <CtaSection />}
             <Footer />
           </div>
         </div>

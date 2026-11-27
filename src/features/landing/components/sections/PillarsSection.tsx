@@ -18,13 +18,13 @@ export const PillarsSection = () => {
   return (
     <section id="pillars" className="relative w-full scroll-mt-20">
       <div
-        className="relative w-full z-[10] pointer-events-none"
+        className="relative w-full z-[20] pointer-events-none"
         style={{ marginTop: 'clamp(-220px, -19vw, -110px)' }}
       >
         <WaveDivider />
       </div>
 
-      <div className="relative z-[11] w-full bg-white -mt-1 px-4 sm:px-8 md:px-12 lg:px-[72px] py-12 md:py-16">
+      <div className="relative z-[16] w-full bg-white -mt-1 px-4 sm:px-8 md:px-12 lg:px-[72px] py-12 md:py-16">
         <ScrollReveal className="w-full max-w-[900px] mx-auto flex flex-col">
           <h2 className="text-[24px] sm:text-[32px] lg:text-[46px] font-bold text-[#3D2A6B] mb-8 lg:mb-10 tracking-tight leading-tight text-center ponnala-nudge">
             {t('pillars.title', 'Psixoloji sağlamlığının 6 əsas sütunu')}

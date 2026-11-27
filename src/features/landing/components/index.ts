@@ -11,7 +11,6 @@ export {
   TestimonialsSection,
   RoadmapSection,
   VrConsultationSection,
-  CtaSection,
   ExpertsSection,
 } from './sections';
 

@@ -16,7 +16,6 @@ const SECTIONS: Section[] = [
   { id: 'pillars', index: 2 },
   { id: 'daily-rituals', index: 5 },
   { id: 'testimonials', index: 3 },
-  { id: 'cta', index: 8 },
 ];
 
 /**
