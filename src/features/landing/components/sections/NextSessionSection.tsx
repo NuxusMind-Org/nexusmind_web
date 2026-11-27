@@ -11,6 +11,11 @@ import {
   checkIsJoinable,
   sortSessionsChronologically,
 } from '@/utils/sessionFilters';
+import {
+  formatSessionDate,
+  formatSessionTime,
+  resolveSessionLang,
+} from '@/utils/sessionDate';
 
 export const NextSessionSection = () => {
   const { t, i18n } = useTranslation();
@@ -31,25 +36,7 @@ export const NextSessionSection = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const formatDate = (dateStr?: string) => {
-    if (!dateStr) return '';
-    try {
-      const [year, month, day] = dateStr.split('-').map(Number);
-      const date = new Date(year, month - 1, day);
-      return date.toLocaleDateString(i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      });
-    } catch {
-      return dateStr;
-    }
-  };
-
-  const formatTime = (timeStr?: string) => {
-    if (!timeStr) return '';
-    return timeStr.substring(0, 5);
-  };
+  const sessionLang = resolveSessionLang(i18n.resolvedLanguage || i18n.language);
 
   const getModeLabel = (mode?: string) => {
     switch (mode) {
@@ -133,12 +120,12 @@ export const NextSessionSection = () => {
             <div className="flex items-center gap-4 bg-slate-50 border border-[#ECEEF5] px-4 py-2.5 rounded-2xl shadow-sm">
               <div className="flex items-center gap-2 text-[#4A1FA8] text-xs sm:text-sm font-medium">
                 <AppIcon icon="lucide:calendar" size={16} />
-                <span>{formatDate(nextSession.appointmentDate)}</span>
+                <span>{formatSessionDate(nextSession.appointmentDate, sessionLang)}</span>
               </div>
               <div className="h-4 w-[1px] bg-slate-200" />
               <div className="flex items-center gap-2 text-[#4A1FA8] text-xs sm:text-sm font-medium">
                 <AppIcon icon="lucide:clock" size={16} />
-                <span>{formatTime(nextSession.appointmentTime)}</span>
+                <span>{formatSessionTime(nextSession.appointmentTime, nextSession.appointmentDate)}</span>
               </div>
             </div>
 

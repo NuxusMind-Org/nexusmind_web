@@ -2,6 +2,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
 import type { AppointmentMode } from '@/api/types';
+import {
+  formatSessionDate,
+  formatSessionTime,
+  resolveSessionLang,
+} from '@/utils/sessionDate';
 
 export interface SessionPaymentModalProps {
   isOpen: boolean;
@@ -43,25 +48,9 @@ export const SessionPaymentModal: React.FC<SessionPaymentModalProps> = ({
 
   if (!isOpen) return null;
 
-  const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
-
-  // Format date nicely
-  const formattedDate = (() => {
-    try {
-      const [year, month, day] = appointmentDate.split('-').map(Number);
-      const d = new Date(year, month - 1, day);
-      return d.toLocaleDateString(locale, {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      });
-    } catch {
-      return appointmentDate;
-    }
-  })();
-
-  const timeDisplay = appointmentTime.slice(0, 5);
+  const sessionLang = resolveSessionLang(i18n.resolvedLanguage || i18n.language);
+  const formattedDate = formatSessionDate(appointmentDate, sessionLang, { style: 'full' });
+  const timeDisplay = formatSessionTime(appointmentTime, appointmentDate);
 
   return (
     <div
@@ -148,7 +137,7 @@ export const SessionPaymentModal: React.FC<SessionPaymentModalProps> = ({
               <AppIcon icon="lucide:calendar" size={18} className="text-purple-400 shrink-0" />
               <div className="flex flex-col min-w-0">
                 <span className="text-[11px] text-white/50">{t('webapp.calendar.date', 'Tarix')}</span>
-                <span className="text-white font-medium truncate capitalize">{formattedDate}</span>
+                <span className="text-white font-medium truncate">{formattedDate}</span>
               </div>
             </div>
 

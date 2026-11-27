@@ -12,6 +12,11 @@ import {
   sortSessionsChronologically,
   filterSessionsBySearch,
 } from '@/utils/sessionFilters';
+import {
+  formatSessionDate,
+  formatSessionTime,
+  resolveSessionLang,
+} from '@/utils/sessionDate';
 import { LandingNavbar } from '@/features/landing/components/LandingNavbar';
 import { Footer } from '@/features/landing/components/Footer';
 import { ExpertCard } from '@/features/experts/components/ExpertCard';
@@ -81,22 +86,7 @@ export const SessionsPage = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const formatDate = (dateStr?: string) => {
-    if (!dateStr) return '';
-    try {
-      const [year, month, day] = dateStr.split('-').map(Number);
-      const date = new Date(year, month - 1, day);
-      const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
-      return date.toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' });
-    } catch {
-      return dateStr;
-    }
-  };
-
-  const formatTime = (timeStr?: string) => {
-    if (!timeStr) return '';
-    return timeStr.substring(0, 5);
-  };
+  const sessionLang = resolveSessionLang(i18n.resolvedLanguage || i18n.language);
 
   const getModeLabel = (mode?: string) => {
     switch (mode) {
@@ -279,11 +269,15 @@ export const SessionsPage = () => {
                       <div className="flex items-center gap-3 text-xs sm:text-sm text-white/80">
                         <div className="flex items-center gap-2 bg-white/5 px-3.5 py-2 rounded-xl border border-white/10 backdrop-blur-sm">
                           <AppIcon icon="lucide:calendar" size={15} className="text-[#c084fc]" />
-                          <span className="font-medium">{formatDate(session.appointmentDate)}</span>
+                          <span className="font-medium">
+                            {formatSessionDate(session.appointmentDate, sessionLang)}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2 bg-white/5 px-3.5 py-2 rounded-xl border border-white/10 backdrop-blur-sm">
                           <AppIcon icon="lucide:clock" size={15} className="text-[#00f2ff]" />
-                          <span className="font-medium">{formatTime(session.appointmentTime)}</span>
+                          <span className="font-medium">
+                            {formatSessionTime(session.appointmentTime, session.appointmentDate)}
+                          </span>
                         </div>
                       </div>
 
@@ -390,7 +384,7 @@ export const SessionsPage = () => {
                           {docName}
                         </h4>
                         <span className="text-xs text-white/40">
-                          {formatDate(session.appointmentDate)} • {formatTime(session.appointmentTime)}
+                          {formatSessionDate(session.appointmentDate, sessionLang)} • {formatSessionTime(session.appointmentTime, session.appointmentDate)}
                         </span>
                       </div>
                     </div>

@@ -1,45 +1,31 @@
 import type { AppointmentDto } from '@/api/types';
+import { parsePlainDate, parsePlainTime } from './sessionDate';
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
 
 /**
- * Parses date string (YYYY-MM-DD or ISO) and time string (HH:mm:ss or HH:mm)
- * into a local Date object.
+ * Parses a backend appointment date (YYYY-MM-DD, ISO, DD.MM.YYYY, LocalDate array)
+ * and time (HH:mm:ss, HH:mm, LocalTime array/object) into a local Date object
+ * without UTC off-by-one-day drift.
  */
-export const parseSessionDateTime = (dateStr?: string, timeStr?: string): Date | null => {
-  if (!dateStr) return null;
-  try {
-    let yyyy: number;
-    let mm: number;
-    let dd: number;
+export const parseSessionDateTime = (dateVal?: unknown, timeVal?: unknown): Date | null => {
+  const dateParts = parsePlainDate(dateVal);
+  if (!dateParts) return null;
 
-    if (dateStr.includes('T')) {
-      const parsed = new Date(dateStr);
-      if (isNaN(parsed.getTime())) return null;
-      yyyy = parsed.getFullYear();
-      mm = parsed.getMonth();
-      dd = parsed.getDate();
-    } else {
-      const parts = dateStr.split('-').map(Number);
-      if (parts.length < 3 || isNaN(parts[0]) || isNaN(parts[1]) || isNaN(parts[2])) {
-        return null;
-      }
-      yyyy = parts[0];
-      mm = parts[1] - 1; // month is 0-indexed in JS Date
-      dd = parts[2];
-    }
+  const timeParts = parsePlainTime(timeVal, dateVal);
+  const hours = timeParts?.hour ?? 0;
+  const minutes = timeParts?.minute ?? 0;
+  const seconds = timeParts?.second ?? 0;
 
-    const safeTime = timeStr || '00:00:00';
-    const timeParts = safeTime.split(':').map(Number);
-    const hours = isNaN(timeParts[0]) ? 0 : timeParts[0];
-    const minutes = isNaN(timeParts[1]) ? 0 : timeParts[1];
-    const seconds = isNaN(timeParts[2]) ? 0 : timeParts[2];
-
-    const date = new Date(yyyy, mm, dd, hours, minutes, seconds);
-    return isNaN(date.getTime()) ? null : date;
-  } catch {
-    return null;
-  }
+  const date = new Date(
+    dateParts.year,
+    dateParts.month - 1,
+    dateParts.day,
+    hours,
+    minutes,
+    seconds
+  );
+  return Number.isNaN(date.getTime()) ? null : date;
 };
 
 /**

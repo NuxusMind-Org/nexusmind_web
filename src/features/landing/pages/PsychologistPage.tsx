@@ -11,6 +11,11 @@ import { PATHS } from '@/routes/paths';
 import { doctorsApi } from '@/api/doctors.api';
 import { paymentsApi } from '@/api/payments.api';
 import { mapDoctorToPsychologist, resolveDoctorPrice } from '@/utils/mappers';
+import {
+  formatSessionDate,
+  formatSessionTime,
+  resolveSessionLang,
+} from '@/utils/sessionDate';
 import type { Psychologist } from '../types/psychologist.types';
 import { CalendarWidget } from '@/features/experts/components/CalendarWidget';
 import { PsychologistSkeleton } from '@/features/experts/components/PsychologistSkeleton';
@@ -183,8 +188,13 @@ export const PsychologistPage = () => {
     setIsProcessingPayment(true);
     setPaymentError(null);
 
-    const timeOnly = pendingBooking.appointmentTime.slice(0, 5);
-    const description = `Seans: ${pendingBooking.appointmentDate} ${timeOnly}, Həkim: ${psych.name}, Pasient: ${patientName}`;
+    const sessionLang = resolveSessionLang(i18n.resolvedLanguage || i18n.language);
+    const formattedDate = formatSessionDate(pendingBooking.appointmentDate, sessionLang);
+    const timeOnly = formatSessionTime(
+      pendingBooking.appointmentTime,
+      pendingBooking.appointmentDate
+    );
+    const description = `Seans: ${formattedDate}, ${timeOnly}, Həkim: ${psych.name}, Pasient: ${patientName}`;
     const amount = Number(effectivePrice);
 
     try {
@@ -228,7 +238,7 @@ export const PsychologistPage = () => {
         setShowPaymentModal(false);
         navigate(
           `/result_payment?amount=${amount}&currency=${effectiveCurrency}&item=${encodeURIComponent(
-            `Seans: ${psych.name} (${pendingBooking.appointmentDate} ${timeOnly})`
+            `Seans: ${psych.name} (${formattedDate}, ${timeOnly})`
           )}`
         );
       }

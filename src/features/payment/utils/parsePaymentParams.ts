@@ -1,4 +1,10 @@
 import type { PaymentDetails, PaymentStatus } from '../types/payment';
+import i18n from '@/libs/i18n';
+import {
+  formatSessionDate,
+  formatSessionTime,
+  resolveSessionLang,
+} from '@/utils/sessionDate';
 
 export const parsePaymentParams = (searchParams: URLSearchParams, defaultStatus: PaymentStatus = 'success'): PaymentDetails => {
   const orderId =
@@ -25,16 +31,13 @@ export const parsePaymentParams = (searchParams: URLSearchParams, defaultStatus:
     status = 'pending';
   }
 
-  // Format date nicely
+  // Format date consistently across all browsers and locales
   const now = new Date();
-  const formattedDate = searchParams.get('date') ||
-    now.toLocaleDateString('az-AZ', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+  const lang = resolveSessionLang(i18n.resolvedLanguage || i18n.language);
+  const rawDateParam = searchParams.get('date');
+  const formattedDate = rawDateParam
+    ? formatSessionDate(rawDateParam, lang)
+    : `${formatSessionDate(now, lang)}, ${formatSessionTime(now)}`;
 
   return {
     orderId,

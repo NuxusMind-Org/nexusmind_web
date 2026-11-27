@@ -3,6 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { AppIcon, Skeleton, SkeletonGroup } from '@/components';
 import { doctorsApi } from '@/api/doctors.api';
 import type { AvailableSlotDto, AppointmentMode } from '@/api/types';
+import {
+  formatSessionDate,
+  formatSessionWeekRange,
+  formatWeekdayShort,
+  resolveSessionLang,
+} from '@/utils/sessionDate';
 
 interface CalendarWidgetProps {
   psychologistId: number;
@@ -91,36 +97,6 @@ const getMonday = (d: Date): Date => {
   return date;
 };
 
-const formatWeekRange = (start: Date, end: Date, locale: string): string => {
-  const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
-  const sameYear = start.getFullYear() === end.getFullYear();
-
-  const startDay = start.getDate();
-  const endDay = end.getDate();
-
-  if (sameMonth) {
-    const monthYear = end.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
-    return `${startDay} – ${endDay} ${monthYear}`;
-  }
-
-  if (sameYear) {
-    const startMonth = start.toLocaleDateString(locale, { month: 'short' });
-    const endMonthYear = end.toLocaleDateString(locale, { month: 'short', year: 'numeric' });
-    return `${startDay} ${startMonth} – ${endDay} ${endMonthYear}`;
-  }
-
-  const startFull = start.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
-  const endFull = end.toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' });
-  return `${startFull} – ${endFull}`;
-};
-
-const formatSelectedDateHeading = (iso: string | null, locale: string): string => {
-  if (!iso) return '';
-  const [y, m, d] = iso.split('-').map(Number);
-  const date = new Date(y, m - 1, d);
-  return date.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
-};
-
 export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onConfirm }: CalendarWidgetProps) => {
   const { t, i18n } = useTranslation();
   const today = useMemo(() => new Date(), []);
@@ -134,7 +110,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
   const [slots, setSlots] = useState<AvailableSlotDto[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+  const sessionLang = resolveSessionLang(i18n.resolvedLanguage || i18n.language);
 
   const isCurrentWeek = currentWeekMonday.getTime() <= thisWeekMonday.getTime();
 
@@ -311,8 +287,8 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
       {/* Week Navigator */}
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
-          <h4 className="text-sm sm:text-base font-semibold text-white capitalize">
-            {formatWeekRange(weekDays[0], weekDays[6], locale)}
+          <h4 className="text-sm sm:text-base font-semibold text-white">
+            {formatSessionWeekRange(weekDays[0], weekDays[6], sessionLang)}
           </h4>
         </div>
         <div className="flex items-center gap-1.5">
@@ -359,7 +335,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
           const hasSlots = hasSlotsForDate(dateObj);
           const slotCount = getSlotsCountForDate(dateObj);
 
-          const weekdayName = dateObj.toLocaleDateString(locale, { weekday: 'short' });
+          const weekdayName = formatWeekdayShort(dateObj, sessionLang);
           const dayNumber = dateObj.getDate();
 
           return (
@@ -425,7 +401,7 @@ export const CalendarWidget = ({ psychologistId, psychologistName, onBack, onCon
         <span className="text-xs font-semibold text-white/70 uppercase tracking-wider flex items-center justify-between">
           <span>
             {t('webapp.calendar.availableHours', 'Mövcud saatlar')}
-            {selectedDate ? ` (${formatSelectedDateHeading(selectedDate, locale)})` : ''}:
+            {selectedDate ? ` (${formatSessionDate(selectedDate, sessionLang, { style: 'shortWeekday' })})` : ''}:
           </span>
           {availableHours.length > 0 && (
             <span className="text-[11px] font-medium text-purple-300/90 normal-case bg-purple-500/10 px-2 py-0.5 rounded-md border border-purple-400/20">
