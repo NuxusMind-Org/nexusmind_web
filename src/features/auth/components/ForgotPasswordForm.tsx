@@ -6,7 +6,7 @@ import { AxiosError } from 'axios';
 import { Input } from '@/components/input';
 import { Button } from '@/components/button';
 import { PATHS } from '@/routes/paths';
-import nexusMindLogo from '@/assets/svg/NexusMindLogo.svg';
+import nexusMindLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import { forgotPasswordSchema } from '../schemas/forgot-password.schema';
 import type { ForgotPasswordFormInput, ForgotPasswordFormOutput } from '../schemas/forgot-password.schema';
 import { useForgotPassword } from '../hooks/useForgotPassword';
@@ -56,7 +56,7 @@ export const ForgotPasswordForm = () => {
       {/* Header */}
       <div className="mb-6">
         <Link to={PATHS.HOME} className="flex items-center mb-6 self-start w-fit hover:opacity-80 transition-opacity">
-          <img src={nexusMindLogo} alt="Nexus Mind Logo" className="h-10 object-contain cursor-pointer" />
+          <img src={nexusMindLogo} alt="NexusMind Logo" className="h-12 sm:h-14 w-auto object-contain cursor-pointer" />
         </Link>
         <h1 className="text-[32px] font-bold text-white mb-3 tracking-tight">Şifrənin bərpası</h1>
         <p className="text-[14px] text-[#A1A1AA] leading-relaxed">

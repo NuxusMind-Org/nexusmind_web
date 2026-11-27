@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import nexusMindLogo from '@/assets/svg/NexusMindLogo.svg';
+import nexusMindLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AppIcon } from '@/components';
@@ -87,7 +87,7 @@ export const RegistrationForm = () => {
       {/* Header */}
       <div className="mb-8">
         <Link to={PATHS.HOME} className="flex items-center mb-6 self-start w-fit hover:opacity-80 transition-opacity">
-          <img src={nexusMindLogo} alt="Nexus Mind Logo" className="h-10 object-contain cursor-pointer" />
+          <img src={nexusMindLogo} alt="NexusMind Logo" className="h-12 sm:h-14 w-auto object-contain cursor-pointer" />
         </Link>
         <h1 className="text-[32px] font-bold text-white mb-1 tracking-tight">Hesab yarat</h1>
       </div>

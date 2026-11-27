@@ -7,13 +7,21 @@ import galleryMassage from '@/assets/gallery/gallery_massage.png';
 import galleryWorkshop from '@/assets/gallery/gallery_workshop.png';
 import gallerySandplay from '@/assets/gallery/gallery_sandplay.png';
 
+import type { MediaType } from '@/api/types';
+
 export interface GalleryItem {
   id: number;
   image: string;
+  mediaUrl?: string;
+  thumbnailUrl?: string;
+  mediaType?: MediaType;
+  title?: string;
+  altText?: string;
   category: 'terapiyalar' | 'otaqlar' | 'telimler';
   badgeText: string;
   popularity: number;
   date: string;
+  rawDate?: string;
 }
 
 export const GALLERY_ITEMS: GalleryItem[] = [

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
@@ -13,9 +13,13 @@ import {
 } from '../components/news';
 import { NEWS_ITEMS } from '../constants/news';
 import newsDetailCover from '@/assets/news/news_detail_cover.png';
-import newsConference from '@/assets/news/news_conference.png';
-import { newsApi } from '@/api/news.api';
 import type { XeberResponseDto } from '@/api/types';
+import { useNewsDetail, useNewsList } from '../hooks/useContentQueries';
+import {
+  mapXeberToNewsItem,
+  parseTimestamp,
+  resolveContentLang,
+} from '@/utils/contentMappers';
 import { SEO, AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import { getLocalizedTitle } from '@/utils/multilingual';
@@ -24,91 +28,61 @@ export const NewsDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const lang = resolveContentLang(i18n.resolvedLanguage || i18n.language);
 
-  const [news, setNews] = useState<XeberResponseDto | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(Boolean(id));
-  const [isError, setIsError] = useState<boolean>(!id);
+  const { data: fetchedNews, isLoading } = useNewsDetail(id);
+  const { data: allNewsDtos } = useNewsList();
 
-  useEffect(() => {
-    let isMounted = true;
-    if (!id) return;
-
-    newsApi
-      .getById(id)
-      .then((data) => {
-        if (isMounted) {
-          if (data && (data.id || data.title)) {
-            setNews(data);
-          } else {
-            setIsError(true);
-          }
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.warn(`[NewsDetailPage] Backend fetch failed for id "${id}":`, err);
-        if (isMounted) {
-          // Check for fallback in static mock data if backend item does not exist
-          const numericId = Number(id);
-          const mockFound = NEWS_ITEMS.find((item) => item.id === numericId);
-          if (mockFound) {
-            setNews({
-              id: mockFound.id,
-              title:
-                mockFound.id === 1
-                  ? 'Bakı Psixologiya Mərkəzində: 3 Aylıq Mentorluq Proqramı'
-                  : mockFound.title,
-              shortDescription: mockFound.description,
-              imageUrl: mockFound.id === 1 ? newsDetailCover : mockFound.image,
-              category: mockFound.categoryLabel,
-              createdAt: mockFound.date,
-              slug: String(mockFound.id),
-              metaTitle: mockFound.title,
-              metaDescription: mockFound.description,
-            });
-            setIsError(false);
-          } else {
-            setIsError(true);
-          }
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [id]);
-
-  // Format news for presentation components
-  const article = useMemo(() => {
-    if (!news) return null;
-
-    const locale = i18n.language === 'az' ? 'az-AZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
-    const formattedDate = news.createdAt
-      ? news.createdAt.includes('T')
-        ? new Date(news.createdAt).toLocaleDateString(locale, {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          })
-        : news.createdAt
-      : '12 May, 2024';
+  // Prefer live backend DTO; fall back to matching static mock item if backend has no record for this id
+  const news: XeberResponseDto | null = useMemo(() => {
+    if (fetchedNews && (fetchedNews.id || fetchedNews.title)) {
+      return fetchedNews;
+    }
+    if (!id) return null;
+    const numericId = Number(id);
+    const mockFound = NEWS_ITEMS.find((item) => item.id === numericId);
+    if (!mockFound) return null;
 
     return {
-      id: news.id ?? (id ? Number(id) : 1),
-      image: news.imageUrl || (news.id === 1 ? newsDetailCover : newsConference),
-      category: (news.category?.toLowerCase() || 'tedbirler') as 'elanlar' | 'tecrube' | 'tedbirler',
-      categoryLabel: news.category || 'Psixoloji Sağlamlıq',
-      date: formattedDate,
-      title: getLocalizedTitle(news.title || news.titleDto, i18n.language as 'az' | 'en' | 'ru', 'Bakı Psixologiya Mərkəzində: 3 Aylıq Mentorluq Proqramı'),
-      description: getLocalizedTitle(
-        news.shortDescription || news.introText,
-        i18n.language as 'az' | 'en' | 'ru',
-        'Yanvarın 15-də Bakı Psixologiya Mərkəzi Mentorluq proqramına başlayıb.'
-      ),
-      views: 120,
+      id: mockFound.id,
+      title:
+        mockFound.id === 1
+          ? 'Bakı Psixologiya Mərkəzində: 3 Aylıq Mentorluq Proqramı'
+          : mockFound.title,
+      shortDescription: mockFound.description,
+      introText: mockFound.description,
+      imageUrl: mockFound.id === 1 ? newsDetailCover : mockFound.image,
+      category: mockFound.categoryLabel,
+      viewCount: mockFound.views,
+      readTimeMinutes: 5,
+      createdAt: mockFound.date,
+      slug: String(mockFound.id),
+      metaTitle: mockFound.title,
+      metaDescription: mockFound.description,
     };
-  }, [news, id, i18n.language]);
+  }, [fetchedNews, id]);
+
+  const article = useMemo(() => {
+    if (!news) return null;
+    return mapXeberToNewsItem(news, lang);
+  }, [news, lang]);
+
+  const relatedNews = useMemo(() => {
+    const currentId = news?.id ?? (id ? Number(id) : -1);
+    const realNews = Array.isArray(allNewsDtos)
+      ? allNewsDtos
+          .filter((dto) => (!dto.status || dto.status === 'PUBLISHED') && dto.id !== currentId)
+          .sort((a, b) => parseTimestamp(b.createdAt) - parseTimestamp(a.createdAt))
+          .map((dto) => mapXeberToNewsItem(dto, lang))
+      : [];
+
+    const realIds = new Set(realNews.map((item) => item.id));
+    const mockFallback = NEWS_ITEMS.filter(
+      (mock) => mock.id !== currentId && !realIds.has(mock.id)
+    );
+
+    return [...realNews, ...mockFallback].slice(0, 3);
+  }, [allNewsDtos, news?.id, id, lang]);
 
   return (
     <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
@@ -118,7 +92,7 @@ export const NewsDetailPage = () => {
       {isLoading && <DetailPageSkeleton />}
 
       {/* State 2: Error / Not Found */}
-      {!isLoading && (isError || !article || !news) && (
+      {!isLoading && (!article || !news) && (
         <>
           <SEO
             metaTitle={`${t('news.notFoundTitle')} | NexusMind`}
@@ -135,8 +109,9 @@ export const NewsDetailPage = () => {
                 {t('news.notFoundDesc')}
               </p>
               <button
+                type="button"
                 onClick={() => navigate(PATHS.NEWS)}
-                className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-sm font-semibold transition-colors cursor-pointer border border-white/20"
+                className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-nav-action font-semibold transition-colors cursor-pointer border border-white/20"
               >
                 <AppIcon icon="lucide:arrow-left" className="w-4 h-4" />
                 <span>{t('news.backToList')}</span>
@@ -147,11 +122,11 @@ export const NewsDetailPage = () => {
       )}
 
       {/* State 3: Success */}
-      {!isLoading && !isError && article && news && (
+      {!isLoading && article && news && (
         <>
           <SEO
             metaTitle={news.metaTitle || article.title}
-            metaDescription={getLocalizedTitle(news.metaDescription || news.shortDescription, i18n.language as 'az' | 'en' | 'ru', '')}
+            metaDescription={getLocalizedTitle(news.metaDescription || news.shortDescription, lang, '')}
             slug={news.slug || news.id}
             schemaMarkup={news.schemaMarkup}
             metaKeywords={news.metaKeywords}
@@ -167,14 +142,14 @@ export const NewsDetailPage = () => {
               {/* Grid Layout: Left Content Column (67%), Right Sidebar Column (33%) */}
               <div className="w-full flex flex-col lg:flex-row gap-8 items-start">
                 <div className="w-full lg:w-[67%]">
-                  <NewsDetailBody />
+                  <NewsDetailBody news={news} lang={lang} />
                 </div>
                 <div className="w-full lg:w-[33%]">
                   <NewsDetailSidebar />
                 </div>
               </div>
 
-              <NewsDetailRelated />
+              <NewsDetailRelated items={relatedNews} />
             </div>
           </main>
         </>

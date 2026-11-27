@@ -245,6 +245,7 @@ class Media {
   baseScaleY: number = 0;
   hoverScale: number = 1;
   targetHoverScale: number = 1;
+  onCardSettled?: () => void;
 
   constructor({
     geometry,
@@ -262,7 +263,8 @@ class Media {
     bend,
     textColor,
     borderRadius = 0.07,
-    font
+    font,
+    onCardSettled
   }: any) {
     this.extra = 0;
     this.geometry = geometry;
@@ -281,6 +283,7 @@ class Media {
     this.textColor = textColor;
     this.borderRadius = borderRadius;
     this.font = font;
+    this.onCardSettled = onCardSettled;
     this.createShader();
     this.createMesh();
     this.onResize();
@@ -361,6 +364,13 @@ class Media {
     }
     img.src = targetSrc;
 
+    let hasNotifiedSettled = false;
+    const notifySettled = () => {
+      if (hasNotifiedSettled) return;
+      hasNotifiedSettled = true;
+      this.onCardSettled?.();
+    };
+
     const renderCard = () => {
       this.loadedImg = img;
       drawExpertCard(
@@ -372,6 +382,7 @@ class Media {
       );
       this.texture.image = this.cardCanvas;
       this.texture.needsUpdate = true;
+      notifySettled();
     };
 
     if (img.complete && img.naturalWidth) {
@@ -396,12 +407,15 @@ class Media {
           );
           this.texture.image = this.cardCanvas;
           this.texture.needsUpdate = true;
+          notifySettled();
         };
         retryImg.onerror = () => {
           console.warn('CircularGallery: failed to load image', this.image);
+          notifySettled();
         };
       } else {
         console.warn('CircularGallery: failed to load image', this.image);
+        notifySettled();
       }
     };
 
@@ -454,10 +468,10 @@ class Media {
       const arc = R - Math.sqrt(Math.max(0, R * R - effectiveX * effectiveX));
       if (effectiveBend > 0) {
         // Arch (convex): center card is elevated, cards slope smoothly downward toward edges
-        this.plane.position.y = -arc + B_abs * 0.35;
+        this.plane.position.y = -arc + B_abs * 0.45;
       } else {
         // Cradle (concave): center card is lower, cards slope smoothly upward toward edges
-        this.plane.position.y = arc - B_abs * 0.35;
+        this.plane.position.y = arc - B_abs * 0.45;
       }
       // Keep cards upright and stable without weird tilting or rotation
       this.plane.rotation.z = 0;
@@ -482,12 +496,12 @@ class Media {
     if (viewport) {
       this.viewport = viewport;
     }
-    this.scale = this.screen.height / 1500;
+    this.scale = this.screen.height / 1150;
     this.baseScaleY = (this.viewport.height * (900 * this.scale)) / this.screen.height;
     this.baseScaleX = (this.viewport.width * (700 * this.scale)) / this.screen.width;
     this.plane.scale.x = this.baseScaleX * this.hoverScale;
     this.plane.scale.y = this.baseScaleY * this.hoverScale;
-    this.padding = 2;
+    this.padding = this.baseScaleX * 0.26;
     this.width = this.baseScaleX + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;
@@ -615,6 +629,14 @@ class App {
     const galleryItems = items && items.length ? items : defaultItems;
     this.galleryItems = galleryItems;
 
+    const requiredInitialCards = Math.min(galleryItems.length, 5);
+    const settledInitialIndices = new Set<number>();
+    if (requiredInitialCards === 0) {
+      this.container.dataset.assetReady = 'true';
+    } else {
+      this.container.dataset.assetReady = 'false';
+    }
+
     // Ensure enough items exist for smooth circular wrapping
     let repeatCount = 2;
     while (galleryItems.length * repeatCount < 10) {
@@ -643,7 +665,16 @@ class App {
         bend,
         textColor,
         borderRadius,
-        font
+        font,
+        onCardSettled:
+          index < requiredInitialCards
+            ? () => {
+                settledInitialIndices.add(index);
+                if (settledInitialIndices.size >= requiredInitialCards) {
+                  this.container.dataset.assetReady = 'true';
+                }
+              }
+            : undefined
       });
     });
   }

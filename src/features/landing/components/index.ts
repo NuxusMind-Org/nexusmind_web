@@ -1,4 +1,5 @@
 export { Footer } from './Footer';
+export { PsychologistApplicationModal } from './PsychologistApplicationModal';
 export { LandingNavbar } from './LandingNavbar';
 export { ScrollReveal } from './ScrollReveal';
 

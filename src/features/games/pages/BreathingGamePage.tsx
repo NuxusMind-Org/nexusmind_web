@@ -87,7 +87,7 @@ export const BreathingGamePage = () => {
             className="flex items-center gap-2 text-white/70 hover:text-white transition-colors cursor-pointer group"
           >
             <AppIcon icon="lucide:arrow-left" size={20} className="group-hover:-translate-x-1 transition-transform" />
-            <span className="text-sm font-semibold">{t('webapp.miniGames.backToTechniques', 'Bütün texnikalar')}</span>
+            <span className="text-nav-action font-semibold">{t('webapp.miniGames.backToTechniques', 'Bütün texnikalar')}</span>
           </button>
 
           <div className="text-center">

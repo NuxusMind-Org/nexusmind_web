@@ -14,10 +14,12 @@ export interface ArticleItem {
   category: string;
   categoryLabel: string;
   date: string;
+  rawDate?: string;
   readTime: string;
   views: number;
   title: string;
   description: string;
+  doctorId?: number;
   author: {
     name: string;
     title: string;

@@ -38,7 +38,7 @@ export const ArticlesPagination = ({
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`w-10 h-10 rounded-full flex items-center justify-center text-[14px] font-medium transition-all duration-300 cursor-pointer ${
+            className={`w-10 h-10 rounded-full flex items-center justify-center text-nav-sub font-medium transition-all duration-300 cursor-pointer ${
               isActive
                 ? 'bg-gradient-to-r from-[#9f5bff] to-[#00f2ff] text-white font-semibold shadow-lg shadow-[#9f5bff]/20 border-none'
                 : 'border border-white/10 text-white/80 hover:text-white hover:border-white/20 bg-white/5 hover:bg-white/10'

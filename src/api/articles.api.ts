@@ -1,4 +1,5 @@
 import { apiClient } from './client';
+import { buildPageableParams, SPRING_PARAMS_SERIALIZER } from './utils/pageable';
 import type {
   MeqaleRequestDto,
   MeqaleResponseDto,
@@ -48,21 +49,27 @@ export const articlesApi = {
       sort: params.sort,
     };
     const response = await apiClient.get<PageMeqaleResponseDto>('/meqale/search', {
-      params: { keyword, pageable },
+      params: { keyword, ...buildPageableParams(pageable) },
+      paramsSerializer: SPRING_PARAMS_SERIALIZER,
     });
     return response.data;
   },
 
   getByCategory: async (category: string, pageable?: Pageable): Promise<PageMeqaleResponseDto> => {
-    const response = await apiClient.get<PageMeqaleResponseDto>(`/meqale/category/${category}`, {
-      params: { pageable: pageable || { page: 0, size: 10 } },
-    });
+    const response = await apiClient.get<PageMeqaleResponseDto>(
+      `/meqale/category/${encodeURIComponent(category)}`,
+      {
+        params: buildPageableParams(pageable),
+        paramsSerializer: SPRING_PARAMS_SERIALIZER,
+      }
+    );
     return response.data;
   },
 
   getAdminAll: async (pageable?: Pageable): Promise<PageMeqaleResponseDto> => {
     const response = await apiClient.get<PageMeqaleResponseDto>('/meqale/admin/all', {
-      params: { pageable: pageable || { page: 0, size: 10 } },
+      params: buildPageableParams(pageable),
+      paramsSerializer: SPRING_PARAMS_SERIALIZER,
     });
     return response.data;
   },

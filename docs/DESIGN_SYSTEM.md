@@ -265,13 +265,11 @@ These are intentional one-off colors tied to specific components. Do not reuse t
 
 ### Font Family
 
-**One font: Lexend** — loaded from Google Fonts in `index.html` (weights 300–700). Applied globally via `font-sans` on `html, body`. Never import or use another font family.
-
-**Editorial exception:** `font-serif` (system serif) is used exclusively for the `<h1>` page title on content-heavy inner pages: Journal, Psychologist Detail, Blog, and Articles. This is an intentional stylistic accent — do not extend it to other elements.
+**Primary UI font: Afacad** (weights 400–700) paired with **Caveat** (`font-title`) for expressive hero display titles — loaded from Google Fonts in `index.html` and configured in `src/styles/globals.css`.
 
 ### Type Scale
 
-The following is the canonical scale. Use these sizes. Do not introduce intermediate sizes.
+The following is the canonical scale (backed by `TYPOGRAPHY` in `src/constants/typography.ts` and `@theme` tokens in `src/styles/globals.css`). Use these sizes. Do not introduce intermediate sizes.
 
 #### Headings
 
@@ -292,15 +290,16 @@ The following is the canonical scale. Use these sizes. Do not introduce intermed
 |---|---|---|---|
 | Section subheading | `text-[15px] sm:text-[19px]` | `font-normal` | Under section H2 |
 | Card body text | `text-[13px] sm:text-[14px]` | `font-light` | Line-height `leading-relaxed` |
-| Nav items (desktop) | `text-[15px]` | `font-medium` | — |
-| Nav items (mobile) | `text-[16px]` | `font-medium` | Sub-items: `text-[14px]` |
+| Nav items (desktop) | `text-nav lg:text-nav-lg` (`17px` / `18px`) | `font-medium` | Dropdown sub-items: `text-nav-sub` (`16px`) |
+| Nav items (mobile) | `text-nav-mobile` (`18px`) | `font-medium` | Sub-items: `text-nav-sub` (`16px`) |
+| Nav action / filter / back buttons | `text-nav-action` (`16px`) | `font-semibold` | Navbar Login CTA: `17px` |
 | Input label | `text-[14px]` | `font-medium` | `text-primary-text` |
 | Input placeholder | `text-[14px]` | `font-normal` | `text-ui-muted` |
 | Input error | `text-[12px]` | `font-normal` | `text-red-400` |
-| Footer links | `text-[14px]` | `font-normal` | — |
-| Footer section heading | `text-[16px]` | `font-semibold` | — |
+| Footer links | `text-footer-link sm:text-footer-link-lg` (`16px` / `17px`) | `font-normal` | — |
+| Footer section heading | `text-footer-heading sm:text-footer-heading-lg` (`18px` / `20px`) | `font-bold` | — |
 | Badge / tag text | `text-[10px] sm:text-[11px]` | `font-bold` | `uppercase tracking-widest` |
-| Breadcrumb / meta | `text-[12px] sm:text-[13px]` | `font-medium` | — |
+| Breadcrumb / meta | `text-breadcrumb sm:text-[16px]` (`15px` / `16px`) | `font-medium` | — |
 | News detail body | `text-[15px] sm:text-[16px]` | `font-light` | `leading-relaxed` |
 
 ### Text Transform & Spacing Rules

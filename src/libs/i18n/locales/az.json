@@ -53,7 +53,11 @@
     "noResults": "Axtarışınıza uyğun mütəxəssis tapılmadı",
     "resetFilters": "Filtrləri sıfırla",
     "bookSession": "Seans Təyin Et",
-    "yearsExp": "illik təcrübə"
+    "yearsExp": "illik təcrübə",
+    "sort": {
+      "default": "Standart",
+      "name": "Ada görə (A-Z)"
+    }
   },
   "vr": {
     "title": "VR konsultasiya",
@@ -141,9 +145,62 @@
     "contact": "Əlaqə",
     "address": "Bakı şəhəri, Neftçilər prospekti 123, AZ1000",
     "vacancyCv": "Vakansiya / CV qəbulu (BPM):",
+    "joinOurTeam": "Komandamıza qoşulun",
+    "careerDescription": "Peşəkar psixoloqsunuz? NexusMind komandasına qoşulmaq üçün müraciət edin.",
+    "careerApplyButton": "Psixoloq kimi müraciət et",
     "downloadApp": "Tətbiqi yükləyin",
     "followUs": "Bizi izləyin",
     "copyright": "© 2026 NexusMind | Bütün hüquqlar qorunur"
+  },
+  "careerModal": {
+    "badge": "Karyera",
+    "title": "Psixoloq kimi müraciət edin",
+    "subtitle": "Məlumatlarınızı və CV-nizi əlavə edin — komandamız sizinlə ən qısa zamanda əlaqə saxlayacaq.",
+    "close": "Bağla",
+    "cancel": "Ləğv et",
+    "submit": "Müraciəti göndər",
+    "submitting": "Göndərilir...",
+    "uploadPrompt": "CV faylını seçin və ya bura sürüşdürün",
+    "changeFile": "Dəyiş",
+    "removeFile": "Faylı sil",
+    "cvSelectedAnnouncement": "{{name}} faylı seçildi.",
+    "successTitle": "Müraciətiniz uğurla göndərildi!",
+    "successDescription": "NexusMind komandasına göstərdiyiniz marağa görə təşəkkür edirik. Müraciətiniz qəbul edildi və qiymətləndirildikdən sonra sizinlə əlaqə saxlanılacaq.",
+    "fields": {
+      "name": "Ad",
+      "surname": "Soyad",
+      "fatherName": "Ata adı",
+      "age": "Yaş",
+      "phone": "Əlaqə nömrəsi",
+      "cv": "CV Faylı"
+    },
+    "placeholders": {
+      "name": "Adınız",
+      "surname": "Soyadınız",
+      "fatherName": "Ata adınız",
+      "age": "Məs: 30"
+    },
+    "hints": {
+      "age": "18 ilə 90 arasında yaş daxil edin",
+      "phone": "Nümunə: +994 50 123 45 67",
+      "cv": "PDF, DOC və ya DOCX formatı — maksimum 10 MB"
+    },
+    "errors": {
+      "nameRequired": "Adınızı daxil edin.",
+      "nameLength": "Ad ən azı 2 simvoldan ibarət olmalıdır.",
+      "surnameRequired": "Soyadınızı daxil edin.",
+      "surnameLength": "Soyad ən azı 2 simvoldan ibarət olmalıdır.",
+      "fatherNameRequired": "Ata adınızı daxil edin.",
+      "fatherNameLength": "Ata adı ən azı 2 simvoldan ibarət olmalıdır.",
+      "ageRequired": "Yaşınızı daxil edin.",
+      "ageInvalid": "Yaş 18 ilə 90 arasında tam ədəd olmalıdır.",
+      "phoneRequired": "Əlaqə nömrənizi daxil edin.",
+      "phoneInvalid": "Düzgün telefon nömrəsi daxil edin (məs: +994 50 123 45 67).",
+      "cvRequired": "Zəhmət olmasa CV faylınızı yükləyin.",
+      "cvType": "Yalnız PDF, DOC və ya DOCX formatlı fayllar qəbul edilir.",
+      "cvSize": "Faylın ölçüsü 10 MB-dan böyük olmamalıdır.",
+      "submitFailed": "Müraciəti göndərərkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
+    }
   },
   "psychologist": {
     "about": "Psixoloq haqqında",
@@ -164,6 +221,8 @@
   "trainings": {
     "headerTitle": "Təlimlər",
     "headerSubtitle": "Peşəkar psixoloqlarımız tərəfindən keçirilən onlayn və əyani təlimlərə qoşularaq daxili dünyanızı kəşf edin. Ruh sağlamlığınızı prioritet edin.",
+    "comingSoonTitle": "Tezliklə",
+    "comingSoonDesc": "Peşəkar psixoloqlarımızın rəhbərliyi ilə onlayn və əyani təlimlər bölməsi tezliklə istifadəyə veriləcək. Yeniliklərdən xəbərdar olmaq üçün bizi izləyin.",
     "individualConsultation": "Fərdi məsləhət al",
     "listView": "Siyahı",
     "calendarView": "Təqvimə bax",

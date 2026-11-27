@@ -20,8 +20,20 @@ export type { GradientBackgroundProps } from './background';
 export { BorderGlow } from './BorderGlow';
 export type { BorderGlowProps } from './BorderGlow';
 
-export { Skeleton, SkeletonGroup } from './skeleton';
-export type { SkeletonProps, SkeletonGroupProps } from './skeleton';
+export {
+  Skeleton,
+  SkeletonGroup,
+  RouteSkeletonForPath,
+  RouteLoadingGate,
+} from './skeleton';
+export type {
+  SkeletonProps,
+  SkeletonGroupProps,
+  RouteLoadingGateProps,
+} from './skeleton';
+
+export { SmartImage } from './common/SmartImage';
+export type { SmartImageProps } from './common/SmartImage';
 
 export { AppIcon, Icon } from './common/AppIcon';
 export type { AppIconProps } from './common/AppIcon';

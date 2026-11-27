@@ -53,7 +53,11 @@
     "noResults": "No specialists found matching your search",
     "resetFilters": "Reset filters",
     "bookSession": "Book a Session",
-    "yearsExp": "years experience"
+    "yearsExp": "years experience",
+    "sort": {
+      "default": "Default",
+      "name": "By Name (A-Z)"
+    }
   },
   "vr": {
     "title": "VR Consultation",
@@ -141,9 +145,62 @@
     "contact": "Contact",
     "address": "Baku city, Neftchilar Avenue 123, AZ1000",
     "vacancyCv": "Vacancies / CV submission (BPM):",
+    "joinOurTeam": "Join Our Team",
+    "careerDescription": "Are you a licensed psychologist? Apply to join the NexusMind team.",
+    "careerApplyButton": "Apply as a Psychologist",
     "downloadApp": "Download the App",
     "followUs": "Follow Us",
     "copyright": "© 2026 NexusMind | All rights reserved"
+  },
+  "careerModal": {
+    "badge": "Careers",
+    "title": "Apply as a Psychologist",
+    "subtitle": "Share your details and upload your CV — our team will review your application and get in touch soon.",
+    "close": "Close",
+    "cancel": "Cancel",
+    "submit": "Submit Application",
+    "submitting": "Submitting...",
+    "uploadPrompt": "Choose your CV file or drag & drop here",
+    "changeFile": "Change",
+    "removeFile": "Remove file",
+    "cvSelectedAnnouncement": "Selected file {{name}}.",
+    "successTitle": "Application Submitted!",
+    "successDescription": "Thank you for your interest in joining NexusMind. We have received your application and will contact you after reviewing your profile.",
+    "fields": {
+      "name": "First Name",
+      "surname": "Last Name",
+      "fatherName": "Father's Name",
+      "age": "Age",
+      "phone": "Phone Number",
+      "cv": "CV / Resume"
+    },
+    "placeholders": {
+      "name": "Your first name",
+      "surname": "Your last name",
+      "fatherName": "Your father's name",
+      "age": "e.g. 30"
+    },
+    "hints": {
+      "age": "Enter an age between 18 and 90",
+      "phone": "Format: +994 50 123 45 67",
+      "cv": "PDF, DOC, or DOCX — max 10 MB"
+    },
+    "errors": {
+      "nameRequired": "Please enter your first name.",
+      "nameLength": "First name must be at least 2 characters.",
+      "surnameRequired": "Please enter your last name.",
+      "surnameLength": "Last name must be at least 2 characters.",
+      "fatherNameRequired": "Please enter your father's name.",
+      "fatherNameLength": "Father's name must be at least 2 characters.",
+      "ageRequired": "Please enter your age.",
+      "ageInvalid": "Age must be a whole number between 18 and 90.",
+      "phoneRequired": "Please enter your phone number.",
+      "phoneInvalid": "Please enter a valid phone number (e.g. +994 50 123 45 67).",
+      "cvRequired": "Please attach your CV file.",
+      "cvType": "Only PDF, DOC, or DOCX files are accepted.",
+      "cvSize": "File size must not exceed 10 MB.",
+      "submitFailed": "Could not submit your application. Please try again."
+    }
   },
   "psychologist": {
     "about": "About Psychologist",
@@ -164,6 +221,8 @@
   "trainings": {
     "headerTitle": "Trainings",
     "headerSubtitle": "Explore your inner world and prioritize mental wellness by joining online and in-person trainings led by our expert psychologists.",
+    "comingSoonTitle": "Coming Soon",
+    "comingSoonDesc": "Online and in-person trainings led by our expert psychologists are launching soon. Stay tuned for upcoming sessions and workshops.",
     "individualConsultation": "Book Individual Consultation",
     "listView": "List",
     "calendarView": "View Calendar",

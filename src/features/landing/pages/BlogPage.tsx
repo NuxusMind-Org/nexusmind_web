@@ -1,59 +1,109 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppIcon } from '@/components';
+import { AppIcon, SmartImage } from '@/components';
 import { useTranslation } from 'react-i18next';
-import { blogsApi } from '@/api/blogs.api';
-import { mapBlogToSimilarBlogCard } from '@/utils/contentMappers';
-import { SIMILAR_BLOGS, POPULAR_TOPICS, type SimilarBlogCard } from '../constants/blog';
+import { useBlogsList } from '../hooks/useContentQueries';
+import {
+  mapBlogToSimilarBlogCard,
+  parseTimestamp,
+  resolveContentLang,
+} from '@/utils/contentMappers';
+import { SIMILAR_BLOGS, POPULAR_TOPICS } from '../constants/blog';
 import { PATHS } from '@/routes/paths';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { CardGridSkeleton } from '../components/skeletons';
 import vrConsultation from '@/assets/vr_consultation.png';
 
+const BLOGS_PER_PAGE = 6;
+
 export const BlogPage = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = resolveContentLang(i18n.resolvedLanguage || i18n.language);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [realBlogs, setRealBlogs] = useState<SimilarBlogCard[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    let isMounted = true;
-    blogsApi
-      .getAll()
-      .then((data) => {
-        if (isMounted && Array.isArray(data)) {
-          const mapped = data.map(mapBlogToSimilarBlogCard);
-          setRealBlogs(mapped);
-        }
-      })
-      .catch((err) => {
-        console.warn('[LandingBlogPage] Failed to fetch blogs from backend:', err);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false);
-      });
+  const { data: blogDtos, isLoading } = useBlogsList();
 
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const realBlogs = useMemo(() => {
+    if (!Array.isArray(blogDtos)) return [];
+    return [...blogDtos]
+      .sort((a, b) => parseTimestamp(b.createdAt) - parseTimestamp(a.createdAt))
+      .map((dto) => mapBlogToSimilarBlogCard(dto, lang));
+  }, [blogDtos, lang]);
 
+  // Merge real backend blogs first, then deduplicated static mock blogs
   const allBlogs = useMemo(() => {
-    return [...realBlogs, ...SIMILAR_BLOGS];
+    const realIds = new Set(realBlogs.map((item) => item.id));
+    const uniqueMocks = SIMILAR_BLOGS.filter((mock) => !realIds.has(mock.id));
+    return [...realBlogs, ...uniqueMocks];
   }, [realBlogs]);
 
+  // Extract dynamic popular topic tags from backend metaKeywords/categories with fallback
+  const popularTopics = useMemo(() => {
+    if (!Array.isArray(blogDtos) || blogDtos.length === 0) return POPULAR_TOPICS;
+    const tagSet = new Set<string>();
+    for (const dto of blogDtos) {
+      if (dto.category?.trim()) tagSet.add(dto.category.trim());
+      if (Array.isArray(dto.metaKeywords)) {
+        for (const kw of dto.metaKeywords) {
+          if (kw.trim()) tagSet.add(kw.trim());
+        }
+      }
+      if (tagSet.size >= 8) break;
+    }
+    return tagSet.size > 0 ? Array.from(tagSet) : POPULAR_TOPICS;
+  }, [blogDtos]);
+
+  // Use the latest real blog as Featured Hero if available, otherwise keep the default mock VR Therapy hero
+  const featuredBlog = useMemo(() => {
+    if (realBlogs.length > 0) return realBlogs[0];
+    return {
+      id: 1,
+      badge: t('blog.title').toUpperCase(),
+      image: vrConsultation,
+      title: 'VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma',
+      description:
+        'Rəqəmsal üfüqlərin psixoloji rifahımızı necə dəyişdirdiyini və virtual reallığın travma müalicəsindəki inqilabi rolunu kəşf edin.',
+      date: '24 Mart 2026',
+      authorName: undefined,
+    };
+  }, [realBlogs, t]);
+
+  const trimmedSearch = searchQuery.trim().toLowerCase();
+
   const filteredBlogs = useMemo(() => {
-    return allBlogs.filter(
+    const base =
+      trimmedSearch || realBlogs.length === 0
+        ? allBlogs
+        : allBlogs.filter((blog) => blog.id !== featuredBlog.id);
+
+    if (!trimmedSearch) return base;
+
+    return base.filter(
       (blog) =>
-        blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        blog.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        blog.badge.toLowerCase().includes(searchQuery.toLowerCase())
+        blog.title.toLowerCase().includes(trimmedSearch) ||
+        blog.description.toLowerCase().includes(trimmedSearch) ||
+        blog.badge.toLowerCase().includes(trimmedSearch) ||
+        (blog.authorName || '').toLowerCase().includes(trimmedSearch)
     );
-  }, [allBlogs, searchQuery]);
+  }, [allBlogs, realBlogs.length, featuredBlog.id, trimmedSearch]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredBlogs.length / BLOGS_PER_PAGE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+
+  const paginatedBlogs = useMemo(() => {
+    const startIndex = (safeCurrentPage - 1) * BLOGS_PER_PAGE;
+    return filteredBlogs.slice(startIndex, startIndex + BLOGS_PER_PAGE);
+  }, [filteredBlogs, safeCurrentPage]);
+
+  const pageNumbers = useMemo(
+    () => Array.from({ length: totalPages }, (_, idx) => idx + 1),
+    [totalPages]
+  );
 
   return (
     <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
@@ -74,16 +124,17 @@ export const BlogPage = () => {
 
         {/* Featured Hero Blog Card */}
         <div
-          onClick={() => navigate(PATHS.BLOG_DETAIL.replace(':id', '1'))}
+          onClick={() => navigate(PATHS.BLOG_DETAIL.replace(':id', String(featuredBlog.id)))}
           className="w-full max-w-[1295px] flex flex-col lg:flex-row border border-[#FFFFFF38] rounded-[12px] overflow-hidden bg-[#FFFFFF0D] backdrop-blur-md hover:border-white/30 transition-all duration-300 lg:h-[500px] lg:min-h-[500px] cursor-pointer group"
         >
           {/* Left Block - Image */}
           <div className="w-full lg:w-[58%] aspect-[16/10] lg:aspect-auto lg:h-full overflow-hidden relative">
-            <img
-              src={vrConsultation}
-              alt="VR Terapiya"
+            <SmartImage
+              src={featuredBlog.image}
+              alt={featuredBlog.title}
+              fetchPriority="high"
+              critical
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
             />
           </div>
 
@@ -92,37 +143,53 @@ export const BlogPage = () => {
             {/* Header Row */}
             <div className="flex items-center justify-between w-full">
               <span className="text-white text-[11px] font-semibold tracking-wider bg-[#4C5975] px-3.5 py-1 rounded-full uppercase select-none">
-                {t('blog.title').toUpperCase()}
+                {featuredBlog.badge}
               </span>
-              <span className="text-white/50 text-[13px] font-light">
-                24 Mart 2026
-              </span>
+              {featuredBlog.date && (
+                <span className="text-white/50 text-[13px] font-light">
+                  {featuredBlog.date}
+                </span>
+              )}
             </div>
 
             {/* Title & Description */}
             <div className="flex flex-col gap-3">
-              <h2 className="text-white text-[24px] sm:text-[28px] font-bold leading-tight tracking-tight group-hover:text-[#00f2ff] transition-colors duration-300">
-                VR Terapiyasının Gələcəyi: Virtual Dünyalarda Sağalma
+              <h2 className="text-white text-[24px] sm:text-[28px] font-bold leading-tight tracking-tight group-hover:text-[#00f2ff] transition-colors duration-300 line-clamp-3">
+                {featuredBlog.title}
               </h2>
-              <p className="text-white/70 text-[14px] sm:text-[15px] leading-relaxed font-light line-clamp-3 lg:line-clamp-4">
-                Rəqəmsal üfüqlərin psixoloji rifahımızı necə dəyişdirdiyini və virtual reallığın travma müalicəsindəki inqilabi rolunu kəşf edin.
-              </p>
+              {featuredBlog.description && (
+                <p className="text-white/70 text-[14px] sm:text-[15px] leading-relaxed font-light line-clamp-3 lg:line-clamp-4">
+                  {featuredBlog.description}
+                </p>
+              )}
             </div>
 
             {/* Footer Row */}
             <div className="flex items-center justify-between w-full mt-4">
               <div className="flex items-center gap-2 text-white/50 text-[14px] font-light select-none">
-                <AppIcon icon="lucide:eye" className="w-4 h-4" />
-                <span>130 {t('blog.views')}</span>
+                {featuredBlog.authorName ? (
+                  <>
+                    <AppIcon icon="lucide:user" className="w-4 h-4" />
+                    <span>{featuredBlog.authorName}</span>
+                  </>
+                ) : (
+                  <>
+                    <AppIcon icon="lucide:eye" className="w-4 h-4" />
+                    <span>130 {t('blog.views')}</span>
+                  </>
+                )}
               </div>
-              <button className="bg-[#5c16c5] hover:bg-[#6f25db] text-white text-[14px] font-semibold px-6 py-2.5 rounded-full cursor-pointer transition-all duration-300 select-none">
+              <button
+                type="button"
+                className="bg-[#5c16c5] hover:bg-[#6f25db] text-white text-[14px] font-semibold px-6 py-2.5 rounded-full cursor-pointer transition-all duration-300 select-none"
+              >
                 {t('blog.readMore')}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Section 3: Bənzər bloqlar */}
+        {/* Section 3: Similar / All Blogs */}
         <div className="w-full max-w-[1295px] flex flex-col gap-6 mt-6">
 
           {/* Section Header */}
@@ -137,7 +204,10 @@ export const BlogPage = () => {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
               placeholder={t('blog.searchPlaceholder')}
               className="w-full h-[54px] bg-[#1a2847]/70 backdrop-blur-md border border-white/15 rounded-[14px] sm:rounded-full pl-6 pr-14 text-[15px] text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition-all shadow-inner"
             />
@@ -147,7 +217,7 @@ export const BlogPage = () => {
           {/* Main Layout Grid: 2 Columns for Cards, 1 Column for Sidebar */}
           <div className="w-full grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-start mt-2">
 
-            {/* Left/Center Column: 2x2 Blog Cards Grid */}
+            {/* Left/Center Column: Blog Cards Grid */}
             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
               {isLoading && (
                 <CardGridSkeleton
@@ -155,7 +225,14 @@ export const BlogPage = () => {
                   className="contents"
                 />
               )}
-              {!isLoading && filteredBlogs.map((blog) => (
+
+              {!isLoading && paginatedBlogs.length === 0 && (
+                <div className="md:col-span-2 text-center py-16 px-6 rounded-[18px] bg-white/[0.04] border border-white/10 text-white/60 text-[16px]">
+                  {t('search.emptyTitle', 'Nəticə tapılmadı')}
+                </div>
+              )}
+
+              {!isLoading && paginatedBlogs.map((blog) => (
                 <div
                   key={blog.id}
                   onClick={() => navigate(PATHS.BLOG_DETAIL.replace(':id', String(blog.id)))}
@@ -163,12 +240,13 @@ export const BlogPage = () => {
                 >
                   {/* Image & Badge Container */}
                   <div className="w-full aspect-[16/10] relative overflow-hidden bg-[#101c29]">
-                    <img
+                    <SmartImage
                       src={blog.image}
                       alt={blog.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
                     />
-                    <span className="absolute top-4 left-4 bg-[#111c2e]/70 backdrop-blur-md border border-white/20 text-white text-[12px] font-medium px-3.5 py-1 rounded-full select-none">
+                    <span className="absolute top-4 left-4 z-10 bg-[#111c2e]/70 backdrop-blur-md border border-white/20 text-white text-[12px] font-medium px-3.5 py-1 rounded-full select-none">
                       {blog.badge}
                     </span>
                   </div>
@@ -217,7 +295,10 @@ export const BlogPage = () => {
                   placeholder={t('newsletter.placeholder')}
                   className="w-full h-[46px] bg-[#1a284b] border border-white/15 rounded-xl px-4 text-[14px] text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition-all"
                 />
-                <button className="w-full h-[46px] bg-gradient-to-r from-[#7048ea] to-[#2c6df2] text-white font-semibold text-[14.5px] rounded-xl cursor-pointer hover:opacity-95 transition-opacity shadow-lg select-none">
+                <button
+                  type="button"
+                  className="w-full h-[46px] bg-gradient-to-r from-[#7048ea] to-[#2c6df2] text-white font-semibold text-[14.5px] rounded-xl cursor-pointer hover:opacity-95 transition-opacity shadow-lg select-none"
+                >
                   {t('blog.subscribe')}
                 </button>
                 <span className="text-white/40 text-[11.5px] text-center font-light select-none">
@@ -231,13 +312,18 @@ export const BlogPage = () => {
                   {t('blog.popularTopics')}
                 </h3>
                 <div className="flex flex-wrap gap-2 pt-1">
-                  {POPULAR_TOPICS.map((topic, index) => (
-                    <span
-                      key={index}
+                  {popularTopics.map((topic, index) => (
+                    <button
+                      key={`${topic}-${index}`}
+                      type="button"
+                      onClick={() => {
+                        setSearchQuery(topic.replace(/^#/, ''));
+                        setCurrentPage(1);
+                      }}
                       className="bg-[#242d48] text-white/90 text-[12.5px] font-medium px-3.5 py-1.5 rounded-lg border border-white/10 hover:bg-[#343e60] cursor-pointer transition-colors select-none"
                     >
                       {topic}
-                    </span>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -260,7 +346,10 @@ export const BlogPage = () => {
                 <p className="text-white/75 text-[13px] leading-relaxed font-light italic">
                   {t('blog.podcastDesc')}
                 </p>
-                <button className="w-full h-[46px] border border-white/30 hover:bg-white/10 text-white font-medium text-[14px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all select-none">
+                <button
+                  type="button"
+                  className="w-full h-[46px] border border-white/30 hover:bg-white/10 text-white font-medium text-[14px] rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all select-none"
+                >
                   <span>▶</span> {t('blog.listenNow')}
                 </button>
               </div>
@@ -270,34 +359,41 @@ export const BlogPage = () => {
           </div>
 
           {/* Pagination Controls */}
-          <div className="w-full flex items-center justify-center gap-3 mt-10">
-            <button
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/80 transition-all cursor-pointer select-none"
-            >
-              <AppIcon icon="lucide:chevron-left" className="w-5 h-5" />
-            </button>
-
-            {[1, 2, 3].map((page) => (
+          {!isLoading && totalPages > 1 && (
+            <div className="w-full flex items-center justify-center gap-3 mt-10">
               <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`w-10 h-10 rounded-full text-[14px] font-semibold flex items-center justify-center transition-all cursor-pointer select-none ${currentPage === page
-                  ? 'bg-gradient-to-r from-[#7048ea] to-[#3a7afb] text-white shadow-lg shadow-indigo-500/30'
-                  : 'bg-white/10 hover:bg-white/20 border border-white/15 text-white/80'
-                  }`}
+                type="button"
+                disabled={safeCurrentPage <= 1}
+                onClick={() => setCurrentPage(Math.max(1, safeCurrentPage - 1))}
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-40 disabled:cursor-not-allowed border border-white/15 flex items-center justify-center text-white/80 transition-all cursor-pointer select-none"
               >
-                {page}
+                <AppIcon icon="lucide:chevron-left" className="w-5 h-5" />
               </button>
-            ))}
 
-            <button
-              onClick={() => setCurrentPage(Math.min(3, currentPage + 1))}
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-white/80 transition-all cursor-pointer select-none"
-            >
-              <AppIcon icon="lucide:chevron-right" className="w-5 h-5" />
-            </button>
-          </div>
+              {pageNumbers.map((page) => (
+                <button
+                  key={page}
+                  type="button"
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-10 h-10 rounded-full text-[14px] font-semibold flex items-center justify-center transition-all cursor-pointer select-none ${safeCurrentPage === page
+                    ? 'bg-gradient-to-r from-[#7048ea] to-[#3a7afb] text-white shadow-lg shadow-indigo-500/30'
+                    : 'bg-white/10 hover:bg-white/20 border border-white/15 text-white/80'
+                    }`}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button
+                type="button"
+                disabled={safeCurrentPage >= totalPages}
+                onClick={() => setCurrentPage(Math.min(totalPages, safeCurrentPage + 1))}
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-40 disabled:cursor-not-allowed border border-white/15 flex items-center justify-center text-white/80 transition-all cursor-pointer select-none"
+              >
+                <AppIcon icon="lucide:chevron-right" className="w-5 h-5" />
+              </button>
+            </div>
+          )}
 
         </div>
 

@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AppIcon } from '@/components';
+import { AppIcon, SmartImage } from '@/components';
+import defaultAvatar from '@/assets/avatar1.png';
 import vrConsultation from '@/assets/vr_consultation.png';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
@@ -9,7 +10,7 @@ import { psychologists } from '../data/psychologists';
 import { PATHS } from '@/routes/paths';
 import { doctorsApi } from '@/api/doctors.api';
 import { paymentsApi } from '@/api/payments.api';
-import { mapDoctorToPsychologist } from '@/utils/mappers';
+import { mapDoctorToPsychologist, resolveDoctorPrice } from '@/utils/mappers';
 import type { Psychologist } from '../types/psychologist.types';
 import { CalendarWidget } from '@/features/experts/components/CalendarWidget';
 import { PsychologistSkeleton } from '@/features/experts/components/PsychologistSkeleton';
@@ -105,7 +106,10 @@ export const PsychologistPage = () => {
 
     const fetchPrices = async () => {
       try {
-        const prices = await doctorsApi.getPrices(psychologistId, userAge);
+        let prices = await doctorsApi.getPrices(psychologistId, userAge);
+        if ((!prices || prices.length === 0) && userAge !== undefined) {
+          prices = await doctorsApi.getPrices(psychologistId);
+        }
         if (isMounted) {
           setDoctorPricesState({
             doctorId: psychologistId,
@@ -131,16 +135,7 @@ export const PsychologistPage = () => {
   const activePriceObj = useMemo(() => {
     const doctorPrices =
       doctorPricesState.doctorId === psychologistId ? doctorPricesState.prices : [];
-    if (!doctorPrices.length) return null;
-    if (userAge !== undefined) {
-      const match = doctorPrices.find((p) => {
-        const min = p.minAge ?? 0;
-        const max = p.maxAge ?? 100;
-        return userAge >= min && userAge <= max;
-      });
-      if (match) return match;
-    }
-    return doctorPrices[0];
+    return resolveDoctorPrice(doctorPrices, userAge);
   }, [doctorPricesState, psychologistId, userAge]);
 
   const effectivePrice = activePriceObj?.amount ?? psych?.price ?? 50;
@@ -270,18 +265,23 @@ export const PsychologistPage = () => {
 
               {/* Profile Card */}
               <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col sm:flex-row gap-6 sm:gap-8 relative items-center sm:items-start text-center sm:text-left">
-                <div className="relative shrink-0">
-                  <img src={psych.image} alt={psych.name} className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full object-cover border-4 border-white/20 shadow-lg mx-auto" />
-                  <div className="absolute -bottom-3 right-0 bg-[#03C6B2] text-[#111] px-3 py-1 rounded-full text-[12px] font-light flex items-center gap-1 shadow-md">
-                    <AppIcon icon="lucide:star" size={12} fill="currentColor" /> {psych.rating}
-                  </div>
+                <div className="relative shrink-0 w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full overflow-hidden border-4 border-white/20 shadow-lg mx-auto">
+                  <SmartImage
+                    src={psych.image || defaultAvatar}
+                    fallbackSrc={defaultAvatar}
+                    alt={psych.name}
+                    fetchPriority="high"
+                    critical
+                    skeletonClassName="!rounded-full"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 <div className="flex flex-col flex-1 w-full">
                   <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start mb-2 gap-3 sm:gap-0">
                     <div>
                       <h2 className="text-[24px] sm:text-[32px] font-light text-white leading-tight">{psych.name}</h2>
-                      <p className="text-white/70 text-[14px]">{psych.experience} • {psych.title}</p>
+                      <p className="text-white/70 text-[14px]">{psych.title}</p>
                     </div>
                     <div className="text-[#03C6B2] font-light text-[24px] sm:text-[28px] text-center sm:text-right">
                       {effectivePrice} {effectiveCurrency}
@@ -397,8 +397,12 @@ export const PsychologistPage = () => {
 
               {/* VR Consultation Mini Box */}
               <div className="w-full h-[180px] rounded-lg overflow-hidden relative group cursor-pointer shadow-xl border border-white/10">
-                <img src={vrConsultation} alt="VR Consultation" className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110" />
-                <div className="absolute bottom-4 left-4 right-4 bg-[#eeb3b3]/30 backdrop-blur-xl border border-white/20 rounded-lg p-4">
+                <SmartImage
+                  src={vrConsultation}
+                  alt="VR Consultation"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110"
+                />
+                <div className="absolute bottom-4 left-4 right-4 z-10 bg-[#eeb3b3]/30 backdrop-blur-xl border border-white/20 rounded-lg p-4">
                   <h4 className="text-[14px] font-light text-[#111] mb-1">{t('vr.title', 'VR KONSULTASİYA')}</h4>
                   <p className="text-[9px] text-[#222] font-light line-clamp-2">{t('vr.description', 'Burada evdən çölə çıxmadan istədiyin konfort zonanı seçə və orada zaman keçirərək sakitləşə bilərsən.')}</p>
                 </div>
@@ -421,7 +425,6 @@ export const PsychologistPage = () => {
             name: psych.name,
             title: psych.title,
             image: psych.image,
-            rating: psych.rating,
           }}
           patientName={patientName}
           patientAge={userAge}

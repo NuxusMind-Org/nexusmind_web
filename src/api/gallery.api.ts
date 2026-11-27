@@ -6,14 +6,32 @@ import type {
   GalleryCategory,
 } from './types';
 
+export interface GalleryQueryParams {
+  category?: GalleryCategory | string;
+  sort?: string;
+  page?: number;
+  size?: number;
+}
+
 export const galleryApi = {
-  getItems: async (params?: {
-    category?: GalleryCategory | string;
-    sort?: string;
-    page?: number;
-    size?: number;
-  }): Promise<PageGalleryItemResponse> => {
-    const response = await apiClient.get<PageGalleryItemResponse>('/gallery', { params });
+  getItems: async (params?: GalleryQueryParams): Promise<PageGalleryItemResponse> => {
+    const cleanParams: Record<string, string | number> = {};
+    if (params?.category && params.category !== 'all') {
+      cleanParams.category = params.category;
+    }
+    if (params?.sort) {
+      cleanParams.sort = params.sort;
+    }
+    if (params?.page !== undefined) {
+      cleanParams.page = params.page;
+    }
+    if (params?.size !== undefined) {
+      cleanParams.size = params.size;
+    }
+
+    const response = await apiClient.get<PageGalleryItemResponse>('/gallery', {
+      params: cleanParams,
+    });
     return response.data;
   },
 

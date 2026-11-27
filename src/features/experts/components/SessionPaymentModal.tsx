@@ -12,7 +12,6 @@ export interface SessionPaymentModalProps {
     name: string;
     title?: string;
     image?: string;
-    rating?: number;
   };
   patientName: string;
   patientAge?: number;

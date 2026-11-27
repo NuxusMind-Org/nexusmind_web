@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { AppIcon } from '@/components';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
@@ -6,43 +6,37 @@ import { LandingNavbar } from '../components/LandingNavbar';
 import { CardGridSkeleton } from '../components/skeletons';
 import { Input } from '@/components/input';
 import { ArticlesGrid, ArticlesPagination, SubscriptionCard } from '../components/articles';
-import { ARTICLE_ITEMS, type ArticleItem } from '../constants/articles';
-import { articlesApi } from '@/api/articles.api';
-import { mapMeqaleToArticleItem } from '@/utils/contentMappers';
+import { ARTICLE_ITEMS } from '../constants/articles';
+import { useArticlesList } from '../hooks/useContentQueries';
+import {
+  mapMeqaleToArticleItem,
+  parseTimestamp,
+  resolveContentLang,
+} from '@/utils/contentMappers';
+
+const ITEMS_PER_PAGE = 6;
 
 export const ArticlesPage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = resolveContentLang(i18n.resolvedLanguage || i18n.language);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [realArticles, setRealArticles] = useState<ArticleItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const itemsPerPage = 6;
 
-  useEffect(() => {
-    let isMounted = true;
-    articlesApi
-      .getAll()
-      .then((data) => {
-        if (isMounted && Array.isArray(data)) {
-          const mapped = data.map(mapMeqaleToArticleItem);
-          setRealArticles(mapped);
-        }
-      })
-      .catch((err) => {
-        console.warn('[LandingArticlesPage] Failed to fetch articles from backend:', err);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data: articleDtos, isLoading } = useArticlesList();
 
   const allArticles = useMemo(() => {
-    return [...realArticles, ...ARTICLE_ITEMS];
-  }, [realArticles]);
+    const realArticles = Array.isArray(articleDtos)
+      ? articleDtos
+          .filter((dto) => !dto.status || dto.status === 'PUBLISHED')
+          .sort((a, b) => parseTimestamp(b.createdAt) - parseTimestamp(a.createdAt))
+          .map((dto) => mapMeqaleToArticleItem(dto, lang))
+      : [];
+
+    const realIds = new Set(realArticles.map((item) => item.id));
+    const uniqueMocks = ARTICLE_ITEMS.filter((mock) => !realIds.has(mock.id));
+    return [...realArticles, ...uniqueMocks];
+  }, [articleDtos, lang]);
 
   // Filter articles based on search query
   const filteredArticles = useMemo(() => {
@@ -58,16 +52,13 @@ export const ArticlesPage = () => {
     );
   }, [allArticles, searchQuery]);
 
-  // Calculate total pages for pagination
-  const totalPages = useMemo(() => {
-    return Math.ceil(filteredArticles.length / itemsPerPage);
-  }, [filteredArticles, itemsPerPage]);
+  const totalPages = Math.max(1, Math.ceil(filteredArticles.length / ITEMS_PER_PAGE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
 
-  // Get only the articles for the current page
   const paginatedArticles = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredArticles.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredArticles, currentPage, itemsPerPage]);
+    const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
+    return filteredArticles.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredArticles, safeCurrentPage]);
 
   return (
     <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
@@ -102,17 +93,19 @@ export const ArticlesPage = () => {
           </div>
 
           {isLoading ? (
-            <CardGridSkeleton count={itemsPerPage} />
+            <CardGridSkeleton count={ITEMS_PER_PAGE} />
           ) : (
             <>
               <ArticlesGrid items={paginatedArticles} />
 
               {/* Pagination Controls */}
-              <ArticlesPagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-              />
+              {totalPages > 1 && (
+                <ArticlesPagination
+                  currentPage={safeCurrentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              )}
             </>
           )}
 

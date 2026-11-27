@@ -61,7 +61,7 @@ export const NewsFilters = ({
                 <button
                   key={cat.value}
                   onClick={() => onCategoryChange(cat.value)}
-                  className={`min-h-[44px] px-5 py-2.5 rounded-full border text-[14px] font-semibold transition-all duration-300 cursor-pointer flex items-center justify-center select-none ${
+                  className={`min-h-[44px] px-5 py-2.5 rounded-full border text-[15px] font-semibold transition-all duration-300 cursor-pointer flex items-center justify-center select-none ${
                     isSelected
                       ? 'bg-gradient-to-r from-[#9f5bff]/30 to-[#00f2ff]/30 border-[#00f2ff] text-white shadow-[0_0_12px_rgba(0,242,255,0.25)]'
                       : 'bg-white/5 border-white/15 text-white/70 hover:text-white hover:border-white/30'
@@ -76,11 +76,11 @@ export const NewsFilters = ({
 
         {/* Mobile Sort Dropdown */}
         <div className="flex items-center justify-between gap-3 w-full" ref={dropdownRef}>
-          <span className="text-white/60 text-[13px] font-medium font-sans whitespace-nowrap">{t('news.sortBy')}</span>
+          <span className="text-white/60 text-[14px] font-medium font-sans whitespace-nowrap">{t('news.sortBy')}</span>
           <div className="relative flex-1 max-w-[240px]">
             <button
               onClick={() => setIsSortOpen(!isSortOpen)}
-              className="w-full min-h-[44px] bg-[#1e293b]/70 backdrop-blur-md border border-white/15 rounded-xl px-4 py-2.5 text-[13px] font-medium text-white flex items-center justify-between gap-2 cursor-pointer hover:bg-white/10 transition-all shadow-md outline-none"
+              className="w-full min-h-[44px] bg-[#1e293b]/70 backdrop-blur-md border border-white/15 rounded-xl px-4 py-2.5 text-[15px] font-medium text-white flex items-center justify-between gap-2 cursor-pointer hover:bg-white/10 transition-all shadow-md outline-none"
             >
               <span className="truncate">{sortLabels[activeSort]}</span>
               <AppIcon icon="lucide:chevron-down" size={16} className={`text-white/60 shrink-0 transition-transform duration-300 ${isSortOpen ? 'rotate-180 text-white' : ''}`} />
@@ -102,7 +102,7 @@ export const NewsFilters = ({
                       onSortChange(option);
                       setIsSortOpen(false);
                     }}
-                    className={`w-full text-left min-h-[44px] py-2.5 px-3.5 rounded-lg text-[13px] font-medium transition-colors cursor-pointer border-0 outline-none flex items-center ${
+                    className={`w-full text-left min-h-[44px] py-2.5 px-3.5 rounded-lg text-[14px] font-medium transition-colors cursor-pointer border-0 outline-none flex items-center ${
                       activeSort === option
                         ? 'text-[#00f2ff] bg-white/10 font-bold'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -122,11 +122,11 @@ export const NewsFilters = ({
         {/* Clickable Filter Toggle Button */}
         <button
           onClick={() => setIsFilterOpen(!isFilterOpen)}
-          className={`flex items-center gap-2 bg-[#255765]/85 hover:bg-[#255765] border rounded-[8px] px-4 py-2 text-[14px] font-medium text-white shadow-lg cursor-pointer transition-all duration-300 select-none outline-none group ${
+          className={`flex items-center gap-2 bg-[#255765]/85 hover:bg-[#255765] border rounded-[8px] px-4 py-2 text-nav-sub font-medium text-white shadow-lg cursor-pointer transition-all duration-300 select-none outline-none group ${
             isFilterOpen ? 'border-[#8A38F5]' : 'border-[rgba(255,255,255,0.1)]'
           }`}
         >
-          <AppIcon icon="lucide:sliders-horizontal" size={15} className="group-hover:scale-105 transition-transform duration-300" />
+          <AppIcon icon="lucide:sliders-horizontal" size={16} className="group-hover:scale-105 transition-transform duration-300" />
           <span>{t('news.filter')}</span>
         </button>
 
@@ -145,7 +145,7 @@ export const NewsFilters = ({
                 <button
                   key={cat.value}
                   onClick={() => onCategoryChange(cat.value)}
-                  className={`px-5 py-2.5 rounded-lg border text-[14px] font-medium transition-all duration-300 cursor-pointer shadow-md ${
+                  className={`px-5 py-2.5 rounded-lg border text-nav-sub font-medium transition-all duration-300 cursor-pointer shadow-md ${
                     isSelected
                       ? 'bg-white/10 border-white text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]'
                       : 'bg-transparent border-white/20 text-white/70 hover:text-white hover:border-white/40'
@@ -161,11 +161,11 @@ export const NewsFilters = ({
 
       {/* Desktop Sorting Select Dropdown */}
       <div className="hidden md:flex items-center gap-3 self-end md:self-auto" ref={dropdownRef}>
-        <span className="text-white/60 text-[14px] font-medium">{t('news.sortBy')}</span>
+        <span className="text-white/60 text-[15px] font-medium">{t('news.sortBy')}</span>
         <div className="relative">
           <button
             onClick={() => setIsSortOpen(!isSortOpen)}
-            className="bg-[#1e293b]/60 backdrop-blur-md border border-white/10 rounded-lg px-5 py-2.5 text-[14px] font-medium text-white flex items-center justify-between gap-3 min-w-[200px] cursor-pointer hover:bg-white/5 hover:border-white/20 transition-all shadow-lg"
+            className="bg-[#1e293b]/60 backdrop-blur-md border border-white/10 rounded-lg px-5 py-2.5 text-nav-sub font-medium text-white flex items-center justify-between gap-3 min-w-[210px] cursor-pointer hover:bg-white/5 hover:border-white/20 transition-all shadow-lg"
           >
             <span>{sortLabels[activeSort]}</span>
             <AppIcon icon="lucide:chevron-down" size={16} className={`text-white/60 transition-transform duration-300 ${isSortOpen ? 'rotate-180 text-white' : ''}`} />
@@ -173,7 +173,7 @@ export const NewsFilters = ({
 
           {/* Custom Dropdown Drop-list */}
           <div
-            className={`absolute right-0 top-full mt-2 w-full min-w-[200px] transition-all duration-300 transform-gpu z-50 ${
+            className={`absolute right-0 top-full mt-2 w-full min-w-[210px] transition-all duration-300 transform-gpu z-50 ${
               isSortOpen
                 ? 'opacity-100 translate-y-0 pointer-events-auto'
                 : 'opacity-0 translate-y-2 pointer-events-none'
@@ -187,7 +187,7 @@ export const NewsFilters = ({
                     onSortChange(option);
                     setIsSortOpen(false);
                   }}
-                  className={`w-full text-left py-2.5 px-3 rounded-lg text-[13px] font-medium transition-colors cursor-pointer border-0 outline-none ${
+                  className={`w-full text-left py-2.5 px-3 rounded-lg text-[15px] font-medium transition-colors cursor-pointer border-0 outline-none ${
                     activeSort === option
                       ? 'text-[#00f2ff] bg-white/10 font-bold'
                       : 'text-white/80 hover:text-white hover:bg-white/5'

@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { CardGridSkeleton } from '../components/skeletons';
@@ -10,62 +11,53 @@ import {
   type NewsCategoryFilter,
   type NewsSortOption,
 } from '../components/news';
-import { NEWS_ITEMS, type NewsItem } from '../constants/news';
-import { newsApi } from '@/api/news.api';
-import { mapXeberToNewsItem } from '@/utils/contentMappers';
+import { NEWS_ITEMS } from '../constants/news';
+import { useNewsList } from '../hooks/useContentQueries';
+import {
+  mapXeberToNewsItem,
+  parseTimestamp,
+  resolveContentLang,
+} from '@/utils/contentMappers';
 
 export const NewsPage = () => {
+  const { i18n } = useTranslation();
+  const lang = resolveContentLang(i18n.resolvedLanguage || i18n.language);
+
   const [activeCategory, setActiveCategory] = useState<NewsCategoryFilter>('all');
   const [activeSort, setActiveSort] = useState<NewsSortOption>('popularity');
-  const [visibleLimit, setVisibleLimit] = useState(3);
-  const [realNews, setRealNews] = useState<NewsItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [visibleLimit, setVisibleLimit] = useState(6);
 
-  useEffect(() => {
-    let isMounted = true;
-    newsApi
-      .getAll()
-      .then((data) => {
-        if (isMounted && Array.isArray(data)) {
-          const mapped = data.map(mapXeberToNewsItem);
-          setRealNews(mapped);
-        }
-      })
-      .catch((err) => {
-        console.warn('[LandingNewsPage] Failed to fetch news from backend:', err);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data: newsDtos, isLoading } = useNewsList();
 
   const allNewsItems = useMemo(() => {
-    return [...realNews, ...NEWS_ITEMS];
-  }, [realNews]);
+    const realNews = Array.isArray(newsDtos)
+      ? newsDtos
+          .filter((dto) => !dto.status || dto.status === 'PUBLISHED')
+          .map((dto) => mapXeberToNewsItem(dto, lang))
+      : [];
+
+    const realIds = new Set(realNews.map((item) => item.id));
+    const uniqueMocks = NEWS_ITEMS.filter((mock) => !realIds.has(mock.id));
+    return [...realNews, ...uniqueMocks];
+  }, [newsDtos, lang]);
 
   // Filter and sort items dynamically
   const processedItems = useMemo(() => {
     let items = [...allNewsItems];
 
-    // 1. Category Filter
     if (activeCategory !== 'all') {
       items = items.filter((item) => item.category === activeCategory);
     }
 
-    // 2. Sorting Criteria
     items.sort((a, b) => {
       if (activeSort === 'popularity') {
         return b.views - a.views;
       }
       if (activeSort === 'date-desc') {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+        return parseTimestamp(b.rawDate, b.date) - parseTimestamp(a.rawDate, a.date);
       }
       if (activeSort === 'date-asc') {
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
+        return parseTimestamp(a.rawDate, a.date) - parseTimestamp(b.rawDate, b.date);
       }
       return 0;
     });
@@ -73,22 +65,18 @@ export const NewsPage = () => {
     return items;
   }, [allNewsItems, activeCategory, activeSort]);
 
-  // Extract featured item if we are on 'all' view and it exists
+  // Extract featured item on 'all' view
   const featuredItem = useMemo(() => {
-    if (activeCategory !== 'all') return null;
-    return allNewsItems.find((item) => item.isFeatured) || null;
-  }, [activeCategory, allNewsItems]);
+    if (activeCategory !== 'all' || processedItems.length === 0) return null;
+    return processedItems.find((item) => item.isFeatured) || processedItems[0];
+  }, [activeCategory, processedItems]);
 
-  // Grid items: if featured item is displayed on top, exclude it from the grid below
+  // Grid items: exclude the hero featured item when displayed above
   const gridItems = useMemo(() => {
-    let items = processedItems;
-    if (featuredItem) {
-      items = items.filter((item) => item.id !== featuredItem.id);
-    }
-    return items;
+    if (!featuredItem) return processedItems;
+    return processedItems.filter((item) => item.id !== featuredItem.id);
   }, [processedItems, featuredItem]);
 
-  // Retrieve only items up to current pagination index
   const paginatedItems = useMemo(() => {
     return gridItems.slice(0, visibleLimit);
   }, [gridItems, visibleLimit]);
@@ -96,17 +84,17 @@ export const NewsPage = () => {
   const hasMore = gridItems.length > visibleLimit;
 
   const handleLoadMore = () => {
-    setVisibleLimit((prev) => prev + 3);
+    setVisibleLimit((prev) => prev + 6);
   };
 
   const handleCategoryChange = (category: NewsCategoryFilter) => {
     setActiveCategory(category);
-    setVisibleLimit(3); // Reset pagination index when category switches
+    setVisibleLimit(6);
   };
 
   const handleSortChange = (sort: NewsSortOption) => {
     setActiveSort(sort);
-    setVisibleLimit(3); // Reset pagination index when sort order changes
+    setVisibleLimit(6);
   };
 
   return (
@@ -119,7 +107,7 @@ export const NewsPage = () => {
           <NewsHeader />
 
           {/* Render featured article on top if active category is 'all' */}
-          {featuredItem && <NewsHero item={featuredItem} />}
+          {!isLoading && featuredItem && <NewsHero item={featuredItem} />}
 
           <NewsFilters
             activeCategory={activeCategory}

@@ -15,7 +15,7 @@ export const UserHeroSection = ({ children }: UserHeroSectionProps = {}) => {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-[calc(100vh-110px)] sm:min-h-[calc(100vh-120px)] flex items-start justify-start px-4 sm:px-8 md:px-12 lg:px-0 lg:pl-[80px] pt-[100px] sm:pt-[120px] lg:pt-[148px] pb-0 scroll-mt-20 overflow-hidden"
+      className="relative w-full min-h-[calc(100vh-110px)] sm:min-h-[calc(100vh-120px)] flex items-start sm:items-center justify-start px-4 sm:px-8 md:px-12 lg:px-0 lg:pl-[80px] pt-[132px] sm:pt-[110px] lg:pt-[120px] pb-16 sm:pb-[110px] lg:pb-[130px] scroll-mt-20 overflow-hidden"
     >
       <ScrollReveal className="w-full max-w-[1300px] flex flex-col relative z-20">
         <div className="flex flex-col justify-start items-start gap-4 sm:gap-6 w-full text-left">
@@ -36,6 +36,8 @@ export const UserHeroSection = ({ children }: UserHeroSectionProps = {}) => {
         <img
           src={nexiePointer}
           alt="Nexie Mascot"
+          fetchPriority="high"
+          decoding="async"
           className="w-full h-full object-contain object-bottom pointer-events-none select-none"
         />
       </div>

@@ -80,7 +80,10 @@ export const LandingPage = () => {
       <main className="flex-1 w-full relative">
         <div className="w-full relative flex flex-col">
           <ExpertsSection />
-          <div className="w-full relative flex flex-col bg-landing-gradient text-white -mt-1">
+          <div
+            className="w-full relative flex flex-col bg-landing-gradient text-white"
+            style={{ marginTop: 'clamp(-40px, -3.5vw, -16px)' }}
+          >
             <VrConsultationSection />
             <div
               className="relative w-full z-[10] pointer-events-none"

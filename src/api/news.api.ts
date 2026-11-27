@@ -1,4 +1,5 @@
 import { apiClient } from './client';
+import { buildPageableParams, SPRING_PARAMS_SERIALIZER } from './utils/pageable';
 import type {
   XeberRequestDto,
   XeberResponseDto,
@@ -48,21 +49,27 @@ export const newsApi = {
       sort: params.sort,
     };
     const response = await apiClient.get<PageXeberResponseDto>('/xeber/search', {
-      params: { keyword, pageable },
+      params: { keyword, ...buildPageableParams(pageable) },
+      paramsSerializer: SPRING_PARAMS_SERIALIZER,
     });
     return response.data;
   },
 
   getByCategory: async (category: string, pageable?: Pageable): Promise<PageXeberResponseDto> => {
-    const response = await apiClient.get<PageXeberResponseDto>(`/xeber/category/${category}`, {
-      params: { pageable: pageable || { page: 0, size: 10 } },
-    });
+    const response = await apiClient.get<PageXeberResponseDto>(
+      `/xeber/category/${encodeURIComponent(category)}`,
+      {
+        params: buildPageableParams(pageable),
+        paramsSerializer: SPRING_PARAMS_SERIALIZER,
+      }
+    );
     return response.data;
   },
 
   getAdminAll: async (pageable?: Pageable): Promise<PageXeberResponseDto> => {
     const response = await apiClient.get<PageXeberResponseDto>('/xeber/admin/all', {
-      params: { pageable: pageable || { page: 0, size: 10 } },
+      params: buildPageableParams(pageable),
+      paramsSerializer: SPRING_PARAMS_SERIALIZER,
     });
     return response.data;
   },

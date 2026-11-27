@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { AppIcon } from '@/components';
-import nexusMindLogo from '@/assets/svg/NexusMindLogo.svg';
+import nexusMindLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import { Button } from '@/components/button';
 import { PATHS } from '@/routes/paths';
 import { authApi } from '../api/auth.api';
@@ -256,8 +256,8 @@ export const FaceCapture = () => {
         >
           <img
             src={nexusMindLogo}
-            alt="Nexus Mind Logo"
-            className="h-10 object-contain cursor-pointer"
+            alt="NexusMind Logo"
+            className="h-12 sm:h-14 w-auto object-contain cursor-pointer"
           />
         </Link>
 

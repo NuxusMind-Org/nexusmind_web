@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppIcon } from '@/components';
+import { AppIcon, SmartImage } from '@/components';
 import { PATHS } from '@/routes/paths';
 import type { ArticleItem } from '../../constants/articles';
 
@@ -14,7 +14,7 @@ export const ArticleCard = ({ item }: ArticleCardProps) => {
     <div className="bg-ui-glass backdrop-blur-[18px] border border-ui-border rounded-lg overflow-hidden shadow-xl flex flex-col h-full group hover:border-white/20 hover:translate-y-[-4px] transition-all duration-300">
       {/* Image Block */}
       <Link to={detailPath} className="w-full aspect-[3/2] overflow-hidden relative block">
-        <img
+        <SmartImage
           src={item.image}
           alt={item.title}
           className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"

@@ -7,9 +7,15 @@ interface GalleryGridProps {
   items: GalleryItem[];
   hasMore: boolean;
   onLoadMore: () => void;
+  onSelectItem?: (item: GalleryItem) => void;
 }
 
-export const GalleryGrid = ({ items, hasMore, onLoadMore }: GalleryGridProps) => {
+export const GalleryGrid = ({
+  items,
+  hasMore,
+  onLoadMore,
+  onSelectItem,
+}: GalleryGridProps) => {
   const { t } = useTranslation();
 
   return (
@@ -22,7 +28,7 @@ export const GalleryGrid = ({ items, hasMore, onLoadMore }: GalleryGridProps) =>
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {items.map((item) => (
             <ScrollReveal key={item.id} className="w-full">
-              <GalleryCard item={item} />
+              <GalleryCard item={item} onSelect={onSelectItem} />
             </ScrollReveal>
           ))}
         </div>
@@ -31,6 +37,7 @@ export const GalleryGrid = ({ items, hasMore, onLoadMore }: GalleryGridProps) =>
       {/* Centered Load More button with smooth hover arrow slide animation */}
       {hasMore && (
         <button
+          type="button"
           onClick={onLoadMore}
           className="mt-12 md:mt-16 text-white hover:text-[#00f2ff] transition-colors duration-300 flex items-center gap-2 text-[16px] md:text-[18px] font-medium bg-transparent border-0 outline-none cursor-pointer group select-none py-2"
         >

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { SmartImage } from '@/components';
 import formBannerImage from '@/assets/svg/formBannerImage.svg';
 
 interface AuthPageLayoutProps {
@@ -23,9 +24,11 @@ export const AuthPageLayout = ({ children }: AuthPageLayoutProps) => {
 
         {/* Right Illustration Section (desktop only) */}
         <div className="hidden md:block flex-1 relative overflow-hidden bg-[#0A1624]">
-          <img
+          <SmartImage
             src={formBannerImage}
             alt="NexusMind Banner Illustration"
+            fetchPriority="high"
+            critical
             className="w-full h-full object-cover"
           />
         </div>

@@ -9,6 +9,8 @@ export interface NewsItem {
   category: 'elanlar' | 'tecrube' | 'tedbirler';
   categoryLabel: string;
   date: string;
+  rawDate?: string;
+  readTimeMinutes?: number;
   title: string;
   description: string;
   views: number;

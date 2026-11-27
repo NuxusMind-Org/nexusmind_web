@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
@@ -11,8 +11,13 @@ import {
   ArticleDetailSidebar,
   ArticleDetailRelated,
 } from '../components/article-detail';
-import { articlesApi } from '@/api/articles.api';
 import type { MeqaleResponseDto } from '@/api/types';
+import { useArticleDetail, useArticlesList } from '../hooks/useContentQueries';
+import {
+  mapMeqaleToArticleItem,
+  parseTimestamp,
+  resolveContentLang,
+} from '@/utils/contentMappers';
 import { SEO, AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import { getLocalizedTitle } from '@/utils/multilingual';
@@ -21,74 +26,56 @@ export const ArticleDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const lang = resolveContentLang(i18n.resolvedLanguage || i18n.language);
 
-  const [meqale, setMeqale] = useState<MeqaleResponseDto | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(Boolean(id));
-  const [isError, setIsError] = useState<boolean>(!id);
+  const { data: fetchedMeqale, isLoading } = useArticleDetail(id);
+  const { data: allArticleDtos } = useArticlesList();
 
-  useEffect(() => {
-    let isMounted = true;
-    if (!id) return;
+  // Prefer live backend DTO; fall back to matching mock article when clicking a static mock card
+  const meqale: MeqaleResponseDto | null = useMemo(() => {
+    if (fetchedMeqale && (fetchedMeqale.id || fetchedMeqale.title)) {
+      return fetchedMeqale;
+    }
+    if (!id) return null;
+    const numericId = Number(id);
+    const mockFound = ARTICLE_ITEMS.find((item) => item.id === numericId);
+    if (!mockFound) return null;
 
-    articlesApi
-      .getById(id)
-      .then((data) => {
-        if (isMounted) {
-          if (data && (data.id || data.title)) {
-            setMeqale(data);
-          } else {
-            setIsError(true);
-          }
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.warn(`[LandingArticleDetailPage] Failed to fetch article with id "${id}":`, err);
-        if (isMounted) {
-          const numericId = Number(id);
-          const mockFound = ARTICLE_ITEMS.find((item) => item.id === numericId);
-          if (mockFound) {
-            setMeqale({
-              id: mockFound.id,
-              title: mockFound.title,
-              shortDescription: mockFound.description,
-              imageUrl: mockFound.image,
-              category: mockFound.categoryLabel,
-              createdAt: mockFound.date,
-              slug: String(mockFound.id),
-              metaTitle: mockFound.title,
-              metaDescription: mockFound.description,
-            });
-            setIsError(false);
-          } else {
-            setIsError(true);
-          }
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
+    return {
+      id: mockFound.id,
+      title: mockFound.title,
+      shortDescription: mockFound.description,
+      introText: mockFound.description,
+      imageUrl: mockFound.image,
+      category: mockFound.categoryLabel,
+      createdAt: mockFound.date,
+      slug: String(mockFound.id),
+      metaTitle: mockFound.title,
+      metaDescription: mockFound.description,
     };
-  }, [id]);
+  }, [fetchedMeqale, id]);
 
-  // Adapt fetched Meqale data or fallback to presentation ArticleItem structure
   const article = useMemo(() => {
     if (!meqale) return null;
-    const defaultItem = ARTICLE_ITEMS[0];
-    return {
-      id: meqale.id ?? (id ? Number(id) : 1),
-      image: meqale.imageUrl || defaultItem.image,
-      category: (meqale.category?.toLowerCase() || defaultItem.category),
-      categoryLabel: meqale.category || defaultItem.categoryLabel,
-      date: meqale.createdAt || defaultItem.date,
-      readTime: meqale.readTimeMinutes ? `${meqale.readTimeMinutes} ${t('articles.readTime')}` : defaultItem.readTime,
-      views: defaultItem.views,
-      title: getLocalizedTitle(meqale.title || meqale.titleDto, i18n.language as 'az' | 'en' | 'ru', defaultItem.title),
-      description: getLocalizedTitle(meqale.shortDescription || meqale.introText, i18n.language as 'az' | 'en' | 'ru', defaultItem.description),
-      author: defaultItem.author,
-    };
-  }, [meqale, id, i18n.language, t]);
+    return mapMeqaleToArticleItem(meqale, lang);
+  }, [meqale, lang]);
+
+  const relatedArticles = useMemo(() => {
+    const currentId = meqale?.id ?? (id ? Number(id) : -1);
+    const realArticles = Array.isArray(allArticleDtos)
+      ? allArticleDtos
+          .filter((dto) => (!dto.status || dto.status === 'PUBLISHED') && dto.id !== currentId)
+          .sort((a, b) => parseTimestamp(b.createdAt) - parseTimestamp(a.createdAt))
+          .map((dto) => mapMeqaleToArticleItem(dto, lang))
+      : [];
+
+    const realIds = new Set(realArticles.map((item) => item.id));
+    const mockFallback = ARTICLE_ITEMS.filter(
+      (mock) => mock.id !== currentId && !realIds.has(mock.id)
+    );
+
+    return [...realArticles, ...mockFallback].slice(0, 3);
+  }, [allArticleDtos, meqale?.id, id, lang]);
 
   return (
     <div className="min-h-screen w-full flex flex-col font-sans text-white bg-landing-gradient">
@@ -98,7 +85,7 @@ export const ArticleDetailPage = () => {
       {isLoading && <DetailPageSkeleton />}
 
       {/* State 2: Error / Not Found */}
-      {!isLoading && (isError || !article || !meqale) && (
+      {!isLoading && (!article || !meqale) && (
         <>
           <SEO
             metaTitle={`${t('articles.notFoundTitle')} | NexusMind`}
@@ -115,8 +102,9 @@ export const ArticleDetailPage = () => {
                 {t('articles.notFoundDesc')}
               </p>
               <button
+                type="button"
                 onClick={() => navigate(PATHS.ARTICLE)}
-                className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-sm font-semibold transition-colors cursor-pointer border border-white/20"
+                className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-nav-action font-semibold transition-colors cursor-pointer border border-white/20"
               >
                 <AppIcon icon="lucide:arrow-left" className="w-4 h-4" />
                 <span>{t('articles.backToList')}</span>
@@ -127,11 +115,11 @@ export const ArticleDetailPage = () => {
       )}
 
       {/* State 3: Success */}
-      {!isLoading && !isError && article && meqale && (
+      {!isLoading && article && meqale && (
         <>
           <SEO
             metaTitle={meqale.metaTitle || article.title}
-            metaDescription={getLocalizedTitle(meqale.metaDescription || meqale.shortDescription, i18n.language as 'az' | 'en' | 'ru', '')}
+            metaDescription={getLocalizedTitle(meqale.metaDescription || meqale.shortDescription, lang, '')}
             slug={meqale.slug || meqale.id}
             schemaMarkup={meqale.schemaMarkup}
             metaKeywords={meqale.metaKeywords}
@@ -149,13 +137,13 @@ export const ArticleDetailPage = () => {
                 </h1>
               </div>
 
-              {/* Hero Header with split info & VR image */}
+              {/* Hero Header with split info & cover image */}
               <ArticleDetailHero item={article} />
 
               {/* Core Article Content and Sidebar widgets */}
               <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-10 items-start mt-4">
                 <div className="w-full lg:flex-1 min-w-0">
-                  <ArticleDetailBody />
+                  <ArticleDetailBody meqale={meqale} lang={lang} />
                 </div>
                 <div className="w-full lg:w-[284px] shrink-0">
                   <ArticleDetailSidebar />
@@ -163,7 +151,7 @@ export const ArticleDetailPage = () => {
               </div>
 
               {/* Related Articles and Newsletter */}
-              <ArticleDetailRelated />
+              <ArticleDetailRelated items={relatedArticles} />
             </div>
           </main>
         </>

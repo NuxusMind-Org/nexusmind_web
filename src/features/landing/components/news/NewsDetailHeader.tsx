@@ -12,7 +12,7 @@ export const NewsDetailHeader = ({ categoryLabel }: NewsDetailHeaderProps) => {
       <h1 className="text-[42px] sm:text-[56px] font-sans font-light text-white mb-3 tracking-tight leading-tight">
         Xəbərlər
       </h1>
-      <div className="flex items-center flex-wrap gap-2 text-[13px] sm:text-[14px] text-white/50 font-medium select-none">
+      <div className="flex items-center flex-wrap gap-2 text-breadcrumb sm:text-[16px] text-white/50 font-medium select-none">
         <Link to={PATHS.HOME} className="hover:text-[#00f2ff] transition-colors">
           Ana səhifə
         </Link>

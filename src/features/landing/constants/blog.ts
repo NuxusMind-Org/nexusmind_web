@@ -10,6 +10,8 @@ export interface SimilarBlogCard {
   title: string;
   description: string;
   date: string;
+  rawDate?: string;
+  authorName?: string;
 }
 
 export const SIMILAR_BLOGS: SimilarBlogCard[] = [

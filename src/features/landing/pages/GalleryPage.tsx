@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { CardGridSkeleton } from '../components/skeletons';
@@ -9,69 +10,70 @@ import {
   type CategoryFilter,
   type SortOption,
 } from '../components/gallery';
+import { GalleryMediaModal } from '../components/gallery/GalleryMediaModal';
 import { GALLERY_ITEMS, type GalleryItem } from '../constants/gallery';
-import { galleryApi } from '@/api/gallery.api';
-import { mapGalleryToGalleryItem } from '@/utils/contentMappers';
+import type { GalleryCategory } from '@/api/types';
+import { useGalleryItems } from '../hooks/useContentQueries';
+import {
+  mapGalleryToGalleryItem,
+  parseTimestamp,
+  resolveContentLang,
+} from '@/utils/contentMappers';
+
+const CATEGORY_TO_API: Record<Exclude<CategoryFilter, 'all'>, GalleryCategory> = {
+  terapiyalar: 'TERAPIYALAR',
+  otaqlar: 'OTAQLAR',
+  telimler: 'TELIMLER',
+};
+
+const PAGE_STEP = 4;
 
 export const GalleryPage = () => {
+  const { i18n } = useTranslation();
+  const lang = resolveContentLang(i18n.resolvedLanguage || i18n.language);
+
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
   const [activeSort, setActiveSort] = useState<SortOption>('popularity');
-  const [visibleLimit, setVisibleLimit] = useState(4);
-  const [realGallery, setRealGallery] = useState<GalleryItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [visibleLimit, setVisibleLimit] = useState(PAGE_STEP);
+  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
-  useEffect(() => {
-    let isMounted = true;
-    galleryApi
-      .getItems({ size: 100 })
-      .then((res) => {
-        if (isMounted && res && Array.isArray(res.content)) {
-          const mapped = res.content.map(mapGalleryToGalleryItem);
-          setRealGallery(mapped);
-        }
-      })
-      .catch((err) => {
-        console.warn('[LandingGalleryPage] Failed to fetch gallery items from backend:', err);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false);
-      });
+  const apiCategory = activeCategory === 'all' ? undefined : CATEGORY_TO_API[activeCategory];
 
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data: galleryPage, isLoading } = useGalleryItems({
+    category: apiCategory,
+    page: 0,
+    size: 100,
+  });
 
-  const allGalleryItems = useMemo(() => {
-    return [...realGallery, ...GALLERY_ITEMS];
-  }, [realGallery]);
-
-  // Filter and sort items dynamically based on reactive selection
   const processedItems = useMemo(() => {
-    // 1. Category Filter
-    let items = [...allGalleryItems];
-    if (activeCategory !== 'all') {
-      items = items.filter((item) => item.category === activeCategory);
-    }
+    const content = galleryPage?.content;
+    const realItems = Array.isArray(content)
+      ? content.map((dto) => mapGalleryToGalleryItem(dto, lang))
+      : [];
 
-    // 2. Sorting Criteria
-    items.sort((a, b) => {
+    const realIds = new Set(realItems.map((item) => item.id));
+    const filteredMocks = GALLERY_ITEMS.filter(
+      (mock) =>
+        !realIds.has(mock.id) &&
+        (activeCategory === 'all' || mock.category === activeCategory)
+    );
+
+    const combined = [...realItems, ...filteredMocks];
+
+    return combined.sort((a, b) => {
       if (activeSort === 'popularity') {
         return b.popularity - a.popularity;
       }
       if (activeSort === 'date-desc') {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
+        return parseTimestamp(b.rawDate, b.date) - parseTimestamp(a.rawDate, a.date);
       }
       if (activeSort === 'date-asc') {
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
+        return parseTimestamp(a.rawDate, a.date) - parseTimestamp(b.rawDate, b.date);
       }
       return 0;
     });
+  }, [galleryPage, lang, activeCategory, activeSort]);
 
-    return items;
-  }, [allGalleryItems, activeCategory, activeSort]);
-
-  // Retrieve only items up to current pagination index
   const paginatedItems = useMemo(() => {
     return processedItems.slice(0, visibleLimit);
   }, [processedItems, visibleLimit]);
@@ -79,17 +81,17 @@ export const GalleryPage = () => {
   const hasMore = processedItems.length > visibleLimit;
 
   const handleLoadMore = () => {
-    setVisibleLimit((prev) => prev + 4);
+    setVisibleLimit((prev) => prev + PAGE_STEP);
   };
 
   const handleCategoryChange = (category: CategoryFilter) => {
     setActiveCategory(category);
-    setVisibleLimit(4); // Reset pagination index when categories switch
+    setVisibleLimit(PAGE_STEP);
   };
 
   const handleSortChange = (sort: SortOption) => {
     setActiveSort(sort);
-    setVisibleLimit(4); // Reset pagination index when sort order changes
+    setVisibleLimit(PAGE_STEP);
   };
 
   return (
@@ -111,17 +113,20 @@ export const GalleryPage = () => {
               count={4}
               withBody={false}
               imageAspect="aspect-[4/3]"
-              className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"
             />
           ) : (
             <GalleryGrid
               items={paginatedItems}
               hasMore={hasMore}
               onLoadMore={handleLoadMore}
+              onSelectItem={setSelectedItem}
             />
           )}
         </div>
       </main>
+
+      <GalleryMediaModal item={selectedItem} onClose={() => setSelectedItem(null)} />
 
       <Footer />
     </div>

@@ -1,51 +1,62 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 import { AppIcon } from '@/components';
 import { psychologists as mockPsychologists } from '@/features/landing/data/psychologists';
 import { doctorsApi } from '@/api/doctors.api';
+import type { DoctorPriceResponse } from '@/api/types';
 import type { Psychologist } from '@/features/landing/types/psychologist.types';
-import { mapDoctorToPsychologist } from '@/utils/mappers';
+import { mapDoctorToPsychologist, resolveDoctorPrice } from '@/utils/mappers';
+import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
 import { LandingNavbar } from '@/features/landing/components/LandingNavbar';
 import { Footer } from '@/features/landing/components/Footer';
 import { ExpertCard } from '../components/ExpertCard';
 import { ExpertCardGridSkeleton } from '../components/ExpertCardSkeleton';
 
 type CategoryFilter = 'all' | 'anxiety' | 'family' | 'child' | 'trauma';
-type SortOption = 'popularity' | 'experience' | 'name';
+type SortOption = 'default' | 'name' | 'price-asc' | 'price-desc';
 
 export const ExpertsPage = () => {
   const { t, i18n } = useTranslation();
+  const { data: currentUser } = useCurrentUser();
+  const userAge = currentUser?.age ? Number(currentUser.age) : undefined;
+  const currentLang = (i18n.language?.slice(0, 2) as 'az' | 'en' | 'ru') || 'az';
+
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
-  const [activeSort, setActiveSort] = useState<SortOption>('popularity');
+  const [activeSort, setActiveSort] = useState<SortOption>('default');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
-  const [realExperts, setRealExperts] = useState<Psychologist[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    let isMounted = true;
-    const fetchDoctors = async () => {
-      setIsLoading(true);
-      try {
-        const doctors = await doctorsApi.getAll();
-        if (isMounted && doctors && doctors.length > 0) {
-          const currentLang = (i18n.language?.slice(0, 2) as 'az' | 'en' | 'ru') || 'az';
-          const mapped = doctors.map((doc) => mapDoctorToPsychologist(doc, currentLang));
-          setRealExperts(mapped);
-        }
-      } catch (error) {
-        console.error('Failed to fetch doctors from database:', error);
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
+  const { data: realExperts = [], isLoading } = useQuery<Psychologist[]>({
+    queryKey: ['experts', 'list', currentLang, userAge ?? null],
+    placeholderData: (previousData) => previousData,
+    queryFn: async () => {
+      const doctors = await doctorsApi.getAll();
+      if (!doctors || doctors.length === 0) return [];
+
+      const priceResults = await Promise.allSettled(
+        doctors.map(async (doc) => {
+          if (!doc.id) return null;
+          let prices = await doctorsApi.getPrices(doc.id, userAge);
+          if ((!prices || prices.length === 0) && userAge !== undefined) {
+            prices = await doctorsApi.getPrices(doc.id);
+          }
+          return { id: doc.id, price: resolveDoctorPrice(prices, userAge) };
+        })
+      );
+
+      const priceMap = new Map<number, DoctorPriceResponse | null>();
+      for (const result of priceResults) {
+        if (result.status === 'fulfilled' && result.value) {
+          priceMap.set(result.value.id, result.value.price);
         }
       }
-    };
-    fetchDoctors();
-    return () => {
-      isMounted = false;
-    };
-  }, [i18n.language]);
+
+      return doctors.map((doc) =>
+        mapDoctorToPsychologist(doc, currentLang, doc.id ? priceMap.get(doc.id) : null)
+      );
+    },
+  });
 
   const categories = useMemo(() => [
     { id: 'all' as const, label: t('experts.categories.all', 'Bütün mütəxəssislər') },
@@ -56,9 +67,10 @@ export const ExpertsPage = () => {
   ], [t]);
 
   const sortOptions = useMemo(() => [
-    { id: 'popularity' as const, label: t('experts.sort.popularity', 'Populyarlığa görə') },
-    { id: 'experience' as const, label: t('experts.sort.experience', 'Təcrübəyə görə') },
+    { id: 'default' as const, label: t('experts.sort.default', 'Standart') },
     { id: 'name' as const, label: t('experts.sort.name', 'Ada görə (A-Z)') },
+    { id: 'price-asc' as const, label: t('webapp.experts.sort.priceAsc', 'Qiymət: Ucuzdan bahaya') },
+    { id: 'price-desc' as const, label: t('webapp.experts.sort.priceDesc', 'Qiymət: Bahadan ucuza') },
   ], [t]);
 
   const currentSortLabel = sortOptions.find((opt) => opt.id === activeSort)?.label || sortOptions[0].label;
@@ -98,16 +110,12 @@ export const ExpertsPage = () => {
       });
     }
 
-    if (activeSort === 'popularity') {
-      items.sort((a, b) => (b.rating || 5.0) - (a.rating || 5.0));
-    } else if (activeSort === 'experience') {
-      const parseExp = (str: string) => {
-        const match = str.match(/\d+/);
-        return match ? parseInt(match[0], 10) : 0;
-      };
-      items.sort((a, b) => parseExp(b.experience) - parseExp(a.experience));
-    } else if (activeSort === 'name') {
+    if (activeSort === 'name') {
       items.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (activeSort === 'price-asc') {
+      items.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
+    } else if (activeSort === 'price-desc') {
+      items.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
     }
 
     return items;
@@ -165,7 +173,7 @@ export const ExpertsPage = () => {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap cursor-pointer select-none ${
+                className={`px-4 py-2 rounded-xl text-[15px] sm:text-nav-action font-medium transition-all whitespace-nowrap cursor-pointer select-none ${
                   activeCategory === cat.id
                     ? 'bg-[#00f2ff] text-slate-950 font-semibold shadow-[0_0_15px_rgba(0,242,255,0.4)]'
                     : 'bg-white/10 text-white/80 hover:text-white hover:bg-white/15 border border-white/10'
@@ -186,15 +194,15 @@ export const ExpertsPage = () => {
               <button
                 type="button"
                 onClick={() => setShowSortDropdown((prev) => !prev)}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/10 border border-white/15 text-xs sm:text-sm text-white/85 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/10 border border-white/15 text-[15px] sm:text-nav-sub text-white/85 hover:text-white hover:bg-white/15 transition-all cursor-pointer select-none"
               >
-                <AppIcon icon="lucide:sliders-horizontal" size={14} className="text-[#00f2ff]" />
+                <AppIcon icon="lucide:sliders-horizontal" size={15} className="text-[#00f2ff]" />
                 <span>{currentSortLabel}</span>
-                <AppIcon icon="lucide:chevron-down" size={14} className={`transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
+                <AppIcon icon="lucide:chevron-down" size={15} className={`transition-transform duration-200 ${showSortDropdown ? 'rotate-180' : ''}`} />
               </button>
 
               {showSortDropdown && (
-                <div className="absolute right-0 top-full mt-2 w-52 rounded-2xl bg-[#141226]/95 backdrop-blur-xl border border-white/15 p-1.5 shadow-2xl z-30 flex flex-col gap-1">
+                <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-[#141226]/95 backdrop-blur-xl border border-white/15 p-1.5 shadow-2xl z-30 flex flex-col gap-1">
                   {sortOptions.map((opt) => (
                     <button
                       key={opt.id}
@@ -203,7 +211,7 @@ export const ExpertsPage = () => {
                         setActiveSort(opt.id);
                         setShowSortDropdown(false);
                       }}
-                      className={`px-3 py-2 rounded-xl text-xs text-left transition-colors cursor-pointer ${
+                      className={`px-3 py-2 rounded-xl text-[14px] sm:text-[15px] text-left transition-colors cursor-pointer ${
                         activeSort === opt.id ? 'bg-[#00f2ff] text-slate-950 font-semibold' : 'text-white/80 hover:bg-white/10'
                       }`}
                     >

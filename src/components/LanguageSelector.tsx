@@ -65,12 +65,12 @@ export const LanguageSelector = ({
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        className="flex items-center gap-1.5 py-2 px-2 text-white/80 hover:text-white font-medium text-[15px] transition-colors cursor-pointer outline-none select-none"
+        className="flex items-center gap-1.5 py-2 px-2 text-white/80 hover:text-white font-medium text-nav lg:text-nav-lg transition-colors cursor-pointer outline-none select-none"
       >
         <span>{currentLang.shortLabel}</span>
         <AppIcon
           icon="lucide:chevron-down"
-          size={14}
+          size={15}
           className={`transition-transform duration-300 text-white/80 ${
             isOpen ? 'rotate-180' : ''
           }`}
@@ -79,7 +79,7 @@ export const LanguageSelector = ({
 
       {/* Dropdown Menu */}
       <div
-        className={`absolute right-0 w-44 transition-all duration-200 ease-out ${
+        className={`absolute right-0 w-48 transition-all duration-200 ease-out ${
           direction === 'up'
             ? 'bottom-full mb-2 origin-bottom-right'
             : 'top-full mt-2 origin-top-right'
@@ -98,7 +98,7 @@ export const LanguageSelector = ({
                   key={lang.code}
                   type="button"
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`group/item flex items-center justify-between rounded-lg py-2 px-3 text-[14px] font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none ${
+                  className={`group/item flex items-center justify-between rounded-lg py-2 px-3 text-nav-sub font-medium transition-colors cursor-pointer w-full text-left bg-transparent border-0 outline-none ${
                     isSelected
                       ? 'text-[#6700FF] bg-purple-50 font-semibold'
                       : 'text-slate-700 hover:text-[#6700FF] hover:bg-purple-50'
@@ -106,7 +106,7 @@ export const LanguageSelector = ({
                 >
                   <div className="flex items-center gap-2.5">
                     <span
-                      className={`text-[13px] font-semibold transition-opacity ${
+                      className={`text-[14px] font-semibold transition-opacity ${
                         isSelected ? 'opacity-100 text-[#6700FF]' : 'opacity-60 text-slate-500'
                       }`}
                     >

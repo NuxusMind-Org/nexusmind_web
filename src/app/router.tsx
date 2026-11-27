@@ -1,48 +1,136 @@
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { createBrowserRouter, RouterProvider, Outlet, useLocation } from 'react-router-dom';
 import { PATHS } from '@/routes/paths';
-import { RegistrationPage } from '@/features/auth/pages/RegistrationPage';
-import { FaceCapturePage } from '@/features/auth/pages/FaceCapturePage';
-import { LoginPage } from '@/features/auth/pages/LoginPage';
-import { ForgotPasswordPage } from '@/features/auth/pages/ForgotPasswordPage';
-import { VerifyOtpPage } from '@/features/auth/pages/VerifyOtpPage';
-import { NewPasswordPage } from '@/features/auth/pages/NewPasswordPage';
-import { RegistrationSuccessPage } from '@/features/auth/pages/RegistrationSuccessPage';
-import { OnboardingPage } from '@/features/onboarding/pages/OnboardingPage';
 import { LandingPage } from '@/features/landing/pages/LandingPage';
-import { JournalPage } from '@/features/landing/pages/JournalPage';
-import { PsychologistPage } from '@/features/landing/pages/PsychologistPage';
-import { ExpertsPage } from '@/features/experts/pages/ExpertsPage';
-import { BlogPage } from '@/features/landing/pages/BlogPage';
-import { BlogDetailPage } from '@/features/landing/pages/BlogDetailPage';
-import { ArticlesPage } from '@/features/landing/pages/ArticlesPage';
-import { ArticleDetailPage } from '@/features/landing/pages/ArticleDetailPage';
-import { NewsPage } from '@/features/landing/pages/NewsPage';
-import { NewsDetailPage } from '@/features/landing/pages/NewsDetailPage';
-import { GalleryPage } from '@/features/landing/pages/GalleryPage';
-import { TrainingsPage } from '@/features/landing/pages/TrainingsPage';
-import { AboutPage } from '@/features/landing/pages/AboutPage';
-import { FaqPage } from '@/features/landing/pages/FaqPage';
-import { TermsPage } from '@/features/landing/pages/TermsPage';
-import {
-  PaymentSuccessPage,
-  PaymentErrorPage,
-  PaymentResultPage,
-} from '@/features/payment';
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute';
-import { SessionsPage } from '@/features/sessions/pages/SessionsPage';
-import { SessionCallPage } from '@/features/sessions/pages/SessionCallPage';
-import { SessionFaceVerificationPage } from '@/features/sessions/pages/SessionFaceVerificationPage';
-import { ProfilePage } from '@/features/profile/pages/ProfilePage';
-import { SettingsPage } from '@/features/settings/pages/SettingsPage';
-import { MiniGamesPage } from '@/features/games/pages/MiniGamesPage';
-import { BreathingGamePage } from '@/features/games/pages/BreathingGamePage';
-import { ScrollToTop } from '@/components';
+import { ScrollToTop, RouteLoadingGate, RouteSkeletonForPath } from '@/components';
+
+// Lazy-loaded route chunks so initial Home entry doesn't download all 25+ screens & WebRTC SDKs upfront
+const JournalPage = lazy(() =>
+  import('@/features/landing/pages/JournalPage').then((m) => ({ default: m.JournalPage }))
+);
+const PsychologistPage = lazy(() =>
+  import('@/features/landing/pages/PsychologistPage').then((m) => ({ default: m.PsychologistPage }))
+);
+const ExpertsPage = lazy(() =>
+  import('@/features/experts/pages/ExpertsPage').then((m) => ({ default: m.ExpertsPage }))
+);
+const BlogPage = lazy(() =>
+  import('@/features/landing/pages/BlogPage').then((m) => ({ default: m.BlogPage }))
+);
+const BlogDetailPage = lazy(() =>
+  import('@/features/landing/pages/BlogDetailPage').then((m) => ({ default: m.BlogDetailPage }))
+);
+const ArticlesPage = lazy(() =>
+  import('@/features/landing/pages/ArticlesPage').then((m) => ({ default: m.ArticlesPage }))
+);
+const ArticleDetailPage = lazy(() =>
+  import('@/features/landing/pages/ArticleDetailPage').then((m) => ({
+    default: m.ArticleDetailPage,
+  }))
+);
+const NewsPage = lazy(() =>
+  import('@/features/landing/pages/NewsPage').then((m) => ({ default: m.NewsPage }))
+);
+const NewsDetailPage = lazy(() =>
+  import('@/features/landing/pages/NewsDetailPage').then((m) => ({ default: m.NewsDetailPage }))
+);
+const GalleryPage = lazy(() =>
+  import('@/features/landing/pages/GalleryPage').then((m) => ({ default: m.GalleryPage }))
+);
+const TrainingsPage = lazy(() =>
+  import('@/features/landing/pages/TrainingsPage').then((m) => ({ default: m.TrainingsPage }))
+);
+const AboutPage = lazy(() =>
+  import('@/features/landing/pages/AboutPage').then((m) => ({ default: m.AboutPage }))
+);
+const FaqPage = lazy(() =>
+  import('@/features/landing/pages/FaqPage').then((m) => ({ default: m.FaqPage }))
+);
+const TermsPage = lazy(() =>
+  import('@/features/landing/pages/TermsPage').then((m) => ({ default: m.TermsPage }))
+);
+
+const PaymentSuccessPage = lazy(() =>
+  import('@/features/payment').then((m) => ({ default: m.PaymentSuccessPage }))
+);
+const PaymentErrorPage = lazy(() =>
+  import('@/features/payment').then((m) => ({ default: m.PaymentErrorPage }))
+);
+const PaymentResultPage = lazy(() =>
+  import('@/features/payment').then((m) => ({ default: m.PaymentResultPage }))
+);
+
+const RegistrationPage = lazy(() =>
+  import('@/features/auth/pages/RegistrationPage').then((m) => ({ default: m.RegistrationPage }))
+);
+const FaceCapturePage = lazy(() =>
+  import('@/features/auth/pages/FaceCapturePage').then((m) => ({ default: m.FaceCapturePage }))
+);
+const LoginPage = lazy(() =>
+  import('@/features/auth/pages/LoginPage').then((m) => ({ default: m.LoginPage }))
+);
+const ForgotPasswordPage = lazy(() =>
+  import('@/features/auth/pages/ForgotPasswordPage').then((m) => ({
+    default: m.ForgotPasswordPage,
+  }))
+);
+const VerifyOtpPage = lazy(() =>
+  import('@/features/auth/pages/VerifyOtpPage').then((m) => ({ default: m.VerifyOtpPage }))
+);
+const NewPasswordPage = lazy(() =>
+  import('@/features/auth/pages/NewPasswordPage').then((m) => ({ default: m.NewPasswordPage }))
+);
+const RegistrationSuccessPage = lazy(() =>
+  import('@/features/auth/pages/RegistrationSuccessPage').then((m) => ({
+    default: m.RegistrationSuccessPage,
+  }))
+);
+const OnboardingPage = lazy(() =>
+  import('@/features/onboarding/pages/OnboardingPage').then((m) => ({ default: m.OnboardingPage }))
+);
+
+const SessionsPage = lazy(() =>
+  import('@/features/sessions/pages/SessionsPage').then((m) => ({ default: m.SessionsPage }))
+);
+const SessionCallPage = lazy(() =>
+  import('@/features/sessions/pages/SessionCallPage').then((m) => ({ default: m.SessionCallPage }))
+);
+const SessionFaceVerificationPage = lazy(() =>
+  import('@/features/sessions/pages/SessionFaceVerificationPage').then((m) => ({
+    default: m.SessionFaceVerificationPage,
+  }))
+);
+const ProfilePage = lazy(() =>
+  import('@/features/profile/pages/ProfilePage').then((m) => ({ default: m.ProfilePage }))
+);
+const SettingsPage = lazy(() =>
+  import('@/features/settings/pages/SettingsPage').then((m) => ({ default: m.SettingsPage }))
+);
+const MiniGamesPage = lazy(() =>
+  import('@/features/games/pages/MiniGamesPage').then((m) => ({ default: m.MiniGamesPage }))
+);
+const BreathingGamePage = lazy(() =>
+  import('@/features/games/pages/BreathingGamePage').then((m) => ({ default: m.BreathingGamePage }))
+);
 
 const RootLayout = () => {
+  const { pathname } = useLocation();
+
   return (
     <>
       <ScrollToTop />
-      <Outlet />
+      <RouteLoadingGate>
+        <Suspense
+          fallback={
+            <div data-route-loading="true" className="min-h-screen w-full">
+              <RouteSkeletonForPath pathname={pathname} />
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
+      </RouteLoadingGate>
     </>
   );
 };

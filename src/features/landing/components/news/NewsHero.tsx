@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppIcon } from '@/components';
+import { AppIcon, SmartImage } from '@/components';
 import { useTranslation } from 'react-i18next';
 import { PATHS } from '@/routes/paths';
 import type { NewsItem } from '../../constants/news';
@@ -16,9 +16,11 @@ export const NewsHero = ({ item }: NewsHeroProps) => {
     <div className="w-full bg-[#1e293b]/30 backdrop-blur-md rounded-lg overflow-hidden border border-white/10 shadow-2xl flex flex-col lg:flex-row mb-12 group transition-all duration-500 hover:border-white/25">
       {/* Left: Image block */}
       <Link to={detailPath} className="w-full lg:w-[55%] aspect-[16/10] overflow-hidden relative block">
-        <img
+        <SmartImage
           src={item.image}
           alt={item.title}
+          fetchPriority="high"
+          critical
           className="w-full h-full object-cover transform scale-100 group-hover:scale-[1.02] transition-transform duration-[1000ms] ease-out"
         />
         <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300" />

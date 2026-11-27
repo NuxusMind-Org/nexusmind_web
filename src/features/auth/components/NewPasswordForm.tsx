@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 import { Input } from '@/components/input';
 import { Button } from '@/components/button';
 import { PATHS } from '@/routes/paths';
-import nexusMindLogo from '@/assets/svg/NexusMindLogo.svg';
+import nexusMindLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import { newPasswordSchema } from '../schemas/new-password.schema';
 import type { NewPasswordFormInput, NewPasswordFormOutput } from '../schemas/new-password.schema';
 import { useResetPassword } from '../hooks/useResetPassword';
@@ -103,7 +103,7 @@ export const NewPasswordForm = () => {
       {/* Header */}
       <div className="mb-6">
         <Link to={PATHS.HOME} className="flex items-center mb-6 self-start w-fit hover:opacity-80 transition-opacity">
-          <img src={nexusMindLogo} alt="Nexus Mind Logo" className="h-10 object-contain cursor-pointer" />
+          <img src={nexusMindLogo} alt="NexusMind Logo" className="h-12 sm:h-14 w-auto object-contain cursor-pointer" />
         </Link>
         <h1 className="text-[32px] font-bold text-white mb-2 tracking-tight">Yeni şifrə təyin et</h1>
         {email ? (

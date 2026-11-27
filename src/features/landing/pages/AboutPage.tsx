@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { Footer } from '../components/Footer';
-import { GradientBackground, AppIcon, SEO } from '@/components';
+import { GradientBackground, AppIcon, SEO, SmartImage } from '@/components';
 import { ScrollReveal } from '../components/ScrollReveal';
 import { PATHS } from '@/routes/paths';
 import teamImage from '@/assets/gallery/gallery_workshop.png';
@@ -62,10 +62,12 @@ export const AboutPage = () => {
           ───────────────────────────────────────────────────────── */}
           <ScrollReveal className="flex flex-col gap-10 sm:gap-12">
             {/* Full-Width Team Image on Top */}
-            <div className="w-full h-[260px] sm:h-[380px] md:h-[460px] lg:h-[520px] rounded-2xl overflow-hidden shadow-2xl">
-              <img
+            <div className="relative w-full h-[260px] sm:h-[380px] md:h-[460px] lg:h-[520px] rounded-2xl overflow-hidden shadow-2xl">
+              <SmartImage
                 src={teamImage}
                 alt={t('aboutPage.teamImageAlt', 'NexusMind Peşəkar Komandası')}
+                fetchPriority="high"
+                critical
                 className="w-full h-full object-cover object-center"
               />
             </div>

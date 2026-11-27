@@ -3,9 +3,11 @@ import type {
   MeqaleResponseDto,
   BlogResponse,
   GalleryItemResponse,
+  MediaType,
 } from '@/api/types';
 import type { NewsItem } from '@/features/landing/constants/news';
 import type { ArticleItem } from '@/features/landing/constants/articles';
+import type { SimilarBlogCard } from '@/features/landing/constants/blog';
 import type { GalleryItem } from '@/features/landing/constants/gallery';
 import { getLocalizedTitle } from './multilingual';
 
@@ -14,6 +16,14 @@ import newsConference from '@/assets/news/news_conference.png';
 import couple from '@/assets/couple.png';
 import newsBrainArt from '@/assets/news/news_brain_art.png';
 import galleryMeditation from '@/assets/gallery/gallery_meditation.png';
+
+export type ContentLang = 'az' | 'en' | 'ru';
+
+export function resolveContentLang(language?: string): ContentLang {
+  const short = (language || 'az').slice(0, 2).toLowerCase();
+  if (short === 'en' || short === 'ru') return short;
+  return 'az';
+}
 
 const AZ_MONTHS_SHORT = [
   'Yan', 'Fev', 'Mar', 'Apr', 'May', 'İyn',
@@ -26,7 +36,7 @@ const AZ_MONTHS_FULL = [
 ];
 
 export function formatDateAz(dateStr?: string, fullMonth = false): string {
-  if (!dateStr) return fullMonth ? '24 Mart 2026' : '12 May, 2024';
+  if (!dateStr) return '';
 
   const d = new Date(dateStr);
   if (isNaN(d.getTime())) return dateStr;
@@ -44,93 +54,154 @@ export function formatDateAz(dateStr?: string, fullMonth = false): string {
   return `${day} ${month}, ${year}`;
 }
 
-export function mapXeberToNewsItem(dto: XeberResponseDto): NewsItem {
+export function formatLocalizedDate(
+  dateStr?: string,
+  lang: ContentLang = 'az',
+  fullMonth = false
+): string {
+  if (!dateStr) return '';
+
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+
+  if (lang === 'az') {
+    return formatDateAz(dateStr, fullMonth);
+  }
+
+  const locale = lang === 'ru' ? 'ru-RU' : 'en-US';
+  return d.toLocaleDateString(locale, {
+    day: '2-digit',
+    month: fullMonth ? 'long' : 'short',
+    year: 'numeric',
+  });
+}
+
+export function parseTimestamp(rawDate?: string, fallbackDate?: string): number {
+  const candidate = rawDate || fallbackDate;
+  if (!candidate) return 0;
+  const parsed = Date.parse(candidate);
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+const READ_TIME_SUFFIX: Record<ContentLang, string> = {
+  az: 'dəq oxu',
+  en: 'min read',
+  ru: 'мин чтения',
+};
+
+export function mapXeberToNewsItem(
+  dto: XeberResponseDto,
+  lang: ContentLang = 'az'
+): NewsItem {
   const catRaw = (dto.category || '').toLowerCase();
   let category: 'elanlar' | 'tecrube' | 'tedbirler' = 'tedbirler';
-  let categoryLabel = 'TƏDBİRLƏR';
+  let defaultCategoryLabel = 'TƏDBİRLƏR';
 
-  if (catRaw.includes('elan') || catRaw.includes('otaq')) {
+  if (catRaw.includes('elan') || catRaw.includes('otaq') || catRaw.includes('announc')) {
     category = 'elanlar';
-    categoryLabel = 'ELANLAR';
-  } else if (catRaw.includes('tecr') || catRaw.includes('telim')) {
+    defaultCategoryLabel = 'ELANLAR';
+  } else if (catRaw.includes('tecr') || catRaw.includes('təcr') || catRaw.includes('telim') || catRaw.includes('intern')) {
     category = 'tecrube';
-    categoryLabel = 'TƏCRÜBƏ';
+    defaultCategoryLabel = 'TƏCRÜBƏ';
   }
 
   return {
-    id: dto.id ?? Math.floor(1000 + Math.random() * 9000),
+    id: dto.id ?? 0,
     image: dto.imageUrl || newsConference,
     category,
-    categoryLabel,
-    date: formatDateAz(dto.createdAt),
-    title: getLocalizedTitle(dto.title || dto.titleDto, 'az', 'Yenilik və Xəbər'),
-    description: getLocalizedTitle(dto.shortDescription || dto.introText, 'az', ''),
-    views: 120,
+    categoryLabel: dto.category || defaultCategoryLabel,
+    date: formatLocalizedDate(dto.createdAt, lang),
+    rawDate: dto.createdAt,
+    readTimeMinutes: dto.readTimeMinutes,
+    title: getLocalizedTitle(dto.title || dto.titleDto, lang, 'NexusMind'),
+    description: getLocalizedTitle(dto.shortDescription || dto.introText, lang, ''),
+    views: dto.viewCount ?? 0,
     isFeatured: false,
   };
 }
 
-export function mapMeqaleToArticleItem(dto: MeqaleResponseDto): ArticleItem {
+export function mapMeqaleToArticleItem(
+  dto: MeqaleResponseDto,
+  lang: ContentLang = 'az'
+): ArticleItem {
+  const minutes = dto.readTimeMinutes || 5;
+
   return {
-    id: dto.id ?? Math.floor(1000 + Math.random() * 9000),
+    id: dto.id ?? 0,
     image: dto.imageUrl || couple,
     category: (dto.category || 'psixologiya').toLowerCase(),
     categoryLabel: dto.category || 'Psixologiya',
-    date: formatDateAz(dto.createdAt, true),
-    readTime: `${dto.readTimeMinutes || 5} dəq oxu`,
-    views: 95,
-    title: getLocalizedTitle(dto.title || dto.titleDto, 'az', 'Elmi Məqalə'),
-    description: getLocalizedTitle(dto.shortDescription || dto.introText, 'az', ''),
+    date: formatLocalizedDate(dto.createdAt, lang, true),
+    rawDate: dto.createdAt,
+    readTime: `${minutes} ${READ_TIME_SUFFIX[lang]}`,
+    views: 0,
+    title: getLocalizedTitle(dto.title || dto.titleDto, lang, 'NexusMind'),
+    description: getLocalizedTitle(dto.shortDescription || dto.introText, lang, ''),
+    doctorId: dto.doctorId,
     author: {
-      name: 'Dr. NexusMind Psixoloq',
-      title: 'Klinik Psixoloq',
+      name: 'NexusMind',
+      title: lang === 'en' ? 'Clinical Psychology' : lang === 'ru' ? 'Клиническая психология' : 'Klinik Psixologiya',
     },
   };
 }
 
-export interface SimilarBlogCard {
-  id: number;
-  badge: string;
-  image: string;
-  title: string;
-  description: string;
-  date: string;
-}
+export type { SimilarBlogCard };
 
-export function mapBlogToSimilarBlogCard(dto: BlogResponse): SimilarBlogCard {
+export function mapBlogToSimilarBlogCard(
+  dto: BlogResponse,
+  lang: ContentLang = 'az'
+): SimilarBlogCard {
   return {
-    id: dto.id ?? Math.floor(1000 + Math.random() * 9000),
+    id: dto.id ?? 0,
     badge: dto.category || 'Psixologiya',
     image: dto.imageUrl || newsBrainArt,
-    title: getLocalizedTitle(dto.title || dto.titleDto, 'az', 'Bloq Məqaləsi'),
-    description: getLocalizedTitle(dto.shortDescription || dto.introText, 'az', ''),
-    date: formatDateAz(dto.createdAt),
+    title: getLocalizedTitle(dto.title || dto.titleDto, lang, 'NexusMind'),
+    description: getLocalizedTitle(dto.shortDescription || dto.introText, lang, ''),
+    date: formatLocalizedDate(dto.createdAt, lang),
+    rawDate: dto.createdAt,
+    authorName: dto.authorName,
   };
 }
 
-export function mapGalleryToGalleryItem(dto: GalleryItemResponse): GalleryItem {
+export function mapGalleryToGalleryItem(
+  dto: GalleryItemResponse,
+  lang: ContentLang = 'az'
+): GalleryItem {
   const catRaw = (dto.category || '').toLowerCase();
   let category: 'terapiyalar' | 'otaqlar' | 'telimler' = 'terapiyalar';
-  let badgeText = 'TERAPİYALAR';
+  let defaultBadge = 'TERAPİYALAR';
 
   if (catRaw.includes('otaq')) {
     category = 'otaqlar';
-    badgeText = 'BAKI PSİXOLOGİYA MƏRKƏZİ';
-  } else if (catRaw.includes('telim')) {
+    defaultBadge = 'OTAQLAR';
+  } else if (catRaw.includes('telim') || catRaw.includes('təlim')) {
     category = 'telimler';
-    badgeText = 'ƏYANİ TƏLİMLƏR';
+    defaultBadge = 'TƏLİMLƏR';
   }
 
-  const dateFormatted = dto.createdAt
-    ? dto.createdAt.split('T')[0]
-    : '2026-05-12';
+  const mediaType: MediaType = dto.mediaType === 'VIDEO' ? 'VIDEO' : 'IMAGE';
+  const badgeText = dto.categoryLabel || defaultBadge;
+  const localizedTitle = getLocalizedTitle(dto.title, lang, '');
+  const localizedAlt = getLocalizedTitle(dto.altText || dto.title, lang, badgeText);
+
+  // For VIDEO items, always use thumbnailUrl as the preview image instead of feeding a video file into <img>
+  const previewImage =
+    mediaType === 'VIDEO'
+      ? dto.thumbnailUrl || galleryMeditation
+      : dto.thumbnailUrl || dto.mediaUrl || galleryMeditation;
 
   return {
-    id: dto.id ?? Math.floor(1000 + Math.random() * 9000),
-    image: dto.mediaUrl || dto.thumbnailUrl || galleryMeditation,
+    id: dto.id ?? 0,
+    image: previewImage,
+    mediaUrl: dto.mediaUrl,
+    thumbnailUrl: dto.thumbnailUrl,
+    mediaType,
+    title: localizedTitle,
+    altText: localizedAlt,
     category,
-    badgeText: dto.categoryLabel || badgeText,
-    popularity: dto.popularityScore || 90,
-    date: dateFormatted,
+    badgeText,
+    popularity: dto.popularityScore ?? 0,
+    date: formatLocalizedDate(dto.createdAt, lang),
+    rawDate: dto.createdAt,
   };
 }

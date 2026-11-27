@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AppIcon } from '@/components';
+import { AppIcon, SmartImage } from '@/components';
 import { PATHS } from '@/routes/paths';
 import type { Psychologist } from '@/features/landing/types/psychologist.types';
 import defaultAvatar from '@/assets/avatar1.png';
@@ -13,7 +12,6 @@ interface ExpertCardProps {
 export const ExpertCard = ({ expert }: ExpertCardProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [imgSrc, setImgSrc] = useState(expert.image || defaultAvatar);
 
   const handleCardClick = () => {
     navigate(PATHS.PSYCHOLOGIST.replace(':id', String(expert.id)));
@@ -33,10 +31,10 @@ export const ExpertCard = ({ expert }: ExpertCardProps) => {
       className="group relative w-full aspect-[350/470] rounded-[24px] overflow-hidden bg-[#1A2836] border border-white/10 hover:border-white/20 shadow-[0_12px_32px_rgba(0,0,0,0.35)] hover:shadow-[0_20px_44px_rgba(0,0,0,0.5)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between p-5 select-none cursor-pointer focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
     >
       {/* 1. Full-bleed Doctor Portrait Image - Bright, sharp and clear */}
-      <img
-        src={imgSrc}
+      <SmartImage
+        src={expert.image || defaultAvatar}
+        fallbackSrc={defaultAvatar}
         alt={expert.name}
-        onError={() => setImgSrc(defaultAvatar)}
         className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105 pointer-events-none brightness-[1.04] contrast-[1.02]"
         loading="lazy"
       />
@@ -50,25 +48,7 @@ export const ExpertCard = ({ expert }: ExpertCardProps) => {
         }}
       />
 
-      {/* 3. Top Floating Badges */}
-      <div className="relative z-10 w-full flex items-center justify-between gap-2 pointer-events-none">
-        {/* Experience Pill */}
-        {expert.experience ? (
-          <div className="bg-[#1A2836]/75 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-medium text-white/90 border border-white/15 shadow-sm">
-            {expert.experience}
-          </div>
-        ) : (
-          <div />
-        )}
-
-        {/* Rating Pill */}
-        <div className="bg-[#1A2836]/75 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 text-[#00f2ff] border border-white/15 shadow-sm">
-          <AppIcon icon="lucide:star" size={13} fill="currentColor" />
-          <span>{expert.rating ? expert.rating.toFixed(1) : '5.0'}</span>
-        </div>
-      </div>
-
-      {/* 4. Bottom Content Layer */}
+      {/* 3. Bottom Content Layer */}
       <div className="relative z-10 w-full flex flex-col items-center text-center mt-auto pt-4">
         {/* Doctor Name */}
         <h3 className="text-[22px] sm:text-[24px] font-bold text-white leading-tight line-clamp-1 drop-shadow-sm font-sans">
@@ -107,7 +87,7 @@ export const ExpertCard = ({ expert }: ExpertCardProps) => {
               {t('experts.priceLabel', 'Qiymət')}
             </span>
             <span className="text-[15px] font-bold text-white leading-tight">
-              {expert.price || 50} AZN
+              {expert.price ?? 50} {expert.currency || 'AZN'}
               <span className="text-[11px] font-normal text-white/50 ml-1">
                 {t('experts.perSession', '/ seans')}
               </span>

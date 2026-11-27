@@ -67,11 +67,11 @@ export const ExpertsSection = () => {
   return (
     <section
       id="experts"
-      className="relative z-20 w-full flex flex-col items-center pt-10 sm:pt-12 md:pt-20 pb-24 sm:pb-28 md:pb-32 scroll-mt-20 bg-white overflow-hidden"
+      className="relative z-20 w-full flex flex-col items-center pt-10 sm:pt-12 md:pt-20 pb-2 sm:pb-2 md:pb-2 scroll-mt-20 bg-white overflow-hidden"
     >
       {/* Post-Registration Next Session Section */}
       {isAuthenticated && (
-        <div className="w-full px-4 sm:px-8 lg:px-[56px] mb-10 sm:mb-12 md:mb-14">
+        <div className="w-full px-4 sm:px-8 lg:px-[56px] mb-8 sm:mb-10 md:mb-12">
           <ScrollReveal className="w-full">
             <NextSessionSection />
           </ScrollReveal>
@@ -79,9 +79,9 @@ export const ExpertsSection = () => {
       )}
 
       {/* Section Header */}
-      <div className="w-full max-w-[1200px] mx-auto flex flex-col items-center px-4 sm:px-8 text-center mb-6 sm:mb-8 md:mb-10">
+      <div className="w-full max-w-[1200px] mx-auto flex flex-col items-center px-4 sm:px-8 text-center mb-2 sm:mb-3 md:mb-4">
         <ScrollReveal className="w-full text-center">
-          <h2 className="text-[26px] sm:text-[36px] md:text-[44px] font-bold text-[#4A1FA8] mb-3 sm:mb-4 tracking-tight ponnala-nudge">
+          <h2 className="text-[26px] sm:text-[36px] md:text-[44px] font-bold text-[#4A1FA8] mb-2 sm:mb-3 tracking-tight ponnala-nudge">
             {t('experts.title', 'Mütəxəssislərimiz :')}
           </h2>
           <p className="text-[16px] sm:text-[20px] md:text-[24px] text-[#4A1FA8] font-medium max-w-[280px] sm:max-w-3xl mx-auto ponnala-nudge text-balance">
@@ -94,7 +94,7 @@ export const ExpertsSection = () => {
       <ScrollReveal className="w-full">
         <div
           id="experts-gallery"
-          className="w-full h-[480px] sm:h-[560px] md:h-[620px] relative my-2 sm:my-4 flex items-center justify-center"
+          className="w-full h-[370px] sm:h-[430px] md:h-[470px] relative my-0 flex items-center justify-center"
         >
           {isLoading && experts.length === 0 ? (
             <ExpertGallerySkeleton />
@@ -117,11 +117,11 @@ export const ExpertsSection = () => {
         </div>
 
         {/* View all experts navigation link */}
-        <div className="w-full flex justify-center mt-6 sm:mt-10 px-4">
+        <div className="w-full flex justify-center mt-2 sm:mt-4 px-4">
           <button
             type="button"
             onClick={() => navigate(PATHS.EXPERTS)}
-            className="group inline-flex items-center gap-2 text-[#4A1FA8] hover:text-[#381582] text-[16px] sm:text-[18px] font-semibold transition-colors duration-200 cursor-pointer select-none"
+            className="group inline-flex items-center gap-2 text-[#4A1FA8] hover:text-[#381582] text-[18px] sm:text-[20px] font-semibold transition-colors duration-200 cursor-pointer select-none"
           >
             <span className="hover:underline underline-offset-4">{t('experts.viewAll', 'Bütün mütəxəssislərə bax')}</span>
             <AppIcon icon="lucide:arrow-right" size={20} className="transition-transform duration-300 group-hover:translate-x-1.5" />

@@ -11,7 +11,6 @@ export const PsychologistSkeleton: React.FC = () => {
           {/* Avatar Skeleton */}
           <div className="relative shrink-0">
             <div className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full bg-white/15 border-4 border-white/20 shadow-lg mx-auto animate-pulse" />
-            <div className="absolute -bottom-2 right-1 sm:right-2 w-14 h-5 rounded-full bg-[#03C6B2]/40 border border-[#03C6B2]/30 animate-pulse" />
           </div>
 
           {/* Doctor Details Skeleton */}

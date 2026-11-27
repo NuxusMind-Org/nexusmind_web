@@ -4,6 +4,7 @@ import meditationBg from '@/assets/bg/meditation_bg_img.jpg';
 import { PATHS } from '@/routes/paths';
 import { ScrollReveal } from '../ScrollReveal';
 import { WaveDivider } from '@/components/WaveDivider';
+import { SmartImage } from '@/components';
 
 export const DailyRitualsSection = () => {
   const { t } = useTranslation();
@@ -16,15 +17,16 @@ export const DailyRitualsSection = () => {
     >
       {/* ── Background Image ──────────────────────────────────────── */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0">
-        <img
+        <SmartImage
           src={meditationBg}
           alt={t('features.card2Title', 'Gündəlik Rituallar')}
+          loading="lazy"
           className="w-full h-full object-cover object-center"
         />
 
         {/* Subtle gradient overlays to ensure crisp text legibility on the right and smooth wave transitions */}
-        <div className="absolute inset-0 bg-gradient-to-l from-black/35 via-black/10 to-transparent pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-b from-transparent to-black/30 pointer-events-none" />
+        <div className="absolute inset-0 z-[2] bg-gradient-to-l from-black/35 via-black/10 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 z-[2] h-28 bg-gradient-to-b from-transparent to-black/30 pointer-events-none" />
       </div>
 
       {/* ── Top Wave Divider Overlapping the Background Image ─────── */}

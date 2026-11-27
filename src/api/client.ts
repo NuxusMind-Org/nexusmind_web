@@ -20,6 +20,7 @@ const AUTH_EXCLUDED_ENDPOINTS = [
   '/upload',
   '/otp/verify',
   '/otp/send',
+  '/doctors/register',
 ];
 
 export const apiClient = axios.create({

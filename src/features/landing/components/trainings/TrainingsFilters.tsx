@@ -21,7 +21,7 @@ export const TrainingsFilters = ({ activeView, onViewChange }: TrainingsFiltersP
       {/* Left side: Individual consultation button */}
       <button
         onClick={handleConsultationClick}
-        className="px-6 py-2.5 rounded-lg text-white text-[14px] font-medium bg-[#581c87]/80 hover:bg-[#581c87] hover:shadow-[0_0_15px_rgba(88,28,135,0.4)] border-0 cursor-pointer transition-all duration-300 select-none outline-none block text-center"
+        className="px-6 py-2.5 rounded-lg text-white text-nav-action font-medium bg-[#581c87]/80 hover:bg-[#581c87] hover:shadow-[0_0_15px_rgba(88,28,135,0.4)] border-0 cursor-pointer transition-all duration-300 select-none outline-none block text-center"
       >
         {t('trainings.individualConsultation', 'Fərdi məsləhət al')}
       </button>
@@ -30,7 +30,7 @@ export const TrainingsFilters = ({ activeView, onViewChange }: TrainingsFiltersP
       <div className="bg-white/5 border border-white/10 p-1 rounded-lg flex items-center gap-1">
         <button
           onClick={() => onViewChange('list')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-300 cursor-pointer border-0 outline-none ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-nav-sub font-medium transition-all duration-300 cursor-pointer border-0 outline-none ${
             activeView === 'list'
               ? 'bg-white/15 text-white shadow-sm'
               : 'text-white/60 hover:text-white bg-transparent'
@@ -41,7 +41,7 @@ export const TrainingsFilters = ({ activeView, onViewChange }: TrainingsFiltersP
         </button>
         <button
           onClick={() => onViewChange('calendar')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[14px] font-medium transition-all duration-300 cursor-pointer border-0 outline-none ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-nav-sub font-medium transition-all duration-300 cursor-pointer border-0 outline-none ${
             activeView === 'calendar'
               ? 'bg-white/15 text-white shadow-sm'
               : 'text-white/60 hover:text-white bg-transparent'

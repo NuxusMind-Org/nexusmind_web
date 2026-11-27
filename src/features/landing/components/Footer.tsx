@@ -1,15 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AppIcon } from '@/components';
 import nexusLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import qrCodeDemo from '@/assets/svg/qrCodeDemo.svg';
-import appInterface from '@/assets/nexusmindAppInterface.jpeg';
+import appInterface from '@/assets/home.png';
 import { PATHS } from '@/routes/paths';
 import { useTranslation } from 'react-i18next';
+import { PsychologistApplicationModal } from './PsychologistApplicationModal';
 
 export const Footer = () => {
   const { t } = useTranslation();
   const millinetRef = useRef<HTMLDivElement>(null);
+  const [isCareerModalOpen, setIsCareerModalOpen] = useState(false);
 
   useEffect(() => {
     const slot = document.getElementById('millinet-banner-slot');
@@ -29,7 +31,7 @@ export const Footer = () => {
       <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-12 md:px-16 pt-12 md:pt-16 pb-8 relative overflow-visible">
         <div className="w-full flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-8 relative z-10">
           {/* Left Main Section */}
-          <div className="w-full lg:w-[65%] xl:w-[60%] flex flex-col">
+          <div className="w-full lg:flex-1 min-w-0 flex flex-col">
             {/* Header Logo */}
             <div className="flex items-center mb-10">
               <Link to={PATHS.HOME} className="flex items-center gap-2 sm:gap-2.5 select-none">
@@ -38,59 +40,82 @@ export const Footer = () => {
             </div>
 
             {/* Content Columns */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[minmax(0,0.88fr)_minmax(0,1.15fr)_minmax(0,1.08fr)_minmax(0,1.32fr)] gap-8 sm:gap-7 xl:gap-6 mb-12">
               {/* Column 1: Quick Links */}
               <div className="flex flex-col gap-3">
-                <h4 className="font-bold text-[16px] sm:text-[17px] mb-2 tracking-wide ponnala-nudge">
+                <h4 className="font-bold text-footer-heading sm:text-footer-heading-lg mb-2 tracking-wide ponnala-nudge">
                   {t('footer.quickLinks', 'Cəld Keçidlər')}
                 </h4>
-                <Link to={PATHS.FAQ} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
+                <Link to={PATHS.FAQ} className="text-white/80 hover:text-white transition-colors text-footer-link sm:text-footer-link-lg ponnala-nudge">
                   {t('footer.faq', 'FAQ')}
                 </Link>
-                <Link to={PATHS.ABOUT} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
+                <Link to={PATHS.ABOUT} className="text-white/80 hover:text-white transition-colors text-footer-link sm:text-footer-link-lg ponnala-nudge">
                   {t('footer.about', 'Haqqımızda')}
                 </Link>
-                <Link to="#experts" className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
+                <Link to="#experts" className="text-white/80 hover:text-white transition-colors text-footer-link sm:text-footer-link-lg ponnala-nudge">
                   {t('footer.experts', 'Mütəxəssislər')}
                 </Link>
-                <Link to={PATHS.TERMS} className="text-white/80 hover:text-white transition-colors text-[14px] sm:text-[15px] ponnala-nudge">
+                <Link to={PATHS.TERMS} className="text-white/80 hover:text-white transition-colors text-footer-link sm:text-footer-link-lg ponnala-nudge">
                   {t('footer.terms', 'İstifadə şərtləri')}
                 </Link>
               </div>
 
               {/* Column 2: Contact Info */}
               <div className="flex flex-col gap-4">
-                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide ponnala-nudge">
+                <h4 className="font-bold text-footer-heading sm:text-footer-heading-lg mb-1 tracking-wide ponnala-nudge">
                   {t('footer.contact', 'Əlaqə')}
                 </h4>
-                <div className="flex items-start gap-3 text-white/80 text-[14px] sm:text-[15px] leading-snug">
-                  <AppIcon icon="lucide:map-pin" size={18} className="shrink-0 mt-0.5 text-white/90" />
+                <div className="flex items-start gap-3 text-white/80 text-footer-link sm:text-footer-link-lg leading-snug">
+                  <AppIcon icon="lucide:map-pin" size={18} className="shrink-0 mt-1 text-white/90" />
                   <span className="ponnala-nudge">{t('footer.address', 'Bakı şəhəri, Neftçilər prospekti 123, AZ1000')}</span>
                 </div>
-                <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
+                <div className="flex items-center gap-3 text-white/80 text-footer-link sm:text-footer-link-lg">
                   <AppIcon icon="lucide:phone" size={18} className="shrink-0 text-white/90" />
                   <a href="tel:+994503956772" className="hover:text-white transition-colors ponnala-nudge">
                     +994 50 395 67 72
                   </a>
                 </div>
-                <div className="flex items-center gap-3 text-white/80 text-[14px] sm:text-[15px]">
+                <div className="flex items-center gap-3 text-white/80 text-footer-link sm:text-footer-link-lg">
                   <AppIcon icon="lucide:mail" size={18} className="shrink-0 text-white/90" />
-                  <a href="mailto:info@nexusmind.az" className="hover:text-white transition-colors ponnala-nudge">
+                  <a href="mailto:info@nexusmind.az" className="hover:text-white transition-colors ponnala-nudge break-all">
                     info@nexusmind.az
                   </a>
                 </div>
               </div>
 
-              {/* Column 3: Download App & QR Code */}
+              {/* Column 3: Career / Join Our Team */}
               <div className="flex flex-col gap-3">
-                <h4 className="font-bold text-[16px] sm:text-[17px] mb-1 tracking-wide ponnala-nudge">
+                <h4 className="font-bold text-footer-heading sm:text-footer-heading-lg mb-1 tracking-wide ponnala-nudge">
+                  {t('footer.joinOurTeam', 'Komandamıza qoşulun')}
+                </h4>
+                <p className="text-white/80 text-footer-link sm:text-footer-link-lg leading-snug ponnala-nudge">
+                  {t(
+                    'footer.careerDescription',
+                    'Peşəkar psixoloqsunuz? NexusMind komandasına qoşulmaq üçün müraciət edin.'
+                  )}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsCareerModalOpen(true)}
+                  className="self-start mt-1 inline-flex items-center gap-2 min-h-[44px] px-4 py-2.5 rounded-xl bg-white text-[#3D2A6B] hover:bg-[#F3ECFF] active:scale-[0.98] font-semibold text-nav-action shadow-[0_6px_18px_rgba(0,0,0,0.2)] transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00F2FF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3D2A6B]"
+                >
+                  <AppIcon icon="lucide:user-plus" size={17} aria-hidden="true" className="shrink-0" />
+                  <span className="ponnala-nudge">
+                    {t('footer.careerApplyButton', 'Psixoloq kimi müraciət et')}
+                  </span>
+                </button>
+              </div>
+
+              {/* Column 4: Download App & QR Code */}
+              <div className="flex flex-col gap-3">
+                <h4 className="font-bold text-footer-heading sm:text-footer-heading-lg mb-1 tracking-wide ponnala-nudge">
                   {t('footer.downloadApp', 'Tətbiqi yükləyin')}
                 </h4>
 
                 <div className="flex flex-col sm:flex-row items-start gap-3">
                   {/* QR Code Container */}
                   <div className="bg-white p-2 rounded-xl shadow-md shrink-0 border border-white/20">
-                    <img src={qrCodeDemo} alt="Download App QR Code" className="w-[88px] h-[88px] sm:w-[120px] sm:h-[120px] object-contain" />
+                    <img src={qrCodeDemo} alt="Download App QR Code" className="w-[88px] h-[88px] sm:w-[100px] sm:h-[100px] 2xl:w-[116px] 2xl:h-[116px] object-contain" />
                   </div>
 
                   {/* App Store / Play Store Buttons Stack */}
@@ -129,7 +154,7 @@ export const Footer = () => {
 
             {/* Social Media Links ("Bizi izləyin") */}
             <div className="flex flex-col gap-3 mb-10">
-              <h4 className="font-bold text-[16px] sm:text-[17px] tracking-wide ponnala-nudge">
+              <h4 className="font-bold text-footer-heading sm:text-footer-heading-lg tracking-wide ponnala-nudge">
                 {t('footer.followUs', 'Bizi izləyin')}
               </h4>
               <div className="flex items-center gap-3">
@@ -189,12 +214,14 @@ export const Footer = () => {
           </div>
 
           {/* Right Section: Protruding Mobile Phone Mockup */}
-          <div className="hidden lg:block lg:w-[35%] xl:w-[40%] relative min-h-[440px]">
-            {/* Phone Frame extending vertically above top of footer, cut cleanly at bottom line */}
-            <div className="absolute right-4 xl:right-10 -top-30 xl:-top-28 bottom-0 w-[280px] sm:w-[310px] xl:w-[335px] bg-black rounded-t-[48px] border-t-[8px] border-x-[8px] border-b-0 border-black shadow-[0_25px_60px_rgba(0,0,0,0.5)] overflow-hidden z-20">
+          <div className="hidden lg:block lg:w-[296px] xl:w-[320px] shrink-0 relative min-h-[440px]">
+            {/* Phone Frame extending vertically above top of footer, proportioned to mobile screen */}
+            <div className="absolute right-0 xl:right-4 -top-36 xl:-top-34 bottom-0 w-[276px] xl:w-[290px] bg-black rounded-t-[44px] border-t-[8px] border-x-[8px] border-b-0 border-black shadow-[0_25px_60px_rgba(0,0,0,0.5)] overflow-hidden z-20">
               <img
                 src={appInterface}
                 alt="NexusMind Mobile App Interface"
+                width={1560}
+                height={3330}
                 className="w-full h-full object-cover object-top"
               />
             </div>
@@ -206,13 +233,18 @@ export const Footer = () => {
 
         {/* Copyright Footer Bar */}
         <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
-          <p className="text-white/70 text-[13px] sm:text-[14px] ponnala-nudge">
+          <p className="text-white/70 text-[14px] sm:text-[15px] ponnala-nudge">
             {t('footer.copyright', '© 2026 NexusMind | Bütün hüquqlar qorunur')}
           </p>
           {/* MilliNet Banner */}
           <div ref={millinetRef} className="flex items-center shrink-0 mr-0 sm:mr-6 lg:mr-[48px]" />
         </div>
       </div>
+
+      <PsychologistApplicationModal
+        isOpen={isCareerModalOpen}
+        onClose={() => setIsCareerModalOpen(false)}
+      />
     </footer>
   );
 };

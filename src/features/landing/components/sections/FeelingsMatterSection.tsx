@@ -5,6 +5,7 @@ import { PATHS } from '@/routes/paths';
 import { useAuthStore } from '@/store/authStore';
 import { ScrollReveal } from '../ScrollReveal';
 import { WaveDivider } from '@/components/WaveDivider';
+import { SmartImage } from '@/components';
 
 export const FeelingsMatterSection = () => {
   const { t } = useTranslation();
@@ -30,15 +31,16 @@ export const FeelingsMatterSection = () => {
         className="absolute inset-x-0 bottom-0 overflow-hidden pointer-events-none select-none z-0"
         style={{ top: 'calc(clamp(110px, 19vw, 220px) * 0.373)' }}
       >
-        <img
+        <SmartImage
           src={feelingsBg}
           alt={t('features.card1Title', 'Sənin hisslərin önəmlidir.')}
+          loading="lazy"
           className="w-full h-full object-cover object-center"
         />
 
         {/* Subtle gradient overlays to ensure crisp text legibility on the left and smooth wave transitions */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-b from-transparent to-black/30 pointer-events-none" />
+        <div className="absolute inset-0 z-[2] bg-gradient-to-r from-black/35 via-black/10 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 z-[2] h-28 bg-gradient-to-b from-transparent to-black/30 pointer-events-none" />
       </div>
 
       {/* ── Top Wave Divider Overlapping the Partnership Artwork Above ── */}
