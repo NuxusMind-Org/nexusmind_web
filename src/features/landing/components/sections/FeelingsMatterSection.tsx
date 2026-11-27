@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import feelingsBg from '@/assets/bg/Change_image_color_tones_7440143b_2K.jpg';
+import feelingsBg1024 from '@/assets/bg/Change_image_color_tones_7440143b_2K_1024w.webp';
+import feelingsBg1920 from '@/assets/bg/Change_image_color_tones_7440143b_2K_1920w.webp';
 import { PATHS } from '@/routes/paths';
 import { useAuthStore } from '@/store/authStore';
 import { ScrollReveal } from '../ScrollReveal';
@@ -32,7 +33,11 @@ export const FeelingsMatterSection = () => {
         style={{ top: 'calc(clamp(110px, 19vw, 220px) * 0.373)' }}
       >
         <SmartImage
-          src={feelingsBg}
+          src={feelingsBg1920}
+          srcSet={`${feelingsBg1024} 1024w, ${feelingsBg1920} 1920w`}
+          sizes="100vw"
+          width={1920}
+          height={1072}
           alt={t('features.card1Title', 'Sənin hisslərin önəmlidir.')}
           loading="lazy"
           className="w-full h-full object-cover object-center"

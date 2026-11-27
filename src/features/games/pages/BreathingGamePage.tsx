@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
-import musicCover from '@/assets/nexusmindAppInterface.jpeg';
+import musicCover from '@/assets/nexusmindAppInterface.webp';
 import { LandingNavbar } from '@/features/landing/components/LandingNavbar';
 import { Footer } from '@/features/landing/components/Footer';
 

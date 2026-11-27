@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import vrNexie from '@/assets/svg/VR_Nexie.png';
+import vrNexie from '@/assets/svg/VR_Nexie.webp';
 import { ScrollReveal } from '../ScrollReveal';
 import { WaveDivider } from '@/components/WaveDivider';
 import { VrConsultationModal } from './VrConsultationModal';
@@ -10,26 +10,60 @@ const VR_CONSULTATION_VIDEO_ID = 'WUpqV8gN-d4';
 export const VrConsultationSection = () => {
   const { t } = useTranslation();
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node || shouldLoadVideo) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoadVideo(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '400px 0px' }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [shouldLoadVideo]);
+
+  useEffect(() => {
+    if (shouldLoadVideo && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [shouldLoadVideo]);
 
   return (
     <section
+      ref={sectionRef}
       id="vr"
       className="relative w-full min-h-0 sm:min-h-[560px] md:min-h-[700px] flex items-center justify-center overflow-hidden scroll-mt-20 pt-32 pb-12 sm:pt-40 sm:pb-16 md:pt-48 md:pb-24"
     >
-      {/* ── Background Cosmic Video ───────────────────────────────── */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0">
+      {/* ── Background Cosmic Video (deferred until near viewport so initial LCP images aren't starved) ── */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0 bg-[#0c0a1d]">
         <video
-          autoPlay
+          ref={videoRef}
+          autoPlay={shouldLoadVideo}
           loop
           muted
           playsInline
+          preload={shouldLoadVideo ? 'metadata' : 'none'}
           className="w-full h-full object-cover"
         >
-          <source src="/bg/cosmic_bg.mp4" type="video/mp4" />
-          <source
-            src="/bg/Generating_cosmic_background_video_1080p_20260922051243 (1).mp4.mp4"
-            type="video/mp4"
-          />
+          {shouldLoadVideo && (
+            <>
+              <source src="/bg/cosmic_bg.mp4" type="video/mp4" />
+              <source
+                src="/bg/Generating_cosmic_background_video_1080p_20260922051243 (1).mp4.mp4"
+                type="video/mp4"
+              />
+            </>
+          )}
         </video>
 
         {/* Subtle radial/horizontal gradient overlays to enhance typography readability while keeping cosmic brilliance */}
@@ -50,8 +84,11 @@ export const VrConsultationSection = () => {
             <img
               src={vrNexie}
               alt="Nexie VR Mascot"
+              width={960}
+              height={1286}
+              loading="lazy"
+              decoding="async"
               className="w-[240px] sm:w-[280px] md:w-[420px] lg:w-[480px] h-auto object-contain drop-shadow-[0_20px_45px_rgba(0,0,0,0.7)] select-none pointer-events-none transition-transform duration-700 ease-out group-hover:scale-105"
-              loading="eager"
             />
           </div>
         </div>

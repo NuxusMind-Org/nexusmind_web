@@ -12,7 +12,7 @@ import {
   NewsDetailRelated,
 } from '../components/news';
 import { NEWS_ITEMS } from '../constants/news';
-import newsDetailCover from '@/assets/news/news_detail_cover.png';
+import newsDetailCover from '@/assets/news/news_detail_cover.webp';
 import type { XeberResponseDto } from '@/api/types';
 import { useNewsDetail, useNewsList } from '../hooks/useContentQueries';
 import {

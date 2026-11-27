@@ -1,12 +1,12 @@
-import couple from '@/assets/couple.png';
-import family from '@/assets/family.png';
-import friends from '@/assets/friends.png';
-import singlePerson from '@/assets/single_person.png';
-import therapist1 from '@/assets/therapist1.png';
-import purpleRoom from '@/assets/purple_room.png';
-import vrConsultation from '@/assets/vr_consultation.png';
-import pillarsImage from '@/assets/pillars_image.png';
-import analyzing from '@/assets/analyzing.png';
+import couple from '@/assets/couple.webp';
+import family from '@/assets/family.webp';
+import friends from '@/assets/friends.webp';
+import singlePerson from '@/assets/single_person.webp';
+import therapist1 from '@/assets/therapist1.webp';
+import purpleRoom from '@/assets/purple_room.webp';
+import vrConsultation from '@/assets/vr_consultation.webp';
+import pillarsImage from '@/assets/pillars_image.webp';
+import analyzing from '@/assets/analyzing.webp';
 
 export interface ArticleItem {
   id: number;

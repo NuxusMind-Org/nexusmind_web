@@ -5,7 +5,7 @@ import { PATHS } from '@/routes/paths';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { Footer } from '../components/Footer';
 import { DetailPageSkeleton } from '../components/skeletons/DetailPageSkeleton';
-import vrConsultationImg from '@/assets/vr_consultation.png';
+import vrConsultationImg from '@/assets/vr_consultation.webp';
 import type { BlogResponse } from '@/api/types';
 import { useBlogDetail, useBlogsList } from '../hooks/useContentQueries';
 import {

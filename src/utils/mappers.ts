@@ -1,6 +1,6 @@
 import type { DoctorDto, DoctorPriceResponse, TitleDto } from '@/api/types';
 import type { Psychologist } from '@/features/landing/types/psychologist.types';
-import defaultAvatar from '@/assets/avatar1.png';
+import defaultAvatar from '@/assets/avatar1.webp';
 import { getLocalizedTitle } from './multilingual';
 
 export const resolveDoctorPrice = (

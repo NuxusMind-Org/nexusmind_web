@@ -1,5 +1,5 @@
-import bpmPurpleLogo from '@/assets/purple_bpm_logo_new.jpeg';
-import nexusmindFullLogo from '@/assets/svg/new_nexusmind_logo_full_bg_removed_purple.svg';
+import bpmPurpleLogo from '@/assets/purple_bpm_logo_new.webp';
+import nexusmindFullLogo from '@/assets/svg/new_nexusmind_logo_full_bg_removed_purple.webp';
 
 export interface PartnerLogo {
   id: string;

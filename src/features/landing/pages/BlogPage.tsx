@@ -13,7 +13,7 @@ import { PATHS } from '@/routes/paths';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';
 import { CardGridSkeleton } from '../components/skeletons';
-import vrConsultation from '@/assets/vr_consultation.png';
+import vrConsultation from '@/assets/vr_consultation.webp';
 
 const BLOGS_PER_PAGE = 6;
 

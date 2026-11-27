@@ -1,7 +1,7 @@
-import therapist1 from '@/assets/therapist1.png';
-import avatar1 from '@/assets/avatar1.png';
-import avatar2 from '@/assets/avatar2.png';
-import avatar3 from '@/assets/avatar3.png';
+import therapist1 from '@/assets/therapist1.webp';
+import avatar1 from '@/assets/avatar1.webp';
+import avatar2 from '@/assets/avatar2.webp';
+import avatar3 from '@/assets/avatar3.webp';
 import type { Psychologist } from '../types/psychologist.types';
 
 export const psychologists: Psychologist[] = [

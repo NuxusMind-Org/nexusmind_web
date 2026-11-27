@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
 import onboardingDataRaw from '../data/onboardingData.json';
-import nexusLogo from '@/assets/svg/NexusMindLogo.svg';
+import nexusLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import { IMAGE_MAP } from '../constants/imageMap';
 import { useOnboardingStore } from '@/store/onboardingStore';
 import { useSubmitOnboarding } from '../hooks/useSubmitOnboarding';
@@ -128,7 +128,7 @@ export const OnboardingPage = () => {
         <img
           src={nexusLogo}
           alt="Nexus Mind"
-          className="h-8 w-auto self-start cursor-pointer hover:opacity-80 transition-opacity"
+          className="h-10 sm:h-12 w-auto self-start cursor-pointer hover:opacity-80 transition-opacity"
           onClick={() => navigate(PATHS.HOME)}
         />
         <button

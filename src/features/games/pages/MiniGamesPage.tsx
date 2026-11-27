@@ -6,10 +6,10 @@ import { TechniqueCard } from '../components/TechniqueCard';
 import { LandingNavbar } from '@/features/landing/components/LandingNavbar';
 import { Footer } from '@/features/landing/components/Footer';
 
-import miniGame01 from '@/assets/svg/miniGame01.svg';
-import miniGame02 from '@/assets/svg/miniGame02.svg';
-import miniGame03 from '@/assets/svg/miniGame03.svg';
-import miniGame04 from '@/assets/svg/miniGame04.svg';
+import miniGame01 from '@/assets/svg/miniGame01.webp';
+import miniGame02 from '@/assets/svg/miniGame02.webp';
+import miniGame03 from '@/assets/svg/miniGame03.webp';
+import miniGame04 from '@/assets/svg/miniGame04.webp';
 
 export const MiniGamesPage = () => {
   const navigate = useNavigate();

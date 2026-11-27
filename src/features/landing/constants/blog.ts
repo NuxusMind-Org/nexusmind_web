@@ -1,7 +1,7 @@
-import newsBrainArt from '@/assets/news/news_brain_art.png';
-import newsLakeDock from '@/assets/news/news_lake_dock.png';
-import newsTherapyRoom from '@/assets/news/news_therapy_room.png';
-import newsAnnouncement from '@/assets/news/news_announcement.png';
+import newsBrainArt from '@/assets/news/news_brain_art.webp';
+import newsLakeDock from '@/assets/news/news_lake_dock.webp';
+import newsTherapyRoom from '@/assets/news/news_therapy_room.webp';
+import newsAnnouncement from '@/assets/news/news_announcement.webp';
 
 export interface SimilarBlogCard {
   id: number;

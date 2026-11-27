@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
 import { PATHS } from '@/routes/paths';
-import presentingNexie from '@/assets/svg/presenting_nexie.svg';
+import presentingNexie from '@/assets/svg/presenting_nexie.webp';
 import { psychologists } from '@/features/landing/data/psychologists';
 import { SessionCardSkeleton } from '../skeletons';
 import { useSessionStore } from '@/store/sessionStore';

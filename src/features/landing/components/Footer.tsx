@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AppIcon } from '@/components';
 import nexusLogo from '@/assets/svg/new_nexusmind_logo_full.svg';
 import qrCodeDemo from '@/assets/svg/qrCodeDemo.svg';
-import appInterface from '@/assets/home.png';
+import appInterface from '@/assets/home.webp';
 import { PATHS } from '@/routes/paths';
 import { useTranslation } from 'react-i18next';
 import { PsychologistApplicationModal } from './PsychologistApplicationModal';
@@ -115,7 +115,15 @@ export const Footer = () => {
                 <div className="flex flex-col sm:flex-row items-start gap-3">
                   {/* QR Code Container */}
                   <div className="bg-white p-2 rounded-xl shadow-md shrink-0 border border-white/20">
-                    <img src={qrCodeDemo} alt="Download App QR Code" className="w-[88px] h-[88px] sm:w-[100px] sm:h-[100px] 2xl:w-[116px] 2xl:h-[116px] object-contain" />
+                    <img
+                      src={qrCodeDemo}
+                      alt="Download App QR Code"
+                      width={116}
+                      height={116}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-[88px] h-[88px] sm:w-[100px] sm:h-[100px] 2xl:w-[116px] 2xl:h-[116px] object-contain"
+                    />
                   </div>
 
                   {/* App Store / Play Store Buttons Stack */}
@@ -220,8 +228,10 @@ export const Footer = () => {
               <img
                 src={appInterface}
                 alt="NexusMind Mobile App Interface"
-                width={1560}
-                height={3330}
+                width={600}
+                height={1280}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover object-top"
               />
             </div>

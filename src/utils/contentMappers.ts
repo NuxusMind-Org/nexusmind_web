@@ -12,10 +12,10 @@ import type { GalleryItem } from '@/features/landing/constants/gallery';
 import { getLocalizedTitle } from './multilingual';
 
 // Fallback images
-import newsConference from '@/assets/news/news_conference.png';
-import couple from '@/assets/couple.png';
-import newsBrainArt from '@/assets/news/news_brain_art.png';
-import galleryMeditation from '@/assets/gallery/gallery_meditation.png';
+import newsConference from '@/assets/news/news_conference.webp';
+import couple from '@/assets/couple.webp';
+import newsBrainArt from '@/assets/news/news_brain_art.webp';
+import galleryMeditation from '@/assets/gallery/gallery_meditation.webp';
 
 export type ContentLang = 'az' | 'en' | 'ru';
 

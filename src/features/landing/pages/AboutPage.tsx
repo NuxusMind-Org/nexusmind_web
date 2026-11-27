@@ -5,7 +5,7 @@ import { Footer } from '../components/Footer';
 import { GradientBackground, AppIcon, SEO, SmartImage } from '@/components';
 import { ScrollReveal } from '../components/ScrollReveal';
 import { PATHS } from '@/routes/paths';
-import teamImage from '@/assets/gallery/gallery_workshop.png';
+import teamImage from '@/assets/gallery/gallery_workshop.webp';
 
 const DEFAULT_VISION_ITEMS = [
   'Beynəlxalq standartlara uyğun və sübuta əsaslanan xidmətləri əlçatan etmək.',

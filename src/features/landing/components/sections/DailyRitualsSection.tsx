@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import meditationBg from '@/assets/bg/meditation_bg_img.jpg';
+import meditationBg1024 from '@/assets/bg/meditation_bg_img_1024w.webp';
+import meditationBg1920 from '@/assets/bg/meditation_bg_img_1920w.webp';
 import { PATHS } from '@/routes/paths';
 import { ScrollReveal } from '../ScrollReveal';
 import { WaveDivider } from '@/components/WaveDivider';
@@ -18,7 +19,11 @@ export const DailyRitualsSection = () => {
       {/* ── Background Image ──────────────────────────────────────── */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none z-0">
         <SmartImage
-          src={meditationBg}
+          src={meditationBg1920}
+          srcSet={`${meditationBg1024} 1024w, ${meditationBg1920} 1920w`}
+          sizes="100vw"
+          width={1920}
+          height={1072}
           alt={t('features.card2Title', 'Gündəlik Rituallar')}
           loading="lazy"
           className="w-full h-full object-cover object-center"

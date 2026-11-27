@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { SmartImage } from '@/components';
-import formBannerImage from '@/assets/svg/formBannerImage.svg';
+import formBannerImage from '@/assets/svg/formBannerImage.webp';
 
 interface AuthPageLayoutProps {
   children: ReactNode;

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { AppIcon, SmartImage } from '@/components';
 import { PATHS } from '@/routes/paths';
 import type { Psychologist } from '@/features/landing/types/psychologist.types';
-import defaultAvatar from '@/assets/avatar1.png';
+import defaultAvatar from '@/assets/avatar1.webp';
 
 interface ExpertCardProps {
   expert: Psychologist;

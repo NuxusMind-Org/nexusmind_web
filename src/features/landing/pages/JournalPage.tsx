@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
-import vrConsultation from '@/assets/vr_consultation.png';
+import vrConsultation from '@/assets/vr_consultation.webp';
 import { PATHS } from '@/routes/paths';
 import { Footer } from '../components/Footer';
 import { LandingNavbar } from '../components/LandingNavbar';

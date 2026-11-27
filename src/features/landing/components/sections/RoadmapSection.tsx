@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
-import roadmap01 from '@/assets/roadmap01.png';
-import roadmap02 from '@/assets/roadmap02.png';
-import roadmap03 from '@/assets/roadmap03.png';
+import roadmap01 from '@/assets/roadmap01.webp';
+import roadmap02 from '@/assets/roadmap02.webp';
+import roadmap03 from '@/assets/roadmap03.webp';
 import { ScrollReveal } from '../ScrollReveal';
 import { useRoadmapMascot } from '../../hooks/useRoadmapMascot';
 
@@ -79,6 +79,8 @@ const RoadmapCard = ({
     <img
       src={image}
       alt={imageAlt}
+      loading="lazy"
+      decoding="async"
       className="absolute bottom-3 right-3 sm:bottom-5 sm:right-5 md:bottom-7 md:right-8 z-0 h-[62%] sm:h-[72%] md:h-[80%] lg:h-[84%] w-auto max-w-[42%] sm:max-w-[42%] md:max-w-[40%] max-h-[300px] sm:max-h-[360px] md:max-h-[420px] object-contain object-right-bottom pointer-events-none select-none transition-transform duration-500 group-hover:scale-105"
       aria-hidden="true"
     />

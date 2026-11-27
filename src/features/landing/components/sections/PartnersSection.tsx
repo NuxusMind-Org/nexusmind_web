@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { WaveDivider } from '@/components/WaveDivider';
 import { ScrollReveal } from '../ScrollReveal';
-import partnersBg from '@/assets/bg/partnersbg.jpg';
-import nexusmindPurpleLogo from '@/assets/svg/new_nexusmind_logo_full_bg_removed_purple.svg';
-import bpmPurpleLogo from '@/assets/purple_bpm_logo_new.jpeg';
+import partnersBg1024 from '@/assets/bg/partnersbg_1024w.webp';
+import partnersBg1920 from '@/assets/bg/partnersbg_1920w.webp';
+import nexusmindPurpleLogo from '@/assets/svg/new_nexusmind_logo_full_bg_removed_purple.webp';
+import bpmPurpleLogo from '@/assets/purple_bpm_logo_new.webp';
 
 export const PartnersSection = () => {
   const { t } = useTranslation();
@@ -33,8 +34,8 @@ export const PartnersSection = () => {
             <img
               src={nexusmindPurpleLogo}
               alt="NexusMind"
-              width={2322}
-              height={774}
+              width={720}
+              height={237}
               className="h-7 sm:h-9 md:h-11 w-auto max-w-[140px] sm:max-w-[190px] md:max-w-[230px] object-contain select-none"
               loading="lazy"
               decoding="async"
@@ -46,8 +47,8 @@ export const PartnersSection = () => {
             <img
               src={bpmPurpleLogo}
               alt="Bakı Psixologiya Mərkəzi"
-              width={2689}
-              height={884}
+              width={560}
+              height={184}
               className="h-8 sm:h-10 md:h-12 w-auto max-w-[140px] sm:max-w-[190px] md:max-w-[230px] object-contain mix-blend-multiply select-none"
               loading="lazy"
               decoding="async"
@@ -58,11 +59,13 @@ export const PartnersSection = () => {
         {/* Compact Full-Bleed Puzzle-Hands Artwork */}
         <div className="relative z-10 w-full overflow-hidden max-h-[210px] sm:max-h-[300px] md:max-h-[360px] lg:max-h-[410px] xl:max-h-[450px] 2xl:max-h-[520px]">
           <img
-            src={partnersBg}
+            src={partnersBg1920}
+            srcSet={`${partnersBg1024} 1024w, ${partnersBg1920} 1920w`}
+            sizes="100vw"
             alt=""
             aria-hidden="true"
-            width={2752}
-            height={1536}
+            width={1920}
+            height={1072}
             className="w-full h-auto block select-none pointer-events-none -mt-[11%]"
             loading="lazy"
             decoding="async"

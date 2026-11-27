@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '@/features/auth/hooks/useCurrentUser';
-import nexiePointer from '@/assets/nexie/nexie_pointer_new.png';
+import nexiePointer from '@/assets/nexie/nexie_pointer_new.webp';
 import { ScrollReveal } from '../ScrollReveal';
 
 interface UserHeroSectionProps {
@@ -36,6 +36,8 @@ export const UserHeroSection = ({ children }: UserHeroSectionProps = {}) => {
         <img
           src={nexiePointer}
           alt="Nexie Mascot"
+          width={1080}
+          height={1080}
           fetchPriority="high"
           decoding="async"
           className="w-full h-full object-contain object-bottom pointer-events-none select-none"

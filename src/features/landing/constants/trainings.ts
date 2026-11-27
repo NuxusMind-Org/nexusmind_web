@@ -1,8 +1,8 @@
-import galleryMeditation from '@/assets/gallery/gallery_meditation.png';
-import galleryWorkshop from '@/assets/gallery/gallery_workshop.png';
-import galleryConsultation from '@/assets/gallery/gallery_consultation.png';
-import galleryLobby from '@/assets/gallery/gallery_lobby.png';
-import galleryPresentation from '@/assets/gallery/gallery_presentation.png';
+import galleryMeditation from '@/assets/gallery/gallery_meditation.webp';
+import galleryWorkshop from '@/assets/gallery/gallery_workshop.webp';
+import galleryConsultation from '@/assets/gallery/gallery_consultation.webp';
+import galleryLobby from '@/assets/gallery/gallery_lobby.webp';
+import galleryPresentation from '@/assets/gallery/gallery_presentation.webp';
 
 export interface Training {
   id: string;

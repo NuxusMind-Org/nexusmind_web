@@ -1,7 +1,7 @@
-import newsConference from '@/assets/news/news_conference.png';
-import newsAnnouncement from '@/assets/news/news_announcement.png';
-import newsInternship from '@/assets/news/news_internship.png';
-import newsEvent from '@/assets/news/news_event.png';
+import newsConference from '@/assets/news/news_conference.webp';
+import newsAnnouncement from '@/assets/news/news_announcement.webp';
+import newsInternship from '@/assets/news/news_internship.webp';
+import newsEvent from '@/assets/news/news_event.webp';
 
 export interface NewsItem {
   id: number;

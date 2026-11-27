@@ -1,11 +1,11 @@
-import galleryMeditation from '@/assets/gallery/gallery_meditation.png';
-import galleryTherapy from '@/assets/gallery/gallery_therapy.png';
-import galleryPresentation from '@/assets/gallery/gallery_presentation.png';
-import galleryConsultation from '@/assets/gallery/gallery_consultation.png';
-import galleryLobby from '@/assets/gallery/gallery_lobby.png';
-import galleryMassage from '@/assets/gallery/gallery_massage.png';
-import galleryWorkshop from '@/assets/gallery/gallery_workshop.png';
-import gallerySandplay from '@/assets/gallery/gallery_sandplay.png';
+import galleryMeditation from '@/assets/gallery/gallery_meditation.webp';
+import galleryTherapy from '@/assets/gallery/gallery_therapy.webp';
+import galleryPresentation from '@/assets/gallery/gallery_presentation.webp';
+import galleryConsultation from '@/assets/gallery/gallery_consultation.webp';
+import galleryLobby from '@/assets/gallery/gallery_lobby.webp';
+import galleryMassage from '@/assets/gallery/gallery_massage.webp';
+import galleryWorkshop from '@/assets/gallery/gallery_workshop.webp';
+import gallerySandplay from '@/assets/gallery/gallery_sandplay.webp';
 
 import type { MediaType } from '@/api/types';
 

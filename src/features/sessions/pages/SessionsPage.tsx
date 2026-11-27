@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AppIcon } from '@/components';
 import { psychologists } from '@/features/landing/data/psychologists';
 import { PATHS } from '@/routes/paths';
-import presentingNexie from '@/assets/svg/presenting_nexie.svg';
+import presentingNexie from '@/assets/svg/presenting_nexie.webp';
 import { useSessionStore } from '@/store/sessionStore';
 import {
   isSessionUpcomingOrActive,
